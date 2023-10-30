@@ -10,10 +10,6 @@ public:
 
 	void Initialize();
 
-	//void Update();
-
-	//void Draw();
-
 	/// <summary>
 	/// メッセージの処理
 	/// </summary>

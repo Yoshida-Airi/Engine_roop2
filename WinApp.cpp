@@ -19,21 +19,7 @@ void WinApp::Initialize()
 	CreateGameWindow();
 }
 
-///*更新処理*/
-//void WinApp::Update()
-//{
-//}
-
-///*描画処理*/
-//void WinApp::Draw()
-//{
-//}
-
-
-/// <summary>
-/// メッセージの処理
-/// </summary>
-/// <returns></returns>
+/*メッセージの処理*/
 bool WinApp::ProcessMessage()
 {
 	MSG msg{};
