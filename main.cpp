@@ -6,7 +6,7 @@
 int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	//WindowAPIの初期化
-	WinApp* winApp = new WinApp;
+	WinApp* winApp = winApp->GetInstance();
 	winApp->Initialize();
 	
 	//DirectXの初期化

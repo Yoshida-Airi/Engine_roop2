@@ -6,6 +6,9 @@ class WinApp
 {
 public:
 
+	//シングルトン
+	static WinApp* GetInstance();
+
 	~WinApp();
 
 	void Initialize();
@@ -18,8 +21,15 @@ public:
 
 
 	/*=======　　　ゲッター	=======*/
-	HWND GetHend()const { return hwnd_; };
-	HINSTANCE GetGetHInstance()const { return wc_.hInstance; };
+	HWND GetHwnd()const { return hwnd_; };
+	HINSTANCE GetHInstance()const { return wc_.hInstance; };
+
+public:
+
+	//クライアント領域のサイズ
+	static const int32_t kCilentWidth = 1280;
+	static const int32_t kCilentHeight = 720;
+
 
 private:
 
@@ -41,11 +51,9 @@ private:
 
 private:
 
-	//クライアント領域のサイズ
-	static const int32_t kCilentWidth = 1280;
-	static const int32_t kCilentHeight = 720;
-
 	HWND hwnd_ = nullptr;	//ウィンドウを表す識別子
 	WNDCLASS wc_{};			//ウィンドウクラスの設定
+	static WinApp* instance;	//シングルトン
+
 };
 

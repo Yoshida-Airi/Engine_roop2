@@ -5,6 +5,15 @@
 /* 　　　　   パブリックメソッド　　　 　     */
 /*======================================*/
 
+WinApp* WinApp::GetInstance()
+{
+	if (instance == NULL)
+	{
+		instance = new WinApp;
+	}
+	return instance;
+}
+
 /*デストラクタ*/
 WinApp::~WinApp()
 {
@@ -102,3 +111,6 @@ void WinApp::CreateGameWindow()
 
 }
 
+
+//静的メンバ変数の宣言と初期化
+WinApp* WinApp::instance = NULL;
