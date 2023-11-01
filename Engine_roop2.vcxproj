@@ -79,12 +79,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DebugHelper.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WinApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DebugHelper.h" />
     <ClInclude Include="DirectXCommon.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="WinApp.h" />

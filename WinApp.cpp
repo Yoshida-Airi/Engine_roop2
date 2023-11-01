@@ -83,7 +83,6 @@ void WinApp::CreateGameWindow()
 	//ウィンドウクラスを登録する
 	RegisterClass(&wc_);
 
-
 	//ウィンドウサイズを表す構造体にクライアント領域を入れる
 	RECT wrc = { 0,0,kCilentWidth,kCilentHeight };
 

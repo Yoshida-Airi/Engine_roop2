@@ -1,15 +1,11 @@
 #pragma once
 #include"Logger.h"
 #include"WinApp.h"
+#include"DebugHelper.h"
 
 #include<d3d12.h>
 #include<dxgi1_6.h>
 #include<cassert>
-#include<dxgidebug.h>
-
-#pragma comment(lib,"d3d12.lib")
-#pragma comment(lib,"dxgi.lib")
-#pragma comment(lib,"dxguid.lib")
 
 #include<wrl.h>
 
@@ -26,10 +22,12 @@ public:
 	//描画後処理
 	void PostDraw();
 
-	/// <summary>
-	/// 解放漏れがある場合止める
-	/// </summary>
-	void ReportLiveObjects();
+	//シングルトン
+	static DirectXCommon* GetInstance();
+
+
+	/*=======　　　ゲッター	=======*/
+	ID3D12Device* GetDevice()const { return device.Get(); };
 
 private:
 
@@ -68,17 +66,6 @@ private:
 	/// </summary>
 	void ClearRenderTarget();
 
-	/// <summary>
-	/// デバッグレイヤー
-	/// </summary>
-	void SetupDebugLayer();
-
-	/// <summary>
-	/// エラーで止める、抑制
-	/// </summary>
-	void ConfigDebugMessageFilter();
-
-
 private:
 	
 	WinApp* winApp_;
@@ -98,5 +85,9 @@ private:
 	Microsoft::WRL::ComPtr< ID3D12Fence> fence = nullptr;	//フェンス
 	uint64_t fenceValue = 0;	//フェンスの値
 	HANDLE fenceEvent = nullptr;
+
+	//静的メンバ変数の宣言と初期化
+	static DirectXCommon* instance;
+
 };
 

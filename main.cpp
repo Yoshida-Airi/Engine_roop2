@@ -1,16 +1,17 @@
 #include<Windows.h>
 #include"WinApp.h"
 #include"DirectXCommon.h"
+#include"DebugHelper.h"
 
 //Windowsアプリでのエントリーポイント(main関数)
 int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	//WindowAPIの初期化
-	WinApp* winApp = winApp->GetInstance();
+	WinApp* winApp = WinApp::GetInstance();
 	winApp->Initialize();
 	
 	//DirectXの初期化
-	DirectXCommon* dxCommon = new DirectXCommon;
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 	dxCommon->Initialize();
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -30,8 +31,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete dxCommon;
 	dxCommon = nullptr;
 
-	dxCommon->ReportLiveObjects();
-
+	DebugHelper::ReportLiveObjects();
 
 	return 0;
 }
