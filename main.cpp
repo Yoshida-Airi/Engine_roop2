@@ -18,7 +18,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	{
 		/*--- ゲームループ  ---*/
 
-
+		dxCommon->PreDraw();
+		dxCommon->PostDraw();
 
 	}
 

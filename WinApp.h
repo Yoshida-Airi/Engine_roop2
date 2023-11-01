@@ -6,9 +6,6 @@ class WinApp
 {
 public:
 
-	//シングルトン
-	static WinApp* GetInstance();
-
 	~WinApp();
 
 	void Initialize();
@@ -19,6 +16,8 @@ public:
 	/// <returns></returns>
 	bool ProcessMessage();
 
+	//シングルトン
+	static WinApp* GetInstance();
 
 	/*=======　　　ゲッター	=======*/
 	HWND GetHwnd()const { return hwnd_; };
