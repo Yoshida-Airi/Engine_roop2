@@ -17,7 +17,6 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	while (winApp->ProcessMessage() == 0)
 	{
 		/*--- ゲームループ  ---*/
-
 		dxCommon->PreDraw();
 		dxCommon->PostDraw();
 
@@ -30,6 +29,9 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//DirectXの解放
 	delete dxCommon;
 	dxCommon = nullptr;
+
+	dxCommon->ReportLiveObjects();
+
 
 	return 0;
 }

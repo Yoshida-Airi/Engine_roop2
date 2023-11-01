@@ -107,8 +107,6 @@ void WinApp::CreateGameWindow()
 
 	//ウィンドウを表示する
 	ShowWindow(hwnd_, SW_SHOW);
-
-
 }
 
 

@@ -5,13 +5,17 @@
 /* 　　　　   パブリックメソッド　　　 　     */
 /*======================================*/
 
+DirectXCommon::~DirectXCommon()
+{
+	CloseHandle(fenceEvent);
+}
+
 void DirectXCommon::Initialize()
 {
 
 	winApp_ = WinApp::GetInstance();
 	//NULL検出
 	assert(winApp_);
-
 
 	//デバイスの生成
 	SetupDevice();
@@ -23,6 +27,8 @@ void DirectXCommon::Initialize()
 	SetupRnderTargetView();
 	//深度バッファの生成
 	SetupDepthBuffer();
+	//フェンスの生成
+	SetupFence();
 
 }
 
@@ -32,24 +38,70 @@ void DirectXCommon::Update()
 
 void DirectXCommon::PreDraw()
 {
+	UINT backBufferIndex = swapChain->GetCurrentBackBufferIndex();
+
+	//今回のバリアはTransition
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	//Noneにしておく
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	//バリアを張る対象リソース。現在のバッグバッファに対して行う
+	barrier.Transition.pResource = swapChainResources[backBufferIndex].Get();
+	//遷移前(現在)のResourceState
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+	//遷移後のResourceState
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	//TransitionBarrierを張る
+	commandList->ResourceBarrier(1, &barrier);
+
 	//全画面クリア
 	ClearRenderTarget();
 }
 
 void DirectXCommon::PostDraw()
 {
+	//画面に描く処理はすべて終わり、画面に移すので、状態を遷移
+	//今回はRenderTargetからPresentにする
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+	//TransitionBarrierを張る
+	commandList->ResourceBarrier(1, &barrier);
+
+	//コマンドリストの内容を確立させる。
+	hr = commandList->Close();
+	assert(SUCCEEDED(hr));
 
 	//GPUにコマンドリストの実行を行わせる
 	ID3D12CommandList* commandLists[] = { commandList.Get() };
 	commandQueue->ExecuteCommandLists(1, commandLists);
+
 	//GPUとOSに画面の交換を行うよう通知する
 	swapChain->Present(1, 0);
 
+	//--------------------------------
+	//fenceの値を更新
+	//-------------------------------
+
+	fenceValue++;
+	//GPUがここまでたどり着いたときに、fenceの値を指定した値に代入するようにSignalを送る
+	commandQueue->Signal(fence.Get(), fenceValue);
+	fenceEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	assert(fenceEvent != nullptr);
+
+	//Fenceの値が指定したSignal値にたどり着いているか確認する
+	//GetCompletedValueの初期値はFence作成時に渡した初期値
+	if (fence->GetCompletedValue() < fenceValue)
+	{
+		//指定したSignalにたどり着いていないので、たどり着くまで待つようにイベントを設定する
+		fence->SetEventOnCompletion(fenceValue, fenceEvent);
+		//イベント待つ
+		WaitForSingleObject(fenceEvent, INFINITE);
+	}
+
 	//次のフレーム用のコマンドリストを準備
-	HRESULT hr_ = commandAllocator->Reset();
-	assert(SUCCEEDED(hr_));
-	hr_ = commandList->Reset(commandAllocator.Get(), nullptr);
-	assert(SUCCEEDED(hr_));
+	hr = commandAllocator->Reset();
+	assert(SUCCEEDED(hr));
+	hr = commandList->Reset(commandAllocator.Get(), nullptr);
+	assert(SUCCEEDED(hr));
 
 }
 
@@ -61,6 +113,10 @@ void DirectXCommon::PostDraw()
 /*-- デバイスの生成 --*/
 void DirectXCommon::SetupDevice()
 {
+#ifdef _DEBUG
+	SetupDebugLayer();
+#endif
+
 	//-----------------------------
 	//　DXGIファクトリーの生成
 	//------------------------------
@@ -71,7 +127,7 @@ void DirectXCommon::SetupDevice()
 	//-----------------------------
 	//　使用するアダプタ(GPU)を決定する
 	//------------------------------
-	
+
 	//良い順にアダプタを組む
 	for (UINT i = 0; dxgiFactory->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&useAdapter)) != DXGI_ERROR_NOT_FOUND; ++i)
 	{
@@ -115,6 +171,11 @@ void DirectXCommon::SetupDevice()
 	//デバイスの生成がうまく行かなかったので起動できない
 	assert(device != nullptr);
 	Log("Complete create D3D12Device!!!\n");	//初期化完了のログを出す
+
+
+#ifdef _DEBUG
+	ConfigDebugMessageFilter();
+#endif
 
 }
 
@@ -213,6 +274,13 @@ void DirectXCommon::SetupDepthBuffer()
 
 }
 
+void DirectXCommon::SetupFence()
+{
+	// フェンスの生成
+	HRESULT hr = device->CreateFence(fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
+	assert(SUCCEEDED(hr));
+}
+
 void DirectXCommon::ClearRenderTarget()
 {
 	//これから書き込むバッグバッファのインデックスを取得
@@ -222,9 +290,79 @@ void DirectXCommon::ClearRenderTarget()
 	//指定した色で画面全体をクリアする
 	float clearcolor[] = { 0.1f,0.25f,0.5f,1.0f };//青っぽい色。RGBAの順
 	commandList->ClearRenderTargetView(rtvHandles[backBufferIndex], clearcolor, 0, nullptr);
-	//コマンドリストの内容を確立させる。
-	hr = commandList->Close();
-	assert(SUCCEEDED(hr));
+
+}
+
+
+
+
+//---------------------------------
+//　デバッグ用
+//--------------------------------
+
+void DirectXCommon::SetupDebugLayer()
+{
+
+	Microsoft::WRL::ComPtr< ID3D12Debug1> debugController_ = nullptr;
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController_))))
+	{
+		//デバッグレイヤーを有効化する
+		debugController_->EnableDebugLayer();
+		//さらにGPU側でもチェックを行うようにする
+		debugController_->SetEnableGPUBasedValidation(TRUE);
+	}
+}
+
+void DirectXCommon::ConfigDebugMessageFilter()
+{
+	ID3D12InfoQueue* infoQueue = nullptr;
+	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue))))
+	{
+		//ヤバイエラー時に止まる
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		//エラー時に止まる
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+		//警告時に止まる
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
+
+		//警告時に止まる
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
+
+
+		//抑制するメッセージのID
+		D3D12_MESSAGE_ID denyIds[] =
+		{
+			//Windows11でのDXGIデバッグレイヤーとDX12デバッグレイヤーの相互作用バグによるエラーメッセージ
+			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
+		};
+		//抑制するレベル
+		D3D12_MESSAGE_SEVERITY severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
+		D3D12_INFO_QUEUE_FILTER filter{};
+		filter.DenyList.NumIDs = _countof(denyIds);
+		filter.DenyList.pIDList = denyIds;
+		filter.DenyList.NumSeverities = _countof(severities);
+		filter.DenyList.pSeverityList = severities;
+		//指定したメッセージの表示を抑制する
+		infoQueue->PushStorageFilter(&filter);
+
+
+		//解放
+		infoQueue->Release();
+	}
+}
+
+void DirectXCommon::ReportLiveObjects()
+{
+	//リソースリークチェック
+	Microsoft::WRL::ComPtr< IDXGIDebug1> debug;
+	if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&debug))))
+	{
+		debug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
+		debug->ReportLiveObjects(DXGI_DEBUG_APP, DXGI_DEBUG_RLO_ALL);
+		debug->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_ALL);
+		debug->Release();
+	}
+
 }
 
 
