@@ -19,6 +19,8 @@ void DirectXCommon::Initialize()
 	//NULL検出
 	assert(winApp_);
 
+	//FPS固定初期化
+	InitializeFixFPS();
 	//デバイスの生成
 	SetupDevice();
 	//コマンド関連の生成
@@ -31,6 +33,14 @@ void DirectXCommon::Initialize()
 	SetupDepthBuffer();
 	//フェンスの生成
 	SetupFence();
+	//DXCの初期化
+	IntializeDXC();
+	//パイプラインステートの生成
+	PSO();
+	//ビューポートの生成
+	SetupViewport();
+	//シザー矩形の生成
+	SetupScissor();	
 
 }
 
@@ -57,6 +67,10 @@ void DirectXCommon::PreDraw()
 
 	//全画面クリア
 	ClearRenderTarget();
+	//ビューポート領域の設定
+	SetupViewport();
+	//シザー矩形の設定
+	SetupScissor();
 }
 
 void DirectXCommon::PostDraw()
@@ -99,6 +113,9 @@ void DirectXCommon::PostDraw()
 		WaitForSingleObject(fenceEvent, INFINITE);
 	}
 
+	//FPS固定
+	UpdateFixFPS();
+
 	//次のフレーム用のコマンドリストを準備
 	hr = commandAllocator->Reset();
 	assert(SUCCEEDED(hr));
@@ -114,6 +131,36 @@ DirectXCommon* DirectXCommon::GetInstance()
 		instance = new DirectXCommon;
 	}
 	return instance;
+}
+
+Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateBufferResource(size_t sizeInBytes)
+{
+
+	D3D12_HEAP_PROPERTIES uplodeHeapProperties{};
+	uplodeHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;//UploadHeapを使う
+	//頂点リソースの設定
+
+	D3D12_RESOURCE_DESC vertexResourceDesc{};
+	//バッファリソース。テクスチャの場合はまた別の設定をする
+	vertexResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	vertexResourceDesc.Width = sizeInBytes;		//リソースサイズ　今回はvector4を四分割
+	//バッファの場合はこれらは１にする決まり
+	vertexResourceDesc.Height = 1;
+	vertexResourceDesc.DepthOrArraySize = 1;
+	vertexResourceDesc.MipLevels = 1;
+	vertexResourceDesc.SampleDesc.Count = 1;
+	//バッファの場合はこれにする決まり
+	vertexResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	HRESULT hr;
+
+	//実際に頂点リソースを作る
+	Microsoft::WRL::ComPtr< ID3D12Resource> resource = nullptr;
+	hr = device->CreateCommittedResource(&uplodeHeapProperties, D3D12_HEAP_FLAG_NONE,
+		&vertexResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
+		IID_PPV_ARGS(&resource));
+	assert(SUCCEEDED(hr));
+
+	return resource;
 }
 
 
@@ -137,8 +184,7 @@ void DirectXCommon::SetupDevice()
 
 	//-----------------------------
 	//　使用するアダプタ(GPU)を決定する
-	//------------------------------
-
+	//-----------------------------
 	//良い順にアダプタを組む
 	for (UINT i = 0; dxgiFactory->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&useAdapter)) != DXGI_ERROR_NOT_FOUND; ++i)
 	{
@@ -304,14 +350,266 @@ void DirectXCommon::ClearRenderTarget()
 
 }
 
+void DirectXCommon::SetupViewport()
+{
+	//ビューポート
+	D3D12_VIEWPORT viewport{};
+	//クライアント領域のサイズと一緒にして画面全体に表示
+	viewport.Width = winApp_->kCilentWidth;
+	viewport.Height = winApp_->kCilentHeight;
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+}
+
+void DirectXCommon::SetupScissor()
+{
+	D3D12_RECT scissorRect{};
+	//基本的にビューポートと同じ矩形が構成されるようにする
+	scissorRect.left = 0;
+	scissorRect.right = winApp_->kCilentWidth;
+	scissorRect.top = 0;
+	scissorRect.bottom = winApp_->kCilentHeight;
+}
+
+void DirectXCommon::InitializeFixFPS()
+{
+	//現在時間を記録する
+	reference_ = std::chrono::steady_clock::now();
+}
+
+void DirectXCommon::UpdateFixFPS()
+{
+	//1/60秒ピッタリの時間
+	const std::chrono::microseconds kMinTIme(uint64_t(1000000.0f / 60.0f));
+	//1/60秒よりわずかに短い時間
+	const std::chrono::microseconds kMinCheckTime(uint64_t(1000000.0f / 65.0f));
+
+	//現在時間を取得する
+	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+	//前回記録からの経過時間を取得する
+	std::chrono::microseconds elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - reference_);
+
+	//1/60秒(よりわずかに短い時間)経っていない場合
+	if (elapsed < kMinCheckTime)
+	{
+		//1/60秒経過するまで微小なスリープを繰り返す
+		while (std::chrono::steady_clock::now() - reference_ < kMinTIme)
+		{
+			//1マイクロ秒スリープ
+			std::this_thread::sleep_for(std::chrono::microseconds(1));
+		}
+	}
+	//現在の時間を記録する
+	reference_ = std::chrono::steady_clock::now();
+}
+
+void DirectXCommon::IntializeDXC()
+{
+	hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils));
+	assert(SUCCEEDED(hr));
+	hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler));
+	assert(SUCCEEDED(hr));
+	hr = dxcUtils->CreateDefaultIncludeHandler(&includeHandler);
+	assert(SUCCEEDED(hr));
+}
+
+void DirectXCommon::PSO()
+{
+	//ルートシグネチャの生成
+	SetupRootSignature();
+
+	//インプットレイヤーアウトの生成
+	SetupInputLayout();
+
+	//ブレンドステートの設定
+	SetupBlendState();
+
+	//ラスタライザステートの設定
+	SetupRasterrizerState();
+
+	//シェーダをコンパイルする 
+	ShaderCompile();
+
+	//デプスステンシルステートの設定
+	SetDepthStencilState();
+
+	//PSOを生成する
+	SetupPSO();
+}
+
+void DirectXCommon::SetupRootSignature()
+{
+	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
+	descriptionRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	//シリアライズしてバイナリにする
+	ID3DBlob* signatureBlob = nullptr;
+	ID3DBlob* errorBlob = nullptr;
+	hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
+	if (FAILED(hr))
+	{
+		Log(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
+		assert(false);
+	}
+	//バイナリを元に生成
+	ID3D12RootSignature* rootSignature = nullptr;
+	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature));
+	assert(SUCCEEDED(hr));
+
+}
+
+void DirectXCommon::SetupInputLayout()
+{
+	D3D12_INPUT_ELEMENT_DESC inputElementDescs[1] = {};
+	inputElementDescs[0].SemanticName = "POSITION";
+	inputElementDescs[0].SemanticIndex = 0;
+	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputLayoutDesc.pInputElementDescs = inputElementDescs;
+	inputLayoutDesc.NumElements = _countof(inputElementDescs);
+}
+
+void DirectXCommon::SetupBlendState()
+{
+	//すべての色要素を書き込む
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+}
+
+void DirectXCommon::SetupRasterrizerState()
+{
+	//裏面(時計回り)を表示しない
+	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
+	//三角形の中を塗りつぶす
+	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
+}
+
+void DirectXCommon::ShaderCompile()
+{
+
+	//Shaderをコンパイルする
+	vertexShaderBlob = CompileShader(L"Resources/Shaders/Object3d.VS.hlsl", L"vs_6_0", dxcUtils, dxcCompiler, includeHandler);
+	assert(vertexShaderBlob != nullptr);
+
+	pixelShaderBlob = CompileShader(L"Resources/Shaders/Object3d.PS.hlsl", L"ps_6_0", dxcUtils, dxcCompiler, includeHandler);
+	assert(pixelShaderBlob != nullptr);
+}
+
+void DirectXCommon::SetDepthStencilState()
+{
+	////Depthの機能を有効化する
+	//depthStencilDesc.DepthEnable = true;
+	////書き込みします
+	//depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	////比較関数はLessEqual。つまり、近ければ描画される
+	//depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+}
+
+void DirectXCommon::SetupPSO()
+{
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};	//PSO
+	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicsPipelineState = nullptr;	//実際に生成
+	graphicsPipelineStateDesc.pRootSignature = rootSignature.Get();	//RootSignature
+	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc;	//InputLayout
+	graphicsPipelineStateDesc.VS = { vertexShaderBlob->GetBufferPointer(),vertexShaderBlob->GetBufferSize() };	//VertexShader
+	graphicsPipelineStateDesc.PS = { pixelShaderBlob->GetBufferPointer(),pixelShaderBlob->GetBufferSize() };	//PixelShader
+	graphicsPipelineStateDesc.BlendState = blendDesc;	//BlendDesc
+	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc;	//RasterrizerState
+
+	////DepthStencilの設定
+	//graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc;
+	//graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+	//書き込むRTVの情報
+	graphicsPipelineStateDesc.NumRenderTargets = 1;
+	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	//利用するトポロジ(形状)のタイプ。三角形
+	graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	//どのように画面に色を打ち込むのかの設定(気にしなくて良い)
+	graphicsPipelineStateDesc.SampleDesc.Count = 1;
+	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+
+	hr = device->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState));
+	assert(SUCCEEDED(hr));
+}
+
+D3D12_ROOT_PARAMETER DirectXCommon::CreateCBVRootParameter(D3D12_SHADER_VISIBILITY shaderVisibility, UINT shaderRegister)
+{
+	D3D12_ROOT_PARAMETER rootParameter{};
+	rootParameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameter.ShaderVisibility = shaderVisibility;
+	rootParameter.Descriptor.ShaderRegister = shaderRegister;
+	return rootParameter;
+}
+
+IDxcBlob* DirectXCommon::CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler)
+{
+	//1.hlslファイルを読む
+	//これからシェーダーをコンパイルする旨をログに出す
+	Log(ConvertString(std::format(L"Begin CompileShader,path:{},profile:{}\n", filePath, profile)));
+	//hlslファイルを読む
+	IDxcBlobEncoding* shaderSource = nullptr;
+	HRESULT hr = dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource);
+	//読めなかったら止める
+	assert(SUCCEEDED(hr));
+	//読み込んだファイルの内容を設定する
+	DxcBuffer shaderSourceBuffer;
+	shaderSourceBuffer.Ptr = shaderSource->GetBufferPointer();
+	shaderSourceBuffer.Size = shaderSource->GetBufferSize();
+	shaderSourceBuffer.Encoding = DXC_CP_UTF8;//UTF8の文字コードであることを通知
+
+	//2.compileする
+	LPCWSTR arguments[] =
+	{
+		filePath.c_str(),//コンパイル対象のhlslファイル名
+		L"-E",L"main",	 //エントリーポイントの指定。基本的にmain以外にはしない
+		L"-T",profile,	 //ShaderProfileの設定
+		L"-Od",			 //最適化をはずしておく
+		L"-Zpr",		 //メモリアウトは行優先
+	};
+	//実際にShaderをコンパイルする
+	IDxcResult* shaderResult = nullptr;
+	hr = dxcCompiler->Compile
+	(
+		&shaderSourceBuffer,		//読み込んだファイル
+		arguments,					//コンパイルオプション
+		_countof(arguments),
+		includeHandler,				//コンパイルオプションの数
+		IID_PPV_ARGS(&shaderResult)	//includeが含まれた諸々
+	);
+	//コンパイルエラーではなくdxcが起動できないなど致命的な状況
+	assert(SUCCEEDED(hr));
+
+	//3.警告・エラーが出ていないか確認する
+	//警告・エラーが出てたらログに出して止める
+	IDxcBlobUtf8* shaderError = nullptr;
+	if (shaderResult != 0)
+	{
+		shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&shaderError), nullptr);
+		if (shaderError != nullptr && shaderError->GetStringLength() != 0)
+		{
+			Log(shaderError->GetStringPointer());
+			//警告・エラーダメゼッタイ
+			assert(false);
+		}
+	}
+	//4.Compile結果を受け取って返す
+	//コンパイル結果から実行用のバイナリ部分を取得
+	IDxcBlob* shaderBlob = nullptr;
+	hr = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr);
+	assert(SUCCEEDED(hr));
+	//成功したログを出す
+	Log(ConvertString(std::format(L"Compile Succeeded,path:{},profile:{}\n", filePath, profile)));
+	//もう使わないリソースを解放
+	shaderSource->Release();
+	shaderResult->Release();
+	//実行用のバイナリを返却
+	return shaderBlob;
+
+}
 
 
 //静的メンバ変数の宣言と初期化
 DirectXCommon* DirectXCommon::instance = NULL;
-
-
-
-
-
-
 
