@@ -12,6 +12,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//WindowAPIの初期化
 	WinApp* winApp = WinApp::GetInstance();
 	winApp->Initialize();
+	
 
 	//DirectXの初期化
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();

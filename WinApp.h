@@ -1,6 +1,7 @@
 #pragma once
 #include<Windows.h>
 #include<cstdint>
+#include<string>
 
 #pragma comment(lib,"winmm.lib")
 
@@ -20,6 +21,12 @@ public:
 
 	//シングルトン
 	static WinApp* GetInstance();
+
+	/// <summary>
+	/// タイトルバーの変更
+	/// </summary>
+	/// <param name="title">タイトルバー名</param>
+	void SetWindowTitle(const std::wstring& title);
 
 	/*=======　　　ゲッター	=======*/
 	HWND GetHwnd()const { return hwnd_; };
@@ -50,11 +57,18 @@ private:
 	/// <returns>生成できたかどうか true : できた</returns>
 	void CreateGameWindow();
 
+	/// <summary>
+	/// ウィンドウクラスの登録
+	/// </summary>
+	void SetupWindowClass();
+
 private:
 
 	HWND hwnd_ = nullptr;	//ウィンドウを表す識別子
 	WNDCLASS wc_{};			//ウィンドウクラスの設定
 	static WinApp* instance;	//シングルトン
+
+	std::wstring windowTitle_ = L"AobaraEngine";	//タイトル
 
 };
 

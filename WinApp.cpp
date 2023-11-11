@@ -14,6 +14,16 @@ WinApp* WinApp::GetInstance()
 	return instance;
 }
 
+void WinApp::SetWindowTitle(const std::wstring& title)
+{
+	windowTitle_ = title;
+	if (hwnd_ != nullptr)
+	{
+		// ウィンドウが既に生成されていれば、タイトルを更新する
+		SetWindowText(hwnd_, windowTitle_.c_str());
+	}
+}
+
 /*デストラクタ*/
 WinApp::~WinApp()
 {
@@ -41,14 +51,8 @@ bool WinApp::ProcessMessage()
 		DispatchMessage(&msg);	//ウィンドウプロシージャにメッセージを送る
 	}
 
-	if (msg.message == WM_QUIT)
-	{
-		//メッセージが終了メッセージの場合、処理終了
-		return true;
-	}
-
-	//まだ処理するメッセージがある場合、処理続行
-	return false;
+	// 終了メッセージの場合、処理終了
+	return (msg.message == WM_QUIT);
 }
 
 /*======================================*/
@@ -73,17 +77,7 @@ LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 //ウィンドウの生成
 void WinApp::CreateGameWindow()
 {
-	//ウィンドウプロシージャ
-	wc_.lpfnWndProc = WindowProc;
-	//ウィンドウクラス名
-	wc_.lpszClassName = L"CG2WindowClass";
-	//インスタンスハンドル
-	wc_.hInstance = GetModuleHandle(nullptr);
-	//カーソル
-	wc_.hCursor = LoadCursor(nullptr, IDC_ARROW);
-
-	//ウィンドウクラスを登録する
-	RegisterClass(&wc_);
+	SetupWindowClass();
 
 	//ウィンドウサイズを表す構造体にクライアント領域を入れる
 	RECT wrc = { 0,0,kCilentWidth,kCilentHeight };
@@ -94,7 +88,7 @@ void WinApp::CreateGameWindow()
 	//ウィンドウの生成
 	hwnd_ = CreateWindow(
 		wc_.lpszClassName,		//利用するクラス名
-		L"CG2",					//タイトルバーの文字
+		windowTitle_.c_str(),	//タイトルバーの文字
 		WS_OVERLAPPEDWINDOW,	//よく見るウィンドウスタイル
 		CW_USEDEFAULT,			//表示X座標(Windowsに任せる)
 		CW_USEDEFAULT,			//表示Y座標(WindowsOSに任せる)
@@ -108,6 +102,21 @@ void WinApp::CreateGameWindow()
 
 	//ウィンドウを表示する
 	ShowWindow(hwnd_, SW_SHOW);
+}
+
+void WinApp::SetupWindowClass()
+{
+	//ウィンドウプロシージャ
+	wc_.lpfnWndProc = WindowProc;
+	//ウィンドウクラス名
+	wc_.lpszClassName = L"CG2WindowClass";
+	//インスタンスハンドル
+	wc_.hInstance = GetModuleHandle(nullptr);
+	//カーソル
+	wc_.hCursor = LoadCursor(nullptr, IDC_ARROW);
+
+	//ウィンドウクラスを登録する
+	RegisterClass(&wc_);
 }
 
 
