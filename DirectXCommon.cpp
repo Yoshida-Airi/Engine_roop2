@@ -16,7 +16,7 @@ void DirectXCommon::Initialize()
 {
 
 	winApp_ = WinApp::GetInstance();
-	//NULL検出
+	//nullptr検出
 	assert(winApp_);
 
 	//FPS固定初期化
@@ -96,7 +96,7 @@ void DirectXCommon::PostDraw()
 	fenceValue++;
 	//GPUがここまでたどり着いたときに、fenceの値を指定した値に代入するようにSignalを送る
 	commandQueue->Signal(fence.Get(), fenceValue);
-	fenceEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	assert(fenceEvent != nullptr);
 
 	//Fenceの値が指定したSignal値にたどり着いているか確認する
@@ -122,7 +122,7 @@ void DirectXCommon::PostDraw()
 
 DirectXCommon* DirectXCommon::GetInstance()
 {
-	if (instance == NULL)
+	if (instance == nullptr)
 	{
 		instance = new DirectXCommon;
 	}
@@ -403,5 +403,5 @@ void DirectXCommon::UpdateFixFPS()
 
 
 //静的メンバ変数の宣言と初期化
-DirectXCommon* DirectXCommon::instance = NULL;
+DirectXCommon* DirectXCommon::instance = nullptr;
 
