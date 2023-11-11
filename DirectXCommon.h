@@ -98,6 +98,29 @@ private:
 	/// </summary>
 	void UpdateFixFPS();
 
+	/// <summary>
+	/// DXCの初期化
+	/// </summary>
+	void InitializeDXCCompiler();
+
+	/// <summary>
+	/// コンパイルシェーダー
+	/// </summary>
+	/// <param name="filePath">シェーダーフィいる名</param>
+	/// <param name="profile">プロファイル</param>
+	/// <param name="dxcUtils"></param>
+	/// <param name="dxcCompiler"></param>
+	/// <param name="incledeHandler"></param>
+	/// <returns></returns>
+	IDxcBlob* CompileShader
+	(
+		const std::wstring& filePath,
+		const wchar_t* profile,
+		IDxcUtils* dxcUtils,
+		IDxcCompiler3* dxcCompiler,
+		IDxcIncludeHandler* includeHandler
+	);
+
 private:
 	
 	WinApp* winApp_;
