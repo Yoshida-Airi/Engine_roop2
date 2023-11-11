@@ -14,16 +14,6 @@ WinApp* WinApp::GetInstance()
 	return instance;
 }
 
-void WinApp::SetWindowTitle(const std::wstring& title)
-{
-	windowTitle_ = title;
-	if (hwnd_ != nullptr)
-	{
-		// ウィンドウが既に生成されていれば、タイトルを更新する
-		SetWindowText(hwnd_, windowTitle_.c_str());
-	}
-}
-
 /*デストラクタ*/
 WinApp::~WinApp()
 {
@@ -53,6 +43,16 @@ bool WinApp::ProcessMessage()
 
 	// 終了メッセージの場合、処理終了
 	return (msg.message == WM_QUIT);
+}
+
+void WinApp::SetWindowTitle(const std::wstring& title)
+{
+	windowTitle_ = title;
+	if (hwnd_ != nullptr)
+	{
+		// ウィンドウが既に生成されていれば、タイトルを更新する
+		SetWindowText(hwnd_, windowTitle_.c_str());
+	}
 }
 
 /*======================================*/
