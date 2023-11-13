@@ -103,6 +103,9 @@ private:
 	/// </summary>
 	void InitializeDXCCompiler();
 
+	/// <summary>
+	/// PSOの設定
+	/// </summary>
 	void SetupPSO();
 
 	/// <summary>
@@ -110,7 +113,9 @@ private:
 	/// </summary>
 	void SetupRootSignature();
 
-	//インプットレイアウトの生成
+	/// <summary>
+	/// インプットレイアウトの生成
+	/// </summary>
 	void SetupInputLayout();
 
 	/// <summary>
