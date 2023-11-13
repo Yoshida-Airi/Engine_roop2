@@ -33,6 +33,11 @@ void DirectXCommon::Initialize()
 	SetupDepthBuffer();
 	//フェンスの生成
 	SetupFence();
+	//dxcコンパイラーの初期化
+	InitializeDXCCompiler();
+	//PSOの設定
+	SetupPSO();
+
 	////ビューポートの生成
 	//SetupViewport();
 	////シザー矩形の生成
@@ -403,8 +408,6 @@ void DirectXCommon::UpdateFixFPS()
 
 void DirectXCommon::InitializeDXCCompiler()
 {
-	IDxcUtils* dxcUtils = nullptr;
-	IDxcCompiler3* dxcCompiler = nullptr;
 	hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils));
 	assert(SUCCEEDED(hr));
 	hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler));
@@ -412,6 +415,88 @@ void DirectXCommon::InitializeDXCCompiler()
 
 	hr = dxcUtils->CreateDefaultIncludeHandler(&includeHandler);
 	assert(SUCCEEDED(hr));
+}
+
+void DirectXCommon::SetupPSO()
+{
+	SetupRootSignature();
+	SetupInputLayout();
+	SetupBlendState();
+	SetupRasterrizerState();
+	SetupShader();
+
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
+	graphicsPipelineStateDesc.pRootSignature = rootSignature.Get();
+	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc;
+	graphicsPipelineStateDesc.VS = { vertexShaderBlob->GetBufferPointer(),vertexShaderBlob->GetBufferSize() };
+	graphicsPipelineStateDesc.PS = { pixelShaderBlob->GetBufferPointer(),pixelShaderBlob->GetBufferSize() };
+	graphicsPipelineStateDesc.BlendState = blendDesc;
+	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc;
+
+	//RTV情報
+	graphicsPipelineStateDesc.NumRenderTargets = 1;
+	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	//利用する形状（三角形
+	graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	graphicsPipelineStateDesc.SampleDesc.Count = 1;
+	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+
+	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
+	hr = device->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicPipelineState));
+	assert(SUCCEEDED(hr));
+
+
+}
+
+void DirectXCommon::SetupRootSignature()
+{
+	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
+	descriptionRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+	Microsoft::WRL::ComPtr< ID3DBlob> signatureBlob = nullptr;
+	Microsoft::WRL::ComPtr< ID3DBlob> errorBlob = nullptr;
+	hr = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
+	if (FAILED(hr))
+	{
+		Log(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
+		assert(false);
+	}
+
+	hr = device->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature));
+	assert(SUCCEEDED(hr));
+}
+
+void DirectXCommon::SetupInputLayout()
+{
+	inputElementDescs[0].SemanticName = "POSITION";
+	inputElementDescs[0].SemanticIndex = 0;
+	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	
+	inputLayoutDesc.pInputElementDescs = inputElementDescs;
+	inputLayoutDesc.NumElements = _countof(inputElementDescs);
+}
+
+void DirectXCommon::SetupBlendState()
+{
+	//すべての色情報を書き込む
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+}
+
+void DirectXCommon::SetupRasterrizerState()
+{
+	//裏面を表示しない
+	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
+	//三角形を塗りつぶす
+	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
+}
+
+void DirectXCommon::SetupShader()
+{
+	vertexShaderBlob = CompileShader(L"Object3D.VS.hlsl", L"vs_6_0", dxcUtils, dxcCompiler, includeHandler);
+	assert(vertexShaderBlob != nullptr);
+	pixelShaderBlob = CompileShader(L"Object3D.PS.hlsl", L"ps_6_0", dxcUtils, dxcCompiler, includeHandler);
+	assert(pixelShaderBlob != nullptr);
 }
 
 

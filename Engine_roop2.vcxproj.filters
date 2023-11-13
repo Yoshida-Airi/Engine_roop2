@@ -82,16 +82,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\Object3d.hlsli">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Resources\Shaders\Object3d.PS.hlsl">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Object3d.VS.hlsl">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </FxCompile>
+    <FxCompile Include="Object3D.VS.hlsl" />
+    <FxCompile Include="Object3D.PS.hlsl" />
   </ItemGroup>
 </Project>
