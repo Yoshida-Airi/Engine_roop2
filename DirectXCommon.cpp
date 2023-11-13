@@ -38,11 +38,6 @@ void DirectXCommon::Initialize()
 	//PSOの設定
 	SetupPSO();
 
-	////ビューポートの生成
-	//SetupViewport();
-	////シザー矩形の生成
-	//SetupScissor();	
-
 }
 
 void DirectXCommon::Update()
@@ -68,10 +63,12 @@ void DirectXCommon::PreDraw()
 
 	//全画面クリア
 	ClearRenderTarget();
+
 	//ビューポート領域の設定
 	SetupViewport();
 	//シザー矩形の設定
 	SetupScissor();
+	
 }
 
 void DirectXCommon::PostDraw()
