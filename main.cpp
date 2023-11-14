@@ -55,9 +55,11 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion 
 
-
-
+#ifdef _DEBUG
 	DebugHelper::ReportLiveObjects();
+#endif // _DEBUG
+
+
 
 	return 0;
 }
