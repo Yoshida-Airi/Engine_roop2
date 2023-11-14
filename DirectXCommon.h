@@ -187,7 +187,6 @@ private:
 	Microsoft::WRL::ComPtr< IDxcBlob> vertexShaderBlob;
 	Microsoft::WRL::ComPtr< IDxcBlob> pixelShaderBlob;
 
-
 	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
 
 	D3D12_VIEWPORT viewport{};	//ビューポート

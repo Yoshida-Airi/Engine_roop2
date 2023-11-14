@@ -14,14 +14,17 @@ void Triangle::Initialize()
 	dxCommon_ = DirectXCommon::GetInstance();
 
 	SetupVertexBuffer();
+	SetupMaterialBuffer();
 
 	TriangleData initialData = {
 	   Vector4(-0.2f, -0.2f, 0.0f, 2.0f),
 	   Vector4(0.0f, 0.2f, 0.0f, 2.0f),
-	   Vector4(0.2f, -0.2f, 0.0f, 2.0f)
+	   Vector4(0.2f, -0.2f, 0.0f, 2.0f),
+	   Vector4(0.5f,0.0f,0.0f,1.0f)
 	};
 
-	SetVertexData(initialData);
+	SetVertexData(initialData.vertex);
+	SetMaterialData(initialData.color);
 }
 
 void Triangle::Draw()
@@ -30,15 +33,22 @@ void Triangle::Draw()
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	//形状を設定。PS0にせっていしているものとはまた別。同じものを設定する
 	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//マテリアルCbufferの場所を設定
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
 
-void Triangle::SetVertexData(const TriangleData& Data)
+void Triangle::SetVertexData(const Vector4 Data[3])
 {
-	vertexData_[0] = Data.vertex[0];
-	vertexData_[1] = Data.vertex[1];
-	vertexData_[2] = Data.vertex[2];
+	vertexData_[0] = Data[0];
+	vertexData_[1] = Data[1];
+	vertexData_[2] = Data[2];
+}
+
+void Triangle::SetMaterialData(const Vector4 color)
+{
+	materialData[0] = color;
 }
 
 /*=====================================*/
@@ -57,6 +67,14 @@ void Triangle::SetupVertexBuffer()
 	vertexBufferView_.StrideInBytes = sizeof(Vector4);
 	//書き込むためのアドレスを取得
 	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
+}
+
+void Triangle::SetupMaterialBuffer()
+{
+	//マテリアル用のリソースを作る
+	materialResource_ = dxCommon_->CreateBufferResource(sizeof(Vector4));
+	//書き込むためのアドレスを取得
+	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
 }
 
 

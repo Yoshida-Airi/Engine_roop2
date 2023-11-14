@@ -26,8 +26,10 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	triangleData.vertex[0] = { 0.2f,-0.2f ,0.0f,2.0f };
 	triangleData.vertex[1] = { 0.4f,0.2f ,0.0f,2.0f };
 	triangleData.vertex[2] = { 0.6f,-0.2f ,0.0f,2.0f };
+	triangleData.color = { 0.0f, 1.0f, 0.0f, 1.0f };
 
-	triangle2->SetVertexData(triangleData);
+	triangle2->SetVertexData(triangleData.vertex);
+	triangle2->SetMaterialData(triangleData.color);
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)

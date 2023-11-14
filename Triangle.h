@@ -5,7 +5,8 @@
 
 struct TriangleData
 {
-	Vector4 vertex[3];
+	Vector4 vertex[3];	//頂点座標
+	Vector4 color;		//色
 };
 
 class Triangle
@@ -32,10 +33,16 @@ public:
 	void Draw();
 
 	/// <summary>
-	/// トライアングルデータの変更
+	/// 頂点データの変更
 	/// </summary>
 	/// <param name="Data">トライアングルデータ</param>
-	void SetVertexData(const TriangleData& Data);
+	void SetVertexData(const Vector4 vertex[3]);
+
+	/// <summary>
+	/// マテリアルデータの設定
+	/// </summary>
+	/// <param name="color"></param>
+	void SetMaterialData(const Vector4 color);
 
 private://プライベート変数
 
@@ -45,11 +52,19 @@ private://プライベート変数
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 	Vector4* vertexData_ = nullptr;	//頂点データ
 
+	Microsoft::WRL::ComPtr<ID3D12Resource>materialResource_;	//マテリアルリソース
+	Vector4* materialData = nullptr;
+
 private://プライベート関数
 
 	/// <summary>
 	/// 頂点のバッファの取得
 	/// </summary>
 	void SetupVertexBuffer();
+
+	/// <summary>
+	/// マテリアルバッファの生成
+	/// </summary>
+	void SetupMaterialBuffer();
 
 };
