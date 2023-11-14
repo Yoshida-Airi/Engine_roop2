@@ -8,42 +8,42 @@
 //Windowsアプリでのエントリーポイント(main関数)
 int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
-#pragma region 基盤システムの初期化
+
 	//WindowAPIの初期化
 	WinApp* winApp = WinApp::GetInstance();
 	winApp->Initialize();
-	
+
 
 	//DirectXの初期化
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 	dxCommon->Initialize();
-#pragma endregion
 
-#pragma region シーンの初期化
+	Triangle* triangle = new Triangle;
+	triangle->Initialize();
+	Triangle* triangle2 = new Triangle;
+	triangle2->Initialize();
+	TriangleData triangleData;
+	triangleData.vertex[0] = { 0.2f,-0.2f ,0.0f,2.0f };
+	triangleData.vertex[1] = { 0.4f,0.2f ,0.0f,2.0f };
+	triangleData.vertex[2] = { 0.6f,-0.2f ,0.0f,2.0f };
 
+	triangle2->SetVertexData(triangleData);
 
-#pragma endregion シーンの初期化
-
-#pragma region 基盤システムの更新
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
 	{
 		/*--- ゲームループ  ---*/
 		dxCommon->PreDraw();
+
+		triangle->Draw();
+		triangle2->Draw();
+
 		dxCommon->PostDraw();
-#pragma endregion 
-
-#pragma region シーンの更新
-
-#pragma endregion 
 
 	}
 
-#pragma region シーンの終了
-
-#pragma endregion
-
-#pragma region 基盤システムの終了
+	delete triangle;
+	delete triangle2;
 
 	//WindowAPIの解放
 	delete winApp;
@@ -53,7 +53,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete dxCommon;
 	dxCommon = nullptr;
 
-#pragma endregion 
+
 
 #ifdef _DEBUG
 	DebugHelper::ReportLiveObjects();

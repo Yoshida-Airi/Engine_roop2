@@ -12,11 +12,19 @@ DirectXCommon::~DirectXCommon()
 	CloseHandle(fenceEvent);
 }
 
+DirectXCommon* DirectXCommon::GetInstance()
+{
+	if (instance == nullptr)
+	{
+		instance = new DirectXCommon;
+	}
+	return instance;
+}
+
 void DirectXCommon::Initialize()
 {
 
 	winApp_ = WinApp::GetInstance();
-	//nullptr検出
 	assert(winApp_);
 
 	//FPS固定初期化
@@ -68,7 +76,12 @@ void DirectXCommon::PreDraw()
 	SetupViewport();
 	//シザー矩形の設定
 	SetupScissor();
-	
+
+	//コマンドを積む
+	commandList->RSSetViewports(1, &viewport);
+	commandList->RSSetScissorRects(1, &scissorRect);
+	commandList->SetGraphicsRootSignature(rootSignature.Get());
+	commandList->SetPipelineState(graphicPipelineState.Get());
 }
 
 void DirectXCommon::PostDraw()
@@ -119,16 +132,6 @@ void DirectXCommon::PostDraw()
 	assert(SUCCEEDED(hr));
 	hr = commandList->Reset(commandAllocator.Get(), nullptr);
 	assert(SUCCEEDED(hr));
-
-}
-
-DirectXCommon* DirectXCommon::GetInstance()
-{
-	if (instance == nullptr)
-	{
-		instance = new DirectXCommon;
-	}
-	return instance;
 }
 
 Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateBufferResource(size_t sizeInBytes)
@@ -190,6 +193,7 @@ void DirectXCommon::SetupDevice()
 		DXGI_ADAPTER_DESC3 adapterDesc{};
 		hr = useAdapter->GetDesc3(&adapterDesc);
 		assert(SUCCEEDED(hr));//取得できなかったらエラー
+
 		//ソフトウェアアダプタでなければ採用
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE))
 		{
@@ -275,6 +279,7 @@ void DirectXCommon::SetupSwapChain()
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	//描画のターゲットとして利用する
 	swapChainDesc.BufferCount = 2;									//ダブルバッファ
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;		//モニタに映したら、中身を破棄
+	
 	//コマンドキュー、ウィンドウハンドルの設定を渡して生成する
 	hr = dxgiFactory->CreateSwapChainForHwnd(commandQueue.Get(), winApp_->GetHwnd(), &swapChainDesc, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain.GetAddressOf()));
 	assert(SUCCEEDED(hr));
@@ -311,12 +316,14 @@ void DirectXCommon::SetupRnderTargetView()
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;	//出力結果をSRGB二変換して書き込む
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;	//2Dテクスチャとして書き込む
+
 	//ディスクリプタの先頭を取得する
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvStartHandle = rtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	//RTVを2つ作るのでディスクリプタを2つ用意
 	//まずひとつ目を作る。１つ目は最初のところに作る。作る場所をこちらで指定してあげる必要がある
 	rtvHandles[0] = rtvStartHandle;
 	device->CreateRenderTargetView(swapChainResources[0].Get(), &rtvDesc, rtvHandles[0]);
+	
 	//２つ目のディスクリプタハンドルを得る(自力で)
 	rtvHandles[1].ptr = rtvHandles[0].ptr + device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	//２つ目を作る
@@ -345,13 +352,10 @@ void DirectXCommon::ClearRenderTarget()
 	//指定した色で画面全体をクリアする
 	float clearcolor[] = { 0.1f,0.25f,0.5f,1.0f };//青っぽい色。RGBAの順
 	commandList->ClearRenderTargetView(rtvHandles[backBufferIndex], clearcolor, 0, nullptr);
-
 }
 
 void DirectXCommon::SetupViewport()
 {
-	//ビューポート
-	D3D12_VIEWPORT viewport{};
 	//クライアント領域のサイズと一緒にして画面全体に表示
 	viewport.Width = winApp_->kCilentWidth;
 	viewport.Height = winApp_->kCilentHeight;
@@ -363,7 +367,6 @@ void DirectXCommon::SetupViewport()
 
 void DirectXCommon::SetupScissor()
 {
-	D3D12_RECT scissorRect{};
 	//基本的にビューポートと同じ矩形が構成されるようにする
 	scissorRect.left = 0;
 	scissorRect.right = winApp_->kCilentWidth;
@@ -438,11 +441,8 @@ void DirectXCommon::SetupPSO()
 	graphicsPipelineStateDesc.SampleDesc.Count = 1;
 	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
-	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
 	hr = device->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicPipelineState));
 	assert(SUCCEEDED(hr));
-
-
 }
 
 void DirectXCommon::SetupRootSignature()
@@ -469,7 +469,7 @@ void DirectXCommon::SetupInputLayout()
 	inputElementDescs[0].SemanticIndex = 0;
 	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-	
+
 	inputLayoutDesc.pInputElementDescs = inputElementDescs;
 	inputLayoutDesc.NumElements = _countof(inputElementDescs);
 }
@@ -495,7 +495,6 @@ void DirectXCommon::SetupShader()
 	pixelShaderBlob = CompileShader(L"Object3D.PS.hlsl", L"ps_6_0", dxcUtils, dxcCompiler, includeHandler);
 	assert(pixelShaderBlob != nullptr);
 }
-
 
 //CompileShader関数
 IDxcBlob* DirectXCommon::CompileShader
@@ -573,7 +572,6 @@ IDxcBlob* DirectXCommon::CompileShader
 	return shaderBlob;
 
 }
-
 
 //静的メンバ変数の宣言と初期化
 DirectXCommon* DirectXCommon::instance = nullptr;

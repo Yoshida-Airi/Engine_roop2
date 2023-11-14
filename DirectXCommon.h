@@ -187,6 +187,12 @@ private:
 	Microsoft::WRL::ComPtr< IDxcBlob> vertexShaderBlob;
 	Microsoft::WRL::ComPtr< IDxcBlob> pixelShaderBlob;
 
+
+	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
+
+	D3D12_VIEWPORT viewport{};	//ビューポート
+	D3D12_RECT scissorRect{};	//シザー矩形
+
 	//静的メンバ変数の宣言と初期化
 	static DirectXCommon* instance;
 
