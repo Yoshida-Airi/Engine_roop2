@@ -1,7 +1,10 @@
 #pragma once
 #include"DirectXCommon.h"
 #include"VectorMath.h"
+#include"MatrixMath.h"
+#include"MathUtilty.h"
 #include<wrl.h>
+#include"Transform.h"
 
 struct TriangleData
 {
@@ -21,15 +24,16 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	/// <param name="direct"></param>
 	void Initialize();
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	void Update();
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	/// <param name="a">左下</param>
-	/// <param name="b">上</param>
-	/// <param name="c">右下</param>
 	void Draw();
 
 	/// <summary>
@@ -55,6 +59,12 @@ private://プライベート変数
 	Microsoft::WRL::ComPtr<ID3D12Resource>materialResource_;	//マテリアルリソース
 	Vector4* materialData = nullptr;
 
+	Microsoft::WRL::ComPtr<ID3D12Resource>wvpResource_;
+	Matrix4x4* wvpData = nullptr;
+	Transform transform;
+
+
+
 private://プライベート関数
 
 	/// <summary>
@@ -66,5 +76,10 @@ private://プライベート関数
 	/// マテリアルバッファの生成
 	/// </summary>
 	void SetupMaterialBuffer();
+
+	/// <summary>
+	/// WVPバッファの生成
+	/// </summary>
+	void SetupWVPBuffer();
 
 };

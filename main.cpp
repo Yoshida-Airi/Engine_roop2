@@ -37,6 +37,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/*--- ゲームループ  ---*/
 		dxCommon->PreDraw();
 
+		triangle2->Update();
+
 		triangle->Draw();
 		triangle2->Draw();
 
