@@ -3,12 +3,12 @@
 #include<cstdint>
 #include<string>
 
-#include"externals/imgui/imgui.h"
+//#include"externals/imgui/imgui.h"
 
 #pragma comment(lib,"winmm.lib")
 
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
+//extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+//
 
 class WinApp
 {

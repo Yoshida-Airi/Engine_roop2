@@ -43,6 +43,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)imgui;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)imgui;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -74,6 +80,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -90,13 +97,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DebugHelper.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
-    <ClCompile Include="Externals\Imgui\imgui.cpp" />
-    <ClCompile Include="Externals\Imgui\imgui_demo.cpp" />
-    <ClCompile Include="Externals\Imgui\imgui_draw.cpp" />
-    <ClCompile Include="Externals\Imgui\imgui_impl_dx12.cpp" />
-    <ClCompile Include="Externals\Imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="Externals\Imgui\imgui_tables.cpp" />
-    <ClCompile Include="Externals\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
@@ -110,14 +110,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DebugHelper.h" />
     <ClInclude Include="DirectXCommon.h" />
-    <ClInclude Include="Externals\Imgui\imconfig.h" />
-    <ClInclude Include="Externals\Imgui\imgui.h" />
-    <ClInclude Include="Externals\Imgui\imgui_impl_dx12.h" />
-    <ClInclude Include="Externals\Imgui\imgui_impl_win32.h" />
-    <ClInclude Include="Externals\Imgui\imgui_internal.h" />
-    <ClInclude Include="Externals\Imgui\imstb_rectpack.h" />
-    <ClInclude Include="Externals\Imgui\imstb_textedit.h" />
-    <ClInclude Include="Externals\Imgui\imstb_truetype.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MathUtilty.h" />
@@ -145,7 +137,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Externals\Imgui\LICENSE.txt" />
+    <ProjectReference Include="imgui\imgui.vcxproj">
+      <Project>{ca4723e9-d13f-4b64-af5d-943181fc5886}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
