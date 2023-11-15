@@ -87,8 +87,17 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DebugHelper.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
+    <ClCompile Include="Externals\Imgui\imgui.cpp" />
+    <ClCompile Include="Externals\Imgui\imgui_demo.cpp" />
+    <ClCompile Include="Externals\Imgui\imgui_draw.cpp" />
+    <ClCompile Include="Externals\Imgui\imgui_impl_dx12.cpp" />
+    <ClCompile Include="Externals\Imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Externals\Imgui\imgui_tables.cpp" />
+    <ClCompile Include="Externals\Imgui\imgui_widgets.cpp" />
+    <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MathUtilty.cpp" />
@@ -98,8 +107,18 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="WinApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="DebugHelper.h" />
     <ClInclude Include="DirectXCommon.h" />
+    <ClInclude Include="Externals\Imgui\imconfig.h" />
+    <ClInclude Include="Externals\Imgui\imgui.h" />
+    <ClInclude Include="Externals\Imgui\imgui_impl_dx12.h" />
+    <ClInclude Include="Externals\Imgui\imgui_impl_win32.h" />
+    <ClInclude Include="Externals\Imgui\imgui_internal.h" />
+    <ClInclude Include="Externals\Imgui\imstb_rectpack.h" />
+    <ClInclude Include="Externals\Imgui\imstb_textedit.h" />
+    <ClInclude Include="Externals\Imgui\imstb_truetype.h" />
+    <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="MathUtilty.h" />
     <ClInclude Include="MatrixMath.h" />
@@ -124,6 +143,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Externals\Imgui\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

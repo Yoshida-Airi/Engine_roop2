@@ -2,6 +2,7 @@
 #include"WinApp.h"
 #include"DirectXCommon.h"
 #include"DebugHelper.h"
+#include"ImGuiManager.h"
 
 #include"Triangle.h"
 
@@ -13,10 +14,12 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	WinApp* winApp = WinApp::GetInstance();
 	winApp->Initialize();
 
-
 	//DirectXの初期化
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 	dxCommon->Initialize();
+
+	ImGuiManager* imgui = ImGuiManager::GetInstance();
+	imgui->Initialize();
 
 	Triangle* triangle = new Triangle;
 	triangle->Initialize();
@@ -35,15 +38,20 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	while (winApp->ProcessMessage() == 0)
 	{
 		/*--- ゲームループ  ---*/
+		
 		dxCommon->PreDraw();
-
+		imgui->Begin();
+		
 		triangle2->Update();
 
 		triangle->Draw();
 		triangle2->Draw();
 
+		imgui->End();
+		imgui->Draw();
+		
 		dxCommon->PostDraw();
-
+	
 	}
 
 	delete triangle;
@@ -57,7 +65,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete dxCommon;
 	dxCommon = nullptr;
 
-
+	delete imgui;
 
 #ifdef _DEBUG
 	DebugHelper::ReportLiveObjects();

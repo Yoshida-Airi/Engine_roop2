@@ -36,10 +36,13 @@ public:
 	/// <returns>バッファ</returns>
 	Microsoft::WRL::ComPtr<ID3D12Resource>CreateBufferResource(size_t sizeInBytes);
 
-
+	Microsoft::WRL::ComPtr< ID3D12DescriptorHeap>CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
 	/*=======　　　ゲッター	=======*/
 	ID3D12Device* GetDevice()const { return device.Get(); };
 	ID3D12GraphicsCommandList* GetCommandList()const { return commandList.Get(); };
+	Microsoft::WRL::ComPtr< ID3D12DescriptorHeap> GetSRVDescriptorHeap()const { return srvDescriptorHeap.Get(); };
+	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; };
+	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc; };
 
 private:
 
@@ -163,7 +166,10 @@ private:
 	Microsoft::WRL::ComPtr < ID3D12CommandAllocator> commandAllocator = nullptr;	//コマンドアロケータ
 	Microsoft::WRL::ComPtr < ID3D12GraphicsCommandList> commandList = nullptr;	//コマンドリスト
 	Microsoft::WRL::ComPtr < IDXGISwapChain4> swapChain = nullptr;	//スワップチェーン
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> rtvDescriptorHeap = nullptr;		//RTV用のディスクリプタヒープ
+	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> srvDescriptorHeap = nullptr;		//SRV用のディスクリプタヒープ
+	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	Microsoft::WRL::ComPtr < ID3D12Resource> swapChainResources[2] = { nullptr };	//スワップチェーンリソース
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles[2];	//RTVを二つ作るのでディスクリプタを二つ用意
 	D3D12_RESOURCE_BARRIER barrier{};	//トランスフォームバリア
