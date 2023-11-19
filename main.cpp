@@ -18,8 +18,12 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 	dxCommon->Initialize();
 
-	/*ImGuiManager* imgui = ImGuiManager::GetInstance();
-	imgui->Initialize();*/
+#ifdef _DEBUG
+
+	ImGuiManager* imgui = ImGuiManager::GetInstance();
+	imgui->Initialize();
+#endif // _DEBUG
+
 
 	Triangle* triangle = new Triangle;
 	triangle->Initialize();
@@ -40,15 +44,26 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/*--- ゲームループ  ---*/
 		
 		dxCommon->PreDraw();
-		//imgui->Begin();
+#ifdef _DEBUG
+		imgui->Begin();
+#endif // _DEBUG
+
+	
 		
 		triangle2->Update();
 
 		triangle->Draw();
 		triangle2->Draw();
 
-		/*imgui->End();
-		imgui->Draw();*/
+		bool label = false;
+
+#ifdef _DEBUG
+		ImGui::ShowDemoWindow();
+		imgui->End();
+		imgui->Draw();
+#endif // _DEBUG
+
+	
 		
 		dxCommon->PostDraw();
 	
@@ -65,7 +80,11 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete dxCommon;
 	dxCommon = nullptr;
 
-	//delete imgui;
+#ifdef _DEBUG
+	delete imgui;
+#endif // _DEBUG
+
+
 
 #ifdef _DEBUG
 	DebugHelper::ReportLiveObjects();
