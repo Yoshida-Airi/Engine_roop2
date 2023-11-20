@@ -5,6 +5,7 @@
 #include"MathUtilty.h"
 #include<wrl.h>
 #include"Transform.h"
+#include"WorldTransform.h"
 
 
 struct  VertexData
@@ -33,7 +34,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="direct"></param>
-	void Initialize(const TriangleData& data);
+	void Initialize();
 
 	/// <summary>
 	/// 更新処理
@@ -57,6 +58,9 @@ public:
 	/// <param name="color"></param>
 	void SetMaterialData(const Vector4 color);
 
+
+	WorldTransform worldTransform;
+
 private://プライベート変数
 
 
@@ -75,7 +79,7 @@ private://プライベート変数
 
 	
 	Transform cameraTransform_;
-	Transform transform_;
+	
 
 private://プライベート関数
 

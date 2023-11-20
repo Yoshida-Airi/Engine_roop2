@@ -30,13 +30,10 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	imgui->Initialize();
 #endif // _DEBUG
 
-	TriangleData triangleData;
-	triangleData.vertex[0] = { -0.5f,-0.5f,0.0f,1.0f };
-	triangleData.vertex[1] = { 0.0f,0.5f,0.0f,1.0f };
-	triangleData.vertex[2] = { 0.5f,-0.5f,0.0f,1.0f };
-
+	
 	Triangle* triangle = new Triangle;
-	triangle->Initialize(triangleData);
+	triangle->Initialize();
+
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
