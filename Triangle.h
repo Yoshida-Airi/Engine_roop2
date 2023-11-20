@@ -6,10 +6,16 @@
 #include<wrl.h>
 #include"Transform.h"
 
+struct  VertexData
+{
+	Vector4 position;
+	Vector2 texcoord;
+};
+
 struct TriangleData
 {
-	Vector4 vertex[3];	//頂点座標
-	Vector4 color;		//色
+	Vector4 vertex[3];
+	Vector4 color;
 };
 
 class Triangle
@@ -54,14 +60,14 @@ private://プライベート変数
 
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
-	Vector4* vertexData_ = nullptr;	//頂点データ
 
-	Microsoft::WRL::ComPtr<ID3D12Resource>materialResource_;	//マテリアルリソース
-	Vector4* materialData = nullptr;
 
-	Microsoft::WRL::ComPtr<ID3D12Resource>wvpResource_;
-	Matrix4x4* wvpData = nullptr;
+	VertexData* vertexData_ = nullptr;
+	Vector4* materialData = nullptr;	//マテリアルデータ
+	Matrix4x4* wvpData = nullptr;	//wvpデータ
+
 	Transform transform;
+	Transform cameraTransform_;
 
 
 
@@ -81,5 +87,7 @@ private://プライベート関数
 	/// WVPバッファの生成
 	/// </summary>
 	void SetupWVPBuffer();
+
+
 
 };

@@ -17,11 +17,11 @@ void Triangle::Initialize()
 	SetupMaterialBuffer();
 	SetupWVPBuffer();
 
-	TriangleData initialData = {
-	   Vector4(-0.2f, -0.2f, 0.0f, 2.0f),
-	   Vector4(0.0f, 0.2f, 0.0f, 2.0f),
-	   Vector4(0.2f, -0.2f, 0.0f, 2.0f),
-	   Vector4(0.5f,0.0f,0.0f,1.0f)
+	cameraTransform_ =
+	{
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.1f,0.1f,0.0f}
 	};
 
 	transform =
@@ -31,9 +31,22 @@ void Triangle::Initialize()
 		{0.1f,0.1f,0.0f}
 	};
 
-	SetVertexData(initialData.vertex);
-	SetMaterialData(initialData.color);
+	SetupVertexBuffer();
+	SetupMaterialBuffer();
+	SetupWVPBuffer();
+
+	TriangleData initData;
+	initData.vertex[0] = { -0.5f,-0.5f,0.0f,1.0f };
+	initData.vertex[1] = { 0.0f,0.5f,0.0f,1.0f };
+	initData.vertex[2] = { 0.5f,-0.5f,0.0f,1.0f };
+
+	initData.color = { 1.0f,0.0f,0.0f,1.0f };
+
+	SetVertexData(initData.vertex);
+	SetMaterialData(initData.color);
+
 	*wvpData = MakeIdentity4x4();
+
 }
 
 void Triangle::Update()
@@ -41,6 +54,13 @@ void Triangle::Update()
 	transform.rotate.y += 0.03f;
 	Matrix4x4 worldMatrix = MakeAffinMatrix(transform.scale, transform.rotate, transform.translate);
 	*wvpData = worldMatrix;
+
+	Matrix4x4 cameraMatrix = MakeAffinMatrix(cameraTransform_.scale, cameraTransform_.rotate, cameraTransform_.translate);
+	Matrix4x4 viewMatrix = Inverse(cameraMatrix);
+	Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(1280) / float(720), 0.1f, 100.0f);
+	//WVPMatrixを作る
+	Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix, Multiply(viewMatrix, projectionMatrix));
+	*wvpData = worldViewProjectionMatrix;
 }
 
 void Triangle::Draw()
@@ -57,11 +77,18 @@ void Triangle::Draw()
 	dxCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
 
-void Triangle::SetVertexData(const Vector4 Data[3])
+void Triangle::SetVertexData(const Vector4 vertex[3])
 {
-	vertexData_[0] = Data[0];
-	vertexData_[1] = Data[1];
-	vertexData_[2] = Data[2];
+	//頂点の設定
+	vertexData_[0].position = vertex[0];
+	vertexData_[0].texcoord = { 0.0f,1.0f };
+
+	vertexData_[1].position = vertex[1];
+	vertexData_[1].texcoord = { 0.5f,0.0f };
+
+	vertexData_[2].position = vertex[2];
+	vertexData_[2].texcoord = { 1.0f,1.0f };
+
 }
 
 void Triangle::SetMaterialData(const Vector4 color)
@@ -97,7 +124,9 @@ void Triangle::SetupMaterialBuffer()
 void Triangle::SetupWVPBuffer()
 {
 	wvpResource_ = dxCommon_->CreateBufferResource(sizeof(Matrix4x4));
+	//書き込むためのアドレスを取得
 	wvpResource_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData));
+	//単位行列を書き込んでおく
 	*wvpData = MakeIdentity4x4();
 }
 
