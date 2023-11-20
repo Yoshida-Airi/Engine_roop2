@@ -185,7 +185,7 @@ private:
 	IDxcIncludeHandler* includeHandler = nullptr;
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 	D3D12_BLEND_DESC blendDesc{};
-	D3D12_INPUT_ELEMENT_DESC inputElementDescs[1] = {};
+	D3D12_INPUT_ELEMENT_DESC inputElementDescs[2] = {};
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
 	Microsoft::WRL::ComPtr< ID3D12RootSignature> rootSignature = nullptr;	//バイナリを元に生成
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};	//DepthStensilStateの設定
