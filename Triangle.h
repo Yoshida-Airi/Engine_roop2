@@ -45,6 +45,17 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 頂点データの変更
+	/// </summary>
+	/// <param name="Data">トライアングルデータ</param>
+	void SetVertexData(const Vector4 vertex[3]);
+
+	/// <summary>
+	/// マテリアルデータの設定
+	/// </summary>
+	/// <param name="color"></param>
+	void SetMaterialData(const Vector4 color);
 
 private://プライベート変数
 
@@ -71,17 +82,15 @@ private://プライベート関数
 	/// <summary>
 	/// 頂点のバッファの取得
 	/// </summary>
-	void VertexBuffer();
+	void SetupVertexBuffer();
 
 	/// <summary>
-	/// マテリアルのバッファの取得
+	/// マテリアルバッファの生成
 	/// </summary>
-	void MaterialBuffer();
+	void SetupMaterialBuffer();
 
 	/// <summary>
-	/// wvpのバッファの取得
+	/// WVPバッファの生成
 	/// </summary>
-	void WvpBuffer();
-
-
+	void SetupWVPBuffer();
 };

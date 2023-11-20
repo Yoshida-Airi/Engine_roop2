@@ -31,26 +31,19 @@ void Triangle::Initialize(const TriangleData& data)
 		{0.1f,0.1f,0.0f}
 	};
 
-	VertexBuffer();
+	SetupVertexBuffer();
+	SetupMaterialBuffer();
+	SetupWVPBuffer();
 
-	MaterialBuffer();
-	WvpBuffer();
+	TriangleData initData;
+	initData.vertex[0] = { -0.5f,-0.5f,0.0f,1.0f };
+	initData.vertex[1] = { 0.0f,0.5f,0.0f,1.0f };
+	initData.vertex[2] = { 0.5f,-0.5f,0.0f,1.0f };
 
+	initData.color = { 1.0f,0.0f,0.0f,1.0f };
 
-
-	//頂点の設定
-	vertexData_[0].position = data.vertex[0];
-	vertexData_[0].texcoord = { 0.0f,1.0f };
-
-	vertexData_[1].position = data.vertex[1];
-	vertexData_[1].texcoord = { 0.5f,0.0f };
-
-	vertexData_[2].position = data.vertex[2];
-	vertexData_[2].texcoord = { 1.0f,1.0f };
-
-	//色の設定
-	materialData_[0] = { 1.0f,0.0f,0.0f,1.0f };
-
+	SetVertexData(initData.vertex);
+	SetMaterialData(initData.color);
 
 	*wvpData_ = MakeIdentity4x4();
 
@@ -87,11 +80,30 @@ void Triangle::Draw()
 	dxCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
 
+void Triangle::SetVertexData(const Vector4 vertex[3])
+{
+	//頂点の設定
+	vertexData_[0].position = vertex[0];
+	vertexData_[0].texcoord = { 0.0f,1.0f };
+
+	vertexData_[1].position = vertex[1];
+	vertexData_[1].texcoord = { 0.5f,0.0f };
+
+	vertexData_[2].position = vertex[2];
+	vertexData_[2].texcoord = { 1.0f,1.0f };
+
+}
+
+void Triangle::SetMaterialData(const Vector4 color)
+{
+	materialData_[0] = color;
+}
+
 /*=====================================*/
 /* 　　　　   プライベートメソッド　　　    */
 /*=====================================*/
 
-void Triangle::VertexBuffer()
+void Triangle::SetupVertexBuffer()
 {
 	vertexResource_ = dxCommon_->CreateBufferResource(sizeof(VertexData) * 3);	//頂点用のデータ
 
@@ -105,7 +117,7 @@ void Triangle::VertexBuffer()
 	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
 }
 
-void Triangle::MaterialBuffer()
+void Triangle::SetupMaterialBuffer()
 {
 	materialResource_ = dxCommon_->CreateBufferResource(sizeof(Vector4));	//マテリアル用のデータ
 
@@ -113,7 +125,7 @@ void Triangle::MaterialBuffer()
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 }
 
-void Triangle::WvpBuffer()
+void Triangle::SetupWVPBuffer()
 {
 	//wvp用のリソースを作る。Matrix4x4　1つ分のサイズを用意する
 	wvpResource_ = dxCommon_->CreateBufferResource(sizeof(Matrix4x4));
