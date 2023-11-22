@@ -73,7 +73,7 @@ private:
 	WNDCLASS wc_{};			//ウィンドウクラスの設定
 	static WinApp* instance;	//シングルトン
 
-	std::wstring windowTitle_ = L"AobaraEngine";	//タイトル
+	std::wstring windowTitle_ = L"CG2";	//タイトル
 
 };
 

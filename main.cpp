@@ -6,6 +6,7 @@
 #include"TextureManager.h"
 
 #include"Triangle.h"
+#include"Camera.h"
 
 //Windowsアプリでのエントリーポイント(main関数)
 int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -24,6 +25,9 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	texture->CreateTexture();
 
+	Camera* camera = new Camera;
+	camera->Initialize();
+
 #ifdef _DEBUG
 
 	ImGuiManager* imgui = ImGuiManager::GetInstance();
@@ -34,6 +38,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Triangle* triangle = new Triangle;
 	triangle->Initialize();
 
+	
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
@@ -47,8 +52,9 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	
 		triangle->Update();
-		
-		triangle->Draw();
+		triangle->worldTransform.rotation_.y += 0.03f;
+
+		triangle->Draw(camera);
 		
 		bool label = false;
 
@@ -59,7 +65,6 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #endif // _DEBUG
 
 	
-		
 		dxCommon->PostDraw();
 	
 	}
@@ -74,6 +79,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//DirectXの解放
 	delete dxCommon;
 	dxCommon = nullptr;
+
+	delete camera;
 
 #ifdef _DEBUG
 	delete imgui;

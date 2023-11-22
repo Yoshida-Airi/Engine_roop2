@@ -7,6 +7,8 @@
 #include"Transform.h"
 #include"WorldTransform.h"
 
+#include"Camera.h"
+
 
 struct  VertexData
 {
@@ -25,39 +27,17 @@ class Triangle
 {
 public:
 
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
 	~Triangle();
-
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	/// <param name="direct"></param>
 	void Initialize();
-
-	/// <summary>
-	/// 更新処理
-	/// </summary>
 	void Update();
+	void Draw(Camera* camera);
 
-	/// <summary>
-	/// 描画
-	/// </summary>
-	void Draw();
-
-	/// <summary>
-	/// 頂点データの変更
-	/// </summary>
-	/// <param name="Data">トライアングルデータ</param>
-	void SetVertexData(const Vector4 vertex[3]);
 
 	/// <summary>
 	/// マテリアルデータの設定
 	/// </summary>
 	/// <param name="color"></param>
 	void SetMaterialData(const Vector4 color);
-
 
 	WorldTransform worldTransform;
 
@@ -75,9 +55,8 @@ private://プライベート変数
 
 	VertexData* vertexData_ = nullptr;
 	Vector4* materialData_ = nullptr;	//マテリアルデータ
-	Matrix4x4* wvpData_ = nullptr;	//wvpデータ
+	//Matrix4x4* wvpData_ = nullptr;	//wvpデータ
 
-	
 	Transform cameraTransform_;
 	
 
@@ -93,8 +72,8 @@ private://プライベート関数
 	/// </summary>
 	void SetupMaterialBuffer();
 
-	/// <summary>
-	/// WVPバッファの生成
-	/// </summary>
-	void SetupWVPBuffer();
+	///// <summary>
+	///// WVPバッファの生成
+	///// </summary>
+	//void SetupWVPBuffer();
 };

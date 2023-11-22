@@ -34,7 +34,7 @@ void WorldTransform::TransferMatrix()
 	constMap->matWorld = matWorld_;
 }
 
-void WorldTransform::UpdateMatrix()
+void WorldTransform::UpdateWorldMatrix()
 {
 	Matrix4x4 AffineMatrix = MakeAffinMatrix(scale_, rotation_, translation_);
 	matWorld_ = AffineMatrix;
