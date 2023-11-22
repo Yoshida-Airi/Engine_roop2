@@ -100,4 +100,7 @@
     <FxCompile Include="Object3D.VS.hlsl" />
     <FxCompile Include="Object3D.PS.hlsl" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Object3D.hlsli" />
+  </ItemGroup>
 </Project>
