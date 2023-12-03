@@ -36,7 +36,7 @@ public:
 	/// <returns>トリガーかどうか</returns>
 	bool TriggerKey(BYTE keyNumber);
 
-	bool GetJoystickState(int32_t stickNo, XINPUT_STATE& state);
+	/*bool GetJoystickState(int32_t stickNo, XINPUT_STATE& state);*/
 
 private:
 

@@ -6,6 +6,7 @@
 #include"TextureManager.h"
 
 #include"Triangle.h"
+#include"Input.h"
 
 //Windowsアプリでのエントリーポイント(main関数)
 int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -22,6 +23,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//TextureManager* texture = TextureManager::GetInstance();
 	//texture->Initialize();
 
+	Input* input = Input::GetInstance();
+	input->Initialize();
 
 #ifdef _DEBUG
 
@@ -47,11 +50,14 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/*--- ゲームループ  ---*/
 		
 		dxCommon->PreDraw();
+		input->Update();
 #ifdef _DEBUG
 		imgui->Begin();
 #endif // _DEBUG
 
 	
+		input->TriggerKey(DIK_0);
+
 		triangle->Update();
 	
 
@@ -84,6 +90,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//delete texture;
 	//texture = nullptr;
 
+	delete input;
+	input = nullptr;
 	
 #ifdef _DEBUG
 	delete imgui;
