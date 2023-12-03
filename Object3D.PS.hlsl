@@ -13,6 +13,6 @@ struct PixcelShaderOutput
 PixcelShaderOutput main()
 {
     PixcelShaderOutput output;
-    output.color = gMaterial.color;
-    return output;
-}
+    output.color = float32_t4(1.0, 1.0, 1.0, 1.0);
+        return output;
+    }

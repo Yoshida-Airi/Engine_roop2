@@ -19,8 +19,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 	dxCommon->Initialize();
 
-	TextureManager* texture = TextureManager::GetInstance();
-	texture->Initialize();
+	//TextureManager* texture = TextureManager::GetInstance();
+	//texture->Initialize();
 
 
 #ifdef _DEBUG
@@ -29,7 +29,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	imgui->Initialize();
 #endif // _DEBUG
 
-	texture->CreateTexture();
+	//texture->CreateTexture();
 
 	TriangleData triangleData;
 	triangleData.vertex[0] = { -0.5f,-0.5f,0.0f,1.0f };
@@ -81,8 +81,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete dxCommon;
 	dxCommon = nullptr;
 
-	delete texture;
-	texture = nullptr;
+	//delete texture;
+	//texture = nullptr;
 
 	
 #ifdef _DEBUG
