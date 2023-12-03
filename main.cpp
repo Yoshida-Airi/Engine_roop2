@@ -2,48 +2,76 @@
 #include"WinApp.h"
 #include"DirectXCommon.h"
 #include"DebugHelper.h"
+#include"ImGuiManager.h"
+#include"TextureManager.h"
 
 #include"Triangle.h"
 
 //Windowsアプリでのエントリーポイント(main関数)
 int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
-#pragma region 基盤システムの初期化
+
 	//WindowAPIの初期化
 	WinApp* winApp = WinApp::GetInstance();
 	winApp->Initialize();
-	
 
 	//DirectXの初期化
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 	dxCommon->Initialize();
-#pragma endregion
 
-#pragma region シーンの初期化
+	//TextureManager* texture = TextureManager::GetInstance();
+	//texture->Initialize();
 
 
-#pragma endregion シーンの初期化
+#ifdef _DEBUG
 
-#pragma region 基盤システムの更新
+	ImGuiManager* imgui = ImGuiManager::GetInstance();
+	imgui->Initialize();
+#endif // _DEBUG
+
+	//texture->CreateTexture();
+
+	TriangleData triangleData;
+	triangleData.vertex[0] = { -0.5f,-0.5f,0.0f,1.0f };
+	triangleData.vertex[1] = { 0.0f,0.5f,0.0f,1.0f };
+	triangleData.vertex[2] = { 0.5f,-0.5f,0.0f,1.0f };
+
+
+	Triangle* triangle = new Triangle;
+	triangle->Initialize(triangleData);
+
+	
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
 	{
 		/*--- ゲームループ  ---*/
+		
 		dxCommon->PreDraw();
+#ifdef _DEBUG
+		imgui->Begin();
+#endif // _DEBUG
+
+	
+		triangle->Update();
+	
+
+		triangle->Draw();
+
+
+#ifdef _DEBUG
+		ImGui::ShowDemoWindow();
+		imgui->End();
+		imgui->Draw();
+#endif // _DEBUG
+
+	
+		
 		dxCommon->PostDraw();
-#pragma endregion 
-
-#pragma region シーンの更新
-
-#pragma endregion 
-
+	
 	}
 
-#pragma region シーンの終了
-
-#pragma endregion
-
-#pragma region 基盤システムの終了
+	delete triangle;
+	
 
 	//WindowAPIの解放
 	delete winApp;
@@ -53,11 +81,21 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete dxCommon;
 	dxCommon = nullptr;
 
-#pragma endregion 
+	//delete texture;
+	//texture = nullptr;
+
+	
+#ifdef _DEBUG
+	delete imgui;
+#endif // _DEBUG
 
 
 
+#ifdef _DEBUG
 	DebugHelper::ReportLiveObjects();
+#endif // _DEBUG
+
+
 
 	return 0;
 }

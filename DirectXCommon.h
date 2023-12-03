@@ -36,10 +36,13 @@ public:
 	/// <returns>バッファ</returns>
 	Microsoft::WRL::ComPtr<ID3D12Resource>CreateBufferResource(size_t sizeInBytes);
 
-
+	Microsoft::WRL::ComPtr< ID3D12DescriptorHeap>CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
 	/*=======　　　ゲッター	=======*/
 	ID3D12Device* GetDevice()const { return device.Get(); };
 	ID3D12GraphicsCommandList* GetCommandList()const { return commandList.Get(); };
+	Microsoft::WRL::ComPtr< ID3D12DescriptorHeap> GetSRVDescriptorHeap()const { return srvDescriptorHeap.Get(); };
+	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; };
+	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc; };
 
 private:
 
@@ -98,6 +101,59 @@ private:
 	/// </summary>
 	void UpdateFixFPS();
 
+	/// <summary>
+	/// DXCの初期化
+	/// </summary>
+	void InitializeDXCCompiler();
+
+	/// <summary>
+	/// PSOの設定
+	/// </summary>
+	void SetupPSO();
+
+	/// <summary>
+	/// ルートシグネチャの生成
+	/// </summary>
+	void SetupRootSignature();
+
+	/// <summary>
+	/// インプットレイアウトの生成
+	/// </summary>
+	void SetupInputLayout();
+
+	/// <summary>
+	/// ブレンドステートの設定
+	/// </summary>
+	void SetupBlendState();
+
+	/// <summary>
+	/// ラスタライザ－ステートの生成
+	/// </summary>
+	void SetupRasterrizerState();
+
+	/// <summary>
+	/// シェーダーのコンパイル
+	/// </summary>
+	void SetupShader();
+
+	/// <summary>
+	/// コンパイルシェーダー
+	/// </summary>
+	/// <param name="filePath">シェーダーフィいる名</param>
+	/// <param name="profile">プロファイル</param>
+	/// <param name="dxcUtils"></param>
+	/// <param name="dxcCompiler"></param>
+	/// <param name="incledeHandler"></param>
+	/// <returns></returns>
+	IDxcBlob* CompileShader
+	(
+		const std::wstring& filePath,
+		const wchar_t* profile,
+		IDxcUtils* dxcUtils,
+		IDxcCompiler3* dxcCompiler,
+		IDxcIncludeHandler* includeHandler
+	);
+
 private:
 	
 	WinApp* winApp_;
@@ -110,7 +166,10 @@ private:
 	Microsoft::WRL::ComPtr < ID3D12CommandAllocator> commandAllocator = nullptr;	//コマンドアロケータ
 	Microsoft::WRL::ComPtr < ID3D12GraphicsCommandList> commandList = nullptr;	//コマンドリスト
 	Microsoft::WRL::ComPtr < IDXGISwapChain4> swapChain = nullptr;	//スワップチェーン
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> rtvDescriptorHeap = nullptr;		//RTV用のディスクリプタヒープ
+	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> srvDescriptorHeap = nullptr;		//SRV用のディスクリプタヒープ
+	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	Microsoft::WRL::ComPtr < ID3D12Resource> swapChainResources[2] = { nullptr };	//スワップチェーンリソース
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles[2];	//RTVを二つ作るのでディスクリプタを二つ用意
 	D3D12_RESOURCE_BARRIER barrier{};	//トランスフォームバリア
@@ -126,12 +185,18 @@ private:
 	IDxcIncludeHandler* includeHandler = nullptr;
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 	D3D12_BLEND_DESC blendDesc{};
+	D3D12_INPUT_ELEMENT_DESC inputElementDescs[2] = {};
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
 	Microsoft::WRL::ComPtr< ID3D12RootSignature> rootSignature = nullptr;	//バイナリを元に生成
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};	//DepthStensilStateの設定
 
 	Microsoft::WRL::ComPtr< IDxcBlob> vertexShaderBlob;
 	Microsoft::WRL::ComPtr< IDxcBlob> pixelShaderBlob;
+
+	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
+
+	D3D12_VIEWPORT viewport{};	//ビューポート
+	D3D12_RECT scissorRect{};	//シザー矩形
 
 	//静的メンバ変数の宣言と初期化
 	static DirectXCommon* instance;
