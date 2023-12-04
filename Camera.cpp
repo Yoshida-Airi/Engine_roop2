@@ -57,6 +57,13 @@ void Camera::cameraDebug()
 {
 	ImGui::Begin("camera");
 
+	float translate[3] = { transform.translate.x,transform.translate.y,transform.translate.z };
+	ImGui::SliderFloat3("transform", translate, -10, 0);
+
+	transform.translate = { translate[0],translate[1],translate[2] };
+
+	UpdateMatrix();
+	UpdateViewMatrix();
 
 	ImGui::End();
 }

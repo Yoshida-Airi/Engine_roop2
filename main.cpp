@@ -37,7 +37,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	Triangle* triangle = new Triangle;
 	triangle->Initialize();
-
+	Triangle* triangle2 = new Triangle;
+	triangle2->Initialize();
 	
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -50,11 +51,17 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		imgui->Begin();
 #endif // _DEBUG
 
+		camera->cameraDebug();
 	
 		triangle->Update();
 		triangle->worldTransform.rotation_.y += 0.03f;
 
+		triangle2->Update();
+		triangle->worldTransform.translation_.x = 3.0f;
+		triangle2->worldTransform.rotation_.y += 0.03f;
+
 		triangle->Draw(camera);
+		triangle2->Draw(camera);
 		
 		bool label = false;
 
@@ -70,6 +77,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 
 	delete triangle;
+	delete triangle2;
 
 
 	//WindowAPIの解放
