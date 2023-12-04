@@ -39,6 +39,11 @@ public:
 	/// <param name="color"></param>
 	void SetMaterialData(const Vector4 color);
 
+	void SetTextureSrvHandleGPU(D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU)
+	{
+		textureSrvHandleGPU_ = textureSrvHandleGPU;
+	}
+
 	WorldTransform worldTransform;
 
 private://プライベート変数
@@ -52,6 +57,7 @@ private://プライベート変数
 	Microsoft::WRL::ComPtr< ID3D12Resource> wvpResource_;	//wvpリソース
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
 
 	VertexData* vertexData_ = nullptr;
 	Vector4* materialData_ = nullptr;	//マテリアルデータ

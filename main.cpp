@@ -20,10 +20,9 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 	dxCommon->Initialize();
 
-	TextureManager* texture = TextureManager::GetInstance();
+	TextureManager* texture = new TextureManager;
 	texture->Initialize();
 
-	texture->CreateTexture();
 
 	Camera* camera = new Camera;
 	camera->Initialize();
@@ -64,6 +63,10 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		triangle->worldTransform.translation_.x = 3.0f;
 		triangle2->worldTransform.rotation_.y += 0.03f;
 
+
+		triangle->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
+		triangle2->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
+
 		triangle->Draw(camera);
 		triangle2->Draw(camera);
 		
@@ -91,6 +94,9 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//DirectXの解放
 	delete dxCommon;
 	dxCommon = nullptr;
+
+	delete texture;
+	texture = nullptr;
 
 	delete camera;
 
