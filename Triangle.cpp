@@ -12,15 +12,15 @@ Triangle::~Triangle()
 
 }
 
-void Triangle::Initialize( const TriangleData& data)
+void Triangle::Initialize()
 {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	worldTransform.Initialize();
 
 
-	SetupVertexBuffer();
-	SetupMaterialBuffer();
+	VertexBuffer();
+	MaterialBuffer();
 
 	TriangleData initData;
 	initData.vertex[0] = { -0.5f,-0.5f,0.0f,1.0f };
@@ -38,16 +38,12 @@ void Triangle::Initialize( const TriangleData& data)
 
 	vertexData_[2].position = initData.vertex[2];
 	vertexData_[2].texcoord = { 1.0f,1.0f };
-	
+
 	SetMaterialData(initData.color);
-
-
 }
 
 void Triangle::Update()
 {
-
-	
 	worldTransform.UpdateWorldMatrix();
 
 }
@@ -106,4 +102,3 @@ void Triangle::MaterialBuffer()
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 
 }
-

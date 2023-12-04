@@ -126,6 +126,3 @@ void TextureManager::CreateShaderResourceView(const DirectX::TexMetadata& metada
 }
 
 
-//静的メンバ変数の宣言と初期化
-TextureManager* TextureManager::instance = NULL;
-

@@ -16,11 +16,6 @@ struct  VertexData
 	Vector2 texcoord;
 };
 
-struct  VertexData
-{
-	Vector4 position;
-	Vector2 texcoord;
-};
 
 struct TriangleData
 {
@@ -40,7 +35,6 @@ public:
 	void Update();
 	void Draw(Camera* camera);
 
-
 	/// <summary>
 	/// マテリアルデータの設定
 	/// </summary>
@@ -54,20 +48,7 @@ public:
 
 	WorldTransform worldTransform;
 
-private://プライベート変数
 
-
-
-	/// <summary>
-	/// 描画
-	/// </summary>
-	/// <param name="a">左下</param>
-	/// <param name="b">上</param>
-	/// <param name="c">右下</param>
-	void Draw();
-
-	// Setter
-	void SetTextureSrvHandleGPU(D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
 private://プライベート変数
 
 
@@ -102,6 +83,9 @@ private://プライベート関数
 	/// マテリアルのバッファの取得
 	/// </summary>
 	void MaterialBuffer();
+
+
+
 
 };
 

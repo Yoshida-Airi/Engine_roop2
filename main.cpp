@@ -32,9 +32,6 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Camera* camera = new Camera;
 	camera->Initialize();
 
-	//TextureManager* texture = TextureManager::GetInstance();
-	//texture->Initialize();
-
 	Input* input = Input::GetInstance();
 	input->Initialize();
 
@@ -52,8 +49,6 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Triangle* triangle2 = new Triangle;
 	triangle2->Initialize();
 	
-	Triangle* triangle = new Triangle;
-	triangle->Initialize(triangleData);
 
 	
 	// ウィンドウの×ボタンが押されるまでループ
@@ -77,7 +72,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		triangle->worldTransform.rotation_.y += 0.03f;
 
 		triangle2->Update();
-		triangle->worldTransform.translation_.x = 3.0f;
+		triangle->worldTransform.translation_.x = 2.0f;
 		triangle2->worldTransform.rotation_.y += 0.03f;
 
 
@@ -86,15 +81,11 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		triangle->Draw(camera);
 		triangle2->Draw(camera);
-		
-		bool label = false;
-
+	
 		input->TriggerKey(DIK_0);
 
 		triangle->Update();
 	
-
-		triangle->Draw();
 
 
 
@@ -110,6 +101,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 
 	delete triangle;
+	delete triangle2;
 	
 
 
@@ -128,8 +120,6 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete camera;
 
 
-	//delete texture;
-	//texture = nullptr;
 
 	delete input;
 	input = nullptr;
