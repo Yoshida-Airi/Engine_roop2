@@ -56,7 +56,6 @@ void ImGuiManager::End()
 
 void ImGuiManager::Draw()
 {
-	dxCommon_->GetCommandList()->SetDescriptorHeaps(1, srvDescriptorHeap_.GetAddressOf());
 	//実際のcommandListのImGuiの描画コマンド
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), dxCommon_->GetCommandList());
 }
