@@ -51,7 +51,11 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		imgui->Begin();
 #endif // _DEBUG
 
+#ifdef _DEBUG
 		camera->cameraDebug();
+#endif // _DEBUG
+
+	
 	
 		triangle->Update();
 		triangle->worldTransform.rotation_.y += 0.03f;
