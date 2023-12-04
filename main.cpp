@@ -6,7 +6,11 @@
 #include"TextureManager.h"
 
 #include"Triangle.h"
+
 #include"Camera.h"
+
+#include"Input.h"
+
 
 //Windowsアプリでのエントリーポイント(main関数)
 int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -20,6 +24,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 	dxCommon->Initialize();
 
+
 	TextureManager* texture = new TextureManager;
 	texture->Initialize();
 
@@ -27,11 +32,19 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Camera* camera = new Camera;
 	camera->Initialize();
 
+	//TextureManager* texture = TextureManager::GetInstance();
+	//texture->Initialize();
+
+	Input* input = Input::GetInstance();
+	input->Initialize();
+
+
 #ifdef _DEBUG
 
 	ImGuiManager* imgui = ImGuiManager::GetInstance();
 	imgui->Initialize();
 #endif // _DEBUG
+
 
 	
 	Triangle* triangle = new Triangle;
@@ -39,13 +52,17 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Triangle* triangle2 = new Triangle;
 	triangle2->Initialize();
 	
+	Triangle* triangle = new Triangle;
+	triangle->Initialize(triangleData);
 
+	
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
 	{
 		/*--- ゲームループ  ---*/
 		
 		dxCommon->PreDraw();
+		input->Update();
 #ifdef _DEBUG
 		imgui->Begin();
 #endif // _DEBUG
@@ -72,6 +89,15 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		
 		bool label = false;
 
+		input->TriggerKey(DIK_0);
+
+		triangle->Update();
+	
+
+		triangle->Draw();
+
+
+
 #ifdef _DEBUG
 		ImGui::ShowDemoWindow();
 		imgui->End();
@@ -84,7 +110,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 
 	delete triangle;
-	delete triangle2;
+	
 
 
 	//WindowAPIの解放
@@ -95,10 +121,19 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete dxCommon;
 	dxCommon = nullptr;
 
+
 	delete texture;
 	texture = nullptr;
 
 	delete camera;
+
+
+	//delete texture;
+	//texture = nullptr;
+
+	delete input;
+	input = nullptr;
+	
 
 #ifdef _DEBUG
 	delete imgui;

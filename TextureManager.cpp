@@ -31,15 +31,18 @@ void TextureManager::Update()
 DirectX::ScratchImage TextureManager::LoadTexture(const std::string& filePath)
 {
 	//テクスチャファイルを読んでプログラムで扱えるようにする
+
 	DirectX::ScratchImage image{};
 	std::wstring filePathW = ConvertString(filePath);
 	HRESULT hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
 	assert(SUCCEEDED(hr));
 
-	//ミップマップの作成
+	//ミップマップの生成
+
 	DirectX::ScratchImage mipImages{};
 	hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 0, mipImages);
 	assert(SUCCEEDED(hr));
+
 
 	//ミップマップ付きのデータを返す
 	return mipImages;
@@ -75,6 +78,7 @@ ID3D12Resource* TextureManager::CreateTextureResource(ID3D12Device* device, cons
 		D3D12_RESOURCE_STATE_GENERIC_READ,	//初回のResourceState。Textureは基本読むだけ
 		nullptr,	//Clear最適化。使わないのでNULL
 		IID_PPV_ARGS(&resource));	//作成するResourceポインタへのポインタ
+
 	assert(SUCCEEDED(hr));
 
 	return resource;
@@ -96,6 +100,7 @@ void TextureManager::UploadTextureData(ID3D12Resource* texture, const DirectX::S
 			img->pixels,	//元データアドレス
 			UINT(img->rowPitch),	//1ラインサイズ
 			UINT(img->slicePitch)	//1枚サイズ
+
 		);
 		assert(SUCCEEDED(hr));
 	}
@@ -119,3 +124,8 @@ void TextureManager::CreateShaderResourceView(const DirectX::TexMetadata& metada
 	dxCommon_->GetDevice()->CreateShaderResourceView(textureResource_, &srvDesc_, textureSrvHandleCPU_);
 
 }
+
+
+//静的メンバ変数の宣言と初期化
+TextureManager* TextureManager::instance = NULL;
+

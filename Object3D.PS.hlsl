@@ -17,6 +17,7 @@ struct PixcelShaderOutput
 PixcelShaderOutput main(VertexShaderOutput input) 
 {
     PixcelShaderOutput output;
+
     float32_t4 textureColor = gTexture.Sample(gSampler, input.texcoord);
     output.color = gMaterial.color * textureColor;
     return output;

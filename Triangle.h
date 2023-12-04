@@ -16,6 +16,12 @@ struct  VertexData
 	Vector2 texcoord;
 };
 
+struct  VertexData
+{
+	Vector4 position;
+	Vector2 texcoord;
+};
+
 struct TriangleData
 {
 	Vector4 vertex[3];
@@ -28,7 +34,9 @@ class Triangle
 public:
 
 	~Triangle();
+
 	void Initialize();
+
 	void Update();
 	void Draw(Camera* camera);
 
@@ -49,7 +57,23 @@ public:
 private://プライベート変数
 
 
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="a">左下</param>
+	/// <param name="b">上</param>
+	/// <param name="c">右下</param>
+	void Draw();
+
+	// Setter
+	void SetTextureSrvHandleGPU(D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU);
+private://プライベート変数
+
+
 	DirectXCommon* dxCommon_;
+	
+
 
 
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
@@ -66,20 +90,18 @@ private://プライベート変数
 	Transform cameraTransform_;
 	
 
+
 private://プライベート関数
 
 	/// <summary>
 	/// 頂点のバッファの取得
 	/// </summary>
-	void SetupVertexBuffer();
+	void VertexBuffer();
 
 	/// <summary>
-	/// マテリアルバッファの生成
+	/// マテリアルのバッファの取得
 	/// </summary>
-	void SetupMaterialBuffer();
+	void MaterialBuffer();
 
-	///// <summary>
-	///// WVPバッファの生成
-	///// </summary>
-	//void SetupWVPBuffer();
 };
+

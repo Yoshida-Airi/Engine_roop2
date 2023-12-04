@@ -1,4 +1,5 @@
 #include "Triangle.h"
+#include"TextureManager.h"
 
 /*=====================================*/
 /* 　　　　   パブリックメソッド　　　	　 */
@@ -8,14 +9,15 @@ Triangle::~Triangle()
 {
 	vertexResource_->Release();
 	materialResource_->Release();
-	//wvpResource_->Release();
+
 }
 
-void Triangle::Initialize()
+void Triangle::Initialize( const TriangleData& data)
 {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	worldTransform.Initialize();
+
 
 	SetupVertexBuffer();
 	SetupMaterialBuffer();
@@ -39,10 +41,12 @@ void Triangle::Initialize()
 	
 	SetMaterialData(initData.color);
 
+
 }
 
 void Triangle::Update()
 {
+
 	
 	worldTransform.UpdateWorldMatrix();
 
@@ -50,6 +54,7 @@ void Triangle::Update()
 
 
 void Triangle::Draw(Camera* camera)
+
 {
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
@@ -63,6 +68,7 @@ void Triangle::Draw(Camera* camera)
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->GetConstBuffer()->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, textureSrvHandleGPU_);
+
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
@@ -73,11 +79,12 @@ void Triangle::SetMaterialData(const Vector4 color)
 	materialData_[0] = color;
 }
 
+
 /*=====================================*/
 /* 　　　　   プライベートメソッド　　　    */
 /*=====================================*/
 
-void Triangle::SetupVertexBuffer()
+void Triangle::VertexBuffer()
 {
 	vertexResource_ = dxCommon_->CreateBufferResource(sizeof(VertexData) * 3);	//頂点用のデータ
 
@@ -91,11 +98,12 @@ void Triangle::SetupVertexBuffer()
 	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
 }
 
-void Triangle::SetupMaterialBuffer()
+void Triangle::MaterialBuffer()
 {
 	materialResource_ = dxCommon_->CreateBufferResource(sizeof(Vector4));	//マテリアル用のデータ
 
 	//書き込むためのアドレスを取得
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
+
 }
 

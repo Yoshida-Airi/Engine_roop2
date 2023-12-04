@@ -1,4 +1,5 @@
 #pragma once
+
 #include"externals/DirectXTex/DirectXTex.h"
 #include"Logger.h"
 #include"DirectXCommon.h"
@@ -7,9 +8,11 @@
 
 #pragma comment(lib,"d3d12.lib")
 
+
 class TextureManager
 {
 public:
+
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
