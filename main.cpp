@@ -6,7 +6,11 @@
 #include"TextureManager.h"
 
 #include"Triangle.h"
+
+#include"Camera.h"
+
 #include"Input.h"
+
 
 //Windowsアプリでのエントリーポイント(main関数)
 int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -20,11 +24,20 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 	dxCommon->Initialize();
 
+
+	TextureManager* texture = new TextureManager;
+	texture->Initialize();
+
+
+	Camera* camera = new Camera;
+	camera->Initialize();
+
 	//TextureManager* texture = TextureManager::GetInstance();
 	//texture->Initialize();
 
 	Input* input = Input::GetInstance();
 	input->Initialize();
+
 
 #ifdef _DEBUG
 
@@ -32,14 +45,13 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	imgui->Initialize();
 #endif // _DEBUG
 
-	//texture->CreateTexture();
 
-	TriangleData triangleData;
-	triangleData.vertex[0] = { -0.5f,-0.5f,0.0f,1.0f };
-	triangleData.vertex[1] = { 0.0f,0.5f,0.0f,1.0f };
-	triangleData.vertex[2] = { 0.5f,-0.5f,0.0f,1.0f };
-
-
+	
+	Triangle* triangle = new Triangle;
+	triangle->Initialize();
+	Triangle* triangle2 = new Triangle;
+	triangle2->Initialize();
+	
 	Triangle* triangle = new Triangle;
 	triangle->Initialize(triangleData);
 
@@ -55,13 +67,35 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		imgui->Begin();
 #endif // _DEBUG
 
+#ifdef _DEBUG
+		camera->cameraDebug();
+#endif // _DEBUG
+
 	
+	
+		triangle->Update();
+		triangle->worldTransform.rotation_.y += 0.03f;
+
+		triangle2->Update();
+		triangle->worldTransform.translation_.x = 3.0f;
+		triangle2->worldTransform.rotation_.y += 0.03f;
+
+
+		triangle->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
+		triangle2->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
+
+		triangle->Draw(camera);
+		triangle2->Draw(camera);
+		
+		bool label = false;
+
 		input->TriggerKey(DIK_0);
 
 		triangle->Update();
 	
 
 		triangle->Draw();
+
 
 
 #ifdef _DEBUG
@@ -71,13 +105,13 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #endif // _DEBUG
 
 	
-		
 		dxCommon->PostDraw();
 	
 	}
 
 	delete triangle;
 	
+
 
 	//WindowAPIの解放
 	delete winApp;
@@ -87,12 +121,20 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete dxCommon;
 	dxCommon = nullptr;
 
+
+	delete texture;
+	texture = nullptr;
+
+	delete camera;
+
+
 	//delete texture;
 	//texture = nullptr;
 
 	delete input;
 	input = nullptr;
 	
+
 #ifdef _DEBUG
 	delete imgui;
 #endif // _DEBUG

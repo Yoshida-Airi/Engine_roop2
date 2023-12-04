@@ -9,54 +9,52 @@ Triangle::~Triangle()
 {
 	vertexResource_->Release();
 	materialResource_->Release();
-	wvpResource_->Release();
+
 }
 
 void Triangle::Initialize( const TriangleData& data)
 {
-	
+
 	dxCommon_ = DirectXCommon::GetInstance();
+	worldTransform.Initialize();
 
 
-	cameraTransform_ =
-	{
-		{1.0f, 1.0f, 1.0f },
-		{0.0f, 0.0f, 0.0f },
-		{0.0f, 0.0f, -5.0f}
-	};
+	SetupVertexBuffer();
+	SetupMaterialBuffer();
 
-	VertexBuffer();
+	TriangleData initData;
+	initData.vertex[0] = { -0.5f,-0.5f,0.0f,1.0f };
+	initData.vertex[1] = { 0.0f,0.5f,0.0f,1.0f };
+	initData.vertex[2] = { 0.5f,-0.5f,0.0f,1.0f };
 
-	MaterialBuffer();
-	WvpBuffer();
-
-
+	initData.color = { 1.0f,1.0f,1.0f,1.0f };
 
 	//頂点の設定
-	vertexData_[0].position = data.vertex[0];
+	vertexData_[0].position = initData.vertex[0];
 	vertexData_[0].texcoord = { 0.0f,1.0f };
 
-	vertexData_[1].position = data.vertex[1];
+	vertexData_[1].position = initData.vertex[1];
 	vertexData_[1].texcoord = { 0.5f,0.0f };
 
-	vertexData_[2].position = data.vertex[2];
+	vertexData_[2].position = initData.vertex[2];
 	vertexData_[2].texcoord = { 1.0f,1.0f };
+	
+	SetMaterialData(initData.color);
 
-	//色の設定
-	materialData_[0] = data.color;
-
-
-	*wvpData_ = MakeIdentity4x4();
 
 }
 
 void Triangle::Update()
 {
 
+	
+	worldTransform.UpdateWorldMatrix();
+
 }
 
 
-void Triangle::Draw()
+void Triangle::Draw(Camera* camera)
+
 {
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
@@ -65,10 +63,22 @@ void Triangle::Draw()
 	//マテリアルCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
 	//wvp用のCbufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform.constBuffer_->GetGPUVirtualAddress());
+	//カメラ用のCBufferの場所を設定
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->GetConstBuffer()->GetGPUVirtualAddress());
+	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, textureSrvHandleGPU_);
+
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
+
+
+void Triangle::SetMaterialData(const Vector4 color)
+{
+	materialData_[0] = color;
+}
+
 
 /*=====================================*/
 /* 　　　　   プライベートメソッド　　　    */
@@ -94,15 +104,6 @@ void Triangle::MaterialBuffer()
 
 	//書き込むためのアドレスを取得
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
-}
 
-void Triangle::WvpBuffer()
-{
-	//wvp用のリソースを作る。Matrix4x4　1つ分のサイズを用意する
-	wvpResource_ = dxCommon_->CreateBufferResource(sizeof(Matrix4x4));
-	//書き込むためのアドレスを取得
-	wvpResource_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData_));
-	//単位行列を書き込んでおく
-	*wvpData_ = MakeIdentity4x4();
 }
 
