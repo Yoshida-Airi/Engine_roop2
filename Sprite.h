@@ -4,23 +4,24 @@
 #include"VertexData.h"
 #include"MatrixMath.h"
 #include"MathUtilty.h"
-#include<wrl.h>
 #include"Transform.h"
 #include"WorldTransform.h"
+#include<wrl.h>
 
 #include"Camera.h"
 
 
-struct TriangleData
+struct SpriteData
 {
-	Vector4 vertex[3];
+	Vector4 vertex[6];
 	Vector4 color;
 };
 
-class Triangle
+
+class Sprite
 {
 public:
-	~Triangle();
+	~Sprite();
 
 	void Initialize();
 
@@ -44,20 +45,23 @@ public:
 private://プライベート変数
 
 	DirectXCommon* dxCommon_;
-	
+
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
-	Microsoft::WRL::ComPtr< ID3D12Resource> wvpResource_;	//wvpリソース
+	
+	Microsoft::WRL::ComPtr < ID3D12Resource> transformationmatrixResource = nullptr;	//トランスフォーメーションマトリックスリソース
+
+	Matrix4x4* transformationMatrixData = nullptr;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
 
 	VertexData* vertexData_ = nullptr;
 	Vector4* materialData_ = nullptr;	//マテリアルデータ
-	//Matrix4x4* wvpData_ = nullptr;	//wvpデータ
 
+	Transform transform_ = {};
 	Transform cameraTransform_;
-	
+
 private://プライベート関数
 
 	/// <summary>
@@ -69,5 +73,11 @@ private://プライベート関数
 	/// マテリアルのバッファの取得
 	/// </summary>
 	void MaterialBuffer();
+
+	/// <summary>
+	/// wvpのバッファの取得
+	/// </summary>
+	void WvpBuffer();
+
 };
 

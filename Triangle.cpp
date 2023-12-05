@@ -16,7 +16,6 @@ void Triangle::Initialize()
 	dxCommon_ = DirectXCommon::GetInstance();
 	worldTransform.Initialize();
 
-
 	VertexBuffer();
 	MaterialBuffer();
 
@@ -46,7 +45,6 @@ void Triangle::Update()
 
 }
 
-
 void Triangle::Draw(Camera* camera)
 
 {
@@ -66,12 +64,10 @@ void Triangle::Draw(Camera* camera)
 	dxCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
 
-
 void Triangle::SetMaterialData(const Vector4 color)
 {
 	materialData_[0] = color;
 }
-
 
 /*=====================================*/
 /* 　　　　   プライベートメソッド　　　    */

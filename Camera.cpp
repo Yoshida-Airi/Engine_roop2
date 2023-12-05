@@ -18,6 +18,8 @@ void Camera::Initialize()
 	CreateConstBuffer();
 	Map();
 	UpdateMatrix();
+
+	isUI = false;
 }
 
 void Camera::CreateConstBuffer()

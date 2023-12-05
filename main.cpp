@@ -6,6 +6,7 @@
 #include"TextureManager.h"
 
 #include"Triangle.h"
+#include"Sprite.h"
 #include"Camera.h"
 #include"Input.h"
 
@@ -47,7 +48,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Triangle* triangle2 = new Triangle;
 	triangle2->Initialize();
 	
-
+	Sprite* sprite = new Sprite;
+	sprite->Initialize();
 	
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
@@ -72,6 +74,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		triangle2->worldTransform.scale_.y = 0.5f;
 		triangle2->worldTransform.rotation_.y += 0.02f;
 
+		sprite->Update();
 
 		triangle->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
 		triangle2->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
@@ -79,6 +82,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		triangle->Draw(camera);
 		triangle2->Draw(camera);
 	
+		sprite->Draw(camera);
+
 		input->TriggerKey(DIK_0);
 
 	
@@ -97,7 +102,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	delete triangle;
 	delete triangle2;
-
+	delete sprite;
 
 	//WindowAPIの解放
 	delete winApp;

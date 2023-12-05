@@ -85,6 +85,8 @@ public:
 
 	const Microsoft::WRL::ComPtr<ID3D12Resource>& GetConstBuffer() const { return constBuffer_; }
 
+	bool isUI;
+
 private:
 	WinApp* winApp;
 	DirectXCommon* dxCommon;
