@@ -84,9 +84,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 		input->TriggerKey(DIK_0);
 
-		triangle->Update();
 	
-
 
 
 #ifdef _DEBUG
@@ -102,7 +100,6 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	delete triangle;
 	delete triangle2;
-	
 
 
 	//WindowAPIの解放
