@@ -35,8 +35,8 @@ public:
 	/// <param name="sizeInBytes">サイズの指定</param>
 	/// <returns>バッファ</returns>
 	Microsoft::WRL::ComPtr<ID3D12Resource>CreateBufferResource(size_t sizeInBytes);
-
 	Microsoft::WRL::ComPtr< ID3D12DescriptorHeap>CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescriptors, bool shaderVisible);
+	
 	/*=======　　　ゲッター	=======*/
 	ID3D12Device* GetDevice()const { return device.Get(); };
 	ID3D12GraphicsCommandList* GetCommandList()const { return commandList.Get(); };
@@ -137,6 +137,11 @@ private:
 	void SetupShader();
 
 	/// <summary>
+	/// 深度
+	/// </summary>
+	void SetupDepthStencilState();
+
+	/// <summary>
 	/// コンパイルシェーダー
 	/// </summary>
 	/// <param name="filePath">シェーダーフィいる名</param>
@@ -154,6 +159,9 @@ private:
 		IDxcIncludeHandler* includeHandler
 	);
 
+	Microsoft::WRL::ComPtr< ID3D12Resource> CreateDepthStencilTextureResource(int32_t width, int32_t height);
+
+
 private:
 	
 	WinApp* winApp_;
@@ -169,8 +177,10 @@ private:
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> rtvDescriptorHeap = nullptr;		//RTV用のディスクリプタヒープ
 	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> srvDescriptorHeap = nullptr;		//SRV用のディスクリプタヒープ
+	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> dsvDescriptorHeap = nullptr;		//SRV用のディスクリプタヒープ
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	Microsoft::WRL::ComPtr < ID3D12Resource> swapChainResources[2] = { nullptr };	//スワップチェーンリソース
+	Microsoft::WRL::ComPtr < ID3D12Resource> depthStencilResource = nullptr;	
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles[2];	//RTVを二つ作るのでディスクリプタを二つ用意
 	D3D12_RESOURCE_BARRIER barrier{};	//トランスフォームバリア
 	Microsoft::WRL::ComPtr< ID3D12Fence> fence = nullptr;	//フェンス

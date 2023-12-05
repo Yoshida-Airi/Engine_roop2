@@ -6,9 +6,7 @@
 #include"TextureManager.h"
 
 #include"Triangle.h"
-
 #include"Camera.h"
-
 #include"Input.h"
 
 
@@ -66,14 +64,13 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		camera->cameraDebug();
 #endif // _DEBUG
 
-	
-	
+
 		triangle->Update();
 		triangle->worldTransform.rotation_.y += 0.03f;
 
 		triangle2->Update();
-		triangle->worldTransform.translation_.x = 2.0f;
-		triangle2->worldTransform.rotation_.y += 0.03f;
+		triangle2->worldTransform.scale_.y = 0.5f;
+		triangle2->worldTransform.rotation_.y += 0.02f;
 
 
 		triangle->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());

@@ -62,7 +62,6 @@ void Triangle::Draw(Camera* camera)
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->GetConstBuffer()->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, textureSrvHandleGPU_);
-
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
