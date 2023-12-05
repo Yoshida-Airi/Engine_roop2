@@ -7,8 +7,7 @@
 
 Triangle::~Triangle()
 {
-	vertexResource_->Release();
-	materialResource_->Release();
+
 }
 
 void Triangle::Initialize()
