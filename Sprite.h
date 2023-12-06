@@ -17,6 +17,12 @@ struct SpriteData
 	Vector4 color;
 };
 
+struct TransformationMatrix
+{
+	Matrix4x4 WVP;
+	Matrix4x4 World;
+};
+
 
 class Sprite
 {
@@ -61,6 +67,8 @@ private://プライベート変数
 
 	Transform transform_ = {};
 	Transform cameraTransform_;
+
+	bool isUI = false;
 
 private://プライベート関数
 

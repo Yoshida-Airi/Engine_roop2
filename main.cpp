@@ -78,15 +78,15 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		triangle->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
 		triangle2->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
+		sprite->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
 
 		triangle->Draw(camera);
 		triangle2->Draw(camera);
 	
 		sprite->Draw(camera);
+		
 
 		input->TriggerKey(DIK_0);
-
-	
 
 
 #ifdef _DEBUG
