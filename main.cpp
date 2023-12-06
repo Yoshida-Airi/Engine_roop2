@@ -58,11 +58,9 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		
 		dxCommon->PreDraw();
 		input->Update();
-#ifdef _DEBUG
-		imgui->Begin();
-#endif // _DEBUG
 
 #ifdef _DEBUG
+		imgui->Begin();
 		camera->cameraDebug();
 #endif // _DEBUG
 

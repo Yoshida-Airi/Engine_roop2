@@ -18,16 +18,7 @@ void Sprite::Initialize()
 
 	VertexBuffer();
 	MaterialBuffer();
-	WvpBuffer();
-
-	isUI = true;
-
-	transform_ = {
-		{1.0f,1.0f,1.0f,},
-		{0.0f,0.0f,0.0f},
-		{0.0f,0.0f,0.0f},
-	};
-
+	
 	SpriteData initData;
 	initData.vertex[0] = { 0.0f,360.0f,0.0f,1.0f };
 	initData.vertex[1] = { 0.0f,0.0f,0.0f,1.0f };
@@ -59,18 +50,13 @@ void Sprite::Initialize()
 
 	SetMaterialData(initData.color);
 
-	
+	vertexData_->isUI = true;
 
 }
 
 void Sprite::Update()
 {
-	Matrix4x4 worldmatrix = MakeAffinMatrix(transform_.scale, transform_.rotate, transform_.translate);
-	Matrix4x4 viewMatrix = MakeIdentity4x4();
-	Matrix4x4 projectionMatrix = MakeOrthographicmatrix(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f);
-	Matrix4x4 worldViewProjectionMatrix = Multiply(worldmatrix, Multiply(viewMatrix, projectionMatrix));
-	*transformationMatrixData = worldViewProjectionMatrix;
-
+	worldTransform.UpdateWorldMatrix();
 }
 
 void Sprite::Draw(Camera* camera)
@@ -82,8 +68,7 @@ void Sprite::Draw(Camera* camera)
 	//マテリアルCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
 	//wvp用のCbufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationmatrixResource->GetGPUVirtualAddress());
-
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform.constBuffer_->GetGPUVirtualAddress());
 	//カメラ用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->GetConstBuffer()->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。

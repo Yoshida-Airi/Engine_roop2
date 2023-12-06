@@ -13,8 +13,11 @@
 struct ConstBufferDataViewProjection {
 	Matrix4x4 view;       // ワールド → ビュー変換行列
 	Matrix4x4 projection; // ビュー → プロジェクション変換行列
-	Vector3 cameraPos;    // カメラ座標（ワールド座標）
+
+	Matrix4x4 UIView;
+	Matrix4x4 UIProjection;
 };
+
 
 /// <summary>
 /// ビュープロジェクション変換データ
@@ -43,6 +46,11 @@ public:
 	Matrix4x4 matView;
 	// 射影行列
 	Matrix4x4 matProjection;
+
+	// ビュー行列
+	Matrix4x4 UIMatView;
+	// 射影行列
+	Matrix4x4 UIMatProjection;
 
 	Camera() = default;
 	~Camera() = default;
@@ -84,8 +92,6 @@ public:
 
 
 	const Microsoft::WRL::ComPtr<ID3D12Resource>& GetConstBuffer() const { return constBuffer_; }
-
-	bool isUI;
 
 private:
 	WinApp* winApp;

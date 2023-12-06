@@ -14,12 +14,9 @@ void Camera::Initialize()
 		{0.0f,0.0f,-10.0f}
 	};
 
-	
 	CreateConstBuffer();
 	Map();
 	UpdateMatrix();
-
-	isUI = false;
 }
 
 void Camera::CreateConstBuffer()
@@ -42,17 +39,22 @@ void Camera::TransferMatrix()
 {
 	constMap->view = matView;
 	constMap->projection = matProjection;
+
+	constMap->UIView= UIMatView;
+	constMap->UIProjection = UIMatProjection;
 }
 
 void Camera::UpdateViewMatrix()
 {
 	Matrix4x4 cameraMatrix = MakeAffinMatrix(transform.scale, transform.rotate, transform.translate);
 	matView = Inverse(cameraMatrix);
+	UIMatView = MakeIdentity4x4();
 }
 
 void Camera::UpdateProjectionMatrix()
 {
 	matProjection = MakePerspectiveFovMatrix(0.45f, float(winApp->kCilentWidth) / float(winApp->kCilentHeight), nearZ, farZ);
+	UIMatProjection = MakeOrthographicmatrix(0.0f, 0.0f, float(winApp->kCilentWidth), float(winApp->kCilentHeight), 0.0f, 100.0f);
 }
 
 void Camera::cameraDebug()
@@ -60,12 +62,11 @@ void Camera::cameraDebug()
 	ImGui::Begin("camera");
 
 	float translate[3] = { transform.translate.x,transform.translate.y,transform.translate.z };
-	ImGui::SliderFloat3("transform", translate, -10, 0);
+	ImGui::SliderFloat3("transform", translate, -10, 4);
 
 	transform.translate = { translate[0],translate[1],translate[2] };
 
 	UpdateMatrix();
-	UpdateViewMatrix();
 
 	ImGui::End();
 }

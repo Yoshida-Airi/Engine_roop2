@@ -37,6 +37,8 @@ void Triangle::Initialize()
 	vertexData_[2].texcoord = { 1.0f,1.0f };
 
 	SetMaterialData(initData.color);
+
+	vertexData_->isUI = false;
 }
 
 void Triangle::Update()
