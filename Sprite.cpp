@@ -18,6 +18,7 @@ void Sprite::Initialize()
 
 	VertexBuffer();
 	MaterialBuffer();
+	IndexBuffer();
 	
 	SpriteData initData;
 	initData.vertex[0] = { 0.0f,360.0f,0.0f,1.0f };
@@ -39,17 +40,18 @@ void Sprite::Initialize()
 	vertexData_[2].position = initData.vertex[2];
 	vertexData_[2].texcoord = { 1.0f,1.0f };
 
-	vertexData_[3].position = initData.vertex[3];
-	vertexData_[3].texcoord = { 0.0f,0.0f };
+	vertexData_[3].position = initData.vertex[4];
+	vertexData_[3].texcoord = { 1.0f,0.0f };
 
-	vertexData_[4].position = initData.vertex[4];
-	vertexData_[4].texcoord = { 1.0f,0.0f };
-
-	vertexData_[5].position = initData.vertex[5];
-	vertexData_[5].texcoord = { 1.0f,1.0f };
 
 	SetMaterialData(initData.color);
 
+	indexData_[0] = 0;
+	indexData_[1] = 1;
+	indexData_[2] = 2;
+	indexData_[3] = 1;
+	indexData_[4] = 3;
+	indexData_[5] = 2;
 }
 
 void Sprite::Update()
@@ -61,6 +63,8 @@ void Sprite::Draw(UICamera* camera)
 {
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
+	//ind
+	dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferView_);
 	//形状を設定。PS0にせっていしているものとはまた別。同じものを設定する
 	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	//マテリアルCBufferの場所を設定
@@ -72,7 +76,8 @@ void Sprite::Draw(UICamera* camera)
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, textureSrvHandleGPU_);
 	//描画
-	dxCommon_->GetCommandList()->DrawInstanced(6, 1, 0, 0);
+	/*dxCommon_->GetCommandList()->DrawInstanced(6, 1, 0, 0);*/
+	dxCommon_->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 
 void Sprite::SetMaterialData(const Vector4 color)
@@ -107,12 +112,16 @@ void Sprite::MaterialBuffer()
 
 }
 
-void Sprite::WvpBuffer()
+void Sprite::IndexBuffer()
 {
-	//トランスフォーメーションマトリックス用のリソースを作る
-	transformationmatrixResource = dxCommon_->CreateBufferResource(sizeof(Matrix4x4));
-	//書き込むためのアドレスを取得
-	transformationmatrixResource->Map(0, nullptr, reinterpret_cast<void**>(&transformationMatrixData));
-	//単位行列を書き込んでおく
-	*transformationMatrixData = MakeIdentity4x4();
+	indexResource_ = dxCommon_->CreateBufferResource(sizeof(uint32_t) * 6);
+	//リソースの先頭のアドレスから使う
+	indexBufferView_.BufferLocation = indexResource_->GetGPUVirtualAddress();
+	//使用するリソースのサイズはインデックス6つ分のサイズ
+	indexBufferView_.SizeInBytes = sizeof(uint32_t) * 6;
+	//インデックスはuint32_tとする
+	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
+	//インデックスリソースにデータを書き込む
+	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 }
+

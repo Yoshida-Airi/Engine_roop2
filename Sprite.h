@@ -55,15 +55,19 @@ private://プライベート変数
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
 	
+	Microsoft::WRL::ComPtr< ID3D12Resource> indexResource_;	//頂点リソース
+
 	Microsoft::WRL::ComPtr < ID3D12Resource> transformationmatrixResource = nullptr;	//トランスフォーメーションマトリックスリソース
 
 	Matrix4x4* transformationMatrixData = nullptr;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
+	D3D12_INDEX_BUFFER_VIEW indexBufferView_{};
 
 	VertexData* vertexData_ = nullptr;
 	Vector4* materialData_ = nullptr;	//マテリアルデータ
+	uint32_t* indexData_ = nullptr;
 
 	Transform transform_ = {};
 	Transform cameraTransform_;
@@ -83,9 +87,9 @@ private://プライベート関数
 	void MaterialBuffer();
 
 	/// <summary>
-	/// wvpのバッファの取得
+	/// index用
 	/// </summary>
-	void WvpBuffer();
+	void IndexBuffer();
 
 };
 
