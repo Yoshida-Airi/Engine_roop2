@@ -30,6 +30,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	uint32_t uvTexture = texture->LoadTexture("Resources/uvChecker.png");
 	uint32_t monsterBall = texture->LoadTexture("Resources/monsterBall.png");
+	uint32_t Doll = texture->LoadTexture("Resources/Doll.png");
 
 	Camera* camera = new Camera;
 	camera->Initialize();
@@ -55,11 +56,13 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	triangle2->Initialize(monsterBall);
 	
 	Sprite* sprite = new Sprite;
-	sprite->Initialize(uvTexture);
-	
+	sprite->Initialize(Doll);
+	sprite->SetTextureSize({ 64.0f, 64.0f });
 
 	Sprite* sprite2 = new Sprite;
-	sprite2->Initialize(monsterBall);
+	sprite2->Initialize(uvTexture);
+	sprite2->SetTextureSize({ 100.0f, 100.0f });
+
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)

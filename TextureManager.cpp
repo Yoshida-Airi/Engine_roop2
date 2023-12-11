@@ -84,6 +84,15 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath)
 	return index;
 }
 
+const D3D12_RESOURCE_DESC TextureManager::GetResourceDesc(uint32_t textureHandle)
+{
+	//テクスチャの情報を取得
+	D3D12_RESOURCE_DESC resourceDesc{};
+	resourceDesc = textures_[textureHandle].textureResource.Get()->GetDesc();
+
+	return resourceDesc;
+}
+
 
 DirectX::ScratchImage TextureManager::ImageFileOpen(const std::string& filePath)
 {

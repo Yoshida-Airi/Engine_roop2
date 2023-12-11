@@ -16,8 +16,13 @@ void Sprite::Initialize(uint32_t textureHandle)
 	dxCommon_ = DirectXCommon::GetInstance();
 	texture_ = TextureManager::GetInstance();
 
+	
 	worldTransform.Initialize();
 	textureHandle_ = textureHandle;
+
+	resourceDesc_ = TextureManager::GetInstance()->GetResourceDesc(textureHandle_);
+	
+	textureSize_ = { 100.0f,100.0f };
 
 	uvTransform =
 	{
@@ -30,29 +35,34 @@ void Sprite::Initialize(uint32_t textureHandle)
 	MaterialBuffer();
 	IndexBuffer();
 
-	SpriteData initData;
-	initData.vertex[LB] = { 0.0f,360.0f,0.0f,1.0f };
-	initData.vertex[LT] = { 0.0f,0.0f,0.0f,1.0f };
-	initData.vertex[RB] = { 640.0f,360.0f,0.0f,1.0f };
-	initData.vertex[RT] = { 640.0f,0.0f,0.0f,1.0f };
+	left = 0.0f * size_.x;
+	right = 1.0f * size_.x;
+	top = 0.0f * size_.y;
+	bottom = 1.0f * size_.y;
 
-	initData.color = { 1.0f,1.0f,1.0f,1.0f };
+	texLeft = textureLeftTop.x / resourceDesc_.Width;
+	texRight = (textureLeftTop.x + textureSize_.x) / resourceDesc_.Width;
+	texTop = textureLeftTop.y / resourceDesc_.Height;
+	texBottom = (textureLeftTop.y + textureSize_.y) / resourceDesc_.Height;
+
+
+	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
 
 	//頂点の設定
-	vertexData_[0].position = initData.vertex[0];
-	vertexData_[0].texcoord = { 0.0f,1.0f };
+	vertexData_[LB].position = { left,bottom,0.0f,1.0f };
+	vertexData_[LB].texcoord = { texLeft,texBottom };
 
-	vertexData_[1].position = initData.vertex[1];
-	vertexData_[1].texcoord = { 0.0f,0.0f };
+	vertexData_[LT].position = { left,top,0.0f,1.0f };
+	vertexData_[LT].texcoord = { texLeft,texTop };
 
-	vertexData_[2].position = initData.vertex[2];
-	vertexData_[2].texcoord = { 1.0f,1.0f };
+	vertexData_[RB].position = { right,bottom,0.0f,1.0f };
+	vertexData_[RB].texcoord = { texRight,texBottom };
 
-	vertexData_[3].position = initData.vertex[3];
-	vertexData_[3].texcoord = { 1.0f,0.0f };
+	vertexData_[RT].position = { right,top,0.0f,1.0f };
+	vertexData_[RT].texcoord = { texRight,texTop };
 
 
-	SetMaterialData(initData.color);
+	SetMaterialData(color);
 
 	indexData_[0] = 0;
 	indexData_[1] = 1;
@@ -65,6 +75,7 @@ void Sprite::Initialize(uint32_t textureHandle)
 void Sprite::Update()
 {
 	worldTransform.UpdateWorldMatrix();
+	UpdateVertexBuffer();
 
 #ifdef _DEBUG
 	ImGui::Begin("uvTransform");
@@ -164,3 +175,39 @@ void Sprite::IndexBuffer()
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 }
 
+void Sprite::UpdateVertexBuffer()
+{
+	//テクスチャのサイズを合わせる
+	
+	left = 0.0f * size_.x;
+	right = 1.0f * size_.x;
+	top = 0.0f * size_.y;
+	bottom = 1.0f * size_.y;
+
+	texLeft = textureLeftTop.x / resourceDesc_.Width;
+	texRight = (textureLeftTop.x + textureSize_.x) / resourceDesc_.Width;
+	texTop = textureLeftTop.y / resourceDesc_.Height;
+	texBottom = (textureLeftTop.y + textureSize_.y) / resourceDesc_.Height;
+
+	//頂点の設定
+	vertexData_[LB].position = { left,bottom,0.0f,1.0f };
+	vertexData_[LB].texcoord = { texLeft,texBottom };
+
+	vertexData_[LT].position = { left,top,0.0f,1.0f };
+	vertexData_[LT].texcoord = { texLeft,texTop };
+
+	vertexData_[RB].position = { right,bottom,0.0f,1.0f };
+	vertexData_[RB].texcoord = { texRight,texBottom };
+
+	vertexData_[RT].position = { right,top,0.0f,1.0f };
+	vertexData_[RT].texcoord = { texRight,texTop };
+
+}
+
+
+void Sprite::AdjustTextureSize() {
+	//テクスチャの情報を取得
+	resourceDesc_ = TextureManager::GetInstance()->GetResourceDesc(textureHandle_);
+	//テクスチャサイズの初期化
+	textureSize_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
+}

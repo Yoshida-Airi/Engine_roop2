@@ -63,6 +63,15 @@ public:
 		isInvisible_ = isInvisible;
 	}
 
+	/// <summary>
+	/// テクスチャサイズ（描画したい範囲
+	/// </summary>
+	/// <param name="textureSize"></param>
+	void SetTextureSize(Vector2 textureSize)
+	{
+		textureSize_ = textureSize;
+	}
+
 private://プライベート変数
 
 	DirectXCommon* dxCommon_;
@@ -70,8 +79,9 @@ private://プライベート変数
 
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
-	
 	Microsoft::WRL::ComPtr< ID3D12Resource> indexResource_;	//頂点リソース
+
+	D3D12_RESOURCE_DESC resourceDesc_{};	//テクスチャの情報
 
 	Matrix4x4* transformationMatrixData = nullptr;
 
@@ -84,11 +94,24 @@ private://プライベート変数
 	uint32_t* indexData_ = nullptr;		//インデックスデータ
 
 	Transform uvTransform;
-	
+	Vector2 textureSize_;	//切り出しサイズ
+
 	bool isInvisible_ = false;	//非表示フラグ	true : 消える
 
 	uint32_t textureHandle_;
 
+	Vector2 size_ = { 100.0f,100.0f };
+	Vector2 textureLeftTop = { 0.0f,0.0f };
+
+	float left;
+	float right;
+	float top;
+	float bottom;
+
+	float texLeft;
+	float texRight;
+	float texTop;
+	float texBottom;
 
 private://プライベート関数
 
@@ -106,6 +129,14 @@ private://プライベート関数
 	/// index用
 	/// </summary>
 	void IndexBuffer();
+
+	/// <summary>
+	/// 頂点情報の更新
+	/// </summary>
+	void UpdateVertexBuffer();
+
+	
+	void AdjustTextureSize();
 
 };
 

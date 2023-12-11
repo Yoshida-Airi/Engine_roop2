@@ -53,6 +53,13 @@ public:
 		return textures_.at(index).textureSrvHandleGPU;
 	}
 
+	/// <summary>
+	/// テクスチャの情報を取得
+	/// </summary>
+	/// <param name="textureHandle"></param>
+	/// <returns></returns>
+	const D3D12_RESOURCE_DESC GetResourceDesc(uint32_t textureHandle);
+
 private:
 
 	static const size_t kMaxTexture = 2056;	//最大テクスチャ数
