@@ -1,10 +1,13 @@
 #pragma once
 
-#include"externals/DirectXTex/DirectXTex.h"
 #include"Logger.h"
 #include"DirectXCommon.h"
 
+#include"externals/DirectXTex/DirectXTex.h"
+#include"externals/DirectXTex/d3dx12.h"
+
 #include<d3d12.h>
+#include<array>
 
 #pragma comment(lib,"d3d12.lib")
 
@@ -32,6 +35,8 @@ public:
 
 private:
 
+
+	static const size_t kMaxTexture = 2056;	//最大テクスチャ数
 	DirectXCommon* dxCommon_;
 
 	DirectX::ScratchImage mipImages_;
@@ -41,6 +46,10 @@ private:
 
 	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_ = {};
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_ = {};
+
+	//中間リソース
+	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, kMaxTexture> intermediateResource;
+
 
 private:
 
@@ -64,7 +73,8 @@ private:
 	/// </summary>
 	/// <param name="texture">画像</param>
 	/// <param name="mipImages">ミップマップ</param>
-	void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
+	[[nodiscard]]
+	Microsoft::WRL::ComPtr< ID3D12Resource> UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
 
 	/// <summary>
 	/// シェーダーリソース
