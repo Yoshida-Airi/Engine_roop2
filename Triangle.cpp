@@ -10,11 +10,13 @@ Triangle::~Triangle()
 
 }
 
-void Triangle::Initialize()
+void Triangle::Initialize(uint32_t textureHandle)
 {
 
 	dxCommon_ = DirectXCommon::GetInstance();
+	texture_ = TextureManager::GetInstance();
 	worldTransform.Initialize();
+	textureHandle_ = textureHandle;
 
 	VertexBuffer();
 	MaterialBuffer();
@@ -60,7 +62,7 @@ void Triangle::Draw(Camera* camera)
 	//カメラ用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->GetConstBuffer()->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, textureSrvHandleGPU_);
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }

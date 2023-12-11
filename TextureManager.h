@@ -15,6 +15,16 @@
 class TextureManager
 {
 public:
+	static TextureManager* GetInstance();
+
+	struct TextureData
+	{
+		D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU;
+		D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU;
+		Microsoft::WRL::ComPtr< ID3D12Resource> textureResource;
+		std::string filename{};
+		uint32_t textureHandle;
+	};
 
 	/// <summary>
 	/// デストラクタ
@@ -31,7 +41,17 @@ public:
 	/// </summary>
 	void Update();
 
-	D3D12_GPU_DESCRIPTOR_HANDLE GetTextureSrvHandleGPU()const { return textureSrvHandleGPU_; }
+	/// <summary>
+	/// 画像読み込み
+	/// </summary>
+	/// <param name="filePath"></param>
+	uint32_t LoadTexture(const std::string& filePath);
+
+	//ゲッター
+	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUHandle(uint32_t index)
+	{
+		return textures_.at(index).textureSrvHandleGPU;
+	}
 
 private:
 
@@ -50,35 +70,22 @@ private:
 	//中間リソース
 	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, kMaxTexture> intermediateResource;
 
+	std::array<TextureData, kMaxTexture> textures_;
+	bool IsusedTexture[kMaxTexture];
+	uint32_t descriptorSizeSRV;
+
+	static TextureManager* instance;
 
 private:
 
-	/// <summary>
-	/// Textureデータを読む
-	/// </summary>
-	/// <param name="filePath">テクスチャ</param>
-	/// <returns>テクスチャデータ</returns>
-	DirectX::ScratchImage LoadTexture(const std::string& filePath);
 
-	/// <summary>
-	/// ダイレクトX12のテクスチャリソースを作る
-	/// </summary>
-	/// <param name="device">デバイス</param>
-	/// <param name="meradata"></param>
-	/// <returns>テクスチャリソース</returns>
-	Microsoft::WRL::ComPtr< ID3D12Resource> CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& meradata);
+	DirectX::ScratchImage ImageFileOpen(const std::string& filePath);
+	Microsoft::WRL::ComPtr< ID3D12Resource> CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata);
 
-	/// <summary>
-	/// TextureResource2データを転送する
-	/// </summary>
-	/// <param name="texture">画像</param>
-	/// <param name="mipImages">ミップマップ</param>
 	[[nodiscard]]
 	Microsoft::WRL::ComPtr< ID3D12Resource> UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
 
-	/// <summary>
-	/// シェーダーリソース
-	/// </summary>
-	void CreateShaderResourceView(const DirectX::TexMetadata& metadata);
+	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
+	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
 
 };

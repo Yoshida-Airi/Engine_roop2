@@ -1,5 +1,6 @@
 #pragma once
 #include"DirectXCommon.h"
+#include"TextureManager.h"
 #include"VectorMath.h"
 #include"VertexData.h"
 #include"MatrixMath.h"
@@ -22,7 +23,7 @@ class Triangle
 public:
 	~Triangle();
 
-	void Initialize();
+	void Initialize(uint32_t textureHandle);
 
 	void Update();
 	void Draw(Camera* camera);
@@ -48,6 +49,8 @@ public:
 private://プライベート変数
 
 	DirectXCommon* dxCommon_;
+	TextureManager* texture_;
+
 	
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
@@ -62,6 +65,9 @@ private://プライベート変数
 
 	Transform cameraTransform_;
 	
+	uint32_t textureHandle_;
+
+
 private://プライベート関数
 
 	/// <summary>

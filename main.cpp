@@ -25,9 +25,11 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	dxCommon->Initialize();
 
 
-	TextureManager* texture = new TextureManager;
+	TextureManager* texture = TextureManager::GetInstance();
 	texture->Initialize();
 
+	uint32_t uvTexture = texture->LoadTexture("Resources/uvChecker.png");
+	uint32_t monsterBall = texture->LoadTexture("Resources/monsterBall.png");
 
 	Camera* camera = new Camera;
 	camera->Initialize();
@@ -48,16 +50,16 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	
 	Triangle* triangle = new Triangle;
-	triangle->Initialize();
+	triangle->Initialize(uvTexture);
 	Triangle* triangle2 = new Triangle;
-	triangle2->Initialize();
+	triangle2->Initialize(monsterBall);
 	
 	Sprite* sprite = new Sprite;
-	sprite->Initialize();
+	sprite->Initialize(uvTexture);
 	
 
 	Sprite* sprite2 = new Sprite;
-	sprite2->Initialize();
+	sprite2->Initialize(monsterBall);
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
@@ -84,11 +86,6 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		sprite->Update();
 		sprite2->Update();
-
-		triangle->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
-		triangle2->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
-		sprite->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
-		sprite2->SetTextureSrvHandleGPU(texture->GetTextureSrvHandleGPU());
 
 		triangle->Draw(camera);
 		triangle2->Draw(camera);

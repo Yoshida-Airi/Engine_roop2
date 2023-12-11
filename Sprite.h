@@ -1,5 +1,6 @@
 #pragma once
 #include"DirectXCommon.h"
+#include"TextureManager.h"
 #include"VectorMath.h"
 #include"VertexData.h"
 #include"MatrixMath.h"
@@ -37,7 +38,7 @@ class Sprite
 public:
 	~Sprite();
 
-	void Initialize();
+	void Initialize(uint32_t textureHandle);
 
 	void Update();
 	void Draw(UICamera* camera);
@@ -65,6 +66,7 @@ public:
 private://プライベート変数
 
 	DirectXCommon* dxCommon_;
+	TextureManager* texture_;
 
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
@@ -84,6 +86,9 @@ private://プライベート変数
 	Transform transform_ = {};
 	
 	bool isInvisible_ = false;	//非表示フラグ	true : 消える
+
+	uint32_t textureHandle_;
+
 
 private://プライベート関数
 
