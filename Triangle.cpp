@@ -73,6 +73,8 @@ void Triangle::SetMaterialData(const Vector4 color)
 	materialData_[0] = color;
 }
 
+
+
 /*=====================================*/
 /* 　　　　   プライベートメソッド　　　    */
 /*=====================================*/

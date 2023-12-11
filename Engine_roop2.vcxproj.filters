@@ -33,11 +33,11 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="VectorMath.h" />
-    <ClInclude Include="VertexData.h" />
     <ClInclude Include="WinApp.h" />
     <ClInclude Include="WorldTransform.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="UICamera.h" />
+    <ClInclude Include="Globals.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Object3D.hlsli" />

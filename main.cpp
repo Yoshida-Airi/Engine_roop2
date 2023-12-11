@@ -72,6 +72,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #ifdef _DEBUG
 		imgui->Begin();
 		camera->cameraDebug();
+
 #endif // _DEBUG
 
 

@@ -19,6 +19,12 @@ void Sprite::Initialize(uint32_t textureHandle)
 	worldTransform.Initialize();
 	textureHandle_ = textureHandle;
 
+	uvTransform =
+	{
+		{1.0f,1.0f,1.0f,},
+		{0.0f,0.0f,0.0f,},
+		{0.0f,0.0f,0.0f},
+	};
 
 	VertexBuffer();
 	MaterialBuffer();
@@ -59,6 +65,23 @@ void Sprite::Initialize(uint32_t textureHandle)
 void Sprite::Update()
 {
 	worldTransform.UpdateWorldMatrix();
+
+#ifdef _DEBUG
+	ImGui::Begin("uvTransform");
+	ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
+	ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
+	ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
+	ImGui::End();
+#endif // _DEBUG
+
+
+	Matrix4x4 uvTransformMatrix_ = MakeScaleMatrix(uvTransform.scale);
+	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeRotateZMatrix(uvTransform.rotate.z));
+	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeTranselateMatrix(uvTransform.translate));
+	materialData_->uvTransform = uvTransformMatrix_;
+
+
+
 }
 
 void Sprite::Draw(UICamera* camera)
@@ -97,7 +120,7 @@ void Sprite::SetVertexData(const float left, const float right, const float top,
 
 void Sprite::SetMaterialData(const Vector4 color)
 {
-	materialData_[0] = color;
+	materialData_[0].color = color;
 }
 
 /*=====================================*/
@@ -120,10 +143,11 @@ void Sprite::VertexBuffer()
 
 void Sprite::MaterialBuffer()
 {
-	materialResource_ = dxCommon_->CreateBufferResource(sizeof(Vector4));	//マテリアル用のデータ
+	materialResource_ = dxCommon_->CreateBufferResource(sizeof(Material));	//マテリアル用のデータ
 
 	//書き込むためのアドレスを取得
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
+	materialData_->uvTransform = MakeIdentity4x4();
 
 }
 

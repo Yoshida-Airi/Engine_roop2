@@ -2,7 +2,7 @@
 #include"DirectXCommon.h"
 #include"TextureManager.h"
 #include"VectorMath.h"
-#include"VertexData.h"
+#include"Globals.h"
 #include"MatrixMath.h"
 #include"MathUtilty.h"
 #include<wrl.h>
@@ -45,7 +45,7 @@ public:
 
 	WorldTransform worldTransform;
 
-
+	
 private://プライベート変数
 
 	DirectXCommon* dxCommon_;

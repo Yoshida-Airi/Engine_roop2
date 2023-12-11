@@ -2,7 +2,7 @@
 #include"DirectXCommon.h"
 #include"TextureManager.h"
 #include"VectorMath.h"
-#include"VertexData.h"
+#include"Globals.h"
 #include"MatrixMath.h"
 #include"MathUtilty.h"
 #include"Transform.h"
@@ -80,10 +80,10 @@ private://プライベート変数
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_{};
 
 	VertexData* vertexData_ = nullptr;	//頂点データ
-	Vector4* materialData_ = nullptr;	//マテリアルデータ
+	Material* materialData_ = nullptr;	//マテリアルデータ
 	uint32_t* indexData_ = nullptr;		//インデックスデータ
 
-	Transform transform_ = {};
+	Transform uvTransform;
 	
 	bool isInvisible_ = false;	//非表示フラグ	true : 消える
 

@@ -39,7 +39,6 @@ void Camera::TransferMatrix()
 {
 	constMap->view = matView;
 	constMap->projection = matProjection;
-
 }
 
 void Camera::UpdateViewMatrix()

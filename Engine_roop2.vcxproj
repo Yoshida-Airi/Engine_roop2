@@ -118,6 +118,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DebugHelper.h" />
     <ClInclude Include="DirectXCommon.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Logger.h" />
@@ -129,7 +130,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="UICamera.h" />
     <ClInclude Include="VectorMath.h" />
-    <ClInclude Include="VertexData.h" />
     <ClInclude Include="WinApp.h" />
     <ClInclude Include="WorldTransform.h" />
   </ItemGroup>
