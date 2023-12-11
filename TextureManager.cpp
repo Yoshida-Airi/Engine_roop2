@@ -3,7 +3,7 @@
 
 TextureManager* TextureManager::GetInstance()
 {
-	if (instance == NULL)
+	if (instance == nullptr)
 	{
 		instance = new TextureManager;
 	}
@@ -35,29 +35,25 @@ void TextureManager::Update()
 uint32_t TextureManager::LoadTexture(const std::string& filePath)
 {
 
-	uint32_t index = 0 + 1;
-
+	uint32_t index = 0 ;
 
 	for (int i = 0; i < kMaxTexture; i++)
 	{
+		//同じ画像があった場合
 		if (textures_[i].filename == filePath)
 		{
 			return textures_[i].textureHandle;
 		}
-	}
 
-	for (int i = 0; i < kMaxTexture; ++i) {
 		if (IsusedTexture[i] == false) {
 			index = i;
 			IsusedTexture[i] = true;
 			break;
 		}
 	}
-	if (index < 0) {
-		//0より少ない
-		assert(false);
-	}
-	if (kMaxTexture < index) {
+
+	//indexが不正な値だった場合止める
+	if (index < 0 || kMaxTexture <= index) {
 		//MaxSpriteより多い
 		assert(false);
 	}
@@ -158,8 +154,6 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::UploadTextureData(ID3D12R
 	dxCommon_->GetCommandList()->ResourceBarrier(1, &barrier);
 	return intermediateResource;
 }
-
-
 
 D3D12_CPU_DESCRIPTOR_HANDLE TextureManager::GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>descriptorHeap, uint32_t descriptorSize, uint32_t index)
 {

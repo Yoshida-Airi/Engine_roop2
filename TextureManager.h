@@ -55,7 +55,6 @@ public:
 
 private:
 
-
 	static const size_t kMaxTexture = 2056;	//最大テクスチャ数
 	DirectXCommon* dxCommon_;
 
@@ -78,7 +77,6 @@ private:
 
 private:
 
-
 	DirectX::ScratchImage ImageFileOpen(const std::string& filePath);
 	Microsoft::WRL::ComPtr< ID3D12Resource> CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata);
 
@@ -87,5 +85,7 @@ private:
 
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
+
+	uint32_t FindOrCreateTextureIndex(const std::string& filePath);
 
 };
