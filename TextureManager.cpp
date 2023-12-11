@@ -3,7 +3,7 @@
 
 TextureManager::~TextureManager()
 {
-	textureResource_->Release();
+	
 }
 
 /// <summary>
@@ -17,7 +17,7 @@ void TextureManager::Initialize()
 	mipImages_ = LoadTexture("Resources/uvChecker.png");
 	const DirectX::TexMetadata& metadata = mipImages_.GetMetadata();
 	textureResource_ = CreateTextureResource(dxCommon_->GetDevice(), metadata);
-	intermediateResource.at(0) = UploadTextureData(textureResource_, mipImages_);
+	intermediateResource.at(0) = UploadTextureData(textureResource_.Get(), mipImages_);
 	CreateShaderResourceView(metadata);
 }
 
@@ -49,7 +49,7 @@ DirectX::ScratchImage TextureManager::LoadTexture(const std::string& filePath)
 }
 
 //ダイレクト12のテクスチャリソースを作る
-ID3D12Resource* TextureManager::CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata)
+Microsoft::WRL::ComPtr< ID3D12Resource> TextureManager::CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata)
 {
 	//1.metadataを基にリソースの設定
 	D3D12_RESOURCE_DESC resourceDesc{};
@@ -70,7 +70,7 @@ ID3D12Resource* TextureManager::CreateTextureResource(ID3D12Device* device, cons
 
 
 	//3.リソースを生成する
-	ID3D12Resource* resource = nullptr;
+	Microsoft::WRL::ComPtr< ID3D12Resource> resource = nullptr;
 	HRESULT hr = device->CreateCommittedResource(
 		&heapProperties,	//Heapの設定
 		D3D12_HEAP_FLAG_NONE,	//Heapの特殊な設定。
@@ -119,7 +119,7 @@ void TextureManager::CreateShaderResourceView(const DirectX::TexMetadata& metada
 	textureSrvHandleCPU_.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	textureSrvHandleGPU_.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	//SRVの生成
-	dxCommon_->GetDevice()->CreateShaderResourceView(textureResource_, &srvDesc_, textureSrvHandleCPU_);
+	dxCommon_->GetDevice()->CreateShaderResourceView(textureResource_.Get(), &srvDesc_, textureSrvHandleCPU_);
 
 }
 

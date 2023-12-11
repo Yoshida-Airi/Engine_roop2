@@ -40,7 +40,7 @@ private:
 	DirectXCommon* dxCommon_;
 
 	DirectX::ScratchImage mipImages_;
-	ID3D12Resource* textureResource_;
+	Microsoft::WRL::ComPtr< ID3D12Resource> textureResource_;
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc_{};
 	Microsoft::WRL::ComPtr< ID3D12DescriptorHeap> srvDescriptoHeap_;
 
@@ -66,7 +66,7 @@ private:
 	/// <param name="device">デバイス</param>
 	/// <param name="meradata"></param>
 	/// <returns>テクスチャリソース</returns>
-	ID3D12Resource* CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& meradata);
+	Microsoft::WRL::ComPtr< ID3D12Resource> CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& meradata);
 
 	/// <summary>
 	/// TextureResource2データを転送する
