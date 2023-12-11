@@ -8,7 +8,7 @@
 #include"WorldTransform.h"
 #include<wrl.h>
 
-#include"Camera.h"
+#include"UICamera.h"
 
 
 struct SpriteData
@@ -32,7 +32,7 @@ public:
 	void Initialize();
 
 	void Update();
-	void Draw(Camera* camera);
+	void Draw(UICamera* camera);
 
 	/// <summary>
 	/// マテリアルデータの設定

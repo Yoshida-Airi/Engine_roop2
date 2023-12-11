@@ -3,6 +3,7 @@
   <ItemGroup>
     <FxCompile Include="Object3D.PS.hlsl" />
     <FxCompile Include="Object3D.VS.hlsl" />
+    <FxCompile Include="Sprite.VS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
@@ -18,6 +19,7 @@
     <ClCompile Include="WinApp.cpp" />
     <ClCompile Include="WorldTransform.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="UICamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -36,6 +38,7 @@
     <ClInclude Include="WinApp.h" />
     <ClInclude Include="WorldTransform.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="UICamera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Object3D.hlsli" />

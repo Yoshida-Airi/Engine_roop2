@@ -50,8 +50,6 @@ void Sprite::Initialize()
 
 	SetMaterialData(initData.color);
 
-	vertexData_->isUI = true;
-
 }
 
 void Sprite::Update()
@@ -59,7 +57,7 @@ void Sprite::Update()
 	worldTransform.UpdateWorldMatrix();
 }
 
-void Sprite::Draw(Camera* camera)
+void Sprite::Draw(UICamera* camera)
 {
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);

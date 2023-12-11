@@ -38,7 +38,6 @@ void Triangle::Initialize()
 
 	SetMaterialData(initData.color);
 
-	vertexData_->isUI = false;
 }
 
 void Triangle::Update()

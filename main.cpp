@@ -8,6 +8,7 @@
 #include"Triangle.h"
 #include"Sprite.h"
 #include"Camera.h"
+#include"UICamera.h"
 #include"Input.h"
 
 
@@ -30,6 +31,9 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	Camera* camera = new Camera;
 	camera->Initialize();
+
+	UICamera* uiCamera = new UICamera;
+	uiCamera->Initialize();
 
 	Input* input = Input::GetInstance();
 	input->Initialize();
@@ -81,7 +85,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		triangle->Draw(camera);
 		triangle2->Draw(camera);
 	
-		sprite->Draw(camera);
+		sprite->Draw(uiCamera);
 		
 
 		input->TriggerKey(DIK_0);
@@ -115,7 +119,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	texture = nullptr;
 
 	delete camera;
-
+	delete uiCamera;
 
 
 	delete input;

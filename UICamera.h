@@ -10,17 +10,16 @@
 #include"Transform.h"
 
 // 定数バッファ用データ構造体
-struct ConstBufferDataViewProjection {
+struct ConstBufferUIDataViewProjection {
 	Matrix4x4 view;       // ワールド → ビュー変換行列
 	Matrix4x4 projection; // ビュー → プロジェクション変換行列
-
 };
 
 
 /// <summary>
 /// ビュープロジェクション変換データ
 /// </summary>
-class Camera {
+class UICamera {
 public:
 #pragma region ビュー行列の設定
 
@@ -50,8 +49,8 @@ public:
 	// 射影行列
 	Matrix4x4 UIMatProjection;
 
-	Camera() = default;
-	~Camera() = default;
+	UICamera() = default;
+	~UICamera() = default;
 
 	/// <summary>
 	/// 初期化
@@ -85,7 +84,7 @@ public:
 	/// 定数バッファの取得
 	/// </summary>
 	/// <returns>定数バッファ</returns>
-	
+
 	void cameraDebug();
 
 
@@ -98,10 +97,10 @@ private:
 	// 定数バッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffer_;
 	// マッピング済みアドレス
-	ConstBufferDataViewProjection* constMap = nullptr;
+	ConstBufferUIDataViewProjection* constMap = nullptr;
 	// コピー禁止
-	Camera(const Camera&) = delete;
-	Camera& operator=(const Camera&) = delete;
+	UICamera(const UICamera&) = delete;
+	UICamera& operator=(const UICamera&) = delete;
 };
 
-static_assert(!std::is_copy_assignable_v<Camera>);
+static_assert(!std::is_copy_assignable_v<UICamera>);

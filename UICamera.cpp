@@ -1,8 +1,6 @@
-#include "Camera.h"
-#include "Camera.h"
+#include "UICamera.h"
 
-
-void Camera::Initialize()
+void UICamera::Initialize()
 {
 	winApp = WinApp::GetInstance();
 	dxCommon = DirectXCommon::GetInstance();
@@ -19,41 +17,40 @@ void Camera::Initialize()
 	UpdateMatrix();
 }
 
-void Camera::CreateConstBuffer()
+void UICamera::CreateConstBuffer()
 {
-	constBuffer_ = dxCommon->CreateBufferResource(sizeof(ConstBufferDataViewProjection));
+	constBuffer_ = dxCommon->CreateBufferResource(sizeof(ConstBufferUIDataViewProjection));
 }
 
-void Camera::Map() {
+void UICamera::Map() {
 	constBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&constMap));
 }
 
-void Camera::UpdateMatrix()
+void UICamera::UpdateMatrix()
 {
 	UpdateViewMatrix();
 	UpdateProjectionMatrix();
 	TransferMatrix();
 }
 
-void Camera::TransferMatrix()
+void UICamera::TransferMatrix()
 {
 	constMap->view = matView;
 	constMap->projection = matProjection;
 
 }
 
-void Camera::UpdateViewMatrix()
+void UICamera::UpdateViewMatrix()
 {
-	Matrix4x4 cameraMatrix = MakeAffinMatrix(transform.scale, transform.rotate, transform.translate);
-	matView = Inverse(cameraMatrix);
+	matView = MakeIdentity4x4();
 }
 
-void Camera::UpdateProjectionMatrix()
+void UICamera::UpdateProjectionMatrix()
 {
-	matProjection = MakePerspectiveFovMatrix(0.45f, float(winApp->kCilentWidth) / float(winApp->kCilentHeight), nearZ, farZ);
+	matProjection = MakeOrthographicmatrix(0.0f, 0.0f, float(winApp->kCilentWidth), float(winApp->kCilentHeight), 0.0f, 100.0f);
 }
 
-void Camera::cameraDebug()
+void UICamera::cameraDebug()
 {
 	ImGui::Begin("camera");
 
