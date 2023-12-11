@@ -40,6 +40,8 @@ void Triangle::Initialize(uint32_t textureHandle)
 
 	SetMaterialData(initData.color);
 
+	materialData_->uvTransform = MakeIdentity4x4();
+
 }
 
 void Triangle::Update()
@@ -70,7 +72,7 @@ void Triangle::Draw(Camera* camera)
 
 void Triangle::SetMaterialData(const Vector4 color)
 {
-	materialData_[0] = color;
+	materialData_[0].color = color;
 }
 
 
@@ -95,7 +97,7 @@ void Triangle::VertexBuffer()
 
 void Triangle::MaterialBuffer()
 {
-	materialResource_ = dxCommon_->CreateBufferResource(sizeof(Vector4));	//マテリアル用のデータ
+	materialResource_ = dxCommon_->CreateBufferResource(sizeof(Material));	//マテリアル用のデータ
 
 	//書き込むためのアドレスを取得
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));

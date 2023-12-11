@@ -29,8 +29,6 @@ public:
 	void Draw(Camera* camera);
 
 
-	void SetVertexData(const Vector4 Left,const Vector4 right,const Vector4 top);
-
 	/// <summary>
 	/// マテリアルデータの設定
 	/// </summary>
@@ -60,7 +58,7 @@ private://プライベート変数
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
 
 	VertexData* vertexData_ = nullptr;
-	Vector4* materialData_ = nullptr;	//マテリアルデータ
+	Material* materialData_ = nullptr;	//マテリアルデータ
 	//Matrix4x4* wvpData_ = nullptr;	//wvpデータ
 
 	Transform cameraTransform_;
