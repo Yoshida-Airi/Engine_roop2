@@ -24,6 +24,15 @@ struct TransformationMatrix
 };
 
 
+enum VertexNumber
+{
+	LB,
+	LT,
+	RB,
+	RT
+};
+
+
 class Sprite
 {
 public:
@@ -47,6 +56,10 @@ public:
 
 	WorldTransform worldTransform;
 
+	void SetisInvisible(bool isInvisible)
+	{
+		isInvisible_ = isInvisible;
+	}
 
 private://プライベート変数
 
@@ -57,22 +70,19 @@ private://プライベート変数
 	
 	Microsoft::WRL::ComPtr< ID3D12Resource> indexResource_;	//頂点リソース
 
-	Microsoft::WRL::ComPtr < ID3D12Resource> transformationmatrixResource = nullptr;	//トランスフォーメーションマトリックスリソース
-
 	Matrix4x4* transformationMatrixData = nullptr;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_{};
 
-	VertexData* vertexData_ = nullptr;
+	VertexData* vertexData_ = nullptr;	//頂点データ
 	Vector4* materialData_ = nullptr;	//マテリアルデータ
-	uint32_t* indexData_ = nullptr;
+	uint32_t* indexData_ = nullptr;		//インデックスデータ
 
 	Transform transform_ = {};
-	Transform cameraTransform_;
-
-	bool isUI = false;
+	
+	bool isInvisible_ = false;	//非表示フラグ	true : 消える
 
 private://プライベート関数
 

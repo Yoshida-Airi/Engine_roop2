@@ -54,6 +54,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	Sprite* sprite = new Sprite;
 	sprite->Initialize();
+	
 
 	Sprite* sprite2 = new Sprite;
 	sprite2->Initialize();

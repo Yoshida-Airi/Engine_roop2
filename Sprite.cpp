@@ -19,12 +19,12 @@ void Sprite::Initialize()
 	VertexBuffer();
 	MaterialBuffer();
 	IndexBuffer();
-	
+
 	SpriteData initData;
-	initData.vertex[0] = { 0.0f,360.0f,0.0f,1.0f };
-	initData.vertex[1] = { 0.0f,0.0f,0.0f,1.0f };
-	initData.vertex[2] = { 640.0f,360.0f,0.0f,1.0f };
-	initData.vertex[3] = { 640.0f,0.0f,0.0f,1.0f };
+	initData.vertex[LB] = { 0.0f,360.0f,0.0f,1.0f };
+	initData.vertex[LT] = { 0.0f,0.0f,0.0f,1.0f };
+	initData.vertex[RB] = { 640.0f,360.0f,0.0f,1.0f };
+	initData.vertex[RT] = { 640.0f,0.0f,0.0f,1.0f };
 
 	initData.color = { 1.0f,1.0f,1.0f,1.0f };
 
@@ -59,6 +59,11 @@ void Sprite::Update()
 
 void Sprite::Draw(UICamera* camera)
 {
+	if (isInvisible_ == true)
+	{
+		return;
+	}
+
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	//ind
