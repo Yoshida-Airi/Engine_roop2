@@ -81,6 +81,11 @@ public:
 		textureLeftTop = leftTop;
 	}
 
+	void SetSize(Vector2 size)
+	{
+		size_ = size;
+	}
+
 private://プライベート変数
 
 	DirectXCommon* dxCommon_;

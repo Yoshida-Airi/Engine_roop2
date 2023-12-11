@@ -49,22 +49,22 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #endif // _DEBUG
 
 
-	
+
 	Triangle* triangle = new Triangle;
 	triangle->Initialize(uvTexture);
 	Triangle* triangle2 = new Triangle;
 	triangle2->Initialize(monsterBall);
-	
+
 	Sprite* sprite = new Sprite;
 	sprite->Initialize(Doll);
+	sprite->SetSize({ 64.0f, 64.0f });
 	sprite->SetTextureLeftTop({ 64,0 });
 	sprite->SetTextureSize({ 64.0f, 64.0f });
 	
 
 	Sprite* sprite2 = new Sprite;
 	sprite2->Initialize(uvTexture);
-	sprite2->SetTextureSize({ 100.0f, 100.0f });
-
+	sprite2->SetSize({ 640.0f, 360.0f });
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
@@ -88,7 +88,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		triangle2->worldTransform.scale_.y = 0.5f;
 		triangle2->worldTransform.rotation_.y += 0.02f;
 
-		sprite->worldTransform.translation_.x = 200.0f;
+		sprite->worldTransform.translation_.x = 700.0f;
 
 		sprite->Update();
 		sprite2->Update();

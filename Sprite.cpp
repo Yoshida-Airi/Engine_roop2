@@ -20,9 +20,10 @@ void Sprite::Initialize(uint32_t textureHandle)
 	worldTransform.Initialize();
 	textureHandle_ = textureHandle;
 
-	resourceDesc_ = TextureManager::GetInstance()->GetResourceDesc(textureHandle_);
+	resourceDesc_ = texture_->GetResourceDesc(textureHandle_);
 	
-	textureSize_ = { 100.0f,100.0f };
+	textureSize_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
+	size_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
 
 	uvTransform =
 	{
@@ -123,10 +124,10 @@ void Sprite::Draw(UICamera* camera)
 
 void Sprite::SetVertexData(const float left, const float right, const float top, const float bottom)
 {
-	vertexData_[LB].position = { left,bottom,0.0f,1.0f };
-	vertexData_[LT].position = { left,top,0.0f,1.0f };
-	vertexData_[RB].position = { right,bottom,0.0f,1.0f };
-	vertexData_[RT].position = { right,top,0.0f,1.0f };
+	this->left = left;
+	this->right = right;
+	this->top = top;
+	this->bottom = bottom;
 }
 
 void Sprite::SetMaterialData(const Vector4 color)
@@ -178,7 +179,6 @@ void Sprite::IndexBuffer()
 void Sprite::UpdateVertexBuffer()
 {
 	//テクスチャのサイズを合わせる
-	
 	left = 0.0f * size_.x;
 	right = 1.0f * size_.x;
 	top = 0.0f * size_.y;
