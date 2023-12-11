@@ -3,7 +3,6 @@
   <ItemGroup>
     <FxCompile Include="Object3D.PS.hlsl" />
     <FxCompile Include="Object3D.VS.hlsl" />
-    <FxCompile Include="Sprite.VS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />

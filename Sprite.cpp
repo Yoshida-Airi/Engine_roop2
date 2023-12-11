@@ -83,6 +83,14 @@ void Sprite::Draw(UICamera* camera)
 	dxCommon_->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 
+void Sprite::SetVertexData(const float left, const float right, const float top, const float bottom)
+{
+	vertexData_[LB].position = { left,bottom,0.0f,1.0f };
+	vertexData_[LT].position = { left,top,0.0f,1.0f };
+	vertexData_[RB].position = { right,bottom,0.0f,1.0f };
+	vertexData_[RT].position = { right,top,0.0f,1.0f };
+}
+
 void Sprite::SetMaterialData(const Vector4 color)
 {
 	materialData_[0] = color;

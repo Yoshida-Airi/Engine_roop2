@@ -23,7 +23,6 @@ struct TransformationMatrix
 	Matrix4x4 World;
 };
 
-
 enum VertexNumber
 {
 	LB,
@@ -42,6 +41,8 @@ public:
 
 	void Update();
 	void Draw(UICamera* camera);
+
+	void SetVertexData(const float left, const float right, const float top, const float bottom);
 
 	/// <summary>
 	/// マテリアルデータの設定

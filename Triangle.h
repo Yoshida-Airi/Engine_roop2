@@ -27,6 +27,9 @@ public:
 	void Update();
 	void Draw(Camera* camera);
 
+
+	void SetVertexData(const Vector4 Left,const Vector4 right,const Vector4 top);
+
 	/// <summary>
 	/// マテリアルデータの設定
 	/// </summary>
@@ -37,6 +40,7 @@ public:
 	{
 		textureSrvHandleGPU_ = textureSrvHandleGPU;
 	}
+
 
 	WorldTransform worldTransform;
 
