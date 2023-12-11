@@ -13,7 +13,7 @@
 
 struct SpriteData
 {
-	Vector4 vertex[6];
+	Vector4 vertex[4];
 	Vector4 color;
 };
 

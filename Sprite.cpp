@@ -24,9 +24,7 @@ void Sprite::Initialize()
 	initData.vertex[0] = { 0.0f,360.0f,0.0f,1.0f };
 	initData.vertex[1] = { 0.0f,0.0f,0.0f,1.0f };
 	initData.vertex[2] = { 640.0f,360.0f,0.0f,1.0f };
-	initData.vertex[3] = { 0.0f,0.0f,0.0f,1.0f };
-	initData.vertex[4] = { 640.0f,0.0f,0.0f,1.0f };
-	initData.vertex[5] = { 640.0f,360.0f,0.0f,1.0f };
+	initData.vertex[3] = { 640.0f,0.0f,0.0f,1.0f };
 
 	initData.color = { 1.0f,1.0f,1.0f,1.0f };
 
@@ -40,7 +38,7 @@ void Sprite::Initialize()
 	vertexData_[2].position = initData.vertex[2];
 	vertexData_[2].texcoord = { 1.0f,1.0f };
 
-	vertexData_[3].position = initData.vertex[4];
+	vertexData_[3].position = initData.vertex[3];
 	vertexData_[3].texcoord = { 1.0f,0.0f };
 
 
