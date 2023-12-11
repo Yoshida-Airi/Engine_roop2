@@ -57,7 +57,9 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	Sprite* sprite = new Sprite;
 	sprite->Initialize(Doll);
+	sprite->SetTextureLeftTop({ 64,0 });
 	sprite->SetTextureSize({ 64.0f, 64.0f });
+	
 
 	Sprite* sprite2 = new Sprite;
 	sprite2->Initialize(uvTexture);

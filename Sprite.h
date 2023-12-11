@@ -72,6 +72,15 @@ public:
 		textureSize_ = textureSize;
 	}
 
+	/// <summary>
+	/// テクスチャの左上座標（画像上の描画したい左上座標
+	/// </summary>
+	/// <param name="leftTop"></param>
+	void SetTextureLeftTop(Vector2 leftTop)
+	{
+		textureLeftTop = leftTop;
+	}
+
 private://プライベート変数
 
 	DirectXCommon* dxCommon_;
