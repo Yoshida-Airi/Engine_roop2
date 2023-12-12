@@ -4,18 +4,16 @@
 #include"DebugHelper.h"
 #include"ImGuiManager.h"
 #include"TextureManager.h"
-
 #include"Triangle.h"
 #include"Sprite.h"
+#include"Sphere.h"
 #include"Camera.h"
 #include"UICamera.h"
 #include"Input.h"
 
-
 //Windowsアプリでのエントリーポイント(main関数)
 int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
-
 	//WindowAPIの初期化
 	WinApp* winApp = WinApp::GetInstance();
 	winApp->Initialize();
@@ -60,11 +58,16 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	sprite->SetSize({ 64.0f, 64.0f });
 	sprite->SetTextureLeftTop({ 64,0 });
 	sprite->SetTextureSize({ 64.0f, 64.0f });
+	sprite->SetisInvisible(true);
 	
 
 	Sprite* sprite2 = new Sprite;
 	sprite2->Initialize(uvTexture);
 	sprite2->SetSize({ 640.0f, 360.0f });
+	sprite2->SetisInvisible(true);
+
+	Sphere* sphere = new Sphere;
+	sphere->Initialize(uvTexture);
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
@@ -93,12 +96,15 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		sprite->Update();
 		sprite2->Update();
 
+		sphere->Update();
+
 		triangle->Draw(camera);
 		triangle2->Draw(camera);
 	
 		sprite->Draw(uiCamera);
 		sprite2->Draw(uiCamera);
 		
+		sphere->Draw(camera);
 
 		input->TriggerKey(DIK_0);
 
@@ -118,6 +124,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete triangle2;
 	delete sprite;
 	delete sprite2;
+	delete sphere;
 
 	//WindowAPIの解放
 	delete winApp;

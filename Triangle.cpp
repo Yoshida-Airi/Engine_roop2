@@ -51,7 +51,6 @@ void Triangle::Update()
 }
 
 void Triangle::Draw(Camera* camera)
-
 {
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
