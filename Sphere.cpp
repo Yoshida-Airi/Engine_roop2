@@ -24,13 +24,12 @@ void Sphere::Initialize(uint32_t textureHandle)
 		//経度の方向に分割しながら線を書く
 		for (uint32_t lonIndex = 0; lonIndex < kSubdivision; ++lonIndex)
 		{
+			vertexData_[0].normal = { 0.0f,0.0f,-1.0f };
 
 			//最初の頂点位置
 			uint32_t start = (latIndex * kSubdivision + lonIndex) * 6;
 
 			float lon = lonIndex * kLonEvery;
-
-
 
 			//頂点にデータを入力する	頂点a
 			vertexData_[start].position.x = std::cos(lat) * std::cos(lon);
@@ -41,9 +40,9 @@ void Sphere::Initialize(uint32_t textureHandle)
 			vertexData_[start].texcoord.x = float(lonIndex) / float(kSubdivision);
 			vertexData_[start].texcoord.y = 1.0f - float(latIndex) / float(kSubdivision);
 
-			/*vertexData_[start].normal.x = vertexData_[start].position.x;
+			vertexData_[start].normal.x = vertexData_[start].position.x;
 			vertexData_[start].normal.y = vertexData_[start].position.y;
-			vertexData_[start].normal.z = vertexData_[start].position.z;*/
+			vertexData_[start].normal.z = vertexData_[start].position.z;
 
 
 			//頂点b
@@ -55,9 +54,9 @@ void Sphere::Initialize(uint32_t textureHandle)
 			vertexData_[start + 1].texcoord.x = float(lonIndex) / float(kSubdivision);
 			vertexData_[start + 1].texcoord.y = 1.0f - float(latIndex + 1) / float(kSubdivision);
 
-			/*vertexData_[start + 1].normal.x = vertexData_[start + 1].position.x;
+			vertexData_[start + 1].normal.x = vertexData_[start + 1].position.x;
 			vertexData_[start + 1].normal.y = vertexData_[start + 1].position.y;
-			vertexData_[start + 1].normal.z = vertexData_[start + 1].position.z;*/
+			vertexData_[start + 1].normal.z = vertexData_[start + 1].position.z;
 
 			//頂点c
 			vertexData_[start + 2].position.x = std::cos(lat) * std::cos(lon + kLonEvery);
@@ -68,9 +67,9 @@ void Sphere::Initialize(uint32_t textureHandle)
 			vertexData_[start + 2].texcoord.x = float(lonIndex + 1) / float(kSubdivision);
 			vertexData_[start + 2].texcoord.y = 1.0f - float(latIndex) / float(kSubdivision);
 
-	/*		vertexData_[start + 2].normal.x = vertexData_[start + 2].position.x;
+			vertexData_[start + 2].normal.x = vertexData_[start + 2].position.x;
 			vertexData_[start + 2].normal.y = vertexData_[start + 2].position.y;
-			vertexData_[start + 2].normal.z = vertexData_[start + 2].position.z;*/
+			vertexData_[start + 2].normal.z = vertexData_[start + 2].position.z;
 
 			//頂点d
 			vertexData_[start + 3].position.x = std::cos(lat) * std::cos(lon + kLonEvery);
@@ -81,9 +80,9 @@ void Sphere::Initialize(uint32_t textureHandle)
 			vertexData_[start + 3].texcoord.x = float(lonIndex + 1) / float(kSubdivision);
 			vertexData_[start + 3].texcoord.y = 1.0f - float(latIndex) / float(kSubdivision);
 
-		/*	vertexData_[start + 3].normal.x = vertexData_[start + 3].position.x;
+			vertexData_[start + 3].normal.x = vertexData_[start + 3].position.x;
 			vertexData_[start + 3].normal.y = vertexData_[start + 3].position.y;
-			vertexData_[start + 3].normal.z = vertexData_[start + 3].position.z;*/
+			vertexData_[start + 3].normal.z = vertexData_[start + 3].position.z;
 
 			//頂点e
 			vertexData_[start + 4].position.x = std::cos(lat + kLatEvery) * std::cos(lon);
@@ -94,9 +93,9 @@ void Sphere::Initialize(uint32_t textureHandle)
 			vertexData_[start + 4].texcoord.x = float(lonIndex) / float(kSubdivision);
 			vertexData_[start + 4].texcoord.y = 1.0f - float(latIndex + 1) / float(kSubdivision);
 
-			/*vertexData_[start + 4].normal.x = vertexData_[start + 4].position.x;
+			vertexData_[start + 4].normal.x = vertexData_[start + 4].position.x;
 			vertexData_[start + 4].normal.y = vertexData_[start + 4].position.y;
-			vertexData_[start + 4].normal.z = vertexData_[start + 4].position.z;*/
+			vertexData_[start + 4].normal.z = vertexData_[start + 4].position.z;
 
 			//頂点f
 			vertexData_[start + 5].position.x = std::cos(lat + kLatEvery) * std::cos(lon + kLonEvery);
@@ -107,12 +106,16 @@ void Sphere::Initialize(uint32_t textureHandle)
 			vertexData_[start + 5].texcoord.x = float(lonIndex + 1) / float(kSubdivision);
 			vertexData_[start + 5].texcoord.y = 1.0f - float(latIndex + 1) / float(kSubdivision);
 
-		/*	vertexData_[start + 5].normal.x = vertexData_[start + 5].position.x;
+			vertexData_[start + 5].normal.x = vertexData_[start + 5].position.x;
 			vertexData_[start + 5].normal.y = vertexData_[start + 5].position.y;
-			vertexData_[start + 5].normal.z = vertexData_[start + 5].position.z;*/
+			vertexData_[start + 5].normal.z = vertexData_[start + 5].position.z;
+
+
 
 		}
 	}
+
+	
 
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData_->uvTransform = MakeIdentity4x4();

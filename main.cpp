@@ -67,7 +67,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	sprite2->SetisInvisible(true);
 
 	Sphere* sphere = new Sphere;
-	sphere->Initialize(uvTexture);
+	sphere->Initialize(monsterBall);
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
@@ -97,6 +97,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		sprite2->Update();
 
 		sphere->Update();
+		sphere->worldTransform_.rotation_.y += 0.01f;
 
 		triangle->Draw(camera);
 		triangle2->Draw(camera);
