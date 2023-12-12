@@ -81,10 +81,24 @@ public:
 		textureLeftTop = leftTop;
 	}
 
+	/// <summary>
+	/// テクスチャサイズ（表示したいサイズ
+	/// </summary>
+	/// <param name="size"></param>
 	void SetSize(Vector2 size)
 	{
 		size_ = size;
 	}
+
+	/// <summary>
+	/// スプライトのの基準点
+	/// </summary>
+	/// <param name="anchorPoint"></param>
+	void SetAnchorPoint(Vector2 anchorPoint)
+	{
+		anchorPoint_ = anchorPoint;
+	}
+
 
 private://プライベート変数
 
@@ -116,6 +130,7 @@ private://プライベート変数
 
 	Vector2 size_ = { 100.0f,100.0f };
 	Vector2 textureLeftTop = { 0.0f,0.0f };
+	Vector2 anchorPoint_ = { 0.0f,0.0f };
 
 	float left;
 	float right;

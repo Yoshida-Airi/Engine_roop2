@@ -58,7 +58,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	sprite->SetSize({ 64.0f, 64.0f });
 	sprite->SetTextureLeftTop({ 64,0 });
 	sprite->SetTextureSize({ 64.0f, 64.0f });
-	sprite->SetisInvisible(true);
+	
+	//sprite->SetisInvisible(true);
 	
 
 	Sprite* sprite2 = new Sprite;
@@ -91,10 +92,13 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		triangle2->worldTransform.scale_.y = 0.5f;
 		triangle2->worldTransform.rotation_.y += 0.02f;
 
-		sprite->worldTransform.translation_.x = 700.0f;
+		sprite->worldTransform.translation_ = { 700.0f };
+
 
 		sprite->Update();
 		sprite2->Update();
+
+
 
 		sphere->Update();
 		sphere->worldTransform_.rotation_.y += 0.01f;

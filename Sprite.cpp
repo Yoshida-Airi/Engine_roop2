@@ -16,7 +16,6 @@ void Sprite::Initialize(uint32_t textureHandle)
 	dxCommon_ = DirectXCommon::GetInstance();
 	texture_ = TextureManager::GetInstance();
 
-	
 	worldTransform.Initialize();
 	textureHandle_ = textureHandle;
 
@@ -178,16 +177,20 @@ void Sprite::IndexBuffer()
 
 void Sprite::UpdateVertexBuffer()
 {
+
+
 	//テクスチャのサイズを合わせる
-	left = 0.0f * size_.x;
-	right = 1.0f * size_.x;
-	top = 0.0f * size_.y;
-	bottom = 1.0f * size_.y;
+	left = (0.0f - anchorPoint_.x) * size_.x;
+	right = (1.0f - anchorPoint_.x) * size_.x;
+	top = (0.0f - anchorPoint_.y) * size_.y;
+	bottom = (1.0f - anchorPoint_.y) * size_.y;
 
 	texLeft = textureLeftTop.x / resourceDesc_.Width;
 	texRight = (textureLeftTop.x + textureSize_.x) / resourceDesc_.Width;
 	texTop = textureLeftTop.y / resourceDesc_.Height;
 	texBottom = (textureLeftTop.y + textureSize_.y) / resourceDesc_.Height;
+
+
 
 	//頂点の設定
 	vertexData_[LB].position = { left,bottom,0.0f,1.0f };
@@ -202,6 +205,7 @@ void Sprite::UpdateVertexBuffer()
 	vertexData_[RT].position = { right,top,0.0f,1.0f };
 	vertexData_[RT].texcoord = { texRight,texTop };
 
+	
 }
 
 
