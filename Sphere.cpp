@@ -133,6 +133,20 @@ void Sphere::Initialize(uint32_t textureHandle)
 void Sphere::Update()
 {
 	worldTransform_.UpdateWorldMatrix();
+
+	ImGui::Begin("texture");
+
+	float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
+	ImGui::SliderFloat3("lightDirection", direction, -1.0f, 1.0f);
+
+	lightData_->direction.x = direction[0];
+	lightData_->direction.y = direction[1];
+	lightData_->direction.z = direction[2];
+
+
+
+	ImGui::End();
+
 }
 
 void Sphere::Draw(Camera* camera)
