@@ -35,9 +35,11 @@ private:
 
 	Microsoft::WRL::ComPtr < ID3D12Resource>vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr < ID3D12Resource> materialResource_;	//マテリアルリソース
+	Microsoft::WRL::ComPtr < ID3D12Resource> lightResource_;
 
 	VertexData* vertexData_ = nullptr;
 	Material* materialData_ = nullptr;	//マテリアルデータ
+	DirectionalLight* lightData_ = nullptr;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 	D3D12_VERTEX_BUFFER_VIEW materialBufferView_;
@@ -71,5 +73,10 @@ private:
 	/// マテリアルのバッファの取得
 	/// </summary>
 	void MaterialBuffer();
+
+	/// <summary>
+	/// ライトバッファ
+	/// </summary>
+	void LightBuffer();
 };
 

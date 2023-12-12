@@ -12,6 +12,7 @@ void Sphere::Initialize(uint32_t textureHandle)
 
 	VertexBuffer();
 	MaterialBuffer();
+	LightBuffer();
 
 	worldTransform_.Initialize();
 	textureHandle_ = textureHandle;
@@ -116,9 +117,17 @@ void Sphere::Initialize(uint32_t textureHandle)
 	}
 
 	
-
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData_->uvTransform = MakeIdentity4x4();
+
+	//Lightingを有効にする
+	materialData_->enableLighting = true;
+
+	//ライトのデフォルト値
+
+	lightData_->color = { 1.0f,1.0f,1.0f,1.0f };
+	lightData_->direction = { -1.0f,-1.0f,1.0f };
+	lightData_->intensity = 1.0f;
 }
 
 void Sphere::Update()
@@ -140,6 +149,8 @@ void Sphere::Draw(Camera* camera)
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->GetConstBuffer()->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
+	//ライト用のCBufferの場所を設定
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, lightResource_->GetGPUVirtualAddress());
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(totalVertex, 1, 0, 0);
 }
@@ -176,4 +187,10 @@ void Sphere::MaterialBuffer()
 	//書き込むためのアドレスを取得
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 
+}
+
+void Sphere::LightBuffer()
+{
+	lightResource_ = dxCommon_->CreateBufferResource(sizeof(DirectionalLight));
+	lightResource_->Map(0, nullptr, reinterpret_cast<void**>(&lightData_));
 }
