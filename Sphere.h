@@ -28,6 +28,12 @@ public:
 
 	WorldTransform worldTransform_ = {};
 
+	void SetisInvisible(bool isInvisible)
+	{
+		isInvisible_ = isInvisible;
+	}
+
+
 private:
 
 	DirectXCommon* dxCommon_;
@@ -61,7 +67,7 @@ private:
 	//球の全ての頂点
 	const uint32_t totalVertex = 1536;
 
-
+	bool isInvisible_ = false;
 
 private:
 	/// <summary>

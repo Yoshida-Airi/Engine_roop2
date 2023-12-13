@@ -52,6 +52,11 @@ void Triangle::Update()
 
 void Triangle::Draw(Camera* camera)
 {
+	if (isInvisible_ == true)
+	{
+		return;
+	}
+
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	//形状を設定。PS0にせっていしているものとはまた別。同じものを設定する

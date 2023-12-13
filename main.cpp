@@ -7,6 +7,7 @@
 #include"Triangle.h"
 #include"Sprite.h"
 #include"Sphere.h"
+#include"Model.h"
 #include"Camera.h"
 #include"UICamera.h"
 #include"Input.h"
@@ -52,14 +53,16 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	triangle->Initialize(uvTexture);
 	Triangle* triangle2 = new Triangle;
 	triangle2->Initialize(monsterBall);
+	triangle->SetisInvisible(true);
+	triangle2->SetisInvisible(true);
+
 
 	Sprite* sprite = new Sprite;
 	sprite->Initialize(Doll);
 	sprite->SetSize({ 64.0f, 64.0f });
 	sprite->SetTextureLeftTop({ 64,0 });
 	sprite->SetTextureSize({ 64.0f, 64.0f });
-	
-	//sprite->SetisInvisible(true);
+	sprite->SetisInvisible(true);
 	
 
 	Sprite* sprite2 = new Sprite;
@@ -69,14 +72,18 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	Sphere* sphere = new Sphere;
 	sphere->Initialize(monsterBall);
+	sphere->SetisInvisible(true);
+
+	Model* model = new Model;
+	model->Initialize("Resources", "axis.obj");
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
 	{
 		/*--- ゲームループ  ---*/
-		
-		dxCommon->PreDraw();
+	
 		input->Update();
+		input->TriggerKey(DIK_0);
 
 #ifdef _DEBUG
 		imgui->Begin();
@@ -94,14 +101,15 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		sprite->worldTransform.translation_ = { 700.0f };
 
-
 		sprite->Update();
 		sprite2->Update();
 
-
-
 		sphere->Update();
 		sphere->worldTransform_.rotation_.y += 0.01f;
+
+		model->Update();
+
+		dxCommon->PreDraw();
 
 		triangle->Draw(camera);
 		triangle2->Draw(camera);
@@ -111,8 +119,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		
 		sphere->Draw(camera);
 
-		input->TriggerKey(DIK_0);
-
+		model->Draw(camera);
 
 #ifdef _DEBUG
 		ImGui::ShowDemoWindow();
@@ -130,6 +137,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete sprite;
 	delete sprite2;
 	delete sphere;
+	delete model;
 
 	//WindowAPIの解放
 	delete winApp;

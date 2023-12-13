@@ -40,6 +40,10 @@ public:
 		textureSrvHandleGPU_ = textureSrvHandleGPU;
 	}
 
+	void SetisInvisible(bool isInvisible)
+	{
+		isInvisible_ = isInvisible;
+	}
 
 	WorldTransform worldTransform;
 
@@ -65,6 +69,7 @@ private://プライベート変数
 	
 	uint32_t textureHandle_;
 
+	bool isInvisible_ = false;
 
 private://プライベート関数
 

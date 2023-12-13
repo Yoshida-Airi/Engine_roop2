@@ -134,7 +134,9 @@ void Sphere::Update()
 {
 	worldTransform_.UpdateWorldMatrix();
 
-	ImGui::Begin("texture");
+#ifdef _DEBUG
+
+	ImGui::Begin("light");
 
 	float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
 	ImGui::SliderFloat3("lightDirection", direction, -1.0f, 1.0f);
@@ -143,14 +145,20 @@ void Sphere::Update()
 	lightData_->direction.y = direction[1];
 	lightData_->direction.z = direction[2];
 
-
-
 	ImGui::End();
+#endif // _DEBUG
+
+
 
 }
 
 void Sphere::Draw(Camera* camera)
 {
+	if (isInvisible_ == true)
+	{
+		return;
+	}
+
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	//形状を設定。PS0にせっていしているものとはまた別。同じものを設定する

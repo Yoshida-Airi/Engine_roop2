@@ -20,6 +20,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="UICamera.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="UICamera.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Model.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Object3D.hlsli" />
