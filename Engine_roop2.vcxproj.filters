@@ -21,6 +21,7 @@
     <ClCompile Include="UICamera.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -42,6 +43,8 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelLoader.h" />
+    <ClInclude Include="ModelData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Object3D.hlsli" />

@@ -31,6 +31,10 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	uint32_t monsterBall = texture->LoadTexture("Resources/monsterBall.png");
 	uint32_t Doll = texture->LoadTexture("Resources/Doll.png");
 
+	ModelLoader* object = ModelLoader::GetInstance();
+	ModelData plane = object->LoadObjFile("Resources", "plane.obj");
+	ModelData cube = object->LoadObjFile("Resources", "cube.obj");
+
 	Camera* camera = new Camera;
 	camera->Initialize();
 
@@ -75,10 +79,10 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	sphere->SetisInvisible(true);
 
 	Model* model = new Model;
-	model->Initialize("Resources", "plane.obj");
+	model->Initialize(plane);
 
 	Model* model2 = new Model;
-	model2->Initialize("Resources", "cube.obj");
+	model2->Initialize(cube);
 	
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -115,6 +119,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		model->Update();
 		model2->Update();
 		model->worldTransform_.translation_.x = 3.0f;
+	
 		dxCommon->PreDraw();
 
 		triangle->Draw(camera);

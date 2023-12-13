@@ -1,33 +1,18 @@
 #pragma once
-#include<string>
-#include<fstream>
-#include<sstream>
-#include<vector>
-#include<assert.h>
-#include<array>
+
 
 #include"DirectXCommon.h"
 #include"TextureManager.h"
+#include"ModelLoader.h"
 #include"Globals.h"
 #include"WorldTransform.h"
 #include"Camera.h"
-
-struct MaterialData
-{
-	std::string textureFilePath;
-};
-
-struct ModelData
-{
-	std::vector<VertexData>vertices;
-	MaterialData material;
-	std::string filename{};
-};
+#include"ModelData.h"
 
 class Model
 {
 public:
-	void Initialize(const std::string& directoryPath, const std::string& filename);
+	void Initialize(ModelData data);
 	void Update();
 	void Draw(Camera* camera);
 
@@ -45,12 +30,10 @@ public:
 private:
 	DirectXCommon* dxCommon_;
 	TextureManager* texture_;
+	ModelLoader* modelLoader_;
 
-
-	static const size_t kMaxModel = 256;	//最大モデル数
 	ModelData modelData_;
-	std::array<ModelData, kMaxModel> model;
-	bool IsusedModel[kMaxModel];
+
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
 	Microsoft::WRL::ComPtr < ID3D12Resource> lightResource_;
@@ -66,15 +49,6 @@ private:
 	bool isInvisible_ = false;
 
 private:
-	/// <summary>
-	/// Objファイルを読むための関数
-	/// </summary>
-	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
-
-	/// <summary>
-	/// mtlファイルを読むための関数
-	/// </summary>
-	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
 
 	/// <summary>
 	/// 頂点のバッファの取得
