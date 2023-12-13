@@ -75,7 +75,11 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	sphere->SetisInvisible(true);
 
 	Model* model = new Model;
-	model->Initialize("Resources", "axis.obj");
+	model->Initialize("Resources", "plane.obj");
+
+	Model* model2 = new Model;
+	model2->Initialize("Resources", "cube.obj");
+	
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
@@ -107,8 +111,10 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		sphere->Update();
 		sphere->worldTransform_.rotation_.y += 0.01f;
 
+		
 		model->Update();
-
+		model2->Update();
+		model->worldTransform_.translation_.x = 3.0f;
 		dxCommon->PreDraw();
 
 		triangle->Draw(camera);
@@ -120,6 +126,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		sphere->Draw(camera);
 
 		model->Draw(camera);
+		model2->Draw(camera);
 
 #ifdef _DEBUG
 		ImGui::ShowDemoWindow();
@@ -138,6 +145,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete sprite2;
 	delete sphere;
 	delete model;
+	delete model2;
 
 	//WindowAPIの解放
 	delete winApp;

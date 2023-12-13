@@ -4,6 +4,7 @@
 #include<sstream>
 #include<vector>
 #include<assert.h>
+#include<array>
 
 #include"DirectXCommon.h"
 #include"TextureManager.h"
@@ -20,6 +21,7 @@ struct ModelData
 {
 	std::vector<VertexData>vertices;
 	MaterialData material;
+	std::string filename{};
 };
 
 class Model
@@ -38,13 +40,17 @@ public:
 		isInvisible_ = isInvisible;
 	}
 
+	WorldTransform worldTransform_;
+
 private:
 	DirectXCommon* dxCommon_;
 	TextureManager* texture_;
 
-	WorldTransform worldTransform_;
 
-	ModelData modelData_;	//モデル
+	static const size_t kMaxModel = 256;	//最大モデル数
+	ModelData modelData_;
+	std::array<ModelData, kMaxModel> model;
+	bool IsusedModel[kMaxModel];
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
 	Microsoft::WRL::ComPtr < ID3D12Resource> lightResource_;

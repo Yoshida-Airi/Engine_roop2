@@ -34,8 +34,8 @@ PixcelShaderOutput main(VertexShaderOutput input)
     
     if (gMaterial.enableLighting != 0)
     {
-        float NdotL = (dot(normalize(input.normal), -gDirectionalLight.direction));
-        float cos = pow(NdotL * 0.5f + 0.5f, 2.1f);
+        float NdotL =saturate (dot(normalize(input.normal), -gDirectionalLight.direction));
+        float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
         output.color = gMaterial.color * textureColor * gDirectionalLight.color * cos * gDirectionalLight.intensity;
     }
     else

@@ -8,6 +8,7 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	texture_ = TextureManager::GetInstance();
+	worldTransform_.Initialize();
 
 	modelData_ = LoadObjFile(directoryPath, filename);
 	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
@@ -16,8 +17,7 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 	MaterialBuffer();
 	LightBuffer();
 
-	worldTransform_.Initialize();
-
+	
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData_->enableLighting = true;
 	materialData_->uvTransform = MakeIdentity4x4();
@@ -30,6 +30,22 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 
 void Model::Update()
 {
+	worldTransform_.UpdateWorldMatrix();
+
+#ifdef _DEBUG
+
+	ImGui::Begin("light");
+
+	float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
+	ImGui::SliderFloat3("lightDirection", direction, -1.0f, 1.0f);
+
+	lightData_->direction.x = direction[0];
+	lightData_->direction.y = direction[1];
+	lightData_->direction.z = direction[2];
+
+	ImGui::End();
+#endif // _DEBUG
+
 }
 
 void Model::Draw(Camera* camera)
@@ -66,8 +82,29 @@ void Model::Draw(Camera* camera)
 
 ModelData Model::LoadObjFile(const std::string& directoryPath, const std::string& filename)
 {
+	uint32_t index = 0;
+
+	for (int i = 0; i < kMaxModel; i++)
+	{
+		//同じモデルがあった場合
+		if (model[i].filename == directoryPath + "/" + filename)
+		{
+			return model[i];
+		}
+
+		if (IsusedModel[i] == false) {
+			index = i;
+			IsusedModel[i] = true;
+			break;
+		}
+	}
+
+	//indexが不正な値だった場合止める
+	if (index < 0 || kMaxModel <= index) {
+		assert(false);
+	}
+
 	//1.中で必要となる変数の宣言
-	ModelData modelData_;	//構築するModelData
 	std::vector<Vector4>positions_;	//位置
 	std::vector<Vector3>normals_;	//法線
 	std::vector<Vector2>texcoords_;	//テクスチャ座標
@@ -130,17 +167,13 @@ ModelData Model::LoadObjFile(const std::string& directoryPath, const std::string
 				Vector2 texcoord = texcoords_[elementIndices[1] - 1];
 				Vector3 normal = normals_[elementIndices[2] - 1];
 
-
-
-				/*	VertexData vertex = { position,texcoord,normal };
-					modelData_.vertices.push_back(vertex);*/
 				triangle[faveVertex] = { position,texcoord,normal };
 			}
 
 			//頂点を逆順で登録することで、周り順を逆にする
-			modelData_.vertices.push_back(triangle[2]);
-			modelData_.vertices.push_back(triangle[1]);
-			modelData_.vertices.push_back(triangle[0]);
+			model.at(index).vertices.push_back(triangle[2]);
+			model.at(index).vertices.push_back(triangle[1]);
+			model.at(index).vertices.push_back(triangle[0]);
 		}
 
 		else if (identifier == "mtllib")
@@ -149,13 +182,16 @@ ModelData Model::LoadObjFile(const std::string& directoryPath, const std::string
 			std::string materialFilename;
 			s >> materialFilename;
 			//基本的にObjファイルと同一階層にmtlは存在させるので、ディレクトリ名とファイル名を渡す
-			modelData_.material = LoadMaterialTemplateFile(directoryPath, materialFilename);
+			model.at(index).material = LoadMaterialTemplateFile(directoryPath, materialFilename);
 		}
 	}
 
-	//4.ModelDataを返す
 
-	return modelData_;
+	model.at(index).filename = directoryPath + "/" + filename;
+
+
+	//4.ModelDataを返す
+	return model[index];
 }
 
 

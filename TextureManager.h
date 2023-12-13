@@ -62,7 +62,7 @@ public:
 
 private:
 
-	static const size_t kMaxTexture = 2056;	//最大テクスチャ数
+	static const size_t kMaxTexture = 256;	//最大テクスチャ数
 	DirectXCommon* dxCommon_;
 
 	DirectX::ScratchImage mipImages_;
