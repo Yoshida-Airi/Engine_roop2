@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <FxCompile Include="Object3D.PS.hlsl">
+    <FxCompile Include="Resources\Shaders\Object3D.PS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Object3D.VS.hlsl">
+    <FxCompile Include="Resources\Shaders\Object3D.VS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
   </ItemGroup>
@@ -156,7 +156,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Object3D.hlsli">
+    <None Include="Resources\Shaders\Object3D.hlsli">
       <Filter>リソース ファイル\Shader</Filter>
     </None>
   </ItemGroup>
