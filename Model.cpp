@@ -49,7 +49,7 @@ void Model::Update()
 
 }
 
-void Model::Draw(Camera* camera)
+void Model::Draw(ICamera* camera)
 {
 	if (isInvisible_ == true)
 	{
@@ -65,7 +65,7 @@ void Model::Draw(Camera* camera)
 	//wvp用のCbufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform_.constBuffer_->GetGPUVirtualAddress());
 	//カメラ用のCBufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->GetConstBuffer()->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
 	//ライト用のCBufferの場所を設定

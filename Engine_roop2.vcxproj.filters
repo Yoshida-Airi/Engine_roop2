@@ -45,6 +45,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="ModelData.h" />
+    <ClInclude Include="ICamera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Object3D.hlsli" />

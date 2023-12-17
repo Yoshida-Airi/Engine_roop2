@@ -6,7 +6,7 @@
 #include"ModelLoader.h"
 #include"Globals.h"
 #include"WorldTransform.h"
-#include"Camera.h"
+#include"ICamera.h"
 #include"ModelData.h"
 
 class Model
@@ -14,7 +14,7 @@ class Model
 public:
 	void Initialize(ModelData data);
 	void Update();
-	void Draw(Camera* camera);
+	void Draw(ICamera* camera);
 
 	/// <summary>
 	/// 表示切り替え

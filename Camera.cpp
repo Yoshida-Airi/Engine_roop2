@@ -1,6 +1,4 @@
 #include "Camera.h"
-#include "Camera.h"
-
 
 void Camera::Initialize()
 {
@@ -52,7 +50,7 @@ void Camera::UpdateProjectionMatrix()
 	matProjection = MakePerspectiveFovMatrix(0.45f, float(winApp->kCilentWidth) / float(winApp->kCilentHeight), nearZ, farZ);
 }
 
-void Camera::cameraDebug()
+void Camera::CameraDebug()
 {
 	ImGui::Begin("camera");
 

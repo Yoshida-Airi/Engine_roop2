@@ -8,9 +8,10 @@
 #include"Sprite.h"
 #include"Sphere.h"
 #include"Model.h"
+#include"ICamera.h"
+#include"Input.h"
 #include"Camera.h"
 #include"UICamera.h"
-#include"Input.h"
 
 //Windowsアプリでのエントリーポイント(main関数)
 int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -35,10 +36,10 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ModelData plane = object->LoadObjFile("Resources", "plane.obj");
 	ModelData cube = object->LoadObjFile("Resources", "cube.obj");
 
-	Camera* camera = new Camera;
+	ICamera* camera = new Camera;
 	camera->Initialize();
 
-	UICamera* uiCamera = new UICamera;
+	ICamera* uiCamera = new UICamera;
 	uiCamera->Initialize();
 
 	Input* input = Input::GetInstance();
@@ -57,8 +58,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	triangle->Initialize(uvTexture);
 	Triangle* triangle2 = new Triangle;
 	triangle2->Initialize(monsterBall);
-	triangle->SetisInvisible(true);
-	triangle2->SetisInvisible(true);
+	//triangle->SetisInvisible(true);
+	//triangle2->SetisInvisible(true);
 
 
 	Sprite* sprite = new Sprite;
@@ -66,13 +67,13 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	sprite->SetSize({ 64.0f, 64.0f });
 	sprite->SetTextureLeftTop({ 64,0 });
 	sprite->SetTextureSize({ 64.0f, 64.0f });
-	sprite->SetisInvisible(true);
+	//sprite->SetisInvisible(true);
 	
 
 	Sprite* sprite2 = new Sprite;
 	sprite2->Initialize(uvTexture);
 	sprite2->SetSize({ 640.0f, 360.0f });
-	sprite2->SetisInvisible(true);
+	//sprite2->SetisInvisible(true);
 
 	Sphere* sphere = new Sphere;
 	sphere->Initialize(monsterBall);
@@ -95,7 +96,7 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #ifdef _DEBUG
 		imgui->Begin();
-		camera->cameraDebug();
+		camera->CameraDebug();
 
 #endif // _DEBUG
 

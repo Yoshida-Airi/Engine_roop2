@@ -50,7 +50,7 @@ void Triangle::Update()
 
 }
 
-void Triangle::Draw(Camera* camera)
+void Triangle::Draw(ICamera* camera)
 {
 	if (isInvisible_ == true)
 	{
@@ -66,7 +66,7 @@ void Triangle::Draw(Camera* camera)
 	//wvp用のCbufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform.constBuffer_->GetGPUVirtualAddress());
 	//カメラ用のCBufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->GetConstBuffer()->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
 	//描画

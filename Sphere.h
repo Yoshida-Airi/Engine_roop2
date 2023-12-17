@@ -6,7 +6,7 @@
 #include"TextureManager.h"
 #include"Globals.h"
 #include"WorldTransform.h"
-#include"Camera.h"
+#include"ICamera.h"
 
 #include<numbers>
 #include<cmath>
@@ -24,7 +24,7 @@ public:
 
 	void Update();
 
-	void Draw(Camera* camera);
+	void Draw(ICamera* camera);
 
 	WorldTransform worldTransform_ = {};
 

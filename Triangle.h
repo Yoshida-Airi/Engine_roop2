@@ -10,6 +10,7 @@
 #include"WorldTransform.h"
 
 #include"Camera.h"
+#include"ICamera.h"
 
 
 struct TriangleData
@@ -26,7 +27,7 @@ public:
 	void Initialize(uint32_t textureHandle);
 
 	void Update();
-	void Draw(Camera* camera);
+	void Draw(ICamera* camera);
 
 
 	/// <summary>

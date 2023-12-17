@@ -95,7 +95,7 @@ void Sprite::Update()
 
 }
 
-void Sprite::Draw(UICamera* camera)
+void Sprite::Draw(ICamera* camera)
 {
 	if (isInvisible_ == true)
 	{
@@ -113,7 +113,7 @@ void Sprite::Draw(UICamera* camera)
 	//wvp用のCbufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform.constBuffer_->GetGPUVirtualAddress());
 	//カメラ用のCBufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->GetConstBuffer()->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
 	//描画

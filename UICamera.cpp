@@ -50,7 +50,7 @@ void UICamera::UpdateProjectionMatrix()
 	matProjection = MakeOrthographicmatrix(0.0f, 0.0f, float(winApp->kCilentWidth), float(winApp->kCilentHeight), 0.0f, 100.0f);
 }
 
-void UICamera::cameraDebug()
+void UICamera::CameraDebug()
 {
 	ImGui::Begin("camera");
 
