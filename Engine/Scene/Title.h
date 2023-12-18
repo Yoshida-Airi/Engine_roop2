@@ -13,10 +13,10 @@
 
 #include"IScene.h"
 
-class Game :public IScene
+class Title : public IScene
 {
 public:
-	~Game();
+	~Title();
 	void Initialize()override;
 	void Update()override;
 	void Draw()override;

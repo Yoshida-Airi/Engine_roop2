@@ -69,6 +69,12 @@
     <ClCompile Include="Engine\Scene\Game.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Scene\Title.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\IScene.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -144,6 +150,12 @@
       <Filter>Engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Scene\Game.h">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\Title.h">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\IScene.h">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
   </ItemGroup>

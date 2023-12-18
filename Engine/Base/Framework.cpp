@@ -37,23 +37,26 @@ void Framework::Initialize()
 	texture = TextureManager::GetInstance();
 	texture->Initialize();
 
+	scene = new Game;
+	scene->Initialize();
+
 }
 
 void Framework::Update()
 {
-
-
+	scene->Update();
 }
 
 void Framework::Draw()
 {
 	dxCommon->PreDraw();
-	
+	scene->Draw();
+	dxCommon->PostDraw();
 }
 
 void Framework::PostDraw()
 {
-	dxCommon->PostDraw();
+	
 }
 
 void Framework::Run()

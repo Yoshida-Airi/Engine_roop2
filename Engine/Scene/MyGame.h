@@ -1,6 +1,8 @@
 #pragma once
 #include"Framework.h"
 #include"Game.h"
+#include"Title.h"
+#include"IScene.h"
 
 class MyGame : public Framework
 {
@@ -13,7 +15,6 @@ public:
 
 private:
 
-	Game* scene_ = nullptr;
 
 	
 };
