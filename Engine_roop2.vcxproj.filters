@@ -66,7 +66,7 @@
     <ClCompile Include="Engine\Scene\MyGame.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\Title.cpp">
+    <ClCompile Include="Engine\Scene\Game.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,7 +143,7 @@
     <ClInclude Include="Engine\Scene\MyGame.h">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\Title.h">
+    <ClInclude Include="Engine\Scene\Game.h">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
   </ItemGroup>
