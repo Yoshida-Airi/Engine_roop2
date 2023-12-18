@@ -10,7 +10,7 @@ void MyGame::Initialize()
 	
 	Framework::Initialize();
 
-	IScene* scene = new Title();
+	IScene* scene = new Title(sceneManager_);
 	sceneManager_->SetNextScene(scene);
 
 }

@@ -16,6 +16,9 @@ void SceneManager::Update()
 	
 		scene_ = nextScene_;
 		nextScene_ = nullptr;
+
+		scene_->SetSceneManager(this);
+
 		scene_->Initialize();
 
 	}

@@ -14,6 +14,11 @@ Framework::~Framework()
 	delete texture;
 	texture = nullptr;
 
+
+	delete input;
+	input = nullptr;
+
+
 	delete sceneManager_;
 
 #ifdef _DEBUG
@@ -38,12 +43,16 @@ void Framework::Initialize()
 	texture = TextureManager::GetInstance();
 	texture->Initialize();
 
+	input = Input::GetInstance();
+	input->Initialize();
+
 	sceneManager_ = new SceneManager();
 
 }
 
 void Framework::Update()
 {
+	input->Update();
 	sceneManager_->Update();
 }
 

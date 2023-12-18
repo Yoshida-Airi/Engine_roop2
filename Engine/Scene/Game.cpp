@@ -15,16 +15,18 @@ Game::~Game()
 	delete uiCamera;
 
 
-	delete input;
-	input = nullptr;
-
-
 #ifdef _DEBUG
 	delete imgui;
 #endif // _DEBUG
 
 
 
+}
+
+Game::Game(SceneManager* sceneManager)
+	:IScene(sceneManager)
+{
+	sceneManager_ = sceneManager;
 }
 
 void Game::Initialize()
@@ -46,7 +48,7 @@ void Game::Initialize()
 	uiCamera->Initialize();
 
 	input = Input::GetInstance();
-	input->Initialize();
+
 
 
 #ifdef _DEBUG
@@ -96,6 +98,12 @@ void Game::Initialize()
 void Game::Update()
 {
 
+	if (input->TriggerKey(DIK_RETURN))
+	{
+		IScene* scene = new Title(sceneManager_);
+		sceneManager_->SetNextScene(scene);
+	}
+
 #ifdef _DEBUG
 	imgui->Begin();
 	camera->CameraDebug();
@@ -107,8 +115,6 @@ void Game::Update()
 	model2->Update();
 	model->worldTransform_.translation_.x = 3.0f;
 
-	input->Update();
-	input->TriggerKey(DIK_0);
 
 	triangle->Update();
 	triangle->worldTransform.rotation_.y += 0.03f;

@@ -1,13 +1,12 @@
 #include "IScene.h"
 
-void IScene::Initialize()
+IScene::IScene(SceneManager* sceneManager)
+	:sceneManager_(sceneManager)
 {
+
 }
 
-void IScene::Update()
+void IScene::SetSceneManager(SceneManager* sceneManager)
 {
-}
-
-void IScene::Draw()
-{
+	sceneManager_ = sceneManager;
 }

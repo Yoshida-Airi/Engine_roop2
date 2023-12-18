@@ -2,6 +2,7 @@
 #include"TextureManager.h"
 #include"ModelLoader.h"
 #include"ImGuiManager.h"
+#include"SceneManager.h"
 #include"Model.h"
 #include"ICamera.h"
 #include"Camera.h"
@@ -12,11 +13,13 @@
 #include"UICamera.h"
 
 #include"IScene.h"
+#include"Title.h"
 
 class Game :public IScene
 {
 public:
 	~Game();
+	Game(SceneManager* sceneManager);
 	void Initialize()override;
 	void Update()override;
 	void Draw()override;
@@ -25,8 +28,7 @@ private:
 
 	TextureManager* texture;
 	ImGuiManager* imgui;
-
-
+	
 	ICamera* camera;
 	ICamera* uiCamera;
 

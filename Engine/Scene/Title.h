@@ -12,11 +12,13 @@
 #include"UICamera.h"
 
 #include"IScene.h"
+#include"Game.h"
 
 class Title : public IScene
 {
 public:
 	~Title();
+	Title(SceneManager* sceneManager);
 	void Initialize()override;
 	void Update()override;
 	void Draw()override;
@@ -25,12 +27,10 @@ private:
 
 	TextureManager* texture;
 	ImGuiManager* imgui;
-
+	Input* input;
 
 	ICamera* camera;
 	ICamera* uiCamera;
-
-	Input* input;
 
 	uint32_t uvTexture;
 	uint32_t monsterBall;

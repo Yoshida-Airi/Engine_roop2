@@ -2,6 +2,7 @@
 #include"WinApp.h"
 #include"DirectXCommon.h"
 #include"TextureManager.h"
+#include"Input.h"
 #include"Title.h"
 #include"Game.h"
 #include"SceneManager.h"
@@ -22,6 +23,7 @@ protected:
 	DirectXCommon* dxCommon;
 	TextureManager* texture;
 	SceneManager* sceneManager_ = nullptr;
+	Input* input = nullptr;
 	
 };
 
