@@ -60,6 +60,8 @@
     <ClCompile Include="Engine\Base\ModelLoader.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
+    <ClCompile Include="MyGame.cpp" />
+    <ClCompile Include="Framework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -128,6 +130,8 @@
     <ClInclude Include="Engine\Base\ModelLoader.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
+    <ClInclude Include="MyGame.h" />
+    <ClInclude Include="Framework.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
