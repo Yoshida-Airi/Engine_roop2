@@ -65,7 +65,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\2D;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\2D;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;$(ProjectDir)Engine\Scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,7 +91,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\2D;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\2D;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;$(ProjectDir)Engine\Scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -111,7 +111,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Base\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Base\Input.cpp" />
     <ClCompile Include="Engine\Logger\Logger.cpp" />
-    <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="Engine\Base\Framework.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Math\MathUtilty.cpp" />
     <ClCompile Include="Engine\3D\Model.cpp" />
@@ -123,7 +123,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\2D\UICamera.cpp" />
     <ClCompile Include="Engine\Base\WinApp.cpp" />
     <ClCompile Include="Engine\Math\WorldTransform.cpp" />
-    <ClCompile Include="MyGame.cpp" />
+    <ClCompile Include="Engine\Scene\MyGame.cpp" />
+    <ClCompile Include="Engine\Scene\Title.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\3D\Camera.h" />
@@ -148,8 +149,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Math\VectorMath.h" />
     <ClInclude Include="Engine\Base\WinApp.h" />
     <ClInclude Include="Engine\Math\WorldTransform.h" />
-    <ClInclude Include="Framework.h" />
-    <ClInclude Include="MyGame.h" />
+    <ClInclude Include="Engine\Base\Framework.h" />
+    <ClInclude Include="Engine\Scene\MyGame.h" />
+    <ClInclude Include="Engine\Scene\Title.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D.PS.hlsl">
