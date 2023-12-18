@@ -2,10 +2,9 @@
 #include"WinApp.h"
 #include"DirectXCommon.h"
 #include"TextureManager.h"
-#include"IScene.h"
 #include"Title.h"
 #include"Game.h"
-
+#include"SceneManager.h"
 
 class Framework
 {
@@ -22,7 +21,7 @@ protected:
 	WinApp* winApp;
 	DirectXCommon* dxCommon;
 	TextureManager* texture;
-	IScene* scene;
+	SceneManager* sceneManager_ = nullptr;
 	
 };
 

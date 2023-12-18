@@ -14,7 +14,7 @@ Framework::~Framework()
 	delete texture;
 	texture = nullptr;
 
-	delete scene;
+	delete sceneManager_;
 
 #ifdef _DEBUG
 	DebugHelper::ReportLiveObjects();
@@ -38,20 +38,19 @@ void Framework::Initialize()
 	texture = TextureManager::GetInstance();
 	texture->Initialize();
 
-	scene = new Game;
-	scene->Initialize();
+	sceneManager_ = new SceneManager();
 
 }
 
 void Framework::Update()
 {
-	scene->Update();
+	sceneManager_->Update();
 }
 
 void Framework::Draw()
 {
 	dxCommon->PreDraw();
-	scene->Draw();
+	sceneManager_->Draw();
 	dxCommon->PostDraw();
 }
 
