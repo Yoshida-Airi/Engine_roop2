@@ -55,13 +55,13 @@ void Title::Initialize()
 
 
 
-//#ifdef _DEBUG
-//
-//	imgui = ImGuiManager::GetInstance();
-//	imgui->Initialize();
-//#endif // _DEBUG
-//
-//
+#ifdef _DEBUG
+
+	imgui = ImGuiManager::GetInstance();
+	imgui->Initialize();
+#endif // _DEBUG
+
+
 //
 //	triangle = new Triangle;
 //	triangle->Initialize(uvTexture);
@@ -108,14 +108,14 @@ void Title::Update()
 		sceneManager_->SetNextScene(scene);
 	}
 
-//
-//#ifdef _DEBUG
-//	imgui->Begin();
-//	camera->CameraDebug();
-//	sprite2->Debug();
-//
-//#endif // _DEBUG
-//
+
+#ifdef _DEBUG
+	imgui->Begin();
+	/*camera->CameraDebug();
+	sprite2->Debug();*/
+
+#endif // _DEBUG
+
 //	model->Update();
 //	model2->Update();
 //	model->worldTransform_.translation_.x = 3.0f;
@@ -153,11 +153,11 @@ void Title::Draw()
 //
 //	model->Draw(camera);
 //	model2->Draw(camera);
-//
-//#ifdef _DEBUG
-//	ImGui::ShowDemoWindow();
-//	imgui->End();
-//	imgui->Draw();
-//#endif // _DEBUG
+
+#ifdef _DEBUG
+	ImGui::ShowDemoWindow();
+	imgui->End();
+	imgui->Draw();
+#endif // _DEBUG
 
 }

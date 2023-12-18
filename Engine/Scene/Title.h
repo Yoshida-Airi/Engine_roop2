@@ -27,6 +27,7 @@ private:
 
 	TextureManager* texture;
 	ImGuiManager* imgui;
+	SceneManager* sceneManager_;
 	Input* input;
 
 	ICamera* camera;

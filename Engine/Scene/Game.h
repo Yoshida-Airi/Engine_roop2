@@ -2,7 +2,6 @@
 #include"TextureManager.h"
 #include"ModelLoader.h"
 #include"ImGuiManager.h"
-#include"SceneManager.h"
 #include"Model.h"
 #include"ICamera.h"
 #include"Camera.h"
@@ -28,11 +27,10 @@ private:
 
 	TextureManager* texture;
 	ImGuiManager* imgui;
-	
+	Input* input;
+
 	ICamera* camera;
 	ICamera* uiCamera;
-
-	Input* input;
 
 	uint32_t uvTexture;
 	uint32_t monsterBall;
