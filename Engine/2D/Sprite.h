@@ -45,6 +45,11 @@ public:
 
 	void SetVertexData(const float left, const float right, const float top, const float bottom);
 
+	void SetPosition(const Vector2& pos) {
+		worldTransform.translation_.x = pos.x;
+		worldTransform.translation_.y = pos.y;
+	}
+
 	/// <summary>
 	/// マテリアルデータの設定
 	/// </summary>
@@ -99,6 +104,10 @@ public:
 		anchorPoint_ = anchorPoint;
 	}
 
+	/// <summary>
+	/// デバッグ
+	/// </summary>
+	void Debug();
 
 private://プライベート変数
 

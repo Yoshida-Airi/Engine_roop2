@@ -39,6 +39,8 @@ void ImGuiManager::Initialize()
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontDefault();
 
+
+
 }
 
 void ImGuiManager::Begin()
