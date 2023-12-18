@@ -146,9 +146,6 @@
     <ClInclude Include="Engine\Base\Framework.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\MyGame.h">
-      <Filter>Engine\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Scene\Game.h">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
@@ -156,6 +153,9 @@
       <Filter>Engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Scene\IScene.h">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\MyGame.h">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
   </ItemGroup>

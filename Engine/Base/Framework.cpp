@@ -14,6 +14,7 @@ Framework::~Framework()
 	delete texture;
 	texture = nullptr;
 
+	delete scene;
 
 #ifdef _DEBUG
 	DebugHelper::ReportLiveObjects();
