@@ -60,6 +60,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="MyGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -128,6 +129,7 @@
     <ClInclude Include="Engine\Base\TextureManager.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
+    <ClInclude Include="MyGame.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
