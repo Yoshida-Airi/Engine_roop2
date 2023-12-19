@@ -20,7 +20,7 @@ void Sprite::Initialize(uint32_t textureHandle)
 	textureHandle_ = textureHandle;
 
 	resourceDesc_ = texture_->GetResourceDesc(textureHandle_);
-
+	
 	textureSize_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
 	size_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
 
@@ -138,23 +138,6 @@ void Sprite::SetMaterialData(const Vector4 color)
 /* 　　　　   プライベートメソッド　　　    */
 /*=====================================*/
 
-
-#ifdef _DEBUG
-void Sprite::Debug()
-{
-	ImGui::SetNextWindowSize({ 500,100 });
-	ImGui::Begin("sprite");
-
-	float pos[2] = { worldTransform.translation_.x,worldTransform.translation_.y };
-	ImGui::SliderFloat2("position", pos, 0, 1280, "%4.1f");
-	SetPosition({ pos[0],pos[1] });
-
-	ImGui::End();
-}
-#endif // _DEBUG
-
-
-
 void Sprite::VertexBuffer()
 {
 	vertexResource_ = dxCommon_->CreateBufferResource(sizeof(VertexData) * 6);	//頂点用のデータ
@@ -222,7 +205,7 @@ void Sprite::UpdateVertexBuffer()
 	vertexData_[RT].position = { right,top,0.0f,1.0f };
 	vertexData_[RT].texcoord = { texRight,texTop };
 
-
+	
 }
 
 

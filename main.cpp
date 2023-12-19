@@ -58,8 +58,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	triangle->Initialize(uvTexture);
 	Triangle* triangle2 = new Triangle;
 	triangle2->Initialize(monsterBall);
-	triangle->SetisInvisible(true);
-	triangle2->SetisInvisible(true);
+	//triangle->SetisInvisible(true);
+	//triangle2->SetisInvisible(true);
 
 
 	Sprite* sprite = new Sprite;
@@ -67,12 +67,11 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	sprite->SetSize({ 64.0f, 64.0f });
 	sprite->SetTextureLeftTop({ 64,0 });
 	sprite->SetTextureSize({ 64.0f, 64.0f });
-	sprite->SetisInvisible(true);
+	//sprite->SetisInvisible(true);
 	
 
 	Sprite* sprite2 = new Sprite;
 	sprite2->Initialize(uvTexture);
-	sprite2->SetPosition({ 100,100 });
 	sprite2->SetSize({ 640.0f, 360.0f });
 	//sprite2->SetisInvisible(true);
 
@@ -82,11 +81,10 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	Model* model = new Model;
 	model->Initialize(plane);
-	model->SetisInvisible(true);
 
 	Model* model2 = new Model;
 	model2->Initialize(cube);
-	model2->SetisInvisible(true);
+	
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (winApp->ProcessMessage() == 0)
@@ -99,7 +97,6 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #ifdef _DEBUG
 		imgui->Begin();
 		camera->CameraDebug();
-		sprite2->Debug();
 
 #endif // _DEBUG
 
@@ -113,7 +110,6 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		sprite->worldTransform.translation_ = { 700.0f };
 
-	
 		sprite->Update();
 		sprite2->Update();
 

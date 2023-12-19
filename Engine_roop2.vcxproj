@@ -114,7 +114,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Math\MathUtilty.cpp" />
     <ClCompile Include="Engine\3D\Model.cpp" />
-    <ClCompile Include="Engine\Base\ModelLoader.cpp" />
+    <ClCompile Include="Engine\3D\ModelLoader.cpp" />
     <ClCompile Include="Engine\3D\Sphere.cpp" />
     <ClCompile Include="Engine\2D\Sprite.cpp" />
     <ClCompile Include="Engine\Base\TextureManager.cpp" />
@@ -136,7 +136,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Math\MatrixMath.h" />
     <ClInclude Include="Engine\3D\Model.h" />
     <ClInclude Include="Engine\Math\ModelData.h" />
-    <ClInclude Include="Engine\Base\ModelLoader.h" />
+    <ClInclude Include="Engine\3D\ModelLoader.h" />
     <ClInclude Include="Engine\3D\Sphere.h" />
     <ClInclude Include="Engine\2D\Sprite.h" />
     <ClInclude Include="Engine\Base\TextureManager.h" />

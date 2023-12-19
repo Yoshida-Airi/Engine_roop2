@@ -51,14 +51,14 @@
     <ClCompile Include="Engine\Math\WorldTransform.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\3D\ModelLoader.cpp">
+      <Filter>Engine\3D</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Base\TextureManager.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\ModelLoader.cpp">
-      <Filter>Engine\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,10 +122,10 @@
     <ClInclude Include="Engine\Math\WorldTransform.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\TextureManager.h">
-      <Filter>Engine\Base</Filter>
+    <ClInclude Include="Engine\3D\ModelLoader.h">
+      <Filter>Engine\3D</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\ModelLoader.h">
+    <ClInclude Include="Engine\Base\TextureManager.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
