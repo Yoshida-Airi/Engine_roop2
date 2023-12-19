@@ -4,20 +4,7 @@
 int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	MyGame* game = new MyGame();
-	game->Initialize();
-
-	// ウィンドウの×ボタンが押されるまでループ
-	while (true)
-	{
-		game->Update();
-		//終了リクエストが来たら抜ける
-		if (game->IsEndReqest() == true)
-		{
-			break;
-		}
-		game->Draw();
-
-}
+	game->Run();
 	delete game;
 	return 0;
 }

@@ -1,39 +1,37 @@
 #pragma once
-#include"WinApp.h"
-#include"DirectXCommon.h"
-#include"DebugHelper.h"
+
 #include"ImGuiManager.h"
-#include"TextureManager.h"
 #include"Triangle.h"
 #include"Sprite.h"
 #include"Sphere.h"
 #include"Model.h"
 #include"ICamera.h"
-#include"Input.h"
 #include"Camera.h"
 #include"UICamera.h"
 
-//ゲーム固有のクラス
-class MyGame
+#include"Framework.h"
+
+/// <summary>
+/// ゲーム固有のクラス
+/// </summary>
+class MyGame :public Framework
 {
 public:
 	~MyGame();
-	void Initialize();
-	void Update();
-	void Draw();
-
-	bool IsEndReqest() { return endReqest_; };
+	void Initialize()override;
+	void Update()override;
+	void Draw()override;
 
 private:
 
-	//WindowAPIの初期化
-	WinApp* winApp = nullptr;
-	//DirectXの初期化
-	DirectXCommon* dxCommon = nullptr;
-	TextureManager* texture = nullptr;
-	Input* input;
+	////WindowAPIの初期化
+	//WinApp* winApp = nullptr;
+	////DirectXの初期化
+	//DirectXCommon* dxCommon = nullptr;
+	//TextureManager* texture = nullptr;
+	//Input* input;
 
-	bool endReqest_ = false;
+	//bool endReqest_ = false;
 
 
 	uint32_t uvTexture;

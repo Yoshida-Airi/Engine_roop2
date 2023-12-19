@@ -11,24 +11,9 @@ MyGame::~MyGame()
 	delete model;
 	delete model2;
 
-	//WindowAPIの解放
-	delete winApp;
-	winApp = nullptr;
-
-	//DirectXの解放
-	delete dxCommon;
-	dxCommon = nullptr;
-
-
-	delete texture;
-	texture = nullptr;
 
 	delete camera;
 	delete uiCamera;
-
-
-	delete input;
-	input = nullptr;
 
 
 #ifdef _DEBUG
@@ -37,27 +22,12 @@ MyGame::~MyGame()
 
 
 
-#ifdef _DEBUG
-	DebugHelper::ReportLiveObjects();
-#endif // _DEBUG
-
-
 }
 
 void MyGame::Initialize()
 {
-
-	//WindowAPIの初期化
-	winApp = WinApp::GetInstance();
-	winApp->Initialize();
-
-	//DirectXの初期化
-	dxCommon = DirectXCommon::GetInstance();
-	dxCommon->Initialize();
-
-
-	texture = TextureManager::GetInstance();
-	texture->Initialize();
+	//基底クラスの初期化処理
+	Framework::Initialize();
 
 	uvTexture = texture->LoadTexture("Resources/uvChecker.png");
 	monsterBall = texture->LoadTexture("Resources/monsterBall.png");
@@ -72,9 +42,6 @@ void MyGame::Initialize()
 
 	uiCamera = new UICamera;
 	uiCamera->Initialize();
-
-	input = Input::GetInstance();
-	input->Initialize();
 
 
 #ifdef _DEBUG
@@ -122,13 +89,8 @@ void MyGame::Update()
 
 	/*--- ゲームループ  ---*/
 
-	if (winApp->ProcessMessage())
-	{
-		endReqest_ = true;
-		return;
-	}
+	Framework::Update();
 
-	input->Update();
 	input->TriggerKey(DIK_0);
 
 #ifdef _DEBUG
