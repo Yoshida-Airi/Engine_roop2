@@ -60,12 +60,22 @@
     <ClCompile Include="main.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame.cpp" />
-    <ClCompile Include="Framework.cpp" />
-    <ClCompile Include="GamePlayScene.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
-    <ClCompile Include="BaseScene.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Application\Scene\BaseScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Scene\GamePlayScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Scene\TitleScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\MyGame.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\SceneManager.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Framework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -134,12 +144,22 @@
     <ClInclude Include="Engine\Base\TextureManager.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame.h" />
-    <ClInclude Include="Framework.h" />
-    <ClInclude Include="GamePlayScene.h" />
-    <ClInclude Include="TitleScene.h" />
-    <ClInclude Include="BaseScene.h" />
-    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Application\Scene\BaseScene.h">
+      <Filter>Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\GamePlayScene.h">
+      <Filter>Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\TitleScene.h">
+      <Filter>Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\MyGame.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\SceneManager.h">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Framework.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -165,6 +185,12 @@
     </Filter>
     <Filter Include="Engine\Math">
       <UniqueIdentifier>{65893364-0d4c-4324-9ab5-881d266cae64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{c25fe7b4-92e6-4423-8adc-83b32a8df0b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Scene">
+      <UniqueIdentifier>{ac9c0d21-da6c-477f-a7f1-9ce7588a153f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
