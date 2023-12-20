@@ -50,13 +50,15 @@ void Framework::Update()
 
 
 	input->Update();
+	scene_->Update();
 
 }
 
 void Framework::Draw()
 {
-
-
+	dxCommon->PreDraw();
+	scene_->Draw();
+	dxCommon->PostDraw();
 }
 
 void Framework::Run()

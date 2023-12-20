@@ -4,6 +4,7 @@
 #include"DebugHelper.h"
 #include"TextureManager.h"
 #include"Input.h"
+#include"IScene.h"
 
 class Framework
 {
@@ -27,6 +28,8 @@ protected:
 	DirectXCommon* dxCommon = nullptr;
 	TextureManager* texture = nullptr;
 	Input* input;
+	IScene* scene_ = nullptr;	//シーン
+
 
 };
 

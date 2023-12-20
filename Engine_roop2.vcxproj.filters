@@ -62,6 +62,10 @@
     </ClCompile>
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="GamePlayScene.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="IScene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -132,6 +136,10 @@
     </ClInclude>
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="GamePlayScene.h" />
+    <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="IScene.h" />
+    <ClInclude Include="SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
