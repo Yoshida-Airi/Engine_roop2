@@ -1,7 +1,7 @@
 #pragma once
 #include"Framework.h"
 
-#include"IScene.h"
+#include"BaseScene.h"
 
 /// <summary>
 /// ゲーム固有のクラス
@@ -15,7 +15,7 @@ public:
 	void Draw()override;
 
 private:
-
+	BaseScene* scene;
 
 };
 

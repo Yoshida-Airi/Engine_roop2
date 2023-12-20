@@ -4,8 +4,8 @@
 #include"DebugHelper.h"
 #include"TextureManager.h"
 #include"Input.h"
-#include"IScene.h"
-
+#include"SceneManager.h"
+#include"ImGuiManager.h"
 class Framework
 {
 
@@ -14,7 +14,7 @@ public:
 	~Framework();
 	virtual void Initialize();
 	virtual void Update();
-	virtual void Draw() = 0;
+	virtual void Draw();
 
 	/// <summary>
 	/// 実行
@@ -28,7 +28,14 @@ protected:
 	DirectXCommon* dxCommon = nullptr;
 	TextureManager* texture = nullptr;
 	Input* input;
-	IScene* scene_ = nullptr;	//シーン
+	//IScene* scene_ = nullptr;	//シーン
+	SceneManager* sceneManager_ = nullptr;
+
+#ifdef _DEBUG
+
+	ImGuiManager* imgui;
+
+#endif // _DEBUG
 
 
 };

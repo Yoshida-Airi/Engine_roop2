@@ -1,6 +1,6 @@
 #pragma once
 
-#include"IScene.h"
+#include"BaseScene.h"
 
 #include"ImGuiManager.h"
 #include"Triangle.h"
@@ -13,13 +13,15 @@
 
 #include"Input.h"
 
+#include"ImGuiManager.h"
 
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
-class GamePlayScene:public IScene
+class GamePlayScene:public BaseScene
 {
 public:
+	GamePlayScene(SceneManager* sceneManager);
 	~GamePlayScene()override;
 	void Initialize()override;
 	void Update()override;
@@ -41,11 +43,6 @@ private:
 
 	Input* input;
 
-#ifdef _DEBUG
-
-	ImGuiManager* imgui;
-
-#endif // _DEBUG
 
 	Triangle* triangle = nullptr;
 	Triangle* triangle2 = nullptr;
@@ -54,5 +51,14 @@ private:
 	Sphere* sphere = nullptr;
 	Model* model = nullptr;
 	Model* model2 = nullptr;
+
+
+#ifdef _DEBUG
+
+	ImGuiManager* imgui;
+
+#endif // _DEBUG
+
+
 };
 

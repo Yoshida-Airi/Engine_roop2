@@ -1,6 +1,6 @@
 #pragma once
 
-#include"IScene.h"
+#include"BaseScene.h"
 #include"ImGuiManager.h"
 #include"Triangle.h"
 #include"Sprite.h"
@@ -14,9 +14,10 @@
 
 
 
-class TitleScene :public IScene
+class TitleScene :public BaseScene
 {
 public:
+	TitleScene(SceneManager* sceneManager);
 	~TitleScene()override;
 	void Initialize()override;
 	void Update()override;
@@ -25,6 +26,6 @@ public:
 private:
 
 	Input* input;
-
+	
 };
 

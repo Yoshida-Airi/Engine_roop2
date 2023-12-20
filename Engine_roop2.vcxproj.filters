@@ -64,7 +64,7 @@
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GamePlayScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
-    <ClCompile Include="IScene.cpp" />
+    <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +138,7 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="GamePlayScene.h" />
     <ClInclude Include="TitleScene.h" />
-    <ClInclude Include="IScene.h" />
+    <ClInclude Include="BaseScene.h" />
     <ClInclude Include="SceneManager.h" />
   </ItemGroup>
   <ItemGroup>

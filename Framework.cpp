@@ -19,11 +19,19 @@ Framework::~Framework()
 	delete winApp;
 	winApp = nullptr;
 
+	
+#ifdef _DEBUG
+	delete imgui;
+#endif // _DEBUG
+
+	delete sceneManager_;
+
+
 #ifdef _DEBUG
 	DebugHelper::ReportLiveObjects();
 #endif // _DEBUG
 
-
+	
 }
 
 void Framework::Initialize()
@@ -43,21 +51,38 @@ void Framework::Initialize()
 	input = Input::GetInstance();
 	input->Initialize();
 
+#ifdef _DEBUG
+	imgui = ImGuiManager::GetInstance();
+	imgui->Initialize();
+
+#endif // _DEBUG
+
+
+	sceneManager_ = new SceneManager();
+	
 }
 
 void Framework::Update()
 {
+#ifdef _DEBUG
+	imgui->Begin();
+#endif // _DEBUG
 
 
 	input->Update();
-	scene_->Update();
+	sceneManager_->Update();
 
 }
 
 void Framework::Draw()
 {
 	dxCommon->PreDraw();
-	scene_->Draw();
+	sceneManager_->Draw();
+#ifdef _DEBUG
+	ImGui::ShowDemoWindow();
+	imgui->End();
+	imgui->Draw();
+#endif // _DEBUG
 	dxCommon->PostDraw();
 }
 

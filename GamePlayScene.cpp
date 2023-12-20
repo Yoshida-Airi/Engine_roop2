@@ -1,4 +1,11 @@
 #include "GamePlayScene.h"
+#include"SceneManager.h"
+#include"TitleScene.h"
+
+GamePlayScene::GamePlayScene(SceneManager* sceneManager)
+	:BaseScene(sceneManager)
+{
+}
 
 GamePlayScene::~GamePlayScene()
 {
@@ -14,18 +21,16 @@ GamePlayScene::~GamePlayScene()
 	delete camera;
 	delete uiCamera;
 
-
-#ifdef _DEBUG
-	delete imgui;
-#endif // _DEBUG
-
-
 }
 
 void GamePlayScene::Initialize()
 {
 	texture = TextureManager::GetInstance();
 	input = Input::GetInstance();
+#ifdef _DEBUG
+	imgui = ImGuiManager::GetInstance();
+#endif // _DEBUG
+
 
 	uvTexture = texture->LoadTexture("Resources/uvChecker.png");
 	monsterBall = texture->LoadTexture("Resources/monsterBall.png");
@@ -41,12 +46,6 @@ void GamePlayScene::Initialize()
 	uiCamera = new UICamera;
 	uiCamera->Initialize();
 
-
-#ifdef _DEBUG
-
-	imgui = ImGuiManager::GetInstance();
-	imgui->Initialize();
-#endif // _DEBUG
 
 
 	triangle = new Triangle;
@@ -86,11 +85,17 @@ void GamePlayScene::Update()
 	input->TriggerKey(DIK_0);
 
 #ifdef _DEBUG
-	imgui->Begin();
+	
 	camera->CameraDebug();
 
 #endif // _DEBUG
 
+	if (input->TriggerKey(DIK_RETURN))
+	{
+
+		BaseScene* scene= new TitleScene(sceneManager_);
+		sceneManager_->IsNextScene(scene);
+	}
 
 	triangle->Update();
 	triangle->worldTransform.rotation_.y += 0.03f;
@@ -128,10 +133,6 @@ void GamePlayScene::Draw()
 	model->Draw(camera);
 	model2->Draw(camera);
 
-#ifdef _DEBUG
-	ImGui::ShowDemoWindow();
-	imgui->End();
-	imgui->Draw();
-#endif // _DEBUG
+
 
 }

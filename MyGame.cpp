@@ -4,15 +4,17 @@
 
 MyGame::~MyGame()
 {
-	delete scene_;
+	delete scene;
 }
 
 void MyGame::Initialize()
 {
 	//基底クラスの初期化処理
 	Framework::Initialize();
-	scene_ = new TitleScene();
-	scene_->Initialize();
+	scene = new TitleScene(sceneManager_);
+	//シーンマネージャーに最初のシーンをセット
+	sceneManager_->IsNextScene(scene);
+	
 }
 
 void MyGame::Update()
