@@ -51,14 +51,35 @@
     <ClCompile Include="Engine\Math\WorldTransform.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\3D\ModelLoader.cpp">
+      <Filter>Engine\3D</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Base\TextureManager.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\ModelLoader.cpp">
+    <ClCompile Include="Application\Scene\GamePlayScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Scene\TitleScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\MyGame.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Framework.cpp">
       <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Scene\AbstractSceneFactory.cpp">
+      <Filter>Engine\Base\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Scene\SceneFactory.cpp">
+      <Filter>Engine\Base\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Scene\SceneManager.cpp">
+      <Filter>Engine\Base\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,11 +143,35 @@
     <ClInclude Include="Engine\Math\WorldTransform.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\3D\ModelLoader.h">
+      <Filter>Engine\3D</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Base\TextureManager.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\ModelLoader.h">
+    <ClInclude Include="Application\Scene\GamePlayScene.h">
+      <Filter>Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\TitleScene.h">
+      <Filter>Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\MyGame.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Framework.h">
       <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Scene\AbstractSceneFactory.h">
+      <Filter>Engine\Base\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Scene\BaseScene.h">
+      <Filter>Engine\Base\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Scene\SceneFactory.h">
+      <Filter>Engine\Base\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Scene\SceneManager.h">
+      <Filter>Engine\Base\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -154,8 +199,16 @@
     <Filter Include="Engine\Math">
       <UniqueIdentifier>{65893364-0d4c-4324-9ab5-881d266cae64}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Scene">
-      <UniqueIdentifier>{a22612e4-658c-4f98-997f-8e10ecb14543}</UniqueIdentifier>
+
+    <Filter Include="Application">
+      <UniqueIdentifier>{c25fe7b4-92e6-4423-8adc-83b32a8df0b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Scene">
+      <UniqueIdentifier>{ac9c0d21-da6c-477f-a7f1-9ce7588a153f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Scene">
+      <UniqueIdentifier>{7bee2264-0e25-44a2-b1f1-5b7c4b30097e}</UniqueIdentifier>
+
     </Filter>
   </ItemGroup>
   <ItemGroup>
