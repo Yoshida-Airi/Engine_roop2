@@ -65,7 +65,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Application;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\2D;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Application;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\2D;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,7 +91,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Application;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\2D;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Application;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\2D;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -105,10 +105,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Base\AbstractSceneFactory.cpp" />
+    <ClCompile Include="Engine\Base\Scene\AbstractSceneFactory.cpp" />
     <ClCompile Include="Engine\3D\Camera.cpp" />
     <ClCompile Include="Engine\Base\Framework.cpp" />
-    <ClCompile Include="Engine\Base\SceneFactory.cpp" />
+    <ClCompile Include="Engine\Base\Scene\SceneFactory.cpp" />
     <ClCompile Include="Engine\Logger\DebugHelper.cpp" />
     <ClCompile Include="Engine\Base\DirectXCommon.cpp" />
     <ClCompile Include="Engine\Base\ImGuiManager.cpp" />
@@ -127,14 +127,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Base\WinApp.cpp" />
     <ClCompile Include="Engine\Math\WorldTransform.cpp" />
     <ClCompile Include="Application\MyGame.cpp" />
-    <ClCompile Include="Engine\Base\SceneManager.cpp" />
+    <ClCompile Include="Engine\Base\Scene\SceneManager.cpp" />
     <ClCompile Include="Application\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\3D\Camera.h" />
-    <ClInclude Include="Engine\Base\AbstractSceneFactory.h" />
+    <ClInclude Include="Engine\Base\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Base\Framework.h" />
-    <ClInclude Include="Engine\Base\SceneFactory.h" />
+    <ClInclude Include="Engine\Base\Scene\SceneFactory.h" />
     <ClInclude Include="Engine\Logger\DebugHelper.h" />
     <ClInclude Include="Engine\Base\DirectXCommon.h" />
     <ClInclude Include="Engine\Math\Globals.h" />
@@ -157,9 +157,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Base\WinApp.h" />
     <ClInclude Include="Engine\Math\WorldTransform.h" />
     <ClInclude Include="Application\Scene\GamePlayScene.h" />
-    <ClInclude Include="Engine\Base\BaseScene.h" />
+    <ClInclude Include="Engine\Base\Scene\BaseScene.h" />
     <ClInclude Include="Application\MyGame.h" />
-    <ClInclude Include="Engine\Base\SceneManager.h" />
+    <ClInclude Include="Engine\Base\Scene\SceneManager.h" />
     <ClInclude Include="Application\Scene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>

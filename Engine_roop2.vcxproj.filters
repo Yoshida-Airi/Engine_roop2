@@ -69,17 +69,17 @@
     <ClCompile Include="Application\MyGame.cpp">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\SceneManager.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\AbstractSceneFactory.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Base\Framework.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\SceneFactory.cpp">
-      <Filter>Engine\Base</Filter>
+    <ClCompile Include="Engine\Base\Scene\AbstractSceneFactory.cpp">
+      <Filter>Engine\Base\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Scene\SceneFactory.cpp">
+      <Filter>Engine\Base\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Scene\SceneManager.cpp">
+      <Filter>Engine\Base\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,20 +158,20 @@
     <ClInclude Include="Application\MyGame.h">
       <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\SceneManager.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\BaseScene.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Base\Framework.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\AbstractSceneFactory.h">
-      <Filter>Engine\Base</Filter>
+    <ClInclude Include="Engine\Base\Scene\AbstractSceneFactory.h">
+      <Filter>Engine\Base\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\SceneFactory.h">
-      <Filter>Engine\Base</Filter>
+    <ClInclude Include="Engine\Base\Scene\BaseScene.h">
+      <Filter>Engine\Base\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Scene\SceneFactory.h">
+      <Filter>Engine\Base\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Scene\SceneManager.h">
+      <Filter>Engine\Base\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +204,9 @@
     </Filter>
     <Filter Include="Application\Scene">
       <UniqueIdentifier>{ac9c0d21-da6c-477f-a7f1-9ce7588a153f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Scene">
+      <UniqueIdentifier>{7bee2264-0e25-44a2-b1f1-5b7c4b30097e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
