@@ -78,7 +78,9 @@
     <ClCompile Include="Engine\Base\Framework.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\SceneFactory.cpp" />
+    <ClCompile Include="Engine\Base\SceneFactory.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -165,8 +167,12 @@
     <ClInclude Include="Engine\Base\Framework.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\SceneFactory.h" />
-    <ClInclude Include="Engine\Base\AbstractSceneFactory.h" />
+    <ClInclude Include="Engine\Base\AbstractSceneFactory.h">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\SceneFactory.h">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
