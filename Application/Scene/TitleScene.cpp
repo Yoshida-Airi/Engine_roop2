@@ -1,11 +1,5 @@
 #include "TitleScene.h"
 #include"SceneManager.h"
-#include"GamePlayScene.h"
-
-TitleScene::TitleScene(SceneManager* sceneManager)
-	:BaseScene(sceneManager)
-{
-}
 
 TitleScene::~TitleScene()
 {
@@ -15,6 +9,7 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 	input = Input::GetInstance();
+	sceneManager_ = SceneManager::GetInstance();
 
 }
 
@@ -24,11 +19,8 @@ void TitleScene::Update()
 
 	if (input->TriggerKey(DIK_RETURN))
 	{
-
-		BaseScene* scene = new GamePlayScene(sceneManager_);
-		sceneManager_->IsNextScene(scene);
+		sceneManager_->ChangeScene("GAMEPLAY");
 	}
-
 }
 
 void TitleScene::Draw()

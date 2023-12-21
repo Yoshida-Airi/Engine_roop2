@@ -1,11 +1,4 @@
 #include "GamePlayScene.h"
-#include"SceneManager.h"
-#include"TitleScene.h"
-
-GamePlayScene::GamePlayScene(SceneManager* sceneManager)
-	:BaseScene(sceneManager)
-{
-}
 
 GamePlayScene::~GamePlayScene()
 {
@@ -27,6 +20,8 @@ void GamePlayScene::Initialize()
 {
 	texture = TextureManager::GetInstance();
 	input = Input::GetInstance();
+	sceneManager_ = SceneManager::GetInstance();
+
 #ifdef _DEBUG
 	imgui = ImGuiManager::GetInstance();
 #endif // _DEBUG
@@ -92,9 +87,7 @@ void GamePlayScene::Update()
 
 	if (input->TriggerKey(DIK_RETURN))
 	{
-
-		BaseScene* scene= new TitleScene(sceneManager_);
-		sceneManager_->IsNextScene(scene);
+		sceneManager_->ChangeScene("TITLE");
 	}
 
 	triangle->Update();

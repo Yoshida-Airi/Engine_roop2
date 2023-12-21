@@ -2,6 +2,7 @@
 
 #include"BaseScene.h"
 #include"ImGuiManager.h"
+#include"SceneManager.h"
 #include"Triangle.h"
 #include"Sprite.h"
 #include"Sphere.h"
@@ -17,7 +18,6 @@
 class TitleScene :public BaseScene
 {
 public:
-	TitleScene(SceneManager* sceneManager);
 	~TitleScene()override;
 	void Initialize()override;
 	void Update()override;
@@ -26,6 +26,7 @@ public:
 private:
 
 	Input* input;
+	SceneManager* sceneManager_ = nullptr;
 	
 };
 

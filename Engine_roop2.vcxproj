@@ -105,15 +105,16 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Base\AbstractSceneFactory.cpp" />
     <ClCompile Include="Engine\3D\Camera.cpp" />
     <ClCompile Include="Engine\Base\Framework.cpp" />
+    <ClCompile Include="Engine\Base\SceneFactory.cpp" />
     <ClCompile Include="Engine\Logger\DebugHelper.cpp" />
     <ClCompile Include="Engine\Base\DirectXCommon.cpp" />
     <ClCompile Include="Engine\Base\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Base\Input.cpp" />
     <ClCompile Include="Engine\Logger\Logger.cpp" />
     <ClCompile Include="Application\Scene\GamePlayScene.cpp" />
-    <ClCompile Include="Application\Scene\BaseScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Math\MathUtilty.cpp" />
     <ClCompile Include="Engine\3D\Model.cpp" />
@@ -131,7 +132,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\3D\Camera.h" />
+    <ClInclude Include="Engine\Base\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Base\Framework.h" />
+    <ClInclude Include="Engine\Base\SceneFactory.h" />
     <ClInclude Include="Engine\Logger\DebugHelper.h" />
     <ClInclude Include="Engine\Base\DirectXCommon.h" />
     <ClInclude Include="Engine\Math\Globals.h" />
@@ -154,7 +157,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Base\WinApp.h" />
     <ClInclude Include="Engine\Math\WorldTransform.h" />
     <ClInclude Include="Application\Scene\GamePlayScene.h" />
-    <ClInclude Include="Application\Scene\BaseScene.h" />
+    <ClInclude Include="Engine\Base\BaseScene.h" />
     <ClInclude Include="Application\MyGame.h" />
     <ClInclude Include="Engine\Base\SceneManager.h" />
     <ClInclude Include="Application\Scene\TitleScene.h" />

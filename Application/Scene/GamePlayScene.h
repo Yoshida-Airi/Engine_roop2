@@ -3,6 +3,9 @@
 #include"BaseScene.h"
 
 #include"ImGuiManager.h"
+#include"SceneFactory.h"
+#include"SceneManager.h"
+
 #include"Triangle.h"
 #include"Sprite.h"
 #include"Sphere.h"
@@ -13,7 +16,6 @@
 
 #include"Input.h"
 
-#include"ImGuiManager.h"
 
 /// <summary>
 /// ゲームプレイシーン
@@ -21,7 +23,6 @@
 class GamePlayScene:public BaseScene
 {
 public:
-	GamePlayScene(SceneManager* sceneManager);
 	~GamePlayScene()override;
 	void Initialize()override;
 	void Update()override;
@@ -29,6 +30,7 @@ public:
 
 private:
 	TextureManager* texture;
+	SceneManager* sceneManager_ = nullptr;
 
 	uint32_t uvTexture;
 	uint32_t monsterBall;

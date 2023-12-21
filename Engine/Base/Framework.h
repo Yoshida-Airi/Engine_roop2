@@ -6,6 +6,8 @@
 #include"Input.h"
 #include"SceneManager.h"
 #include"ImGuiManager.h"
+#include"AbstractSceneFactory.h"
+
 class Framework
 {
 
@@ -30,6 +32,8 @@ protected:
 	Input* input;
 	//IScene* scene_ = nullptr;	//シーン
 	SceneManager* sceneManager_ = nullptr;
+
+	AbstractSceneFactory* sceneFactory_ = nullptr;
 
 #ifdef _DEBUG
 

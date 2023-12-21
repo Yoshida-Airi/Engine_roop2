@@ -58,8 +58,8 @@ void Framework::Initialize()
 #endif // _DEBUG
 
 
-	sceneManager_ = new SceneManager();
-	
+	sceneManager_ = SceneManager::GetInstance();
+	delete sceneFactory_;
 }
 
 void Framework::Update()

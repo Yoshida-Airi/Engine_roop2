@@ -1,19 +1,23 @@
 #include "MyGame.h"
-
-#include"TitleScene.h"
+#include"SceneFactory.h"
 
 MyGame::~MyGame()
 {
 	delete scene;
+
 }
 
 void MyGame::Initialize()
 {
 	//基底クラスの初期化処理
 	Framework::Initialize();
-	scene = new TitleScene(sceneManager_);
+
+
+	sceneFactory_ = new SceneFactory();
+	sceneManager_->SetSceneFactory(sceneFactory_);
+
 	//シーンマネージャーに最初のシーンをセット
-	sceneManager_->IsNextScene(scene);
+	sceneManager_->ChangeScene("TITLE");
 	
 }
 

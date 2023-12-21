@@ -60,9 +60,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Scene\BaseScene.cpp">
-      <Filter>Application\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Scene\GamePlayScene.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
@@ -75,7 +72,13 @@
     <ClCompile Include="Engine\Base\SceneManager.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Framework.cpp" />
+    <ClCompile Include="Engine\Base\AbstractSceneFactory.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Framework.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\SceneFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -144,9 +147,6 @@
     <ClInclude Include="Engine\Base\TextureManager.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Scene\BaseScene.h">
-      <Filter>Application\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Scene\GamePlayScene.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
@@ -159,7 +159,14 @@
     <ClInclude Include="Engine\Base\SceneManager.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Framework.h" />
+    <ClInclude Include="Engine\Base\BaseScene.h">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Framework.h">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\SceneFactory.h" />
+    <ClInclude Include="Engine\Base\AbstractSceneFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
