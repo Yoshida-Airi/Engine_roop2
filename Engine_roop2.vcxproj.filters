@@ -199,6 +199,7 @@
     <Filter Include="Engine\Math">
       <UniqueIdentifier>{65893364-0d4c-4324-9ab5-881d266cae64}</UniqueIdentifier>
     </Filter>
+
     <Filter Include="Application">
       <UniqueIdentifier>{c25fe7b4-92e6-4423-8adc-83b32a8df0b2}</UniqueIdentifier>
     </Filter>
@@ -207,6 +208,7 @@
     </Filter>
     <Filter Include="Engine\Base\Scene">
       <UniqueIdentifier>{7bee2264-0e25-44a2-b1f1-5b7c4b30097e}</UniqueIdentifier>
+
     </Filter>
   </ItemGroup>
   <ItemGroup>

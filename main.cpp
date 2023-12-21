@@ -1,3 +1,4 @@
+
 #include"MyGame.h"
 #include"Framework.h"
 //Windowsアプリでのエントリーポイント(main関数)
@@ -7,5 +8,6 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	game->Run();
 
 	delete game;
+
 	return 0;
 }
