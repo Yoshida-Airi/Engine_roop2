@@ -356,7 +356,7 @@ void DirectXCommon::SetupRnderTargetView()
 /*-- 深度バッファの生成 --*/
 void DirectXCommon::SetupDepthBuffer()
 {
-
+	
 }
 
 void DirectXCommon::SetupFence()

@@ -27,6 +27,11 @@ private:
 
 	Input* input;
 	SceneManager* sceneManager_ = nullptr;
+	ICamera* camera;
+	ModelLoader* object;
+	ModelData fenceData;
+
+	Model* fence_ = nullptr;
 	
 };
 
