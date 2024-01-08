@@ -19,7 +19,7 @@ public:
 	/// <summary>
 	/// 表示切り替え
 	/// </summary>
-	/// <param name="isInvisible">表示しない : true</param>
+	/// <param name="isInvisible">true : 表示しない</param>
 	void SetisInvisible(bool isInvisible)
 	{
 		isInvisible_ = isInvisible;
@@ -28,7 +28,7 @@ public:
 	/// <summary>
 	/// ライトの切り替え
 	/// </summary>
-	/// <param name="isEnableLight">つける : true</param>
+	/// <param name="isEnableLight">true : つける</param>
 	void SetIsEnableLight(bool isEnableLight)
 	{
 		materialData_->enableLighting = isEnableLight;

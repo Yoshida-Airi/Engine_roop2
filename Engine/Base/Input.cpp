@@ -14,7 +14,6 @@ void Input::Initialize()
 	winApp_ = WinApp::GetInstance();
 
 	//DirectInputの初期化
-
 	HRESULT hr = DirectInput8Create(winApp_->GetHInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, nullptr);
 	assert(SUCCEEDED(hr));
 
@@ -70,10 +69,10 @@ bool Input::TriggerKey(BYTE keyNumber)
 	return false;
 }
 
-//bool Input::GetJoystickState(int32_t stickNo, XINPUT_STATE& state)
-//{
-//	DWORD Result = XInputGetState(stickNo, &state);
-//	return Result == ERROR_SUCCESS;
-//}
+bool Input::GetJoystickState(int32_t stickNo, XINPUT_STATE& state)
+{
+	DWORD Result = XInputGetState(stickNo, &state);
+	return Result == ERROR_SUCCESS;
+}
 
 Input* Input::instance = NULL;

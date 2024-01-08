@@ -77,6 +77,26 @@ Matrix4x4 Subtract(const Matrix4x4& m1, const Matrix4x4& m2) {
 	return resultSubtract;
 }
 
+Vector3 CoordinateTransform(const Vector3& vector, const Matrix4x4& matrix)
+{
+	Vector3 result;
+	result.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0] +
+		1.0f * matrix.m[3][0];
+	result.y = vector.x * matrix.m[0][1] + vector.y * matrix.m[1][1] + vector.z * matrix.m[2][1] +
+		1.0f * matrix.m[3][1];
+	result.z = vector.x * matrix.m[0][2] + vector.y * matrix.m[1][2] + vector.z * matrix.m[2][2] +
+		1.0f * matrix.m[3][2];
+	float w = vector.x * matrix.m[0][3] + vector.y * matrix.m[1][3] + vector.z * matrix.m[2][3] +
+		1.0f * matrix.m[3][3];
+
+	assert(w != 0.0f);
+	result.x /= w;
+	result.y /= w;
+	result.z /= w;
+
+	return result;
+}
+
 // 行列の掛け算の関数
 Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	Matrix4x4 resultMultiply;
@@ -93,7 +113,9 @@ Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 // 4.逆行列
 Matrix4x4 Inverse(const Matrix4x4& m) {
 	Matrix4x4 result;
-	float formula = m.m[0][0] * m.m[1][1] * m.m[2][2] * m.m[3][3] +
+
+	float formula =
+		m.m[0][0] * m.m[1][1] * m.m[2][2] * m.m[3][3] +
 		m.m[0][0] * m.m[1][2] * m.m[2][3] * m.m[3][1] +
 		m.m[0][0] * m.m[1][3] * m.m[2][1] * m.m[3][2] -
 
@@ -128,7 +150,8 @@ Matrix4x4 Inverse(const Matrix4x4& m) {
 	assert(formula != 0.0f);
 	float formulaRec = 1.0f / formula;
 
-	result.m[0][0] = (m.m[1][1] * m.m[2][2] * m.m[3][3] + m.m[1][2] * m.m[2][3] * m.m[3][1] +
+	result.m[0][0] =
+		(m.m[1][1] * m.m[2][2] * m.m[3][3] + m.m[1][2] * m.m[2][3] * m.m[3][1] +
 		m.m[1][3] * m.m[2][1] * m.m[3][2] - m.m[1][3] * m.m[2][2] * m.m[3][1] -
 		m.m[1][2] * m.m[2][1] * m.m[3][3] - m.m[1][1] * m.m[2][3] * m.m[3][2]) *
 		formulaRec;

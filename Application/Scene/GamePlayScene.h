@@ -40,9 +40,9 @@ private:
 	TextureManager* texture;
 	SceneManager* sceneManager_ = nullptr;
 
-	uint32_t uvTexture;
-	uint32_t monsterBall;
-	uint32_t Doll;
+	//uint32_t uvTexture;
+	//uint32_t monsterBall;
+	//uint32_t Doll;
 
 	ModelLoader* object;
 	ModelData plane;

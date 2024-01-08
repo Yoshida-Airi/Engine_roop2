@@ -53,11 +53,12 @@ void GamePlayScene::Initialize()
 	uiCamera = new UICamera;
 	uiCamera->Initialize();
 
+	
 	skydome = new Skydome();
 	skydome->Initialize(camera, skydomeData, { 0,0,0 });
 
 	player = new Player();
-	player->Initialize(camera, playerData,playerBulletData);
+	player->Initialize(camera,uiCamera, playerData,playerBulletData);
 
 	// 敵の速度
 	const float kEnemySpeed = -0.0f;
@@ -100,6 +101,8 @@ void GamePlayScene::Draw()
 	skydome->Draw();
 	player->Draw();
 	enemy->Draw();
+
+	player->DrawUI();
 
 }
 

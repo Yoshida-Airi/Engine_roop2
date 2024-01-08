@@ -2,14 +2,15 @@
 #define DIRECTINPUT_VERSION 0x0800	//DirectInputのバージョン指定
 #include<dinput.h>
 
-#pragma comment(lib,"dinput8.lib")
-#pragma comment(lib,"dxguid.lib")
-
 #include<cassert>
-
 #include"WinApp.h"
 
 #include<Xinput.h>
+
+#pragma comment(lib,"dinput8.lib")
+#pragma comment(lib,"dxguid.lib")
+#pragma comment(lib,"XInput.lib")
+
 
 class Input
 {
@@ -36,7 +37,7 @@ public:
 	/// <returns>トリガーかどうか</returns>
 	bool TriggerKey(BYTE keyNumber);
 
-	/*bool GetJoystickState(int32_t stickNo, XINPUT_STATE& state);*/
+	bool GetJoystickState(int32_t stickNo, XINPUT_STATE& state);
 
 private:
 
