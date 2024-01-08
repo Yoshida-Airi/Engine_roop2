@@ -12,6 +12,7 @@ GamePlayScene::~GamePlayScene()
 
 	delete player;
 	delete enemy;
+	delete skydome;
 
 	delete camera;
 	delete uiCamera;
@@ -36,6 +37,7 @@ void GamePlayScene::Initialize()
 	playerBulletData = object->LoadObjFile("Resources/Player", "playerBullet.obj");
 	EnemyData= object->LoadObjFile("Resources/Enemy", "enemy.obj");
 	EnemyBulletData = object->LoadObjFile("Resources/Enemy", "enemyBullet.obj");
+	skydomeData= object->LoadObjFile("Resources/Skydome", "skydome.obj");
 
 //	uvTexture = texture->LoadTexture("Resources/uvChecker.png");
 //	monsterBall = texture->LoadTexture("Resources/monsterBall.png");
@@ -50,6 +52,9 @@ void GamePlayScene::Initialize()
 
 	uiCamera = new UICamera;
 	uiCamera->Initialize();
+
+	skydome = new Skydome();
+	skydome->Initialize(camera, skydomeData, { 0,0,0 });
 
 	player = new Player();
 	player->Initialize(camera, playerData,playerBulletData);
@@ -79,6 +84,8 @@ void GamePlayScene::Update()
 		sceneManager_->ChangeScene("TITLE");
 	}
 
+	skydome->Update();
+
 	player->Update();
 	enemy->Update();
 
@@ -90,7 +97,7 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw()
 {
-
+	skydome->Draw();
 	player->Draw();
 	enemy->Draw();
 

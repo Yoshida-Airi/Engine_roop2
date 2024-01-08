@@ -17,6 +17,7 @@
 #include"Input.h"
 #include"Player.h"
 #include"Enemy.h"
+#include"Skydome.h"
 
 
 
@@ -47,6 +48,7 @@ private:
 	ModelData plane;
 	ModelData cube;
 
+
 	ICamera* camera;
 	ICamera* uiCamera;
 
@@ -65,8 +67,11 @@ private:
 	ModelData playerBulletData;
 	ModelData EnemyData;
 	ModelData EnemyBulletData;
+	ModelData skydomeData;
+
 	Player* player = nullptr;
 	Enemy* enemy = nullptr;
+	Skydome* skydome = nullptr;
 
 #ifdef _DEBUG
 

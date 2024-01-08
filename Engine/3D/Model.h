@@ -25,6 +25,15 @@ public:
 		isInvisible_ = isInvisible;
 	}
 
+	/// <summary>
+	/// ライトの切り替え
+	/// </summary>
+	/// <param name="isEnableLight">つける : true</param>
+	void SetIsEnableLight(bool isEnableLight)
+	{
+		materialData_->enableLighting = isEnableLight;
+	}
+
 	WorldTransform worldTransform_;
 
 private:

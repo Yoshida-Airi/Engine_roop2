@@ -91,6 +91,9 @@
       <Filter>Application\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Enemy\EnemyBullet.cpp" />
+    <ClCompile Include="Application\Object\Skydome\Skydome.cpp">
+      <Filter>Application\Object\Skydome</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -193,6 +196,9 @@
       <Filter>Application\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Enemy\EnemyBullet.h" />
+    <ClInclude Include="Application\Object\Skydome\Skydome.h">
+      <Filter>Application\Object\Skydome</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -236,6 +242,9 @@
     </Filter>
     <Filter Include="Application\Object\Enemy">
       <UniqueIdentifier>{f43eac66-a3be-4fbd-8b9a-5c158049a6f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Skydome">
+      <UniqueIdentifier>{1f0e43ed-abdf-4e20-9376-60d2d256d863}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
