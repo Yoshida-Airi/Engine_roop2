@@ -9,8 +9,7 @@ void PlayerBullet::Initialize(ICamera* camera, ModelData modelData, const Vector
 {
 	camera_ = camera;
 	velocity_ = velocity;
-	input = Input::GetInstance();
-
+	
 
 	playerBullet_ = new Model();
 	playerBullet_->Initialize(modelData);

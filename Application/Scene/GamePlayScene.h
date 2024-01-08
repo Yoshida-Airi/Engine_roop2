@@ -16,6 +16,7 @@
 
 #include"Input.h"
 #include"Player.h"
+#include"Enemy.h"
 
 
 
@@ -58,8 +59,10 @@ private:
 
 	ModelData playerData;
 	ModelData playerBulletData;
+	ModelData EnemyData;
+	ModelData EnemyBulletData;
 	Player* player = nullptr;
-
+	Enemy* enemy = nullptr;
 
 #ifdef _DEBUG
 

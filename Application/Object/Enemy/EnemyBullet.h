@@ -1,16 +1,17 @@
 #pragma once
+
 #include"ImGuiManager.h"
 
 #include"Model.h"
 #include"ICamera.h"
 #include"Camera.h"
 
-
-class PlayerBullet
+ 
+class EnemyBullet
 {
 public:
 
-	~PlayerBullet();
+	~EnemyBullet();
 	void Initialize(ICamera* camera, ModelData modelData, const Vector3& position, const Vector3& velocity);
 	void Update();
 	void Draw();
@@ -18,7 +19,6 @@ public:
 	bool isDead()const { return isDead_; };
 
 private:
-
 
 	ICamera* camera_;
 
@@ -31,6 +31,7 @@ private:
 	//デスフラグ
 	bool isDead_ = false;
 
-	Model* playerBullet_ = nullptr;
+	Model* enemyBullet_ = nullptr;
+
 };
 

@@ -17,6 +17,7 @@ public:
 	void Initialize(ICamera* camera, ModelData player, ModelData bullet);
 	void Update();
 	void Draw();
+	Vector3 GetWorldPosition();
 
 
 private:
@@ -25,8 +26,7 @@ private:
 	void Rotate();
 	void Attack();
 
-	Vector3 GetWorldPosition();
-
+	
 	Input* input;
 	ICamera* camera_;
 

@@ -10,10 +10,12 @@ GamePlayScene::~GamePlayScene()
 	//delete model;
 	//delete model2;
 
+	delete player;
+	delete enemy;
 
 	delete camera;
 	delete uiCamera;
-	delete player;
+
 
 }
 
@@ -23,16 +25,17 @@ void GamePlayScene::Initialize()
 	input = Input::GetInstance();
 	sceneManager_ = SceneManager::GetInstance();
 
-//
-//#ifdef _DEBUG
-//	imgui = ImGuiManager::GetInstance();
-//#endif // _DEBUG
+
+#ifdef _DEBUG
+	imgui = ImGuiManager::GetInstance();
+#endif // _DEBUG
 
 
 	object = ModelLoader::GetInstance();
 	playerData = object->LoadObjFile("Resources/Player", "player.obj");
 	playerBulletData = object->LoadObjFile("Resources/Player", "playerBullet.obj");
-
+	EnemyData= object->LoadObjFile("Resources/Enemy", "enemy.obj");
+	EnemyBulletData = object->LoadObjFile("Resources/Enemy", "enemyBullet.obj");
 
 //	uvTexture = texture->LoadTexture("Resources/uvChecker.png");
 //	monsterBall = texture->LoadTexture("Resources/monsterBall.png");
@@ -51,6 +54,14 @@ void GamePlayScene::Initialize()
 	player = new Player();
 	player->Initialize(camera, playerData,playerBulletData);
 
+	// 敵の速度
+	const float kEnemySpeed = -0.2f;
+	const float kEnemySpeedB = 0.2f;
+	Vector3 velocityA(0, 0, kEnemySpeed);
+	Vector3 velocityB(kEnemySpeed, kEnemySpeedB, 0);
+	enemy = new Enemy();
+	enemy->Initialize(camera, EnemyData,EnemyBulletData, { 0.0f,2.0f,30.0f }, velocityA, velocityB);
+	enemy->SetPlayer(player);
 }
 
 void GamePlayScene::Update()
@@ -69,11 +80,13 @@ void GamePlayScene::Update()
 	}
 
 	player->Update();
+	enemy->Update();
 }
 
 void GamePlayScene::Draw()
 {
 
 	player->Draw();
+	enemy->Draw();
 
 }
