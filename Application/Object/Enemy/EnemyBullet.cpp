@@ -42,9 +42,33 @@ void EnemyBullet::Update()
 
 #endif // _DEBUG
 
+		//時間経過でデス
+	if (--deathTimer_ <= 0)
+	{
+		isDead_ = true;
+	}
+
 }
 
 void EnemyBullet::Draw()
 {
 	enemyBullet_->Draw(camera_);
+}
+
+void EnemyBullet::OnCollision()
+{
+	isDead_ = true;
+}
+
+Vector3 EnemyBullet::GetWorldPosition()
+{
+	// ワールド座標を入れる変数
+	Vector3 worldpos;
+
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldpos.x = enemyBullet_->worldTransform_.matWorld_.m[3][0];
+	worldpos.y = enemyBullet_->worldTransform_.matWorld_.m[3][1];
+	worldpos.z = enemyBullet_->worldTransform_.matWorld_.m[3][2];
+
+	return worldpos;
 }

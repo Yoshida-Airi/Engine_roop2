@@ -53,3 +53,22 @@ void PlayerBullet::Draw()
 {
 	playerBullet_->Draw(camera_);
 }
+
+void PlayerBullet::OnCollision()
+{
+	isDead_ = true;
+}
+
+
+Vector3 PlayerBullet::GetWorldPosition()
+{
+	// ワールド座標を入れる変数
+	Vector3 worldpos;
+
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldpos.x = playerBullet_->worldTransform_.matWorld_.m[3][0];
+	worldpos.y = playerBullet_->worldTransform_.matWorld_.m[3][1];
+	worldpos.z = playerBullet_->worldTransform_.matWorld_.m[3][2];
+
+	return worldpos;
+}

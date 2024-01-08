@@ -16,8 +16,13 @@ public:
 	void Update();
 	void Draw();
 
+	void OnCollision();
+
+	Vector3 GetWorldPosition();
+
 	bool isDead()const { return isDead_; };
 
+	
 private:
 
 	ICamera* camera_;

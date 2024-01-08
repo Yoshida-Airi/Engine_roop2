@@ -19,6 +19,11 @@ public:
 	void Draw();
 	Vector3 GetWorldPosition();
 
+	void OnCollision();
+
+	//弾リストを取得
+	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; };
+
 
 private:
 
@@ -38,8 +43,6 @@ private:
 	std::list<PlayerBullet*> bullets_;
 
 
-	//弾リストを取得
-	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; };
-
+	
 };
 

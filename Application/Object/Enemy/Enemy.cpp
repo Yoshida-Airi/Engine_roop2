@@ -34,18 +34,30 @@ void Enemy::Initialize(ICamera* camera, ModelData model,ModelData bullet, const 
 
 void Enemy::Update()
 {
+	//デスフラグの立った弾を削除
+	bullets_.remove_if([](EnemyBullet* bullet)
+		{
+			if (bullet->isDead())
+			{
+				delete bullet;
+				return true;
+			}
+			return false;
+		});
+
 	// 状態遷移
 	switch (phase_) {
 	case Enemy::Phase::Approach:
 	default:
 		Approach();
 
-
 		break;
 	case Enemy::Phase::Leave:
 		Leave();
 		break;
 	}
+
+
 	enemy_->Update();
 
 	//弾更新
@@ -91,6 +103,10 @@ Vector3 Enemy::GetWorldPosition()
 	worldpos.z = enemy_->worldTransform_.matWorld_.m[3][2];
 
 	return worldpos;
+}
+
+void Enemy::OnCollision()
+{
 }
 
 // 接近フェーズ
