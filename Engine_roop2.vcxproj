@@ -134,7 +134,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Player\Player.cpp" />
     <ClCompile Include="Application\Object\Player\PlayerBullet.cpp" />
     <ClCompile Include="Application\Object\Skydome\Skydome.cpp" />
-    <ClCompile Include="Application\Object\RailCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Object\Enemy\Enemy.h" />
@@ -172,7 +171,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Player\Player.h" />
     <ClInclude Include="Application\Object\Player\PlayerBullet.h" />
     <ClInclude Include="Application\Object\Skydome\Skydome.h" />
-    <ClInclude Include="Application\Object\RailCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D.PS.hlsl">
