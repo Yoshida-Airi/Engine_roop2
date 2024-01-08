@@ -15,7 +15,7 @@ public:
     WinApp* winApp;
     DirectXCommon* dxCommon;
 
-    Transform transform;
+    ObjectTransform transform;
     Matrix4x4 matView;
     Matrix4x4 matProjection;
 

@@ -66,7 +66,7 @@ private://プライベート変数
 	Material* materialData_ = nullptr;	//マテリアルデータ
 	//Matrix4x4* wvpData_ = nullptr;	//wvpデータ
 
-	Transform cameraTransform_;
+	ObjectTransform cameraTransform_;
 	
 	uint32_t textureHandle_;
 

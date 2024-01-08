@@ -77,7 +77,7 @@ Matrix4x4 Subtract(const Matrix4x4& m1, const Matrix4x4& m2) {
 	return resultSubtract;
 }
 
-Vector3 CoordinateTransform(const Vector3& vector, const Matrix4x4& matrix)
+Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix)
 {
 	Vector3 result;
 	result.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0] +

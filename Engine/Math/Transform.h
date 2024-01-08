@@ -1,7 +1,7 @@
 #pragma once
 #include"VectorMath.h"
 
-struct Transform
+struct ObjectTransform
 {
 	Vector3 scale;
 	Vector3 rotate;

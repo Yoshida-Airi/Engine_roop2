@@ -101,7 +101,7 @@ void Player::Draw()
 
 void Player::DrawUI()
 {
-	sprite2DReticle_->Draw(UICamera_);
+	
 }
 
 Vector3 Player::GetReticleWorldPosition()
@@ -147,14 +147,13 @@ void Player::Move()
 
 	}
 
+	
 	if (Input::GetInstance()->GetJoystickState(0, joyState))
 	{
-		if (Input::GetInstance()->GetJoystickState(0,joyState))
-		{
-			move.x += (float)joyState.Gamepad.sThumbLX / SHRT_MAX * kCharacterSpeed;
-			move.y += (float)joyState.Gamepad.sThumbLY / SHRT_MAX * kCharacterSpeed;
-		}
+		move.x += (float)joyState.Gamepad.sThumbLX / SHRT_MAX * kCharacterSpeed;
+		move.y += (float)joyState.Gamepad.sThumbLY / SHRT_MAX * kCharacterSpeed;
 	}
+	
 
 	player->worldTransform_.translation_.x += move.x;
 	player->worldTransform_.translation_.y += move.y;
@@ -193,12 +192,12 @@ void Player::Attack()
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity;
 
-		//自機から照準オブジェクトへのベクトル
-		velocity = Subtract(reticle3DModel->worldTransform_.translation_, GetWorldPosition());
-		velocity = Multiply(kBulletSpeed, Normalize(velocity));
+		////自機から照準オブジェクトへのベクトル
+		//velocity = Subtract(reticle3DModel->worldTransform_.translation_, GetWorldPosition());
+		//velocity = Multiply(kBulletSpeed, Normalize(velocity));
 
-		////速度ベクトルを自機の向きに合わせて回転
-		//velocity = TransformNormal(velocity, player->worldTransform_.matWorld_);
+		//速度ベクトルを自機の向きに合わせて回転
+		velocity = TransformNormal(velocity, player->worldTransform_.matWorld_);
 
 		// 弾を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();
@@ -245,19 +244,27 @@ void Player::SetReticle()
 	//ワールド行列の更新
 	reticle3DModel->worldTransform_.UpdateWorldMatrix();
 
-	//3Dレティクルのワールド座標から2Dレティクルのスクリーン座標を計算
-	Vector3 positionReticle = GetReticleWorldPosition();
-	//ビューポート行列
-	Matrix4x4 matViewport =
-		MakeViewportMatrix(0, 0, WinApp::kCilentWidth, WinApp::kCilentHeight, 0, 1);
-	//ビュー行列とプロジェクション行列、ビューポート行列を合成する
-	Matrix4x4 matViewProjectionViewport =
-		Multiply(UICamera_->matView, Multiply(UICamera_->matProjection, matViewport));
-	//ワールド→スクリーン座標変換(ここまで3Dから2Dになる)
-	positionReticle = CoordinateTransform(positionReticle, matViewProjectionViewport);
-	//スプライトのレティクルに座標設定
-	sprite2DReticle_->worldTransform.translation_.x = positionReticle.x;
-	sprite2DReticle_->worldTransform.translation_.y = positionReticle.y;
+	if (Input::GetInstance()->GetJoystickState(0, joyState))
+	{
+		reticle3DModel->worldTransform_.translation_.x += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * 5.0f;
+		reticle3DModel->worldTransform_.translation_.y -= (float)joyState.Gamepad.sThumbRY / SHRT_MAX * 5.0f;
+
+	}
+
+
+	////3Dレティクルのワールド座標から2Dレティクルのスクリーン座標を計算
+	//Vector3 positionReticle = GetReticleWorldPosition();
+	////ビューポート行列
+	//Matrix4x4 matViewport =
+	//	MakeViewportMatrix(0, 0, WinApp::kCilentWidth, WinApp::kCilentHeight, 0, 1);
+	////ビュー行列とプロジェクション行列、ビューポート行列を合成する
+	//Matrix4x4 matViewProjectionViewport =
+	//	Multiply(UICamera_->matView, Multiply(UICamera_->matProjection, matViewport));
+	////ワールド→スクリーン座標変換(ここまで3Dから2Dになる)
+	//positionReticle = Transform(positionReticle, matViewProjectionViewport);
+	////スプライトのレティクルに座標設定
+	//sprite2DReticle_->worldTransform.translation_.x = positionReticle.x;
+	//sprite2DReticle_->worldTransform.translation_.y = positionReticle.y;
 
 
 

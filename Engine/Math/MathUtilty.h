@@ -30,7 +30,7 @@ Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2);
 Matrix4x4 Subtract(const Matrix4x4& m1, const Matrix4x4& m2);
 
 // 3.座標変換
-Vector3 CoordinateTransform(const Vector3& vector, const Matrix4x4& matrix);
+Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
 
 // 行列の掛け算の関数
 Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
