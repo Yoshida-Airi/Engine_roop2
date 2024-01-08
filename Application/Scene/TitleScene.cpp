@@ -4,7 +4,6 @@
 TitleScene::~TitleScene()
 {
 	delete camera;
-	delete fence_;
 }
 
 void TitleScene::Initialize()
@@ -14,13 +13,6 @@ void TitleScene::Initialize()
 
 	camera = new Camera;
 	camera->Initialize();
-
-
-	object = ModelLoader::GetInstance();
-	fenceData = object->LoadObjFile("Resources", "fence.obj");
-
-	fence_ = new Model();
-	fence_->Initialize(fenceData);
 
 }
 
@@ -35,11 +27,10 @@ void TitleScene::Update()
 		sceneManager_->ChangeScene("GAMEPLAY");
 	}
 
-	fence_->Update();
 }
 
 void TitleScene::Draw()
 {
-	fence_->Draw(camera);
+	
 }
 

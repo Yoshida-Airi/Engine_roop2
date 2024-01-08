@@ -60,7 +60,10 @@ bool Input::TriggerKey(BYTE keyNumber)
 {
 	if (keyPre[keyNumber] != 0 && key[keyNumber] == 0)
 	{
+#ifdef _DEBUG
 		OutputDebugStringA("hit 0!\n");
+#endif // _DEBUG
+
 		return true;
 	}
 

@@ -6,15 +6,17 @@
 #include"SceneFactory.h"
 #include"SceneManager.h"
 
-#include"Triangle.h"
-#include"Sprite.h"
-#include"Sphere.h"
+//#include"Triangle.h"
+//#include"Sprite.h"
+//#include"Sphere.h"
 #include"Model.h"
 #include"ICamera.h"
 #include"Camera.h"
 #include"UICamera.h"
 
 #include"Input.h"
+#include"Player.h"
+
 
 
 /// <summary>
@@ -46,13 +48,17 @@ private:
 	Input* input;
 
 
-	Triangle* triangle = nullptr;
-	Triangle* triangle2 = nullptr;
-	Sprite* sprite = nullptr;
-	Sprite* sprite2 = nullptr;
-	Sphere* sphere = nullptr;
-	Model* model = nullptr;
-	Model* model2 = nullptr;
+	//Triangle* triangle = nullptr;
+	//Triangle* triangle2 = nullptr;
+	//Sprite* sprite = nullptr;
+	//Sprite* sprite2 = nullptr;
+	//Sphere* sphere = nullptr;
+	//Model* model = nullptr;
+	//Model* model2 = nullptr;
+
+	ModelData playerData;
+	ModelData playerBulletData;
+	Player* player = nullptr;
 
 
 #ifdef _DEBUG

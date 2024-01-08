@@ -81,6 +81,12 @@
     <ClCompile Include="Engine\Base\Scene\SceneManager.cpp">
       <Filter>Engine\Base\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Player\Player.cpp">
+      <Filter>Application\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Player\PlayerBullet.cpp">
+      <Filter>Application\Object\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -173,6 +179,12 @@
     <ClInclude Include="Engine\Base\Scene\SceneManager.h">
       <Filter>Engine\Base\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Object\Player\Player.h">
+      <Filter>Application\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Player\PlayerBullet.h">
+      <Filter>Application\Object\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -199,7 +211,6 @@
     <Filter Include="Engine\Math">
       <UniqueIdentifier>{65893364-0d4c-4324-9ab5-881d266cae64}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Application">
       <UniqueIdentifier>{c25fe7b4-92e6-4423-8adc-83b32a8df0b2}</UniqueIdentifier>
     </Filter>
@@ -208,7 +219,12 @@
     </Filter>
     <Filter Include="Engine\Base\Scene">
       <UniqueIdentifier>{7bee2264-0e25-44a2-b1f1-5b7c4b30097e}</UniqueIdentifier>
-
+    </Filter>
+    <Filter Include="Application\Object">
+      <UniqueIdentifier>{e246906b-cc65-4c6d-87b0-7ed21efd7c8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Player">
+      <UniqueIdentifier>{543adec6-06f1-4606-b4f7-f11c38108a6d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

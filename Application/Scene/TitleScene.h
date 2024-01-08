@@ -13,7 +13,7 @@
 
 #include"Input.h"
 
-
+#include"Player.h"
 
 class TitleScene :public BaseScene
 {
@@ -31,7 +31,5 @@ private:
 	ModelLoader* object;
 	ModelData fenceData;
 
-	Model* fence_ = nullptr;
-	
 };
 
