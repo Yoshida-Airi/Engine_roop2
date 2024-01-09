@@ -32,7 +32,11 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
+#ifdef _DEBUG
 	camera->CameraDebug();
+#endif // _DEBUG
+
+	
 
 	input->TriggerKey(DIK_0);
 

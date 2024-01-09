@@ -33,7 +33,11 @@ void GameOverScene::Initialize()
 
 void GameOverScene::Update()
 {
+#ifdef _DEBUG
 	camera->CameraDebug();
+#endif // _DEBUG
+
+	
 
 	input->TriggerKey(DIK_0);
 
