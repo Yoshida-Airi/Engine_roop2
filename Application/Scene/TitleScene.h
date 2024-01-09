@@ -27,11 +27,15 @@ private:
 
 	Input* input;
 	SceneManager* sceneManager_ = nullptr;
+	TextureManager* texture = nullptr;
 	ICamera* camera;
+	ICamera* uiCamera;
 	ModelLoader* object;
 	ModelData fenceData;
 
-	Model* fence_ = nullptr;
+	uint32_t uvTexture;
+
+	Sprite* sprite = nullptr;
 	
 };
 

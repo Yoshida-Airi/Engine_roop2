@@ -4,23 +4,30 @@
 TitleScene::~TitleScene()
 {
 	delete camera;
-	delete fence_;
+	delete uiCamera;
+	delete sprite;
 }
 
 void TitleScene::Initialize()
 {
+	texture = TextureManager::GetInstance();
 	input = Input::GetInstance();
 	sceneManager_ = SceneManager::GetInstance();
+
+
+	uvTexture = texture->LoadTexture("Resources/uvChecker.png");
+
 
 	camera = new Camera;
 	camera->Initialize();
 
+	uiCamera = new UICamera;
+	uiCamera->Initialize();
 
-	object = ModelLoader::GetInstance();
-	fenceData = object->LoadObjFile("Resources", "fence.obj");
 
-	fence_ = new Model();
-	fence_->Initialize(fenceData);
+	sprite = new Sprite;
+	sprite->Initialize(uvTexture);
+
 
 }
 
@@ -35,11 +42,12 @@ void TitleScene::Update()
 		sceneManager_->ChangeScene("GAMEPLAY");
 	}
 
-	fence_->Update();
+	sprite->Update();
+
 }
 
 void TitleScene::Draw()
 {
-	fence_->Draw(camera);
+	sprite->Draw(uiCamera);
 }
 

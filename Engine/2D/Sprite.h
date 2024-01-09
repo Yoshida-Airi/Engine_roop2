@@ -56,7 +56,8 @@ public:
 		textureSrvHandleGPU_ = textureSrvHandleGPU;
 	}
 
-	WorldTransform worldTransform;
+	static const uint32_t kNumInstance = 10;
+	WorldTransform worldTransform[kNumInstance];
 
 	void SetisInvisible(bool isInvisible)
 	{
@@ -132,6 +133,7 @@ private://プライベート変数
 	Vector2 textureLeftTop = { 0.0f,0.0f };
 	Vector2 anchorPoint_ = { 0.0f,0.0f };
 
+
 	float left;
 	float right;
 	float top;
@@ -141,6 +143,13 @@ private://プライベート変数
 	float texRight;
 	float texTop;
 	float texBottom;
+
+	
+	Microsoft::WRL::ComPtr<ID3D12Resource>instancingResource;
+	TransformationMatrix* instancingData;
+	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
+	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
+	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
 
 private://プライベート関数
 
@@ -164,7 +173,10 @@ private://プライベート関数
 	/// </summary>
 	void UpdateVertexBuffer();
 
-	
+	void instancingBuffer();
+	void SetSRV();
+
+
 	void AdjustTextureSize();
 
 };
