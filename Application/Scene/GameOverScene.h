@@ -15,10 +15,10 @@
 
 #include"Player.h"
 
-class TitleScene :public BaseScene
+class GameOverScene :public BaseScene
 {
 public:
-	~TitleScene()override;
+	~GameOverScene()override;
 	void Initialize()override;
 	void Update()override;
 	void Draw()override;

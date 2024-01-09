@@ -9,7 +9,11 @@ Player::~Player()
 		delete bullet;
 	}
 
-	delete sprite2DReticle_;
+	for (int i = 0; i < 3; ++i)
+	{
+		delete Heart[i];
+
+	}
 }
 
 void Player::Initialize(ICamera* camera, ICamera* UICamera, ModelData playerData, ModelData bullet)
@@ -32,11 +36,19 @@ void Player::Initialize(ICamera* camera, ICamera* UICamera, ModelData playerData
 	reticle3DModel->Initialize(reticleData_);
 	reticle3DModel->worldTransform_.scale_ = { 0.1f,0.1f,0.1f };
 	
-	sprite2DReticle_ = new Sprite();
-	reticle = texture->LoadTexture("Resources/reticle.png");
-	sprite2DReticle_->Initialize(reticle);
-	sprite2DReticle_->SetAnchorPoint({ 0.5f, 0.5f });
+
+	for (int i = 0; i < 3; ++i)
+	{
+		Heart[i] = new Sprite();
+		HeartData = texture->LoadTexture("Resources/Heart.png");
+		Heart[i]->Initialize(HeartData);
+
+
+	}
 	
+	Heart[1]->worldTransform.translation_ = { 40.0f };
+	Heart[2]->worldTransform.translation_ = { 80.0f };
+
 
 }
 
@@ -65,7 +77,11 @@ void Player::Update()
 
 	player->Update();
 	reticle3DModel->Update();
-	sprite2DReticle_->Update();
+
+	for (int i = 0; i < 3; ++i)
+	{
+		Heart[i]->Update();
+	}
 
 	SetReticle();
 
@@ -87,6 +103,8 @@ void Player::Update()
 
 #endif // _DEBUG
 
+
+
 }
 
 void Player::Draw()
@@ -101,7 +119,29 @@ void Player::Draw()
 
 void Player::DrawUI()
 {
-	
+	if (HP == 3)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			Heart[i]->Draw(UICamera_);
+		}
+	}
+
+	if (HP == 2)
+	{
+		for (int i = 0; i < 2; ++i)
+		{
+			Heart[i]->Draw(UICamera_);
+		}
+	}
+
+	if (HP == 1)
+	{
+		for (int i = 0; i < 1; ++i)
+		{
+			Heart[i]->Draw(UICamera_);
+		}
+	}
 }
 
 Vector3 Player::GetReticleWorldPosition()
@@ -192,12 +232,12 @@ void Player::Attack()
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity;
 
-		////自機から照準オブジェクトへのベクトル
-		//velocity = Subtract(reticle3DModel->worldTransform_.translation_, GetWorldPosition());
-		//velocity = Multiply(kBulletSpeed, Normalize(velocity));
+		//自機から照準オブジェクトへのベクトル
+		velocity = Subtract(reticle3DModel->worldTransform_.translation_, GetWorldPosition());
+		velocity = Multiply(kBulletSpeed, Normalize(velocity));
 
-		//速度ベクトルを自機の向きに合わせて回転
-		velocity = TransformNormal(velocity, player->worldTransform_.matWorld_);
+		////速度ベクトルを自機の向きに合わせて回転
+		//velocity = TransformNormal(velocity, player->worldTransform_.matWorld_);
 
 		// 弾を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();
@@ -251,6 +291,11 @@ void Player::SetReticle()
 
 	}
 
+
+	if (HP == 3)
+	{
+
+	}
 
 	////3Dレティクルのワールド座標から2Dレティクルのスクリーン座標を計算
 	//Vector3 positionReticle = GetReticleWorldPosition();
@@ -306,4 +351,5 @@ Vector3 Player::GetWorldPosition() {
 
 void Player::OnCollision()
 {
+	HP -= 1;
 }

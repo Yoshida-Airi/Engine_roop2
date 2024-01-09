@@ -6,7 +6,7 @@
 #include"Camera.h"
 
 #include"EnemyBullet.h"
-
+class GamePlayScene;
 class Player;
 class Enemy
 {
@@ -28,11 +28,18 @@ public:
 	void SetPlayer(Player* player) { player_ = player; };
 
 	Vector3 GetWorldPosition();
-	//弾リストを取得
-	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; };
+	////弾リストを取得
+	//const std::list<EnemyBullet*>& GetBullets() const { return bullets_; };
 
+	void SetGameScene(GamePlayScene* gameScene) { gameScene_ = gameScene; };
 
+	bool GetIsAlive()const { return Alive; };
 
+	void SetPos(Vector3 pos) {
+		worldTransform_.translation_ = pos;
+	}
+
+	void SetAlive(bool Alive_) { Alive = Alive_; };
 private:
 
 	//自キャラ
@@ -44,6 +51,8 @@ private:
 	void Approach();
 	void Leave();
 	void Fire();
+
+	bool Alive = true;	//true : 生きている
 
 	ICamera* camera_ = nullptr;
 
@@ -63,9 +72,10 @@ private:
 	Vector3 ApprochVelocity_;
 	Vector3 LeaveVelocity_;
 
-	// 弾
-	std::list<EnemyBullet*> bullets_;
+
 	//発射タイマー
 	int32_t timer = 0;
+
+	GamePlayScene* gameScene_ = nullptr;
 };
 

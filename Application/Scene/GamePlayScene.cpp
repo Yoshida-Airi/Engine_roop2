@@ -17,6 +17,10 @@ GamePlayScene::~GamePlayScene()
 	delete camera;
 	delete uiCamera;
 
+	for (EnemyBullet* bullet : this->enemyBullets_)
+	{
+		delete bullet;
+	}
 
 }
 
@@ -61,17 +65,32 @@ void GamePlayScene::Initialize()
 	player->Initialize(camera,uiCamera, playerData,playerBulletData);
 
 	// 敵の速度
-	const float kEnemySpeed = -0.0f;
+	const float kEnemySpeed = -0.2f;
 	const float kEnemySpeedB = 0.2f;
 	Vector3 velocityA(0, 0, kEnemySpeed);
 	Vector3 velocityB(kEnemySpeed, kEnemySpeedB, 0);
 	enemy = new Enemy();
-	enemy->Initialize(camera, EnemyData,EnemyBulletData, { 0.0f,2.0f,30.0f }, velocityA, velocityB);
+	enemy->Initialize(camera, EnemyData,EnemyBulletData, { 0.0f,0.2f,30.0f }, velocityA, velocityB);
 	enemy->SetPlayer(player);
+	enemy->SetGameScene(this);
+
+
 }
 
 void GamePlayScene::Update()
 {
+
+	//デスフラグの立った弾を削除
+	enemyBullets_.remove_if([](EnemyBullet* bullet)
+		{
+			if (bullet->isDead())
+			{
+				delete bullet;
+				return true;
+			}
+			return false;
+		});
+
 	input->TriggerKey(DIK_0);
 
 #ifdef _DEBUG
@@ -90,9 +109,29 @@ void GamePlayScene::Update()
 	player->Update();
 	enemy->Update();
 
+	//弾更新
+
+	for (EnemyBullet* bullet : this->enemyBullets_)
+	{
+		bullet->Update();
+	}
+	
 	//当たり判定
 	CheackAllColoisions();
 
+	if (player->GetHP() == 0)
+	{
+		sceneManager_->ChangeScene("GAMEOVER");
+	}
+
+	if (enemy->GetIsAlive() == false || enemy->GetWorldPosition().x <= -10)
+	{
+		enemy->SetPos({ 0.0f,2.0f,30.0f });
+		enemy->SetAlive(true);
+	}
+
+
+	
 
 }
 
@@ -101,6 +140,12 @@ void GamePlayScene::Draw()
 	skydome->Draw();
 	player->Draw();
 	enemy->Draw();
+
+	//弾描画
+	for (EnemyBullet* bullet : this->enemyBullets_)
+	{
+		bullet->Draw();
+	}
 
 	player->DrawUI();
 
@@ -114,10 +159,10 @@ void GamePlayScene::CheackAllColoisions()
 	// 自弾リストの取得
 	const std::list<PlayerBullet*>& playerBullets = player->GetBullets();
 	// 敵弾リストの取得
-	const std::list<EnemyBullet*>& enemyBullets = enemy->GetBullets();
+	const std::list<EnemyBullet*>& enemyBullets = enemyBullets_;
 
 	//半径
-	const float radius = 2.0f;
+	const float radius = 0.3f;
 
 #pragma region 自キャラと敵弾の当たり判定
 
@@ -196,4 +241,12 @@ void GamePlayScene::CheackAllColoisions()
 	}
 
 #pragma endregion
+}
+
+
+
+
+void GamePlayScene::AddEnemyBullet(EnemyBullet* enemyBullet)
+{
+	enemyBullets_.push_back(enemyBullet);
 }

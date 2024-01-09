@@ -19,7 +19,7 @@
 #include"Enemy.h"
 #include"Skydome.h"
 
-
+#include<sstream>
 
 /// <summary>
 /// ゲームプレイシーン
@@ -32,10 +32,13 @@ public:
 	void Update()override;
 	void Draw()override;
 	
+	void AddEnemyBullet(EnemyBullet* enemyBullet);
+
 
 private:
 
 	void CheackAllColoisions();
+
 
 	TextureManager* texture;
 	SceneManager* sceneManager_ = nullptr;
@@ -48,6 +51,8 @@ private:
 	ModelData plane;
 	ModelData cube;
 
+	// 弾
+	std::list<EnemyBullet*> enemyBullets_;
 
 	ICamera* camera;
 	ICamera* uiCamera;
@@ -79,6 +84,9 @@ private:
 
 #endif // _DEBUG
 
+
+	//発生コマンド
+	std::stringstream enemyPopCommands;
 
 };
 

@@ -1,20 +1,21 @@
-#include "TitleScene.h"
+#include "GameOverScene.h"
+
 #include"SceneManager.h"
 
-TitleScene::~TitleScene()
+GameOverScene::~GameOverScene()
 {
 	delete camera;
 	delete uiCamera;
 	delete sprite;
 }
 
-void TitleScene::Initialize()
+void GameOverScene::Initialize()
 {
 	input = Input::GetInstance();
 	sceneManager_ = SceneManager::GetInstance();
 	texture = TextureManager::GetInstance();
 
-	uvTexture = texture->LoadTexture("Resources/Title.png");
+	uvTexture = texture->LoadTexture("Resources/Over.png");
 
 
 	camera = new Camera;
@@ -26,11 +27,11 @@ void TitleScene::Initialize()
 
 	sprite = new Sprite;
 	sprite->Initialize(uvTexture);
-	
+
 
 }
 
-void TitleScene::Update()
+void GameOverScene::Update()
 {
 	camera->CameraDebug();
 
@@ -38,14 +39,14 @@ void TitleScene::Update()
 
 	if (input->TriggerKey(DIK_RETURN))
 	{
-		sceneManager_->ChangeScene("GAMEPLAY");
+		sceneManager_->ChangeScene("TITLE");
 	}
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState))
 	{
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
 		{
-			sceneManager_->ChangeScene("GAMEPLAY");
+			sceneManager_->ChangeScene("TITLE");
 		}
 	}
 
@@ -53,7 +54,7 @@ void TitleScene::Update()
 
 }
 
-void TitleScene::Draw()
+void GameOverScene::Draw()
 {
 	sprite->Draw(uiCamera);
 }

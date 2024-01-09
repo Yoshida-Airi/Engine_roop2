@@ -34,6 +34,8 @@ public:
 	/// <returns></returns>
 	Vector3 GetReticleWorldPosition();
 
+	int GetHP()const { return HP; };
+
 private:
 
 	void Move();
@@ -55,10 +57,12 @@ private:
 	ModelData bulletData_;
 	ModelData reticleData_;
 
+
+
 	Model* player = nullptr;
 	//2Dレティクル用スプライト
-	uint32_t reticle;
-	Sprite* sprite2DReticle_ = nullptr;
+	uint32_t HeartData;
+	Sprite* Heart[3] = {};
 
 	//3Dレティクル用
 	Model* reticle3DModel = nullptr;
@@ -67,6 +71,7 @@ private:
 	// 弾
 	std::list<PlayerBullet*> bullets_;
 
+	int HP = 3;
 
 	
 };

@@ -96,6 +96,9 @@
     <ClCompile Include="Application\Object\Enemy\EnemyBullet.cpp">
       <Filter>Application\Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Scene\GameOverScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="Application\Object\Enemy\EnemyBullet.h">
       <Filter>Application\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\GameOverScene.h">
+      <Filter>Application\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
