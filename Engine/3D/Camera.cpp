@@ -52,6 +52,7 @@ void Camera::UpdateProjectionMatrix()
 
 void Camera::CameraDebug()
 {
+#ifdef _DEBUG
 	ImGui::Begin("camera");
 
 	float translate[3] = { transform.translate.x,transform.translate.y,transform.translate.z };
@@ -62,4 +63,7 @@ void Camera::CameraDebug()
 	UpdateMatrix();
 
 	ImGui::End();
+#endif // _DEBUG
+
+	
 }

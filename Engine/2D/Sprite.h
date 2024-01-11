@@ -100,6 +100,7 @@ public:
 		anchorPoint_ = anchorPoint;
 	}
 
+	void SpriteDebug();
 
 private://プライベート変数
 
@@ -146,7 +147,7 @@ private://プライベート変数
 
 	
 	Microsoft::WRL::ComPtr<ID3D12Resource>instancingResource;
-	TransformationMatrix* instancingData;
+	Matrix4x4* instancingData;
 	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
@@ -178,6 +179,8 @@ private://プライベート関数
 
 
 	void AdjustTextureSize();
+
+
 
 };
 

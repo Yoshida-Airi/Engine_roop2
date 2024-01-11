@@ -65,5 +65,6 @@ private:
 	/// </summary>
 	void LightBuffer();
 
+
 };
 

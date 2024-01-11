@@ -124,3 +124,4 @@ void Model::LightBuffer()
 	lightResource_ = dxCommon_->CreateBufferResource(sizeof(DirectionalLight));
 	lightResource_->Map(0, nullptr, reinterpret_cast<void**>(&lightData_));
 }
+

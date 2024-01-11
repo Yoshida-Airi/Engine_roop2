@@ -114,7 +114,7 @@ void WinApp::SetupWindowClass()
 	//ウィンドウプロシージャ
 	wc_.lpfnWndProc = WindowProc;
 	//ウィンドウクラス名
-	wc_.lpszClassName = L"CG2WindowClass";
+	wc_.lpszClassName = L"LE2B_28_ヨシダ_アイリ";
 	//インスタンスハンドル
 	wc_.hInstance = GetModuleHandle(nullptr);
 	//カーソル

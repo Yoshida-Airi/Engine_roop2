@@ -27,13 +27,14 @@ void TitleScene::Initialize()
 
 	sprite = new Sprite;
 	sprite->Initialize(uvTexture);
-
+	
 
 }
 
 void TitleScene::Update()
 {
 	camera->CameraDebug();
+	sprite->SpriteDebug();
 
 	input->TriggerKey(DIK_0);
 
@@ -44,6 +45,8 @@ void TitleScene::Update()
 
 	sprite->Update();
 
+
+	
 }
 
 void TitleScene::Draw()

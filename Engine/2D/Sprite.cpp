@@ -43,8 +43,10 @@ void Sprite::Initialize(uint32_t textureHandle)
 		worldTransform[index].Initialize();
 		worldTransform[index].scale_ = { 1.0f,1.0f,1.0f };
 		worldTransform[index].rotation_ = { 0.0f,0.0f,0.0f };
-		worldTransform[index].translation_ = { index * 0.1f,index * 0.1f,index * 0.1f };
+		worldTransform[index].translation_ = { index * 10.0f,index * 10.0f,index * 10.0f };
+		
 	}
+
 
 	left = 0.0f * size_.x;
 	right = 1.0f * size_.x;
@@ -89,7 +91,7 @@ void Sprite::Update()
 	{
 		worldTransform[index].UpdateWorldMatrix();
 		Matrix4x4 worldMatrix = MakeAffinMatrix(worldTransform[index].scale_, worldTransform[index].rotation_, worldTransform[index].translation_);
-		instancingData[index].World = worldMatrix;
+		instancingData[index] = worldMatrix;
 	}
 
 	
@@ -128,14 +130,19 @@ void Sprite::Draw(ICamera* camera)
 	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	//マテリアルCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
+
+	//カメラ用のCBufferの場所を設定
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
+
+
+	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
+
 	////wvp用のCbufferの場所を設定
 	//dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform.constBuffer_->GetGPUVirtualAddress());
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(1, instancingSrvHandleGPU);
-	
-	//カメラ用のCBufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
-	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
+
+
 	//描画
 	/*dxCommon_->GetCommandList()->DrawInstanced(6, 1, 0, 0);*/
 	dxCommon_->GetCommandList()->DrawIndexedInstanced(6, kNumInstance, 0, 0, 0);
@@ -236,15 +243,37 @@ void Sprite::AdjustTextureSize() {
 	textureSize_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
 }
 
+void Sprite::SpriteDebug()
+{
+#ifdef _DEBUG
+	ImGui::Begin("camera");
+
+	float translate[3] = { worldTransform->translation_.x,worldTransform->translation_.y,worldTransform->translation_.z };
+	ImGui::SliderFloat3("transform", translate, -20, 4);
+
+	float rotation[3] = { worldTransform->rotation_.x,worldTransform->rotation_.y,worldTransform->rotation_.z };
+	ImGui::SliderFloat3("rotation", rotation, -20, 4);
+
+	worldTransform->translation_ = { translate[0],translate[1],translate[2] };
+	worldTransform->rotation_ = { rotation[0],rotation[1],rotation[2] };
+
+	worldTransform->UpdateWorldMatrix();
+
+	ImGui::End();
+#endif // _DEBUG
+
+
+	
+}
+
 void Sprite::instancingBuffer()
 {
-	instancingResource = dxCommon_->CreateBufferResource(sizeof(TransformationMatrix) * kNumInstance);
+	instancingResource = dxCommon_->CreateBufferResource(sizeof(Matrix4x4) * kNumInstance);
 	instancingResource->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
 
 	for (uint32_t index = 0; index < kNumInstance; ++index)
 	{
-		instancingData[index].WVP = MakeIdentity4x4();
-		instancingData[index].World = MakeIdentity4x4();
+		instancingData[index] = MakeIdentity4x4();
 	}
 }
 
@@ -256,8 +285,16 @@ void Sprite::SetSRV()
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	instancingSrvDesc.Buffer.NumElements = kNumInstance;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(TransformationMatrix);
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(Matrix4x4);
 	instancingSrvHandleCPU = texture_->GetCPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 5);
 	instancingSrvHandleGPU = texture_->GetGPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 5);
+
+	//先頭はImGuiが使っているので次のを使う
+	instancingSrvHandleCPU.ptr += (dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)*2);
+	instancingSrvHandleGPU.ptr += (dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)*2);
+
+
 	dxCommon_->GetDevice()->CreateShaderResourceView(instancingResource.Get(), &instancingSrvDesc, instancingSrvHandleCPU);
 }
+
+
