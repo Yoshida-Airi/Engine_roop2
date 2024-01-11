@@ -2,14 +2,6 @@
 
 GamePlayScene::~GamePlayScene()
 {
-	delete triangle;
-	delete triangle2;
-	delete sprite;
-	delete sprite2;
-	delete sphere;
-	delete model;
-	delete model2;
-
 
 	delete camera;
 	delete uiCamera;
@@ -109,6 +101,7 @@ void GamePlayScene::Update()
 
 void GamePlayScene::Draw()
 {
+
 	triangle->Draw(camera);
 	triangle2->Draw(camera);
 
@@ -119,6 +112,7 @@ void GamePlayScene::Draw()
 
 	model->Draw(camera);
 	model2->Draw(camera);
+
 
 
 

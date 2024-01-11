@@ -4,7 +4,6 @@
 TitleScene::~TitleScene()
 {
 	delete camera;
-	delete fence_;
 }
 
 void TitleScene::Initialize()

@@ -177,9 +177,9 @@ void Sphere::Draw(ICamera* camera)
 	dxCommon_->GetCommandList()->DrawInstanced(totalVertex, 1, 0, 0);
 }
 
-Sphere* Sphere::Create(uint32_t textureHandle)
+std::unique_ptr< Sphere> Sphere::Create(uint32_t textureHandle)
 {
-	Sphere* sphere = new Sphere();
+	std::unique_ptr< Sphere> sphere(new Sphere());
 	sphere->Initialize(textureHandle);
 	return sphere;
 }

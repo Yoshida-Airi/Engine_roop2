@@ -42,7 +42,7 @@ public:
 	/// </summary>
 	/// <param name="textureHandle">テクスチャ</param>
 	/// <returns>球体</returns>
-	Sphere* Create(uint32_t textureHandle);
+	std::unique_ptr< Sphere> Create(uint32_t textureHandle);
 
 private:
 

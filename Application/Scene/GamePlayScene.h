@@ -46,13 +46,13 @@ private:
 	Input* input;
 
 
-	Triangle* triangle = nullptr;
-	Triangle* triangle2 = nullptr;
-	Sprite* sprite = nullptr;
-	Sprite* sprite2 = nullptr;
-	Sphere* sphere = nullptr;
-	Model* model = nullptr;
-	Model* model2 = nullptr;
+	std::unique_ptr<Triangle> triangle = nullptr;
+	std::unique_ptr<Triangle> triangle2 = nullptr;
+	std::unique_ptr<Sprite> sprite = nullptr;
+	std::unique_ptr<Sprite> sprite2 = nullptr;
+	std::unique_ptr<Sphere> sphere = nullptr;
+	std::unique_ptr<Model> model = nullptr;
+	std::unique_ptr<Model> model2 = nullptr;
 
 
 #ifdef _DEBUG

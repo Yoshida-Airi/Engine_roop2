@@ -138,9 +138,9 @@ void Sprite::SetMaterialData(const Vector4 color)
 /* 　　　　   プライベートメソッド　　　    */
 /*=====================================*/
 
-Sprite* Sprite::Create(uint32_t textureHandle)
+std::unique_ptr< Sprite> Sprite::Create(uint32_t textureHandle)
 {
-	Sprite* sprite = new Sprite();
+	std::unique_ptr< Sprite> sprite(new Sprite());
 	sprite->Initialize(textureHandle);
 	return sprite;
 }
