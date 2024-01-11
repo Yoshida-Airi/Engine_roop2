@@ -84,9 +84,9 @@ void Model::Draw(ICamera* camera)
 
 }
 
-Model* Model::Create(ModelData data)
+std::unique_ptr< Model>  Model::Create(ModelData data)
 {
-	Model* model = new Model();
+	std::unique_ptr< Model> model(new Model());
 	model->Initialize(data);
 	return model;
 }

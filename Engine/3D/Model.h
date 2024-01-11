@@ -32,7 +32,7 @@ public:
 	/// </summary>
 	/// <param name="data">モデルデータ</param>
 	/// <returns>モデル</returns>
-	Model* Create(ModelData data);
+	std::unique_ptr< Model>  Create(ModelData data);
 
 private:
 	DirectXCommon* dxCommon_;

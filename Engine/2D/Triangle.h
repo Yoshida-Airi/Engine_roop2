@@ -12,6 +12,7 @@
 #include"Camera.h"
 #include"ICamera.h"
 
+#include<wrl.h>
 
 struct TriangleData
 {
@@ -53,7 +54,7 @@ public:
 	/// </summary>
 	/// <param name="textureHandle">テクスチャ</param>
 	/// <returns>三角形</returns>
-	Triangle* Create(uint32_t textureHandle);
+	std::unique_ptr< Triangle> Create(uint32_t textureHandle);
 	
 private://プライベート変数
 
