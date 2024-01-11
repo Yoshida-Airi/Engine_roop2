@@ -19,11 +19,7 @@ void Sprite::Initialize(uint32_t textureHandle)
 	worldTransform.Initialize();
 	textureHandle_ = textureHandle;
 
-	resourceDesc_ = texture_->GetResourceDesc(textureHandle_);
 	
-	textureSize_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
-	size_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
-
 	uvTransform =
 	{
 		{1.0f,1.0f,1.0f,},
@@ -35,15 +31,17 @@ void Sprite::Initialize(uint32_t textureHandle)
 	MaterialBuffer();
 	IndexBuffer();
 
-	left = 0.0f * size_.x;
-	right = 1.0f * size_.x;
-	top = 0.0f * size_.y;
-	bottom = 1.0f * size_.y;
+	AdjustTextureSize();
+	
+	left = 0.0f * textureSize_.x;
+	right = 1.0f * textureSize_.x;
+	top = 0.0f * textureSize_.y;
+	bottom = 1.0f * textureSize_.y;
 
-	texLeft = textureLeftTop.x / resourceDesc_.Width;
-	texRight = (textureLeftTop.x + textureSize_.x) / resourceDesc_.Width;
-	texTop = textureLeftTop.y / resourceDesc_.Height;
-	texBottom = (textureLeftTop.y + textureSize_.y) / resourceDesc_.Height;
+	texLeft = textureLeftTop.x / textureSize_.x;
+	texRight = (textureLeftTop.x + textureSize_.x) / textureSize_.x;
+	texTop = textureLeftTop.y / textureSize_.y;
+	texBottom = (textureLeftTop.y + textureSize_.y) / textureSize_.y;
 
 
 	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
@@ -64,12 +62,16 @@ void Sprite::Initialize(uint32_t textureHandle)
 
 	SetMaterialData(color);
 
+
 	indexData_[0] = 0;
 	indexData_[1] = 1;
 	indexData_[2] = 2;
 	indexData_[3] = 1;
 	indexData_[4] = 3;
 	indexData_[5] = 2;
+
+	
+
 }
 
 void Sprite::Update()
@@ -134,16 +136,18 @@ void Sprite::SetMaterialData(const Vector4 color)
 	materialData_[0].color = color;
 }
 
-/*=====================================*/
-/* 　　　　   プライベートメソッド　　　    */
-/*=====================================*/
-
 std::unique_ptr< Sprite> Sprite::Create(uint32_t textureHandle)
 {
 	std::unique_ptr< Sprite> sprite(new Sprite());
 	sprite->Initialize(textureHandle);
 	return sprite;
 }
+
+
+/*=====================================*/
+/* 　　　　   プライベートメソッド　　　    */
+/*=====================================*/
+
 
 void Sprite::VertexBuffer()
 {
@@ -187,15 +191,15 @@ void Sprite::UpdateVertexBuffer()
 
 
 	//テクスチャのサイズを合わせる
-	left = (0.0f - anchorPoint_.x) * size_.x;
-	right = (1.0f - anchorPoint_.x) * size_.x;
-	top = (0.0f - anchorPoint_.y) * size_.y;
-	bottom = (1.0f - anchorPoint_.y) * size_.y;
+	left = (0.0f - anchorPoint_.x) * cutSize_.x;
+	right = (1.0f - anchorPoint_.x) * cutSize_.x;
+	top = (0.0f - anchorPoint_.y) * cutSize_.y;
+	bottom = (1.0f - anchorPoint_.y) * cutSize_.y;
 
-	texLeft = textureLeftTop.x / resourceDesc_.Width;
-	texRight = (textureLeftTop.x + textureSize_.x) / resourceDesc_.Width;
-	texTop = textureLeftTop.y / resourceDesc_.Height;
-	texBottom = (textureLeftTop.y + textureSize_.y) / resourceDesc_.Height;
+	texLeft = textureLeftTop.x / textureSize_.x;
+	texRight = (textureLeftTop.x + cutSize_.x) / textureSize_.x;
+	texTop = textureLeftTop.y / textureSize_.y;
+	texBottom = (textureLeftTop.y + cutSize_.y) / textureSize_.y;
 
 
 
@@ -220,5 +224,8 @@ void Sprite::AdjustTextureSize() {
 	//テクスチャの情報を取得
 	resourceDesc_ = TextureManager::GetInstance()->GetResourceDesc(textureHandle_);
 	//テクスチャサイズの初期化
+
 	textureSize_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
+	cutSize_ = textureSize_;
+
 }

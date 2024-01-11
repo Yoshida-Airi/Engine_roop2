@@ -63,14 +63,6 @@ public:
 		isInvisible_ = isInvisible;
 	}
 
-	/// <summary>
-	/// テクスチャサイズ（描画したい範囲
-	/// </summary>
-	/// <param name="textureSize"></param>
-	void SetTextureSize(Vector2 textureSize)
-	{
-		textureSize_ = textureSize;
-	}
 
 	/// <summary>
 	/// テクスチャの左上座標（画像上の描画したい左上座標
@@ -82,12 +74,12 @@ public:
 	}
 
 	/// <summary>
-	/// テクスチャサイズ（表示したいサイズ
+	/// テクスチャサイズ（切り取って表示したいサイズ
 	/// </summary>
 	/// <param name="size"></param>
 	void SetSize(Vector2 size)
 	{
-		size_ = size;
+		cutSize_ = size;
 	}
 
 	/// <summary>
@@ -134,15 +126,17 @@ private://プライベート変数
 
 	uint32_t textureHandle_;
 
-	Vector2 size_ = { 100.0f,100.0f };
-	Vector2 textureLeftTop = { 0.0f,0.0f };
+	Vector2 cutSize_ = { 100.0f,100.0f };
+	Vector2 textureLeftTop = { 0.0f,0.0f };	//テクスチャ左上座標
 	Vector2 anchorPoint_ = { 0.0f,0.0f };
 
+	//画像のサイズ
 	float left;
 	float right;
 	float top;
 	float bottom;
 
+	//texcoord用
 	float texLeft;
 	float texRight;
 	float texTop;

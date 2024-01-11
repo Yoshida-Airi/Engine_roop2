@@ -34,7 +34,6 @@ void GamePlayScene::Initialize()
 	uiCamera->Initialize();
 
 
-
 	triangle = triangle->Create(uvTexture);
 	triangle2 = triangle2->Create(monsterBall);
 	
@@ -44,14 +43,15 @@ void GamePlayScene::Initialize()
 
 	sprite = sprite->Create(Doll);
 	sprite->SetSize({ 64.0f, 64.0f });
-	sprite->SetTextureLeftTop({ 64,0 });
-	sprite->SetTextureSize({ 64.0f, 64.0f });
+	sprite->SetTextureLeftTop({ 0,0 });
+	
 	//sprite->SetisInvisible(true);
 
 
 	sprite2 = sprite->Create(uvTexture);
-	sprite2->SetSize({ 640.0f, 360.0f });
-	//sprite2->SetisInvisible(true);
+	sprite2->SetSize({ 64.0f, 64.0f });
+	sprite2->SetTextureLeftTop({ 0,0 });
+	/*sprite2->SetisInvisible(true);*/
 
 	sphere = sphere->Create(monsterBall);
 	sphere->SetisInvisible(true);
@@ -105,15 +105,16 @@ void GamePlayScene::Draw()
 	triangle->Draw(camera);
 	triangle2->Draw(camera);
 
-	sprite->Draw(uiCamera);
-	sprite2->Draw(uiCamera);
+	
 
 	sphere->Draw(camera);
+
 
 	model->Draw(camera);
 	model2->Draw(camera);
 
 
-
+	sprite->Draw(uiCamera);
+	sprite2->Draw(uiCamera);
 
 }
