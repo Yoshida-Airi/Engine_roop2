@@ -164,7 +164,9 @@ private://プライベート関数
 	/// </summary>
 	void UpdateVertexBuffer();
 
-	
+	/// <summary>
+	/// テクスチャサイズをオリジナルに合わせる
+	/// </summary>
 	void AdjustTextureSize();
 
 };
