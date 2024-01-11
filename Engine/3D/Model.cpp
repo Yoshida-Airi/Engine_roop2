@@ -91,6 +91,32 @@ std::unique_ptr< Model>  Model::Create(ModelData data)
 	return model;
 }
 
+void Model::ModelDebug(const char title[10])
+{
+#ifdef _DEBUG
+		ImGui::Begin(title);
+
+
+		float translate[3] = { worldTransform_.translation_.x, worldTransform_.translation_.y, worldTransform_.translation_.z };
+		ImGui::SliderFloat3("transform", translate, -20, 4);
+
+		worldTransform_.translation_ = { translate[0],translate[1],translate[2] };
+
+		worldTransform_.UpdateWorldMatrix();
+
+		ImGui::End();
+#endif // _DEBUG
+
+
+
+}
+
+void Model::Parent(Model* model)
+{
+	this->worldTransform_.translation_ = model->worldTransform_.translation_;
+}
+
+
 
 /*=====================================*/
 /* 　　　　   プライベートメソッド　　　    */

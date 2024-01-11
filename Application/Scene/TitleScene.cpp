@@ -17,8 +17,11 @@ void TitleScene::Initialize()
 
 	object = ModelLoader::GetInstance();
 	fenceData = object->LoadObjFile("Resources", "fence.obj");
+	cubeData = object->LoadObjFile("Resources", "cube.obj");
 
 	fence_ = fence_->Create(fenceData);
+	cube_ = fence_->Create(cubeData);
+
 	
 }
 
@@ -34,10 +37,19 @@ void TitleScene::Update()
 	}
 
 	fence_->Update();
+	cube_->Update();
+
+
+	
+	cube_->ModelDebug("cube");
+	fence_->ModelDebug("fence");
+	fence_->Parent(cube_.get());
+
 }
 
 void TitleScene::Draw()
 {
 	fence_->Draw(camera);
+	cube_->Draw(camera);
 }
 

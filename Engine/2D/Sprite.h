@@ -39,7 +39,6 @@ public:
 	~Sprite();
 
 	void Initialize(uint32_t textureHandle);
-
 	void Update();
 	void Draw(ICamera* camera);
 

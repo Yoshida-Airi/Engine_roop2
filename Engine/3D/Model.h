@@ -34,6 +34,14 @@ public:
 	/// <returns>モデル</returns>
 	std::unique_ptr< Model>  Create(ModelData data);
 
+	void ModelDebug(const char title[10]);
+
+	/// <summary>
+	/// 親子関係を結ぶ
+	/// </summary>
+	/// <param name="model">親のモデル</param>
+	void Parent(Model* model);
+
 private:
 	DirectXCommon* dxCommon_;
 	TextureManager* texture_;
