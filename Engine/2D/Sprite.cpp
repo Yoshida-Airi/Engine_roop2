@@ -138,6 +138,13 @@ void Sprite::SetMaterialData(const Vector4 color)
 /* 　　　　   プライベートメソッド　　　    */
 /*=====================================*/
 
+Sprite* Sprite::Create(uint32_t textureHandle)
+{
+	Sprite* sprite = new Sprite();
+	sprite->Initialize(textureHandle);
+	return sprite;
+}
+
 void Sprite::VertexBuffer()
 {
 	vertexResource_ = dxCommon_->CreateBufferResource(sizeof(VertexData) * 6);	//頂点用のデータ

@@ -18,9 +18,9 @@ public:
 
 
 	~ModelLoader();
-	void Initialize();
+	/*void Initialize();
 	void Update();
-	void Draw();
+	void Draw();*/
 
 	/// <summary>
 	/// Objファイルを読むための関数

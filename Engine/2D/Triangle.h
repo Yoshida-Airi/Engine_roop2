@@ -48,6 +48,12 @@ public:
 
 	WorldTransform worldTransform;
 
+	/// <summary>
+	/// 三角形の生成
+	/// </summary>
+	/// <param name="textureHandle">テクスチャ</param>
+	/// <returns>三角形</returns>
+	Triangle* Create(uint32_t textureHandle);
 	
 private://プライベート変数
 

@@ -19,9 +19,8 @@ void TitleScene::Initialize()
 	object = ModelLoader::GetInstance();
 	fenceData = object->LoadObjFile("Resources", "fence.obj");
 
-	fence_ = new Model();
-	fence_->Initialize(fenceData);
-
+	fence_ = fence_->Create(fenceData);
+	
 }
 
 void TitleScene::Update()

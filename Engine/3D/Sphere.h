@@ -28,11 +28,21 @@ public:
 
 	WorldTransform worldTransform_ = {};
 
+	/// <summary>
+	/// 表示するかしないか true : 表示しない
+	/// </summary>
+	/// <param name="isInvisible"></param>
 	void SetisInvisible(bool isInvisible)
 	{
 		isInvisible_ = isInvisible;
 	}
 
+	/// <summary>
+	/// 球体の生成
+	/// </summary>
+	/// <param name="textureHandle">テクスチャ</param>
+	/// <returns>球体</returns>
+	Sphere* Create(uint32_t textureHandle);
 
 private:
 

@@ -27,6 +27,13 @@ public:
 
 	WorldTransform worldTransform_;
 
+	/// <summary>
+	/// モデルの生成
+	/// </summary>
+	/// <param name="data">モデルデータ</param>
+	/// <returns>モデル</returns>
+	Model* Create(ModelData data);
+
 private:
 	DirectXCommon* dxCommon_;
 	TextureManager* texture_;

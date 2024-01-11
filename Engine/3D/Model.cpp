@@ -84,6 +84,13 @@ void Model::Draw(ICamera* camera)
 
 }
 
+Model* Model::Create(ModelData data)
+{
+	Model* model = new Model();
+	model->Initialize(data);
+	return model;
+}
+
 
 /*=====================================*/
 /* 　　　　   プライベートメソッド　　　    */

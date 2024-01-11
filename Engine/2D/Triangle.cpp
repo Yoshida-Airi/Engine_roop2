@@ -79,6 +79,13 @@ void Triangle::SetMaterialData(const Vector4 color)
 	materialData_[0].color = color;
 }
 
+Triangle* Triangle::Create(uint32_t textureHandle)
+{
+	Triangle* triangle = new Triangle();
+	triangle->Initialize(textureHandle);
+	return triangle;
+}
+
 
 
 /*=====================================*/

@@ -43,36 +43,30 @@ void GamePlayScene::Initialize()
 
 
 
-	triangle = new Triangle;
-	triangle->Initialize(uvTexture);
-	triangle2 = new Triangle;
-	triangle2->Initialize(monsterBall);
+	triangle = triangle->Create(uvTexture);
+	triangle2 = triangle2->Create(monsterBall);
+	
 	//triangle->SetisInvisible(true);
 	//triangle2->SetisInvisible(true);
 
 
-	sprite = new Sprite;
-	sprite->Initialize(Doll);
+	sprite = sprite->Create(Doll);
 	sprite->SetSize({ 64.0f, 64.0f });
 	sprite->SetTextureLeftTop({ 64,0 });
 	sprite->SetTextureSize({ 64.0f, 64.0f });
 	//sprite->SetisInvisible(true);
 
 
-	sprite2 = new Sprite;
-	sprite2->Initialize(uvTexture);
+	sprite2 = sprite->Create(uvTexture);
 	sprite2->SetSize({ 640.0f, 360.0f });
 	//sprite2->SetisInvisible(true);
 
-	sphere = new Sphere;
-	sphere->Initialize(monsterBall);
+	sphere = sphere->Create(monsterBall);
 	sphere->SetisInvisible(true);
 
-	model = new Model;
-	model->Initialize(plane);
+	model = model->Create(plane);
+	model2 = model2->Create(cube);
 
-	model2 = new Model;
-	model2->Initialize(cube);
 }
 
 void GamePlayScene::Update()

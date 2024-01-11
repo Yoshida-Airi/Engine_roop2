@@ -13,18 +13,6 @@ ModelLoader::~ModelLoader()
 {
 }
 
-void ModelLoader::Initialize()
-{
-}
-
-void ModelLoader::Update()
-{
-}
-
-void ModelLoader::Draw()
-{
-}
-
 ModelData ModelLoader::LoadObjFile(const std::string& directoryPath, const std::string& filename)
 {
 	uint32_t index = 0;
