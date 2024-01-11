@@ -3,15 +3,16 @@
 #include"BaseScene.h"
 #include"ImGuiManager.h"
 #include"SceneManager.h"
+#include"Input.h"
+
 #include"Triangle.h"
 #include"Sprite.h"
 #include"Sphere.h"
 #include"Model.h"
+
 #include"ICamera.h"
 #include"Camera.h"
 #include"UICamera.h"
-
-#include"Input.h"
 
 
 

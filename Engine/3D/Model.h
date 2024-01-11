@@ -1,6 +1,4 @@
 #pragma once
-
-
 #include"DirectXCommon.h"
 #include"TextureManager.h"
 #include"ModelLoader.h"
