@@ -12,11 +12,12 @@ public:
 	Vector3 GetWorldPosition();
 
 	/// <summary>
-	/// 弾のですフラグが立っているか
+	/// 弾のデスフラグが立っているか
 	/// </summary>
 	/// <returns>true : 立っている</returns>
 	bool IsDead()const { return isDead_; };
 
+	//セッター
 	void SetPlayer(Player* player) { player_ = player; };
 
 private:

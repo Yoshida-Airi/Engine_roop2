@@ -44,6 +44,7 @@ public:
 	/// </summary>
 	void DeleteBullet();
 
+	//セッター
 	void SetPlayer(Player* player) { player_ = player; };
 
 private:
