@@ -1,5 +1,6 @@
 #pragma once
 #include"Model.h"
+#include"Input.h"
 
 class Player
 {
@@ -8,7 +9,23 @@ public:
 	void Update();
 	void Draw(ICamera* camera);
 
-private:
+private://メンバ変数
+	Input* input_ = nullptr;
+
+
 	std::unique_ptr<Model> player = nullptr;
+
+private://メンバ関数
+
+	/// <summary>
+	/// 移動
+	/// </summary>
+	void Move();
+
+	/// <summary>
+	/// デバッグ
+	/// </summary>
+	void Debug();
+
 };
 
