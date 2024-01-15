@@ -35,11 +35,9 @@ protected:
 
 	AbstractSceneFactory* sceneFactory_ = nullptr;
 
-#ifdef _DEBUG
 
 	ImGuiManager* imgui;
 
-#endif // _DEBUG
 
 
 };
