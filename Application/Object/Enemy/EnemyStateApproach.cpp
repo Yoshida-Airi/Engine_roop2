@@ -21,4 +21,6 @@ void EnemyStateApproach::Update(Enemy* pEnemy)
 		pEnemy->ChangeState(new EnemyStateLeave());
 	}
 
+	
+
 }

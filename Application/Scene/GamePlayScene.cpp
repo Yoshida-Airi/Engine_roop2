@@ -64,11 +64,11 @@ void GamePlayScene::Initialize()
 	//model2 = model2->Create(cube);
 
 	player = new Player();
-	player->Initialize(cube, plane, { -5.0f,0.0f,0.0f });
+	player->Initialize(cube, cube, { -5.0f,0.0f,0.0f });
 
 	enemy = new Enemy();
 	enemy->SetPlayer(player);
-	enemy->Initialize(cube, plane, { 10.0f,0.2f,30.0f });
+	enemy->Initialize(cube, cube, { 10.0f,0.2f,30.0f });
 
 }
 
