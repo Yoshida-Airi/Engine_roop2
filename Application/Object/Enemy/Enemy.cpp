@@ -28,6 +28,8 @@ void Enemy::Initialize(const ModelData enemyData, const ModelData bulletData, Ve
 	state = new EnemyStateApproach();
 	state->Initialize(this);
 
+	
+
 }
 
 void Enemy::Update()
@@ -149,6 +151,7 @@ void Enemy::Fire()
 	velocity.z = normarizeVector.z * kBulletSpeed;
 	//球を生成し、初期化
 	EnemyBullet* newBullet = new EnemyBullet();
+	newBullet->SetPlayer(player_);
 	newBullet->Initialize(bulletData_, GetWorldPosition(), velocity);
 
 	//弾の登録

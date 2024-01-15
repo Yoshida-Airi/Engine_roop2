@@ -1,6 +1,7 @@
 #pragma once
 #include"Model.h"
 
+class Player;
 class EnemyBullet
 {
 public:
@@ -8,11 +9,15 @@ public:
 	void Update();
 	void Draw(ICamera* camera);
 
+	Vector3 GetWorldPosition();
+
 	/// <summary>
 	/// 弾のですフラグが立っているか
 	/// </summary>
 	/// <returns>true : 立っている</returns>
 	bool IsDead()const { return isDead_; };
+
+	void SetPlayer(Player* player) { player_ = player; };
 
 private:
 
@@ -23,5 +28,7 @@ private:
 	static const int32_t kLifeTime = 60 * 5;
 	int32_t deathTimer_ = kLifeTime;
 	bool isDead_ = false;
+
+	Player* player_ = nullptr;
 };
 
