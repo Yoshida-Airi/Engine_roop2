@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "Player.h"
 
 Enemy::~Enemy()
 {
@@ -120,13 +121,32 @@ void Enemy::DeleteBullet()
 
 void Enemy::Fire()
 {
+	assert(player_);
 
+	// 弾の速度
 	const float kBulletSpeed = 1.0f;
-	Vector3 velocity(0, 0, kBulletSpeed);
+	/*Vector3 velocity(0, 0, kBulletSpeed);*/
 
-	//速度ベクトルを自機の向きに合わせて回転
-	velocity = TransformNormal(velocity, enemy->worldTransform_.matWorld_);
+	// 自キャラのワールド座標を取得する
+	Vector3 worldPlayer = player_->GetWorldPosition();
+	// 敵キャラのワールド座標を取得する
+	Vector3 worldEnemy = GetWorldPosition();
 
+	// 敵キャラ→自キャラの差分ベクトルを求める
+	Vector3 differenceVector;
+	differenceVector.x = worldPlayer.x - worldEnemy.x;
+	differenceVector.y = worldPlayer.y - worldEnemy.y;
+	differenceVector.z = worldPlayer.z - worldEnemy.z;
+
+	// 正規化
+	Vector3 normarizeVector;
+	normarizeVector = Normalize(differenceVector);
+
+	// ベクトルの長さを速さに合わせる
+	Vector3 velocity;
+	velocity.x = normarizeVector.x * kBulletSpeed;
+	velocity.y = normarizeVector.y * kBulletSpeed;
+	velocity.z = normarizeVector.z * kBulletSpeed;
 	//球を生成し、初期化
 	EnemyBullet* newBullet = new EnemyBullet();
 	newBullet->Initialize(bulletData_, GetWorldPosition(), velocity);

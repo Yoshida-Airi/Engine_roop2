@@ -7,7 +7,7 @@
 #include"TimedCall.h"
 
 #include<list>
-
+class Player;
 class Enemy
 {
 public:
@@ -44,6 +44,8 @@ public:
 	/// </summary>
 	void DeleteBullet();
 
+	void SetPlayer(Player* player) { player_ = player; };
+
 private:
 
 	std::unique_ptr<Model>enemy = nullptr;
@@ -57,6 +59,8 @@ private:
 
 	// ステート
 	IEnemyState* state;
+
+	Player* player_ = nullptr;
 
 };
 
