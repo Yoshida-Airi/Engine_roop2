@@ -125,13 +125,28 @@ void Player::Rotate()
 
 void Player::Attack()
 {
+	//ですフラグの立った弾を削除
+	bullets_.remove_if([](PlayerBullet* bullet)
+		{
+			if (bullet->IsDead())
+			{
+				delete bullet;
+				return true;
+			}
+			return false;
+		});
+
 	if (input_->TriggerKey(DIK_SPACE))
 	{
-		
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
+
+		//速度ベクトルを自機の向きに合わせて回転
+		velocity = TransformNormal(velocity, player->worldTransform_.matWorld_);
 
 		//球を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(bulletData_, GetWorldPosition());
+		newBullet->Initialize(bulletData_, GetWorldPosition(), velocity);
 
 		//弾の登録
 		bullets_.push_back(newBullet);
