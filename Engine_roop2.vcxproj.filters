@@ -99,6 +99,9 @@
     <ClCompile Include="Application\Object\Enemy\EnemyBullet.cpp">
       <Filter>Application\Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Utility\TimedCall.cpp">
+      <Filter>Engine\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -212,6 +215,9 @@
     <ClInclude Include="Application\Object\Enemy\EnemyBullet.h">
       <Filter>Application\Object\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Utility\TimedCall.h">
+      <Filter>Engine\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -255,6 +261,9 @@
     </Filter>
     <Filter Include="Application\Object\Enemy">
       <UniqueIdentifier>{2bcaf20d-c41d-42c6-bb51-484b3033fa72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Utility">
+      <UniqueIdentifier>{dfe759d4-2b94-4533-b047-f336c36f78a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

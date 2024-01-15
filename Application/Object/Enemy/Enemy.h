@@ -4,6 +4,7 @@
 #include"EnemyStateApproach.h"
 
 #include"EnemyBullet.h"
+#include"TimedCall.h"
 
 #include<list>
 
@@ -33,9 +34,15 @@ public:
 	Vector3 GetWorldPosition();
 
 	//発射間隔
-	static const int kFireInterval = 60;
+	static const int kFireInterval = 45;
 
-	void SetTimer(int32_t timer) { fireTimer_ = timer; };
+	//弾を発射し、タイマーをリセットするコールバック関数
+	void AttackReset();
+
+	/// <summary>
+	/// タイムコールをすべて消す
+	/// </summary>
+	void DeleteBullet();
 
 private:
 
@@ -45,15 +52,11 @@ private:
 	////弾
 	std::list<EnemyBullet*> bullets_;
 	ModelData bulletData_;
-
+	//時限発動のリスト
+	std::list<TimedCall*> timedCalls_;
 
 	// ステート
 	IEnemyState* state;
-
-	int32_t fireTimer_ = 0;
-
-
-	
 
 };
 

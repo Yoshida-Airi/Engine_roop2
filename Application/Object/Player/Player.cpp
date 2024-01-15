@@ -8,13 +8,15 @@ Player::~Player()
 	}
 }
 
-void Player::Initialize(const ModelData playerData, const ModelData bulletData)
+void Player::Initialize(const ModelData playerData, const ModelData bulletData, Vector3 pos)
 {
 	playerData_ = playerData;
 	bulletData_ = bulletData;
-
+	
 	input_ = Input::GetInstance();
 	playerModel_ = Model::Create(playerData_);
+
+	playerModel_->worldTransform_.translation_ = pos;
 
 }
 

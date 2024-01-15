@@ -9,7 +9,7 @@ class Player
 {
 public:
 	~Player();
-	void Initialize(const ModelData playerData, const ModelData bulletData);
+	void Initialize(const ModelData playerData, const ModelData bulletData,Vector3 pos);
 	void Update();
 	void Draw(ICamera* camera);
 
