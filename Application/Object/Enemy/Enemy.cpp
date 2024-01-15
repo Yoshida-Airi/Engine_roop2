@@ -30,7 +30,7 @@ void Enemy::Update()
 
 	state->Update(this);
 
-
+	//弾を一定間隔に発射
 	fireTimer_--;
 	if (fireTimer_ == 0)
 	{
@@ -38,6 +38,7 @@ void Enemy::Update()
 		Fire();
 		fireTimer_ = kFireInterval;
 	}
+
 	//弾の更新
 	for (EnemyBullet* bullet : bullets_)
 	{
