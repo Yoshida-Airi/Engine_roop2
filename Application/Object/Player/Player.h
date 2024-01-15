@@ -19,7 +19,7 @@ private://メンバ変数
 	Input* input_ = nullptr;
 
 
-	std::unique_ptr<Model> player = nullptr;
+	std::unique_ptr<Model> playerModel_ = nullptr;
 	ModelData playerData_;
 
 	//弾

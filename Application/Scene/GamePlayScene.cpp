@@ -16,7 +16,7 @@ void GamePlayScene::Initialize()
 	texture = TextureManager::GetInstance();
 	input = Input::GetInstance();
 	sceneManager_ = SceneManager::GetInstance();
-	object = ModelLoader::GetInstance();
+	ModelLoder = ModelLoader::GetInstance();
 
 #ifdef _DEBUG
 	imgui = ImGuiManager::GetInstance();
@@ -28,8 +28,8 @@ void GamePlayScene::Initialize()
 	Doll = texture->LoadTexture("Resources/Doll.png");
 
 	
-	plane = object->LoadObjFile("Resources", "plane.obj");
-	cube = object->LoadObjFile("Resources", "cube.obj");
+	plane = ModelLoder->LoadObjFile("Resources", "plane.obj");
+	cube = ModelLoder->LoadObjFile("Resources", "cube.obj");
 
 	camera = new Camera;
 	camera->Initialize();
@@ -67,7 +67,7 @@ void GamePlayScene::Initialize()
 	player->Initialize(cube,plane);
 
 	enemy = new Enemy();
-	enemy->Initialize(cube, plane, { 0.0f,0.2f,30.0f });
+	enemy->Initialize(cube, plane, { 2.0f,0.2f,30.0f });
 
 }
 

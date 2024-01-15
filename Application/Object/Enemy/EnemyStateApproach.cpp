@@ -2,9 +2,17 @@
 #include"EnemyStateLeave.h"
 #include"Enemy.h"
 
-void EnemyStateApproach::Initialize(Enemy* pEnmey) { pEnmey->GetWorldPosition(); }
+void EnemyStateApproach::Initialize(Enemy* pEnemy)
+{
+	
+	pEnemy->GetWorldPosition();
+	pEnemy->SetTimer(pEnemy->kFireInterval);
+}
+
 void EnemyStateApproach::Update(Enemy* pEnemy)
 {
+	
+
 	// 速度
 	Vector3 velocity;
 	velocity = { 0, 0, -0.3f };
@@ -12,4 +20,7 @@ void EnemyStateApproach::Update(Enemy* pEnemy)
 	if (pEnemy->GetWorldPosition().z < 0.0f) {
 		pEnemy->ChangeState(new EnemyStateLeave());
 	}
+
+
+
 }

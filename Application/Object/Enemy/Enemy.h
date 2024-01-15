@@ -3,9 +3,14 @@
 #include"IEnemyState.h"
 #include"EnemyStateApproach.h"
 
+#include"EnemyBullet.h"
+
+#include<list>
+
 class Enemy
 {
 public:
+	~Enemy();
 	void Initialize(const ModelData enemyData, const ModelData bulletData, Vector3 pos);
 	void Update();
 	void Draw(ICamera* camera);
@@ -19,9 +24,18 @@ public:
 	// フェーズの以降
 	void ChangeState(IEnemyState* newState);
 
+	/// <summary>
+	/// 攻撃処理
+	/// </summary>
+	void Fire();
+
 	//ゲッター
 	Vector3 GetWorldPosition();
 
+	//発射間隔
+	static const int kFireInterval = 60;
+
+	void SetTimer(int32_t timer) { fireTimer_ = timer; };
 
 private:
 
@@ -29,14 +43,17 @@ private:
 	ModelData enemyData_;
 
 	////弾
-	//std::list<EnemyBullet*> bullets_;
+	std::list<EnemyBullet*> bullets_;
 	ModelData bulletData_;
+
 
 	// ステート
 	IEnemyState* state;
 
-private:
+	int32_t fireTimer_ = 0;
 
+
+	
 
 };
 

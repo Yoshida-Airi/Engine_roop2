@@ -30,7 +30,7 @@ public:
 	/// </summary>
 	/// <param name="data">モデルデータ</param>
 	/// <returns>モデル</returns>
-	std::unique_ptr< Model>  Create(ModelData data);
+	static std::unique_ptr< Model>  Create(ModelData data);
 
 	void ModelDebug(const char title[10]);
 

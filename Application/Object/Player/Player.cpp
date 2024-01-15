@@ -14,13 +14,13 @@ void Player::Initialize(const ModelData playerData, const ModelData bulletData)
 	bulletData_ = bulletData;
 
 	input_ = Input::GetInstance();
-	player = player->Create(playerData);
+	playerModel_ = Model::Create(playerData_);
 
 }
 
 void Player::Update()
 {
-	player->Update();
+	playerModel_->Update();
 
 	//旋回
 	Rotate();
@@ -45,7 +45,7 @@ void Player::Update()
 
 void Player::Draw(ICamera* camera)
 {
-	player->Draw(camera);
+	playerModel_->Draw(camera);
 
 	//弾の描画
 	for (PlayerBullet*bullet : bullets_)
@@ -61,9 +61,9 @@ Vector3 Player::GetWorldPosition()
 	Vector3 worldpos;
 
 	// ワールド行列の平行移動成分を取得(ワールド座標)
-	worldpos.x = player->worldTransform_.matWorld_.m[3][0];
-	worldpos.y = player->worldTransform_.matWorld_.m[3][1];
-	worldpos.z = player->worldTransform_.matWorld_.m[3][2];
+	worldpos.x = playerModel_->worldTransform_.matWorld_.m[3][0];
+	worldpos.y = playerModel_->worldTransform_.matWorld_.m[3][1];
+	worldpos.z = playerModel_->worldTransform_.matWorld_.m[3][2];
 
 	return worldpos;
 }
@@ -96,17 +96,17 @@ void Player::Move()
 		move.y += kCharacterSpeed;
 	}
 
-	SumVector3(player->worldTransform_.translation_, move);
+	SumVector3(playerModel_->worldTransform_.translation_, move);
 
 	//移動限界座標
 	const float kMoveLimitX = 17.5f;
 	const float kMoveLimitY = 9.0f;
 
 	//範囲を超えない処理
-	player->worldTransform_.translation_.x = max(player->worldTransform_.translation_.x, -kMoveLimitX);
-	player->worldTransform_.translation_.x = min(player->worldTransform_.translation_.x, +kMoveLimitX);
-	player->worldTransform_.translation_.y = max(player->worldTransform_.translation_.y, -kMoveLimitY);
-	player->worldTransform_.translation_.y = min(player->worldTransform_.translation_.y, +kMoveLimitY);
+	playerModel_->worldTransform_.translation_.x = max(playerModel_->worldTransform_.translation_.x, -kMoveLimitX);
+	playerModel_->worldTransform_.translation_.x = min(playerModel_->worldTransform_.translation_.x, +kMoveLimitX);
+	playerModel_->worldTransform_.translation_.y = max(playerModel_->worldTransform_.translation_.y, -kMoveLimitY);
+	playerModel_->worldTransform_.translation_.y = min(playerModel_->worldTransform_.translation_.y, +kMoveLimitY);
 }
 
 void Player::Rotate()
@@ -115,11 +115,11 @@ void Player::Rotate()
 
 	if (input_->PushKey(DIK_A))
 	{
-		player->worldTransform_.rotation_.y -= kRotSpeed;
+		playerModel_->worldTransform_.rotation_.y -= kRotSpeed;
 	}
 	else if (input_->PushKey(DIK_D))
 	{
-		player->worldTransform_.rotation_.y += kRotSpeed;
+		playerModel_->worldTransform_.rotation_.y += kRotSpeed;
 	}
 }
 
@@ -142,7 +142,7 @@ void Player::Attack()
 		Vector3 velocity(0, 0, kBulletSpeed);
 
 		//速度ベクトルを自機の向きに合わせて回転
-		velocity = TransformNormal(velocity, player->worldTransform_.matWorld_);
+		velocity = TransformNormal(velocity, playerModel_->worldTransform_.matWorld_);
 
 		//球を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();
@@ -158,12 +158,12 @@ void Player::Debug()
 {
 	ImGui::Begin("player");
 
-	float translate[3] = { player->worldTransform_.translation_.x,player->worldTransform_.translation_.y,player->worldTransform_.translation_.z };
+	float translate[3] = { playerModel_->worldTransform_.translation_.x,playerModel_->worldTransform_.translation_.y,playerModel_->worldTransform_.translation_.z };
 	ImGui::SliderFloat3("transform", translate, -20, 4);
 
-	player->worldTransform_.translation_ = { translate[0],translate[1],translate[2] };
+	playerModel_->worldTransform_.translation_ = { translate[0],translate[1],translate[2] };
 
-	player->worldTransform_.UpdateWorldMatrix();
+	playerModel_->worldTransform_.UpdateWorldMatrix();
 
 	ImGui::End();
 }

@@ -109,6 +109,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Enemy\Enemy.cpp" />
     <ClCompile Include="Application\Object\Enemy\EnemyStateApproach.cpp" />
     <ClCompile Include="Application\Object\Enemy\EnemyStateLeave.cpp" />
+    <ClCompile Include="Application\Object\Enemy\EnemyBullet.cpp" />
     <ClCompile Include="Engine\Base\Scene\AbstractSceneFactory.cpp" />
     <ClCompile Include="Engine\3D\Camera.cpp" />
     <ClCompile Include="Engine\Base\Framework.cpp" />
@@ -139,6 +140,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Enemy\Enemy.h" />
     <ClInclude Include="Application\Object\Enemy\EnemyStateApproach.h" />
     <ClInclude Include="Application\Object\Enemy\EnemyStateLeave.h" />
+    <ClInclude Include="Application\Object\Enemy\EnemyBullet.h" />
     <ClInclude Include="Engine\3D\Camera.h" />
     <ClInclude Include="Engine\Base\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Base\Framework.h" />

@@ -96,6 +96,9 @@
     <ClCompile Include="Application\Object\Enemy\EnemyStateLeave.cpp">
       <Filter>Application\Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Enemy\EnemyBullet.cpp">
+      <Filter>Application\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -204,6 +207,9 @@
       <Filter>Application\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Enemy\EnemyStateLeave.h">
+      <Filter>Application\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Enemy\EnemyBullet.h">
       <Filter>Application\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

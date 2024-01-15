@@ -38,7 +38,7 @@ private:
 	uint32_t monsterBall;
 	uint32_t Doll;
 
-	ModelLoader* object;
+	ModelLoader* ModelLoder;
 	ModelData plane;
 	ModelData cube;
 

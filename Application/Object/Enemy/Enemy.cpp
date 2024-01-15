@@ -1,16 +1,26 @@
 #include "Enemy.h"
 
-void Enemy::Initialize(const ModelData enemyData, const ModelData bulletData,Vector3 pos)
+Enemy::~Enemy()
+{
+	for (EnemyBullet* bullet : bullets_)
+	{
+		delete bullet;
+	}
+}
+
+void Enemy::Initialize(const ModelData enemyData, const ModelData bulletData, Vector3 pos)
 {
 	enemyData_ = enemyData;
 	bulletData_ = bulletData;
 
-	
-	enemy = enemy->Create(enemyData);
+
+	enemy = Model::Create(enemyData);
 	enemy->worldTransform_.translation_ = pos;
 
 	state = new EnemyStateApproach();
 	state->Initialize(this);
+
+	fireTimer_ = kFireInterval;
 
 }
 
@@ -19,11 +29,33 @@ void Enemy::Update()
 	enemy->Update();
 
 	state->Update(this);
+
+
+	fireTimer_--;
+	if (fireTimer_ == 0)
+	{
+		//攻撃処理
+		Fire();
+		fireTimer_ = kFireInterval;
+	}
+	//弾の更新
+	for (EnemyBullet* bullet : bullets_)
+	{
+		bullet->Update();
+	}
+
+	
 }
 
 void Enemy::Draw(ICamera* camera)
 {
 	enemy->Draw(camera);
+
+	//弾の描画
+	for (EnemyBullet* bullet : bullets_)
+	{
+		bullet->Draw(camera);
+	}
 }
 
 void Enemy::Move(Vector3& velocity)
@@ -47,4 +79,37 @@ Vector3 Enemy::GetWorldPosition()
 	worldpos.z = enemy->worldTransform_.matWorld_.m[3][2];
 
 	return worldpos;
+}
+
+void Enemy::Fire()
+{
+
+
+	//ですフラグの立った弾を削除
+	bullets_.remove_if([](EnemyBullet* bullet)
+		{
+			if (bullet->IsDead())
+			{
+				delete bullet;
+				return true;
+			}
+			return false;
+		});
+
+
+	const float kBulletSpeed = 1.0f;
+	Vector3 velocity(0, 0, kBulletSpeed);
+
+	//速度ベクトルを自機の向きに合わせて回転
+	velocity = TransformNormal(velocity, enemy->worldTransform_.matWorld_);
+
+	//球を生成し、初期化
+	EnemyBullet* newBullet = new EnemyBullet();
+	newBullet->Initialize(bulletData_, GetWorldPosition(), velocity);
+
+	//弾の登録
+	bullets_.push_back(newBullet);
+
+
+
 }
