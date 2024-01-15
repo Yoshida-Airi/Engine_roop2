@@ -7,6 +7,7 @@ GamePlayScene::~GamePlayScene()
 	delete uiCamera;
 
 	delete player;
+	delete enemy;
 
 }
 
@@ -65,6 +66,9 @@ void GamePlayScene::Initialize()
 	player = new Player();
 	player->Initialize(cube,plane);
 
+	enemy = new Enemy();
+	enemy->Initialize(cube, plane);
+
 }
 
 void GamePlayScene::Update()
@@ -103,6 +107,7 @@ void GamePlayScene::Update()
 	//model->worldTransform_.translation_.x = 3.0f;
 
 	player->Update();
+	enemy->Update();
 
 }
 
@@ -125,5 +130,6 @@ void GamePlayScene::Draw()
 	//sprite2->Draw(uiCamera);
 
 	player->Draw(camera);
+	enemy->Draw(camera);
 
 }

@@ -17,6 +17,7 @@
 #include"Input.h"
 
 #include"Player.h"
+#include"Enemy.h"
 
 /// <summary>
 /// ゲームプレイシーン
@@ -56,6 +57,7 @@ private:
 	std::unique_ptr<Model> model2 = nullptr;
 
 	Player* player = nullptr;
+	Enemy* enemy = nullptr;
 
 #ifdef _DEBUG
 
