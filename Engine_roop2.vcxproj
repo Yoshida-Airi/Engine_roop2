@@ -130,6 +130,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\MyGame.cpp" />
     <ClCompile Include="Engine\Base\Scene\SceneManager.cpp" />
     <ClCompile Include="Application\Scene\TitleScene.cpp" />
+    <ClCompile Include="Application\Object\PlayerBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\3D\Camera.h" />
@@ -163,6 +164,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Base\Scene\SceneManager.h" />
     <ClInclude Include="Application\Scene\TitleScene.h" />
     <ClInclude Include="Application\Object\Player.h" />
+    <ClInclude Include="Application\Object\PlayerBullet.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D.PS.hlsl">

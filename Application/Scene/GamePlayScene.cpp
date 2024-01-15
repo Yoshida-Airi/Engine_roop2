@@ -63,7 +63,7 @@ void GamePlayScene::Initialize()
 	//model2 = model2->Create(cube);
 
 	player = new Player();
-	player->Initialize(cube);
+	player->Initialize(cube,plane);
 
 }
 

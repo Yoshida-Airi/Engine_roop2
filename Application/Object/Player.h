@@ -1,19 +1,36 @@
 #pragma once
 #include"Model.h"
 #include"Input.h"
+#include"PlayerBullet.h"
+
+#include<list>
 
 class Player
 {
 public:
-	void Initialize(ModelData playerData);
+	~Player();
+	void Initialize(const ModelData playerData, const ModelData bulletData);
 	void Update();
 	void Draw(ICamera* camera);
+
+	Vector3 GetWorldPosition();
 
 private://メンバ変数
 	Input* input_ = nullptr;
 
 
 	std::unique_ptr<Model> player = nullptr;
+	ModelData playerData_;
+
+	//弾
+	std::list<PlayerBullet*> bullets_;
+	ModelData bulletData_;
+
+
+
+	
+	
+
 
 private://メンバ関数
 
@@ -28,9 +45,18 @@ private://メンバ関数
 	void Rotate();
 
 	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Attack();
+
+
+	/// <summary>
 	/// デバッグ
 	/// </summary>
 	void Debug();
 
+
+
+	
 };
 

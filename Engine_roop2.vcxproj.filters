@@ -84,6 +84,9 @@
     <ClCompile Include="Application\Object\Player.cpp">
       <Filter>Application\Object</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\PlayerBullet.cpp">
+      <Filter>Application\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -177,6 +180,9 @@
       <Filter>Engine\Base\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Player.h">
+      <Filter>Application\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\PlayerBullet.h">
       <Filter>Application\Object</Filter>
     </ClInclude>
   </ItemGroup>

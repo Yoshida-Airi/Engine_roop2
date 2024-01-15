@@ -1,7 +1,18 @@
 #include"Player.h"
 
-void Player::Initialize(ModelData playerData)
+Player::~Player()
 {
+	for (PlayerBullet* bullet : bullets_)
+	{
+		delete bullet;
+	}
+}
+
+void Player::Initialize(const ModelData playerData, const ModelData bulletData)
+{
+	playerData_ = playerData;
+	bulletData_ = bulletData;
+
 	input_ = Input::GetInstance();
 	player = player->Create(playerData);
 
@@ -11,12 +22,18 @@ void Player::Update()
 {
 	player->Update();
 
-	//移動
-	Move();
-
 	//旋回
 	Rotate();
+	//移動
+	Move();
+	//攻撃
+	Attack();
 
+	//弾の更新
+	for (PlayerBullet* bullet : bullets_)
+	{
+		bullet->Update();
+	}
 
 #ifdef _DEBUG
 	Debug();
@@ -29,6 +46,26 @@ void Player::Update()
 void Player::Draw(ICamera* camera)
 {
 	player->Draw(camera);
+
+	//弾の描画
+	for (PlayerBullet*bullet : bullets_)
+	{
+		bullet->Draw(camera);
+	}
+
+}
+
+Vector3 Player::GetWorldPosition()
+{
+	// ワールド座標を入れる変数
+	Vector3 worldpos;
+
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldpos.x = player->worldTransform_.matWorld_.m[3][0];
+	worldpos.y = player->worldTransform_.matWorld_.m[3][1];
+	worldpos.z = player->worldTransform_.matWorld_.m[3][2];
+
+	return worldpos;
 }
 
 void Player::Move()
@@ -62,8 +99,8 @@ void Player::Move()
 	SumVector3(player->worldTransform_.translation_, move);
 
 	//移動限界座標
-	const float kMoveLimitX = 2.5f;
-	const float kMoveLimitY = 0.8f;
+	const float kMoveLimitX = 17.5f;
+	const float kMoveLimitY = 9.0f;
 
 	//範囲を超えない処理
 	player->worldTransform_.translation_.x = max(player->worldTransform_.translation_.x, -kMoveLimitX);
@@ -83,6 +120,22 @@ void Player::Rotate()
 	else if (input_->PushKey(DIK_D))
 	{
 		player->worldTransform_.rotation_.y += kRotSpeed;
+	}
+}
+
+void Player::Attack()
+{
+	if (input_->TriggerKey(DIK_SPACE))
+	{
+		
+
+		//球を生成し、初期化
+		PlayerBullet* newBullet = new PlayerBullet();
+		newBullet->Initialize(bulletData_, GetWorldPosition());
+
+		//弾の登録
+		bullets_.push_back(newBullet);
+
 	}
 }
 
