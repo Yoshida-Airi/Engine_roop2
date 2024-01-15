@@ -90,8 +90,12 @@
     <ClCompile Include="Application\Object\Enemy\Enemy.cpp">
       <Filter>Application\Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Enemy\EnemyStateApproach.cpp" />
-    <ClCompile Include="Application\Object\Enemy\EnemyStateLeave.cpp" />
+    <ClCompile Include="Application\Object\Enemy\EnemyStateApproach.cpp">
+      <Filter>Application\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Enemy\EnemyStateLeave.cpp">
+      <Filter>Application\Object\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -196,8 +200,12 @@
     <ClInclude Include="Application\Object\Enemy\IEnemyState.h">
       <Filter>Application\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\Enemy\EnemyStateApproach.h" />
-    <ClInclude Include="Application\Object\Enemy\EnemyStateLeave.h" />
+    <ClInclude Include="Application\Object\Enemy\EnemyStateApproach.h">
+      <Filter>Application\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Enemy\EnemyStateLeave.h">
+      <Filter>Application\Object\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
