@@ -81,11 +81,11 @@
     <ClCompile Include="Engine\Base\Scene\SceneManager.cpp">
       <Filter>Engine\Base\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Player.cpp">
-      <Filter>Application\Object</Filter>
+    <ClCompile Include="Application\Object\Player\Player.cpp">
+      <Filter>Application\Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\PlayerBullet.cpp">
-      <Filter>Application\Object</Filter>
+    <ClCompile Include="Application\Object\Player\PlayerBullet.cpp">
+      <Filter>Application\Object\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -179,11 +179,11 @@
     <ClInclude Include="Engine\Base\Scene\SceneManager.h">
       <Filter>Engine\Base\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\Player.h">
-      <Filter>Application\Object</Filter>
+    <ClInclude Include="Application\Object\Player\Player.h">
+      <Filter>Application\Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\PlayerBullet.h">
-      <Filter>Application\Object</Filter>
+    <ClInclude Include="Application\Object\Player\PlayerBullet.h">
+      <Filter>Application\Object\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +222,9 @@
     </Filter>
     <Filter Include="Application\Object">
       <UniqueIdentifier>{ac08a417-bd49-48b2-8a80-047295d99f93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Player">
+      <UniqueIdentifier>{7b47115b-4cc2-4065-9325-761530fb4b62}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
