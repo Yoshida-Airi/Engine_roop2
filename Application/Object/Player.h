@@ -23,6 +23,11 @@ private://メンバ関数
 	void Move();
 
 	/// <summary>
+	/// 回転（旋回
+	/// </summary>
+	void Rotate();
+
+	/// <summary>
 	/// デバッグ
 	/// </summary>
 	void Debug();

@@ -4,6 +4,7 @@ void Player::Initialize(ModelData playerData)
 {
 	input_ = Input::GetInstance();
 	player = player->Create(playerData);
+
 }
 
 void Player::Update()
@@ -13,6 +14,8 @@ void Player::Update()
 	//移動
 	Move();
 
+	//旋回
+	Rotate();
 
 
 #ifdef _DEBUG
@@ -67,6 +70,20 @@ void Player::Move()
 	player->worldTransform_.translation_.x = min(player->worldTransform_.translation_.x, +kMoveLimitX);
 	player->worldTransform_.translation_.y = max(player->worldTransform_.translation_.y, -kMoveLimitY);
 	player->worldTransform_.translation_.y = min(player->worldTransform_.translation_.y, +kMoveLimitY);
+}
+
+void Player::Rotate()
+{
+	const float kRotSpeed = 0.2f;
+
+	if (input_->PushKey(DIK_A))
+	{
+		player->worldTransform_.rotation_.y -= kRotSpeed;
+	}
+	else if (input_->PushKey(DIK_D))
+	{
+		player->worldTransform_.rotation_.y += kRotSpeed;
+	}
 }
 
 void Player::Debug()
