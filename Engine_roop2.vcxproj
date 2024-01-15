@@ -107,6 +107,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="Application\Object\Player\Player.cpp" />
     <ClCompile Include="Application\Object\Enemy\Enemy.cpp" />
+    <ClCompile Include="Application\Object\Enemy\EnemyStateApproach.cpp" />
+    <ClCompile Include="Application\Object\Enemy\EnemyStateLeave.cpp" />
     <ClCompile Include="Engine\Base\Scene\AbstractSceneFactory.cpp" />
     <ClCompile Include="Engine\3D\Camera.cpp" />
     <ClCompile Include="Engine\Base\Framework.cpp" />
@@ -135,6 +137,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Object\Enemy\Enemy.h" />
+    <ClInclude Include="Application\Object\Enemy\EnemyStateApproach.h" />
+    <ClInclude Include="Application\Object\Enemy\EnemyStateLeave.h" />
     <ClInclude Include="Engine\3D\Camera.h" />
     <ClInclude Include="Engine\Base\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Base\Framework.h" />
@@ -167,6 +171,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Scene\TitleScene.h" />
     <ClInclude Include="Application\Object\Player\Player.h" />
     <ClInclude Include="Application\Object\Player\PlayerBullet.h" />
+    <ClInclude Include="Application\Object\Enemy\IEnemyState.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D.PS.hlsl">

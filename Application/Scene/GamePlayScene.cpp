@@ -67,7 +67,7 @@ void GamePlayScene::Initialize()
 	player->Initialize(cube,plane);
 
 	enemy = new Enemy();
-	enemy->Initialize(cube, plane);
+	enemy->Initialize(cube, plane, { 0.0f,0.2f,30.0f });
 
 }
 
