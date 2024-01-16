@@ -23,10 +23,6 @@ void GamePlayScene::Initialize()
 	monsterBall = texture->LoadTexture("Resources/monsterBall.png");
 	Doll = texture->LoadTexture("Resources/Doll.png");
 
-	object = ModelLoader::GetInstance();
-	plane = object->LoadObjFile("Resources", "plane.obj");
-	cube = object->LoadObjFile("Resources", "cube.obj");
-
 	camera = new Camera;
 	camera->Initialize();
 
@@ -56,8 +52,8 @@ void GamePlayScene::Initialize()
 	sphere = sphere->Create(monsterBall);
 	sphere->SetisInvisible(true);
 
-	model = model->Create(plane);
-	model2 = model2->Create(cube);
+	model = Model:: Create("Resources", "plane.obj");
+	model2 = Model::Create("Resources", "plane.obj");
 
 }
 

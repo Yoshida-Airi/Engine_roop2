@@ -14,13 +14,8 @@ void TitleScene::Initialize()
 	camera = new Camera;
 	camera->Initialize();
 
-
-	object = ModelLoader::GetInstance();
-	fenceData = object->LoadObjFile("Resources", "fence.obj");
-	cubeData = object->LoadObjFile("Resources", "cube.obj");
-
-	fence_ = fence_->Create(fenceData);
-	cube_ = fence_->Create(cubeData);
+	fence_ = Model::Create("Resources", "fence.obj");
+	cube_ = Model::Create("Resources", "fence.obj");
 
 	
 }

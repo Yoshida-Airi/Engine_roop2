@@ -4,14 +4,14 @@
 /* 　　　　   パブリックメソッド　　　	　 */
 /*=====================================*/
 
-void Model::Initialize(ModelData data)
+void Model::Initialize(const std::string& directoryPath, const std::string& filename)
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	texture_ = TextureManager::GetInstance();
 	modelLoader_ = ModelLoader::GetInstance();
 	worldTransform_.Initialize();
 
-	modelData_ = data;
+	modelData_ = modelLoader_->LoadObjFile(directoryPath, filename);
 	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
 
 	VertexBuffer();
@@ -84,10 +84,10 @@ void Model::Draw(ICamera* camera)
 
 }
 
-std::unique_ptr< Model>  Model::Create(ModelData data)
+std::unique_ptr< Model>  Model::Create(const std::string& directoryPath, const std::string& filename)
 {
 	std::unique_ptr< Model> model(new Model());
-	model->Initialize(data);
+	model->Initialize(directoryPath, filename);
 	return model;
 }
 

@@ -10,7 +10,7 @@
 class Model
 {
 public:
-	void Initialize(ModelData data);
+	void Initialize(const std::string& directoryPath, const std::string& filename);
 	void Update();
 	void Draw(ICamera* camera);
 
@@ -30,7 +30,7 @@ public:
 	/// </summary>
 	/// <param name="data">モデルデータ</param>
 	/// <returns>モデル</returns>
-	std::unique_ptr< Model>  Create(ModelData data);
+	static std::unique_ptr< Model>  Create(const std::string& directoryPath, const std::string& filename);
 
 	void ModelDebug(const char title[10]);
 
