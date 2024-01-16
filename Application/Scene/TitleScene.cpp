@@ -4,6 +4,7 @@
 TitleScene::~TitleScene()
 {
 	delete camera;
+
 }
 
 void TitleScene::Initialize()
@@ -15,12 +16,8 @@ void TitleScene::Initialize()
 	camera->Initialize();
 
 
-	object = ModelLoader::GetInstance();
-	fenceData = object->LoadObjFile("Resources", "fence.obj");
-	cubeData = object->LoadObjFile("Resources", "cube.obj");
-
-	fence_ = fence_->Create(fenceData);
-	cube_ = fence_->Create(cubeData);
+	fence_ = Model::Create("Resources", "fence.obj");
+	cube_ = Model::Create("Resources", "cube.obj");
 
 	
 }
@@ -43,8 +40,7 @@ void TitleScene::Update()
 	
 	cube_->ModelDebug("cube");
 	fence_->ModelDebug("fence");
-	fence_->Parent(cube_.get());
-
+	
 }
 
 void TitleScene::Draw()

@@ -9,7 +9,7 @@ class Player
 {
 public:
 	~Player();
-	void Initialize(const ModelData playerData, const ModelData bulletData,Vector3 pos);
+	void Initialize(Vector3 pos);
 	void Update();
 	void Draw(ICamera* camera);
 
@@ -18,19 +18,10 @@ public:
 private://メンバ変数
 	Input* input_ = nullptr;
 
-
 	std::unique_ptr<Model> playerModel_ = nullptr;
-	ModelData playerData_;
 
 	//弾
 	std::list<PlayerBullet*> bullets_;
-	ModelData bulletData_;
-
-
-
-	
-	
-
 
 private://メンバ関数
 

@@ -38,7 +38,6 @@ private:
 	uint32_t monsterBall;
 	uint32_t Doll;
 
-	ModelLoader* ModelLoder;
 	ModelData plane;
 	ModelData cube;
 
@@ -53,8 +52,12 @@ private:
 	std::unique_ptr<Sprite> sprite = nullptr;
 	std::unique_ptr<Sprite> sprite2 = nullptr;
 	std::unique_ptr<Sphere> sphere = nullptr;
-	std::unique_ptr<Model> model = nullptr;
-	std::unique_ptr<Model> model2 = nullptr;
+
+
+	std::unique_ptr<Model> playerModel = nullptr;
+	std::unique_ptr<Model> PlayerBulletModel = nullptr;
+	std::unique_ptr<Model> enemyModel = nullptr;
+	std::unique_ptr<Model> enemyBulletModel = nullptr;
 
 	Player* player = nullptr;
 	Enemy* enemy = nullptr;

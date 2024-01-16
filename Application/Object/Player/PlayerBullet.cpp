@@ -1,17 +1,17 @@
 #include "PlayerBullet.h"
 
-void PlayerBullet::Initialize(ModelData bulletData, Vector3 pos, const Vector3& velocity)
+void PlayerBullet::Initialize(Vector3 pos, const Vector3& velocity)
 {
-	bullet = bullet->Create(bulletData);
-	bullet->worldTransform_.translation_ = pos;
+	bulletModel_ = Model::Create("Resources","cube.obj");
+	bulletModel_->worldTransform_.translation_ = pos;
 	velocity_ = velocity;
 }
 
 void PlayerBullet::Update()
 {
-	bullet->Update();
+	bulletModel_->Update();
 	//座標に移動
-	SumVector3(bullet->worldTransform_.translation_, velocity_);
+	SumVector3(bulletModel_->worldTransform_.translation_, velocity_);
 
 	//時間経過でデス
 	if (--deathTimer_ <= 0)
@@ -24,5 +24,5 @@ void PlayerBullet::Update()
 
 void PlayerBullet::Draw(ICamera* camera)
 {
-	bullet->Draw(camera);
+	bulletModel_->Draw(camera);
 }

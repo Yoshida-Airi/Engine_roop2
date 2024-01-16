@@ -4,7 +4,7 @@
 class PlayerBullet
 {
 public:
-	void Initialize(ModelData bulletData, Vector3 pos, const Vector3& velocity);
+	void Initialize(Vector3 pos, const Vector3& velocity);
 	void Update();
 	void Draw(ICamera* camera);
 
@@ -16,7 +16,7 @@ public:
 
 private:
 
-	std::unique_ptr<Model> bullet = nullptr;
+	std::unique_ptr<Model> bulletModel_ = nullptr;
 
 	//速度
 	Vector3 velocity_;

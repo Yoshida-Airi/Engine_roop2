@@ -12,7 +12,7 @@ class Enemy
 {
 public:
 	~Enemy();
-	void Initialize(const ModelData enemyData, const ModelData bulletData, Vector3 pos);
+	void Initialize( Vector3 pos);
 	void Update();
 	void Draw(ICamera* camera);
 
@@ -49,12 +49,12 @@ public:
 
 private:
 
-	std::unique_ptr<Model>enemy = nullptr;
-	ModelData enemyData_;
+	std::unique_ptr<Model>  enemyModel_ = nullptr;
+
 
 	////弾
 	std::list<EnemyBullet*> bullets_;
-	ModelData bulletData_;
+
 	//時限発動のリスト
 	std::list<TimedCall*> timedCalls_;
 

@@ -8,13 +8,12 @@ Player::~Player()
 	}
 }
 
-void Player::Initialize(const ModelData playerData, const ModelData bulletData, Vector3 pos)
+void Player::Initialize(Vector3 pos)
 {
-	playerData_ = playerData;
-	bulletData_ = bulletData;
 	
 	input_ = Input::GetInstance();
-	playerModel_ = Model::Create(playerData_);
+	playerModel_ = Model::Create("Resources", "cube.obj"); // 所有権を移動
+	bulletModel_ = Model::Create("Resources", "cube.obj");
 
 	playerModel_->worldTransform_.translation_ = pos;
 
@@ -148,7 +147,7 @@ void Player::Attack()
 
 		//球を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(bulletData_, GetWorldPosition(), velocity);
+		newBullet->Initialize(GetWorldPosition(), velocity);
 
 		//弾の登録
 		bullets_.push_back(newBullet);

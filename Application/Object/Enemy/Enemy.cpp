@@ -16,19 +16,14 @@ Enemy::~Enemy()
 
 }
 
-void Enemy::Initialize(const ModelData enemyData, const ModelData bulletData, Vector3 pos)
+void Enemy::Initialize(Vector3 pos)
 {
-	enemyData_ = enemyData;
-	bulletData_ = bulletData;
-
-
-	enemy = Model::Create(enemyData);
-	enemy->worldTransform_.translation_ = pos;
+	
+	enemyModel_ = Model::Create("Resources", "cube.obj");
+	enemyModel_->worldTransform_.translation_ = pos;
 
 	state = new EnemyStateApproach();
 	state->Initialize(this);
-
-	
 
 }
 
@@ -56,7 +51,7 @@ void Enemy::Update()
 		});
 
 
-	enemy->Update();
+	enemyModel_->Update();
 
 	state->Update(this);
 
@@ -77,7 +72,7 @@ void Enemy::Update()
 
 void Enemy::Draw(ICamera* camera)
 {
-	enemy->Draw(camera);
+	enemyModel_->Draw(camera);
 
 	//弾の描画
 	for (EnemyBullet* bullet : bullets_)
@@ -88,7 +83,7 @@ void Enemy::Draw(ICamera* camera)
 
 void Enemy::Move(Vector3& velocity)
 {
-	SumVector3(enemy->worldTransform_.translation_, velocity);
+	SumVector3(enemyModel_->worldTransform_.translation_, velocity);
 }
 
 void Enemy::ChangeState(IEnemyState* newState)
@@ -102,9 +97,9 @@ Vector3 Enemy::GetWorldPosition()
 	Vector3 worldpos;
 
 	// ワールド行列の平行移動成分を取得(ワールド座標)
-	worldpos.x = enemy->worldTransform_.matWorld_.m[3][0];
-	worldpos.y = enemy->worldTransform_.matWorld_.m[3][1];
-	worldpos.z = enemy->worldTransform_.matWorld_.m[3][2];
+	worldpos.x = enemyModel_->worldTransform_.matWorld_.m[3][0];
+	worldpos.y = enemyModel_->worldTransform_.matWorld_.m[3][1];
+	worldpos.z = enemyModel_->worldTransform_.matWorld_.m[3][2];
 
 	return worldpos;
 }
@@ -152,7 +147,7 @@ void Enemy::Fire()
 	//球を生成し、初期化
 	EnemyBullet* newBullet = new EnemyBullet();
 	newBullet->SetPlayer(player_);
-	newBullet->Initialize(bulletData_, GetWorldPosition(), velocity);
+	newBullet->Initialize(GetWorldPosition(), velocity);
 
 	//弾の登録
 	bullets_.push_back(newBullet);

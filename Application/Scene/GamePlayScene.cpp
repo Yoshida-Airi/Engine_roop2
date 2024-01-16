@@ -16,7 +16,6 @@ void GamePlayScene::Initialize()
 	texture = TextureManager::GetInstance();
 	input = Input::GetInstance();
 	sceneManager_ = SceneManager::GetInstance();
-	ModelLoder = ModelLoader::GetInstance();
 
 #ifdef _DEBUG
 	imgui = ImGuiManager::GetInstance();
@@ -27,9 +26,6 @@ void GamePlayScene::Initialize()
 	monsterBall = texture->LoadTexture("Resources/monsterBall.png");
 	Doll = texture->LoadTexture("Resources/Doll.png");
 
-	
-	plane = ModelLoder->LoadObjFile("Resources", "plane.obj");
-	cube = ModelLoder->LoadObjFile("Resources", "cube.obj");
 
 	camera = new Camera;
 	camera->Initialize();
@@ -60,15 +56,16 @@ void GamePlayScene::Initialize()
 	//sphere = sphere->Create(monsterBall);
 	//sphere->SetisInvisible(true);
 
-	//model = model->Create(plane);
-	//model2 = model2->Create(cube);
+
+	enemyModel = Model::Create("Resources", "cube.obj");
+	enemyBulletModel = Model::Create("Resources", "plane.obj");
 
 	player = new Player();
-	player->Initialize(cube, cube, { -5.0f,0.0f,0.0f });
+	player->Initialize({-5.0f,0.0f,0.0f});
 
 	enemy = new Enemy();
 	enemy->SetPlayer(player);
-	enemy->Initialize(cube, cube, { 10.0f,0.2f,30.0f });
+	enemy->Initialize({10.0f,0.2f,30.0f});
 
 }
 

@@ -10,7 +10,7 @@
 class Model
 {
 public:
-	void Initialize(ModelData data);
+	void Initialize(const std::string& directoryPath, const std::string& filename);
 	void Update();
 	void Draw(ICamera* camera);
 
@@ -30,7 +30,7 @@ public:
 	/// </summary>
 	/// <param name="data">モデルデータ</param>
 	/// <returns>モデル</returns>
-	static std::unique_ptr< Model>  Create(ModelData data);
+	static std::unique_ptr< Model>  Create(const std::string& directoryPath, const std::string& filename);
 
 	void ModelDebug(const char title[10]);
 
@@ -39,6 +39,7 @@ public:
 	/// </summary>
 	/// <param name="model">親のモデル</param>
 	void Parent(Model* model);
+
 
 private:
 	DirectXCommon* dxCommon_;
@@ -79,4 +80,3 @@ private:
 	void LightBuffer();
 
 };
-

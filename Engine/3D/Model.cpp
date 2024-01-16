@@ -4,21 +4,21 @@
 /* 　　　　   パブリックメソッド　　　	　 */
 /*=====================================*/
 
-void Model::Initialize(ModelData data)
+void Model::Initialize(const std::string& directoryPath, const std::string& filename)
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	texture_ = TextureManager::GetInstance();
 	modelLoader_ = ModelLoader::GetInstance();
 	worldTransform_.Initialize();
 
-	modelData_ = data;
+	modelData_ = modelLoader_->LoadObjFile(directoryPath, filename);
 	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
 
 	VertexBuffer();
 	MaterialBuffer();
 	LightBuffer();
 
-	
+
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData_->enableLighting = true;
 	materialData_->uvTransform = MakeIdentity4x4();
@@ -84,27 +84,27 @@ void Model::Draw(ICamera* camera)
 
 }
 
-std::unique_ptr< Model>  Model::Create(ModelData data)
+std::unique_ptr< Model>  Model::Create(const std::string& directoryPath, const std::string& filename)
 {
 	std::unique_ptr< Model> model(new Model());
-	model->Initialize(data);
+	model->Initialize(directoryPath, filename);
 	return model;
 }
 
 void Model::ModelDebug(const char title[10])
 {
 #ifdef _DEBUG
-		ImGui::Begin(title);
+	ImGui::Begin(title);
 
 
-		float translate[3] = { worldTransform_.translation_.x, worldTransform_.translation_.y, worldTransform_.translation_.z };
-		ImGui::SliderFloat3("transform", translate, -20, 4);
+	float translate[3] = { worldTransform_.translation_.x, worldTransform_.translation_.y, worldTransform_.translation_.z };
+	ImGui::SliderFloat3("transform", translate, -20, 4);
 
-		worldTransform_.translation_ = { translate[0],translate[1],translate[2] };
+	worldTransform_.translation_ = { translate[0],translate[1],translate[2] };
 
-		worldTransform_.UpdateWorldMatrix();
+	worldTransform_.UpdateWorldMatrix();
 
-		ImGui::End();
+	ImGui::End();
 #endif // _DEBUG
 
 
