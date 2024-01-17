@@ -102,6 +102,9 @@
     <ClCompile Include="Engine\Utility\TimedCall.cpp">
       <Filter>Engine\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\CollisionManager.cpp">
+      <Filter>Application\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -221,7 +224,12 @@
     <ClInclude Include="Application\Object\Collider.h">
       <Filter>Application\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\CollisionConfig.h" />
+    <ClInclude Include="Application\Object\CollisionConfig.h">
+      <Filter>Application\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\CollisionManager.h">
+      <Filter>Application\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

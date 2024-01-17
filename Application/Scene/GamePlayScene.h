@@ -13,6 +13,7 @@
 #include"ICamera.h"
 #include"Camera.h"
 #include"UICamera.h"
+#include"collisionManager.h"
 
 #include"Input.h"
 
@@ -30,18 +31,13 @@ public:
 	void Update()override;
 	void Draw()override;
 
-private:
-
-	/// <summary>
-	/// 衝突判定と応答
-	/// </summary>
-	void CheackAllCollisions();
-
-	void CheackCollisionPair(Collider* colliderA, Collider* colliderB);
 
 private:
 	TextureManager* texture;
 	SceneManager* sceneManager_ = nullptr;
+
+	//当たり判定処理
+	CollisionManager* colliderManager_ = nullptr;
 
 	uint32_t uvTexture;
 	uint32_t monsterBall;
@@ -70,6 +66,8 @@ private:
 
 	Player* player = nullptr;
 	Enemy* enemy = nullptr;
+
+
 
 #ifdef _DEBUG
 
