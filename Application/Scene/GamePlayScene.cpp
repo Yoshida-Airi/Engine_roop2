@@ -73,24 +73,24 @@ void GamePlayScene::Update()
 	}
 
 	triangle->Update();
-	triangle->worldTransform.rotation_.y += 0.03f;
+	triangle->worldTransform_->rotation_.y += 0.03f;
 
 	triangle2->Update();
-	triangle2->worldTransform.scale_.y = 0.5f;
-	triangle2->worldTransform.rotation_.y += 0.02f;
+	triangle2->worldTransform_->scale_.y = 0.5f;
+	triangle2->worldTransform_->rotation_.y += 0.02f;
 
-	sprite->worldTransform.translation_ = { 700.0f };
+	sprite->worldTransform_->translation_ = { 700.0f };
 
 	sprite->Update();
 	sprite2->Update();
 
 	sphere->Update();
-	sphere->worldTransform_.rotation_.y += 0.01f;
+	sphere->worldTransform_->rotation_.y += 0.01f;
 
 
 	model->Update();
 	model2->Update();
-	model->worldTransform_.translation_.x = 3.0f;
+	model->worldTransform_->translation_.x = 3.0f;
 
 
 }

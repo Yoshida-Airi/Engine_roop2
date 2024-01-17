@@ -2,7 +2,7 @@
 
 Sphere::~Sphere()
 {
-
+	delete worldTransform_;
 }
 
 void Sphere::Initialize(uint32_t textureHandle)
@@ -14,7 +14,8 @@ void Sphere::Initialize(uint32_t textureHandle)
 	MaterialBuffer();
 	LightBuffer();
 
-	worldTransform_.Initialize();
+	worldTransform_ = new WorldTransform();
+	worldTransform_->Initialize();
 	textureHandle_ = textureHandle;
 
 	//緯度の方向に分割
@@ -132,7 +133,7 @@ void Sphere::Initialize(uint32_t textureHandle)
 
 void Sphere::Update()
 {
-	worldTransform_.UpdateWorldMatrix();
+	worldTransform_->UpdateWorldMatrix();
 
 #ifdef _DEBUG
 
@@ -166,7 +167,7 @@ void Sphere::Draw(ICamera* camera)
 	//マテリアルCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
 	//wvp用のCbufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform_.constBuffer_->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform_->constBuffer_->GetGPUVirtualAddress());
 	//カメラ用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。

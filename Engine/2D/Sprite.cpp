@@ -7,7 +7,7 @@
 
 Sprite::~Sprite()
 {
-
+	delete worldTransform_;
 }
 
 void Sprite::Initialize(uint32_t textureHandle)
@@ -16,7 +16,8 @@ void Sprite::Initialize(uint32_t textureHandle)
 	dxCommon_ = DirectXCommon::GetInstance();
 	texture_ = TextureManager::GetInstance();
 
-	worldTransform.Initialize();
+	worldTransform_ = new WorldTransform();
+	worldTransform_->Initialize();
 	textureHandle_ = textureHandle;
 
 	
@@ -76,7 +77,7 @@ void Sprite::Initialize(uint32_t textureHandle)
 
 void Sprite::Update()
 {
-	worldTransform.UpdateWorldMatrix();
+	worldTransform_->UpdateWorldMatrix();
 	UpdateVertexBuffer();
 
 #ifdef _DEBUG
@@ -113,7 +114,7 @@ void Sprite::Draw(ICamera* camera)
 	//マテリアルCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
 	//wvp用のCbufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform.constBuffer_->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform_->constBuffer_->GetGPUVirtualAddress());
 	//カメラ用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。

@@ -4,12 +4,18 @@
 /* 　　　　   パブリックメソッド　　　	　 */
 /*=====================================*/
 
+Model::~Model()
+{
+	delete worldTransform_;
+}
+
 void Model::Initialize(const std::string& directoryPath, const std::string& filename)
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	texture_ = TextureManager::GetInstance();
 	modelLoader_ = ModelLoader::GetInstance();
-	worldTransform_.Initialize();
+	worldTransform_ = new WorldTransform();
+	worldTransform_->Initialize();
 
 	modelData_ = modelLoader_->LoadObjFile(directoryPath, filename);
 	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
@@ -31,7 +37,7 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 
 void Model::Update()
 {
-	worldTransform_.UpdateWorldMatrix();
+	worldTransform_->UpdateWorldMatrix();
 
 #ifdef _DEBUG
 
@@ -72,7 +78,7 @@ void Model::Draw(ICamera* camera)
 	//マテリアルCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
 	//wvp用のCbufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform_.constBuffer_->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform_->constBuffer_->GetGPUVirtualAddress());
 	//カメラ用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
@@ -97,12 +103,12 @@ void Model::ModelDebug(const char title[10])
 		ImGui::Begin(title);
 
 
-		float translate[3] = { worldTransform_.translation_.x, worldTransform_.translation_.y, worldTransform_.translation_.z };
+		float translate[3] = { worldTransform_->translation_.x, worldTransform_->translation_.y, worldTransform_->translation_.z };
 		ImGui::SliderFloat3("transform", translate, -20, 4);
 
-		worldTransform_.translation_ = { translate[0],translate[1],translate[2] };
+		worldTransform_->translation_ = { translate[0],translate[1],translate[2] };
 
-		worldTransform_.UpdateWorldMatrix();
+		worldTransform_->UpdateWorldMatrix();
 
 		ImGui::End();
 #endif // _DEBUG
@@ -113,7 +119,7 @@ void Model::ModelDebug(const char title[10])
 
 void Model::Parent(Model* model)
 {
-	this->worldTransform_.translation_ = model->worldTransform_.translation_;
+	this->worldTransform_->translation_ = model->worldTransform_->translation_;
 }
 
 

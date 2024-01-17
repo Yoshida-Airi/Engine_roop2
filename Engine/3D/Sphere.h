@@ -26,7 +26,7 @@ public:
 
 	void Draw(ICamera* camera);
 
-	WorldTransform worldTransform_ = {};
+	WorldTransform* worldTransform_ = {};
 
 	/// <summary>
 	/// 表示するかしないか true : 表示しない

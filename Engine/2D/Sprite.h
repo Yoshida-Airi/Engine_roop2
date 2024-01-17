@@ -55,7 +55,7 @@ public:
 		textureSrvHandleGPU_ = textureSrvHandleGPU;
 	}
 
-	WorldTransform worldTransform;
+	WorldTransform* worldTransform_;
 
 	void SetisInvisible(bool isInvisible)
 	{

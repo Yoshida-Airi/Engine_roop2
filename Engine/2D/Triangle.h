@@ -47,7 +47,7 @@ public:
 		isInvisible_ = isInvisible;
 	}
 
-	WorldTransform worldTransform;
+	WorldTransform* worldTransform_;
 
 	/// <summary>
 	/// 三角形の生成

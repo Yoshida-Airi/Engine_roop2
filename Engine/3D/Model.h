@@ -10,6 +10,7 @@
 class Model
 {
 public:
+	~Model();
 	void Initialize(const std::string& directoryPath, const std::string& filename);
 	void Update();
 	void Draw(ICamera* camera);
@@ -23,7 +24,7 @@ public:
 		isInvisible_ = isInvisible;
 	}
 
-	WorldTransform worldTransform_;
+	WorldTransform* worldTransform_;
 
 	/// <summary>
 	/// モデルの生成
