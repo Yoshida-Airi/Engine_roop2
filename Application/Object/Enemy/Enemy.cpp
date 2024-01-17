@@ -116,6 +116,10 @@ void Enemy::DeleteBullet()
 	timedCalls_.clear();
 }
 
+void Enemy::OnCollision()
+{
+}
+
 void Enemy::Fire()
 {
 	assert(player_);

@@ -77,3 +77,8 @@ Vector3 EnemyBullet::GetWorldPosition()
 
 	return worldpos;
 }
+
+void EnemyBullet::OnCollision()
+{
+	isDead_ = true;
+}

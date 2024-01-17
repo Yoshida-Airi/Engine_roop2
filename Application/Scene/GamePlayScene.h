@@ -31,6 +31,13 @@ public:
 	void Draw()override;
 
 private:
+
+	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void CheackAllCollisions();
+
+private:
 	TextureManager* texture;
 	SceneManager* sceneManager_ = nullptr;
 

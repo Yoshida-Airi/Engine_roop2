@@ -47,6 +47,10 @@ public:
 	//セッター
 	void SetPlayer(Player* player) { player_ = player; };
 
+	void OnCollision();
+
+	const std::list<EnemyBullet*>& GetBullets()const { return bullets_; };
+
 private:
 
 	std::unique_ptr<Model>  enemyModel_ = nullptr;

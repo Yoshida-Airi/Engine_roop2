@@ -14,6 +14,10 @@ public:
 	/// <returns>true : 立っている</returns>
 	bool IsDead()const { return isDead_; };
 
+	void OnCollision();
+
+	Vector3 GetWorldPosition();
+
 private:
 
 	std::unique_ptr<Model> bulletModel_ = nullptr;

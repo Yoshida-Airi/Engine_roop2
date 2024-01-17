@@ -13,8 +13,7 @@ void Player::Initialize(Vector3 pos)
 	
 	input_ = Input::GetInstance();
 	playerModel_ = Model::Create("Resources", "cube.obj"); // 所有権を移動
-	bulletModel_ = Model::Create("Resources", "cube.obj");
-
+	
 	playerModel_->worldTransform_.translation_ = pos;
 
 }
@@ -67,6 +66,10 @@ Vector3 Player::GetWorldPosition()
 	worldpos.z = playerModel_->worldTransform_.matWorld_.m[3][2];
 
 	return worldpos;
+}
+
+void Player::OnCollision()
+{
 }
 
 void Player::Move()

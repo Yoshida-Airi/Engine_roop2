@@ -15,6 +15,10 @@ public:
 
 	Vector3 GetWorldPosition();
 
+	void OnCollision();
+
+	const std::list<PlayerBullet*>& GetBullets()const { return bullets_; };
+
 private://メンバ変数
 	Input* input_ = nullptr;
 

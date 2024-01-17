@@ -20,6 +20,8 @@ public:
 	//セッター
 	void SetPlayer(Player* player) { player_ = player; };
 
+	void OnCollision();
+
 private:
 
 	std::unique_ptr<Model> bulletModel_ = nullptr;
