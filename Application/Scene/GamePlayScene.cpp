@@ -36,7 +36,7 @@ void GamePlayScene::Initialize()
 	//triangle->SetisInvisible(true);
 	//triangle2->SetisInvisible(true);
 
-
+	//
 	sprite = sprite->Create(Doll);
 	sprite->SetSize({ 64.0f, 64.0f });
 	sprite->SetTextureLeftTop({ 0,0 });
