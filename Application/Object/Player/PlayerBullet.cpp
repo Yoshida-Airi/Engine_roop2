@@ -1,7 +1,14 @@
 #include "PlayerBullet.h"
+#include"CollisionConfig.h"
 
 void PlayerBullet::Initialize(Vector3 pos, const Vector3& velocity)
 {
+	// 衝突属性を設定
+	SetCollisionAttribute(kCollisionAttributePlayer);
+	// 衝突対象を自分の属性以外に設定
+	SetCollisionMask(kCollisionAttributeEnemy);
+
+
 	bulletModel_ = Model::Create("Resources","cube.obj");
 	bulletModel_->worldTransform_.translation_ = pos;
 	velocity_ = velocity;

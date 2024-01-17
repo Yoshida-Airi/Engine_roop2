@@ -1,17 +1,24 @@
 #include "EnemyBullet.h"
 #include "Player.h"
+#include"CollisionConfig.h"
 
 void EnemyBullet::Initialize(Vector3 pos, const Vector3& velocity)
 {
+
+	// 衝突属性を設定
+	SetCollisionAttribute(kCollisionAttributeEnemy);
+	// 衝突対象を自分の属性以外に設定
+	SetCollisionMask(kCollisionAttributePlayer);
+
 	bulletModel_ = Model::Create("Resources", "cube.obj");
 	bulletModel_->worldTransform_.translation_ = pos;
 	velocity_ = velocity;
 
 
-	// Z方向に伸びた形状
-	bulletModel_->worldTransform_.scale_.x = 0.5f;
-	bulletModel_->worldTransform_.scale_.y = 0.5f;
-	bulletModel_->worldTransform_.scale_.z = 3.0f;
+	//// Z方向に伸びた形状
+	//bulletModel_->worldTransform_.scale_.x = 0.5f;
+	//bulletModel_->worldTransform_.scale_.y = 0.5f;
+	//bulletModel_->worldTransform_.scale_.z = 3.0f;
 
 }
 

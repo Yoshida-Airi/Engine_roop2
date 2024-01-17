@@ -1,4 +1,5 @@
 #include"Player.h"
+#include"CollisionConfig.h"
 
 Player::~Player()
 {
@@ -14,6 +15,11 @@ void Player::Initialize(Vector3 pos)
 	input_ = Input::GetInstance();
 	playerModel_ = Model::Create("Resources", "cube.obj"); // 所有権を移動
 	
+	//衝突属性を設定
+	SetCollisionAttribute(kCollisionAttributePlayer);
+	//衝突対象を自分の属性以外に設定
+	SetCollisionMask(kCollisionAttributeEnemy);
+
 	playerModel_->worldTransform_.translation_ = pos;
 
 }

@@ -221,6 +221,7 @@
     <ClInclude Include="Application\Object\Collider.h">
       <Filter>Application\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Object\CollisionConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

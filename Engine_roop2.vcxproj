@@ -138,6 +138,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Utility\TimedCall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application\Object\CollisionConfig.h" />
     <ClInclude Include="Application\Object\Enemy\Enemy.h" />
     <ClInclude Include="Application\Object\Enemy\EnemyStateApproach.h" />
     <ClInclude Include="Application\Object\Enemy\EnemyStateLeave.h" />
