@@ -20,7 +20,7 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 
 
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
-	materialData_->enableLighting = true;
+	materialData_->enableLighting = false;
 	materialData_->uvTransform = MakeIdentity4x4();
 
 	//ライトのデフォルト値

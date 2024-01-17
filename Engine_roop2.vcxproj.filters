@@ -105,6 +105,9 @@
     <ClCompile Include="Application\Object\CollisionManager.cpp">
       <Filter>Application\Object</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Skydome\Skydome.cpp">
+      <Filter>Application\Object\Skydome</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -230,6 +233,9 @@
     <ClInclude Include="Application\Object\CollisionManager.h">
       <Filter>Application\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Object\Skydome\Skydome.h">
+      <Filter>Application\Object\Skydome</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -276,6 +282,9 @@
     </Filter>
     <Filter Include="Engine\Utility">
       <UniqueIdentifier>{dfe759d4-2b94-4533-b047-f336c36f78a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Skydome">
+      <UniqueIdentifier>{5749f5e1-24ea-49bb-acab-30421acaff05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

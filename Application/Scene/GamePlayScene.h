@@ -6,9 +6,6 @@
 #include"SceneFactory.h"
 #include"SceneManager.h"
 
-#include"Triangle.h"
-#include"Sprite.h"
-#include"Sphere.h"
 #include"Model.h"
 #include"ICamera.h"
 #include"Camera.h"
@@ -19,6 +16,7 @@
 
 #include"Player.h"
 #include"Enemy.h"
+#include"Skydome.h"
 
 /// <summary>
 /// ゲームプレイシーン
@@ -39,33 +37,15 @@ private:
 	//当たり判定処理
 	CollisionManager* colliderManager_ = nullptr;
 
-	uint32_t uvTexture;
-	uint32_t monsterBall;
-	uint32_t Doll;
-
-	ModelData plane;
-	ModelData cube;
-
 	ICamera* camera;
 	ICamera* uiCamera;
 
 	Input* input;
 
 
-	std::unique_ptr<Triangle> triangle = nullptr;
-	std::unique_ptr<Triangle> triangle2 = nullptr;
-	std::unique_ptr<Sprite> sprite = nullptr;
-	std::unique_ptr<Sprite> sprite2 = nullptr;
-	std::unique_ptr<Sphere> sphere = nullptr;
-
-
-	std::unique_ptr<Model> playerModel = nullptr;
-	std::unique_ptr<Model> PlayerBulletModel = nullptr;
-	std::unique_ptr<Model> enemyModel = nullptr;
-	std::unique_ptr<Model> enemyBulletModel = nullptr;
-
 	Player* player = nullptr;
 	Enemy* enemy = nullptr;
+	Skydome* skydome = nullptr;
 
 
 

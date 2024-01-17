@@ -40,6 +40,14 @@ public:
 	/// <param name="model">親のモデル</param>
 	void Parent(Model* model);
 
+	/// <summary>
+	/// ライトの有無
+	/// </summary>
+	/// <param name="enableLighting">true : つける</param>
+	void SetLight(bool enableLighting)
+	{
+		materialData_->enableLighting = enableLighting;
+	}
 
 private:
 	DirectXCommon* dxCommon_;
