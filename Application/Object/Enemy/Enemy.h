@@ -6,9 +6,11 @@
 #include"EnemyBullet.h"
 #include"TimedCall.h"
 
+#include "Collider.h"
+
 #include<list>
 class Player;
-class Enemy
+class Enemy :public Collider
 {
 public:
 	~Enemy();
@@ -31,7 +33,7 @@ public:
 	void Fire();
 
 	//ゲッター
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition()override;
 
 	//発射間隔
 	static const int kFireInterval = 45;
@@ -47,7 +49,7 @@ public:
 	//セッター
 	void SetPlayer(Player* player) { player_ = player; };
 
-	void OnCollision();
+	void OnCollision()override;
 
 	const std::list<EnemyBullet*>& GetBullets()const { return bullets_; };
 

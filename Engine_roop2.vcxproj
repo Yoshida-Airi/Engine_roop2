@@ -142,6 +142,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Enemy\EnemyStateApproach.h" />
     <ClInclude Include="Application\Object\Enemy\EnemyStateLeave.h" />
     <ClInclude Include="Application\Object\Enemy\EnemyBullet.h" />
+    <ClInclude Include="Application\Object\Collider.h" />
     <ClInclude Include="Engine\3D\Camera.h" />
     <ClInclude Include="Engine\Base\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Base\Framework.h" />

@@ -1,15 +1,16 @@
 #pragma once
 #include"Model.h"
+#include"Collider.h"
 
 class Player;
-class EnemyBullet
+class EnemyBullet :public Collider
 {
 public:
 	void Initialize( Vector3 pos, const Vector3& velocity);
 	void Update();
 	void Draw(ICamera* camera);
 
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition()override;
 
 	/// <summary>
 	/// 弾のデスフラグが立っているか
@@ -20,7 +21,7 @@ public:
 	//セッター
 	void SetPlayer(Player* player) { player_ = player; };
 
-	void OnCollision();
+	void OnCollision()override;
 
 private:
 

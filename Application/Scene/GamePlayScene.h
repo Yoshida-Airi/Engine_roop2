@@ -37,6 +37,8 @@ private:
 	/// </summary>
 	void CheackAllCollisions();
 
+	void CheackCollisionPair(Collider* colliderA, Collider* colliderB);
+
 private:
 	TextureManager* texture;
 	SceneManager* sceneManager_ = nullptr;

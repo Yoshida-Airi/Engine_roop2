@@ -218,6 +218,9 @@
     <ClInclude Include="Engine\Utility\TimedCall.h">
       <Filter>Engine\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Object\Collider.h">
+      <Filter>Application\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

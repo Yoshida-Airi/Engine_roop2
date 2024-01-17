@@ -2,10 +2,10 @@
 #include"Model.h"
 #include"Input.h"
 #include"PlayerBullet.h"
-
+#include"Collider.h"
 #include<list>
 
-class Player
+class Player :public Collider
 {
 public:
 	~Player();
@@ -13,9 +13,9 @@ public:
 	void Update();
 	void Draw(ICamera* camera);
 
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition()override;
 
-	void OnCollision();
+	void OnCollision()override;
 
 	const std::list<PlayerBullet*>& GetBullets()const { return bullets_; };
 
