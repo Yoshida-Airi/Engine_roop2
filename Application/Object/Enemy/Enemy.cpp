@@ -25,7 +25,7 @@ void Enemy::Initialize(Vector3 pos)
 	SetCollisionMask(kCollisionAttributePlayer);
 	
 	enemyModel_ = Model::Create("Resources", "cube.obj");
-	enemyModel_->worldTransform_.translation_ = pos;
+	enemyModel_->worldTransform_->translation_ = pos;
 
 	state = new EnemyStateApproach();
 	state->Initialize(this);
@@ -88,7 +88,7 @@ void Enemy::Draw(ICamera* camera)
 
 void Enemy::Move(Vector3& velocity)
 {
-	SumVector3(enemyModel_->worldTransform_.translation_, velocity);
+	SumVector3(enemyModel_->worldTransform_->translation_, velocity);
 }
 
 void Enemy::ChangeState(IEnemyState* newState)
@@ -102,9 +102,9 @@ Vector3 Enemy::GetWorldPosition()
 	Vector3 worldpos;
 
 	// ワールド行列の平行移動成分を取得(ワールド座標)
-	worldpos.x = enemyModel_->worldTransform_.matWorld_.m[3][0];
-	worldpos.y = enemyModel_->worldTransform_.matWorld_.m[3][1];
-	worldpos.z = enemyModel_->worldTransform_.matWorld_.m[3][2];
+	worldpos.x = enemyModel_->worldTransform_->matWorld_.m[3][0];
+	worldpos.y = enemyModel_->worldTransform_->matWorld_.m[3][1];
+	worldpos.z = enemyModel_->worldTransform_->matWorld_.m[3][2];
 
 	return worldpos;
 }

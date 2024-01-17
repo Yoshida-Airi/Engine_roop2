@@ -10,7 +10,7 @@ void PlayerBullet::Initialize(Vector3 pos, const Vector3& velocity)
 
 
 	bulletModel_ = Model::Create("Resources","cube.obj");
-	bulletModel_->worldTransform_.translation_ = pos;
+	bulletModel_->worldTransform_->translation_ = pos;
 	velocity_ = velocity;
 }
 
@@ -18,7 +18,7 @@ void PlayerBullet::Update()
 {
 	bulletModel_->Update();
 	//座標に移動
-	SumVector3(bulletModel_->worldTransform_.translation_, velocity_);
+	SumVector3(bulletModel_->worldTransform_->translation_, velocity_);
 
 	//時間経過でデス
 	if (--deathTimer_ <= 0)
@@ -45,9 +45,9 @@ Vector3 PlayerBullet::GetWorldPosition()
 	Vector3 worldpos;
 
 	// ワールド行列の平行移動成分を取得(ワールド座標)
-	worldpos.x = bulletModel_->worldTransform_.matWorld_.m[3][0];
-	worldpos.y = bulletModel_->worldTransform_.matWorld_.m[3][1];
-	worldpos.z = bulletModel_->worldTransform_.matWorld_.m[3][2];
+	worldpos.x = bulletModel_->worldTransform_->matWorld_.m[3][0];
+	worldpos.y = bulletModel_->worldTransform_->matWorld_.m[3][1];
+	worldpos.z = bulletModel_->worldTransform_->matWorld_.m[3][2];
 
 	return worldpos;
 }
