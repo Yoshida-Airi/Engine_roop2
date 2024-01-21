@@ -40,6 +40,7 @@ public:
 	/*=======　　　ゲッター	=======*/
 	ID3D12Device* GetDevice()const { return device.Get(); };
 	ID3D12GraphicsCommandList* GetCommandList()const { return commandList.Get(); };
+	ID3D12GraphicsCommandList* GetParticleCommandList()const { return particleCommandList.Get(); };
 	Microsoft::WRL::ComPtr< ID3D12DescriptorHeap> GetSRVDescriptorHeap()const { return srvDescriptorHeap.Get(); };
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; };
 	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc; };
@@ -112,9 +113,23 @@ private:
 	void SetupPSO();
 
 	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="VS">VertexShaderBlob</param>
+	/// <param name="PS">PixcelShaderBlob</param>
+	/// <returns></returns>
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC CreatePSO(Microsoft::WRL::ComPtr< IDxcBlob>VS, Microsoft::WRL::ComPtr< IDxcBlob>PS, Microsoft::WRL::ComPtr< ID3D12RootSignature>rootSignature);
+
+	/// <summary>
 	/// ルートシグネチャの生成
 	/// </summary>
 	void SetupRootSignature();
+
+	/// <summary>
+	/// ルートシグネチャの生成
+	/// </summary>
+	void SetupParticleRootSignature();
+
 
 	/// <summary>
 	/// インプットレイアウトの生成
@@ -186,6 +201,15 @@ private:
 	uint64_t fenceValue = 0;	//フェンスの値
 	HANDLE fenceEvent = nullptr;
 
+	Microsoft::WRL::ComPtr< ID3D12CommandQueue> commandQueue = nullptr;	//コマンドキュー
+	Microsoft::WRL::ComPtr < ID3D12CommandAllocator> commandAllocator = nullptr;	//コマンドアロケータ
+	Microsoft::WRL::ComPtr < ID3D12GraphicsCommandList> commandList = nullptr;	//コマンドリスト
+
+	Microsoft::WRL::ComPtr< ID3D12CommandQueue> particleCommandQueue = nullptr;	//コマンドキュー
+	Microsoft::WRL::ComPtr < ID3D12CommandAllocator> particleCommandAllocator = nullptr;	//コマンドアロケータ
+	Microsoft::WRL::ComPtr < ID3D12GraphicsCommandList> particleCommandList = nullptr;	//コマンドリスト
+
+
 	//記録時間(FPS固定)
 	std::chrono::steady_clock::time_point reference_;
 
@@ -197,12 +221,16 @@ private:
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs[3] = {};
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
 	Microsoft::WRL::ComPtr< ID3D12RootSignature> rootSignature = nullptr;	//バイナリを元に生成
+	Microsoft::WRL::ComPtr< ID3D12RootSignature> particleRootSignature = nullptr;	//バイナリを元に生成
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};	//DepthStensilStateの設定
 
 	Microsoft::WRL::ComPtr< IDxcBlob> vertexShaderBlob;
 	Microsoft::WRL::ComPtr< IDxcBlob> pixelShaderBlob;
+	Microsoft::WRL::ComPtr< IDxcBlob> particleVertexShaderBlob;
+	Microsoft::WRL::ComPtr< IDxcBlob> particlePixelShaderBlob;
 
 	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
+	Microsoft::WRL::ComPtr< ID3D12PipelineState> particleGraphicPipelineState = nullptr;
 
 	D3D12_VIEWPORT viewport{};	//ビューポート
 	D3D12_RECT scissorRect{};	//シザー矩形
