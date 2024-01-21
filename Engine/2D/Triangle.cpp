@@ -80,9 +80,9 @@ void Triangle::SetMaterialData(const Vector4 color)
 	materialData_[0].color = color;
 }
 
-std::unique_ptr< Triangle> Triangle::Create(uint32_t textureHandle)
+Triangle* Triangle::Create(uint32_t textureHandle)
 {
-	std::unique_ptr< Triangle> triangle(new Triangle());
+	Triangle* triangle = new Triangle();
 	triangle->Initialize(textureHandle);
 	return triangle;
 }

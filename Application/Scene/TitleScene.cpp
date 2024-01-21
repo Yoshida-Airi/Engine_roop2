@@ -14,10 +14,9 @@ void TitleScene::Initialize()
 	camera = new Camera;
 	camera->Initialize();
 
-	fence_ = Model::Create("Resources", "fence.obj");
-	cube_ = Model::Create("Resources", "fence.obj");
+	fence_.reset(Model::Create("Resources", "fence.obj"));
+	cube_.reset(Model::Create("Resources", "fence.obj"));
 
-	
 }
 
 void TitleScene::Update()

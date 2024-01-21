@@ -54,7 +54,7 @@ public:
 	/// </summary>
 	/// <param name="textureHandle">テクスチャ</param>
 	/// <returns>三角形</returns>
-	std::unique_ptr< Triangle> Create(uint32_t textureHandle);
+	static Triangle* Create(uint32_t textureHandle);
 	
 private://プライベート変数
 

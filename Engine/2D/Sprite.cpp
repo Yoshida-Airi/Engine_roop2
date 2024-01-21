@@ -137,9 +137,9 @@ void Sprite::SetMaterialData(const Vector4 color)
 	materialData_[0].color = color;
 }
 
-std::unique_ptr< Sprite> Sprite::Create(uint32_t textureHandle)
+Sprite* Sprite::Create(uint32_t textureHandle)
 {
-	std::unique_ptr< Sprite> sprite(new Sprite());
+	Sprite* sprite = new Sprite();
 	sprite->Initialize(textureHandle);
 	return sprite;
 }

@@ -30,30 +30,30 @@ void GamePlayScene::Initialize()
 	uiCamera->Initialize();
 
 
-	triangle = triangle->Create(uvTexture);
-	triangle2 = triangle2->Create(monsterBall);
+	triangle.reset(Triangle::Create(uvTexture));
+	triangle2.reset(Triangle::Create(monsterBall));
 	
 	//triangle->SetisInvisible(true);
 	//triangle2->SetisInvisible(true);
 
 	//
-	sprite = sprite->Create(Doll);
+	sprite.reset(Sprite::Create(Doll));
 	sprite->SetSize({ 64.0f, 64.0f });
 	sprite->SetTextureLeftTop({ 0,0 });
 	
 	//sprite->SetisInvisible(true);
 
 
-	sprite2 = sprite->Create(uvTexture);
+	sprite2.reset(Sprite::Create(uvTexture));
 	sprite2->SetSize({ 64.0f, 64.0f });
 	sprite2->SetTextureLeftTop({ 0,0 });
 	/*sprite2->SetisInvisible(true);*/
 
-	sphere = sphere->Create(monsterBall);
+	sphere.reset(Sphere::Create(monsterBall));
 	sphere->SetisInvisible(true);
 
-	model = Model:: Create("Resources", "plane.obj");
-	model2 = Model::Create("Resources", "plane.obj");
+	model.reset(Model::Create("Resources", "plane.obj"));
+	model2.reset(Model::Create("Resources", "plane.obj"));
 
 }
 

@@ -31,7 +31,7 @@ public:
 	/// </summary>
 	/// <param name="data">モデルデータ</param>
 	/// <returns>モデル</returns>
-	static std::unique_ptr< Model>  Create(const std::string& directoryPath, const std::string& filename);
+	static Model* Create(const std::string& directoryPath, const std::string& filename);
 
 	void ModelDebug(const char title[10]);
 

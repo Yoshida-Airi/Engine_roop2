@@ -90,9 +90,9 @@ void Model::Draw(ICamera* camera)
 
 }
 
-std::unique_ptr< Model>  Model::Create(const std::string& directoryPath, const std::string& filename)
+Model*  Model::Create(const std::string& directoryPath, const std::string& filename)
 {
-	std::unique_ptr< Model> model(new Model());
+	Model* model = new Model();
 	model->Initialize(directoryPath, filename);
 	return model;
 }
