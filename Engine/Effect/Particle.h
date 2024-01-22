@@ -20,6 +20,11 @@ struct ParticleData
 	Vector3 velocity;
 };
 
+struct ParticleVertexData
+{
+	Vector4 position;
+	Vector2 texcoord;
+};
 
 class Particle
 {
@@ -107,7 +112,7 @@ private://プライベート変数
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_{};
 
-	VertexData* vertexData_ = nullptr;	//頂点データ
+	ParticleVertexData* vertexData_ = nullptr;	//頂点データ
 	Material* materialData_ = nullptr;	//マテリアルデータ
 	uint32_t* indexData_ = nullptr;		//インデックスデータ
 

@@ -165,14 +165,14 @@ void Particle::SetMaterialData(const Vector4 color)
 
 void Particle::VertexBuffer()
 {
-	vertexResource_ = dxCommon_->CreateBufferResource(sizeof(VertexData) * 6);	//頂点用のデータ
+	vertexResource_ = dxCommon_->CreateBufferResource(sizeof(ParticleVertexData) * 6);	//頂点用のデータ
 
 	//リソースの先頭のアドレスから使う
 	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
 	//使用するリソースのサイズは頂点3つ分のサイズ
-	vertexBufferView_.SizeInBytes = sizeof(VertexData) * 6;
+	vertexBufferView_.SizeInBytes = sizeof(ParticleVertexData) * 6;
 	//1頂点当たりのサイズ
-	vertexBufferView_.StrideInBytes = sizeof(VertexData);
+	vertexBufferView_.StrideInBytes = sizeof(ParticleVertexData);
 	//書き込むためのアドレスを取得
 	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
 }
