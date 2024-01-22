@@ -84,6 +84,9 @@ void GamePlayScene::Update()
 	sprite->Update();
 	sprite2->Update();
 
+	sprite->Debug("Doll");
+	sprite2->Debug("uv");
+
 	sphere->Update();
 	sphere->worldTransform_->rotation_.y += 0.01f;
 

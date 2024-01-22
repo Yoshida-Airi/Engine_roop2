@@ -99,7 +99,10 @@ public:
 	/// <returns>四角形</returns>
 	static Sprite* Create(uint32_t textureHandle);
 
-	
+	/// <summary>
+	/// Imgui
+	/// </summary>
+	void Debug(const char* name);
 
 private://プライベート変数
 

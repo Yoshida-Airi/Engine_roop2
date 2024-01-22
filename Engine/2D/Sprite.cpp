@@ -80,14 +80,7 @@ void Sprite::Update()
 	worldTransform_->UpdateWorldMatrix();
 	UpdateVertexBuffer();
 
-#ifdef _DEBUG
-	ImGui::Begin("uvTransform");
-	ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
-	ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
-	ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
 
-	ImGui::End();
-#endif // _DEBUG
 
 
 	Matrix4x4 uvTransformMatrix_ = MakeScaleMatrix(uvTransform.scale);
@@ -148,6 +141,18 @@ Sprite* Sprite::Create(uint32_t textureHandle)
 	Sprite* sprite = new Sprite();
 	sprite->Initialize(textureHandle);
 	return sprite;
+}
+
+void Sprite::Debug(const char* name)
+{
+#ifdef _DEBUG
+	ImGui::Begin(name);
+	ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
+	ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
+	ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
+
+	ImGui::End();
+#endif // _DEBUG
 }
 
 
