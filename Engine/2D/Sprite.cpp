@@ -85,6 +85,7 @@ void Sprite::Update()
 	ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
 	ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
 	ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
+
 	ImGui::End();
 #endif // _DEBUG
 
@@ -135,6 +136,11 @@ void Sprite::SetVertexData(const float left, const float right, const float top,
 void Sprite::SetMaterialData(const Vector4 color)
 {
 	materialData_[0].color = color;
+}
+
+void Sprite::SetAlpha()
+{
+	
 }
 
 Sprite* Sprite::Create(uint32_t textureHandle)

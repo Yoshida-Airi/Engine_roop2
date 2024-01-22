@@ -34,7 +34,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(const std::string& filePath);
 
 	/// <summary>
 	/// 更新処理
@@ -59,6 +59,8 @@ public:
 	/// <param name="textureHandle"></param>
 	/// <returns></returns>
 	const D3D12_RESOURCE_DESC GetResourceDesc(uint32_t textureHandle);
+
+	static void Create();
 
 private:
 

@@ -90,12 +90,16 @@ public:
 		anchorPoint_ = anchorPoint;
 	}
 
+	void SetAlpha();
+
 	/// <summary>
 	/// 四角の生成
 	/// </summary>
 	/// <param name="textureHandle">テクスチャ</param>
 	/// <returns>四角形</returns>
 	static Sprite* Create(uint32_t textureHandle);
+
+	
 
 private://プライベート変数
 

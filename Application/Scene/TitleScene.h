@@ -14,7 +14,7 @@
 #include"Camera.h"
 #include"UICamera.h"
 
-
+#include"EfectManager.h"
 
 class TitleScene :public BaseScene
 {
@@ -26,9 +26,12 @@ public:
 
 private:
 
+	EfectManager* efect = nullptr;
+
 	Input* input;
 	SceneManager* sceneManager_ = nullptr;
 	ICamera* camera;
+	ICamera* uiCamera;
 	ModelLoader* object;
 	ModelData fenceData;
 	ModelData cubeData;
@@ -36,6 +39,8 @@ private:
 
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;
+
+	
 	
 };
 

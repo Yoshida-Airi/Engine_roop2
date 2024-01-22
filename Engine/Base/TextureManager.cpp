@@ -18,11 +18,12 @@ TextureManager::~TextureManager()
 /// <summary>
 /// 初期化
 /// </summary>
-void TextureManager::Initialize()
+void TextureManager::Initialize(const std::string& filePath)
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	srvDescriptoHeap_ = dxCommon_->GetSRVDescriptorHeap();
 	descriptorSizeSRV = dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
 }
 
 //更新処理
