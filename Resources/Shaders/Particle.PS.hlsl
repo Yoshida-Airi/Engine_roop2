@@ -32,7 +32,7 @@ PixcelShaderOutput main(VertexShaderOutput input)
     {
         discard;
     }
-    output.color.a = gMaterial.color.a * textureColor.a;
+    output.color = gMaterial.color * textureColor * input.color;
    
     return output;
 }

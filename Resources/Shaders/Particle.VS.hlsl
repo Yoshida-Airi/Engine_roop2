@@ -1,8 +1,9 @@
 #include"Particle.hlsli"
 
-struct TransformationMatrix
+struct ParticleForGPU
 {
     float32_t4x4 WorldMatrix;
+    float32_t4 color;
 };
 
 struct ViewProjectionMatrix
@@ -11,7 +12,7 @@ struct ViewProjectionMatrix
     float32_t4x4 projection;
 };
 
-StructuredBuffer<TransformationMatrix> gTransformationMatrices : register(t0);
+StructuredBuffer<ParticleForGPU> gParticle : register(t0);
 ConstantBuffer<ViewProjectionMatrix> gViewProjectionMatrix : register(b1);
 
 
@@ -29,8 +30,9 @@ VertexShaderOutput main(VertexShaderInput input, uint32_t instanceId : SV_Instan
 
     // 通常カメラ
     float32_t4x4 ViewProjectionMatrix = mul(gViewProjectionMatrix.view, gViewProjectionMatrix.projection);
-    float32_t4x4 WorldViewProjectionMatrix = mul(gTransformationMatrices[instanceId].WorldMatrix, ViewProjectionMatrix);
+    float32_t4x4 WorldViewProjectionMatrix = mul(gParticle[instanceId].WorldMatrix, ViewProjectionMatrix);
     output.position = mul(input.position, WorldViewProjectionMatrix);
-  
+    output.color = gParticle[instanceId].color;
+    
     return output;
 }

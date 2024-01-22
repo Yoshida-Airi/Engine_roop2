@@ -31,6 +31,16 @@ void Particle::Initialize(uint32_t textureHandle)
 		{0.0f,0.0f,0.0f},
 	};
 
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
+
+
+	for (uint32_t index = 0; index < kNumInstance; ++index)
+	{
+		particles[index] = MakeNewParticle(randomEngine);
+	}
+
+
 	VertexBuffer();
 	MaterialBuffer();
 	IndexBuffer();
@@ -38,14 +48,6 @@ void Particle::Initialize(uint32_t textureHandle)
 
 	SetSRV();
 
-	std::random_device seedGenerator;
-	std::mt19937 randomEngine(seedGenerator());
-	
-
-	for (uint32_t index = 0; index < kNumInstance; ++index)
-	{
-		particles[index] = MakeNewParticle(randomEngine);
-	}
 
 
 	left = 0.0f * size_.x;
@@ -90,7 +92,7 @@ void Particle::Update()
 	for (uint32_t index = 0; index < kNumInstance; ++index)
 	{
 		Matrix4x4 worldMatrix = MakeAffinMatrix(particles[index].transform.scale, particles[index].transform.rotate, particles[index].transform.translate);
-		instancingData[index] = worldMatrix;
+		instancingData[index].worldMatrix = worldMatrix;
 	}
 
 
@@ -244,11 +246,13 @@ void Particle::AdjustTextureSize() {
 ParticleData Particle::MakeNewParticle(std::mt19937& randomEngine)
 {
 	std::uniform_real_distribution<float>distribution(-1.0f, 1.0f);
+	std::uniform_real_distribution<float>distColor(0.0f, 1.0f);
 	ParticleData particle;
 	particle.transform.scale = { 0.005f,0.005f,0.005f };
 	particle.transform.rotate = { 0.0f,3.14f,3.14f };
 	particle.transform.translate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
 	particle.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
+	particle.color = { distColor(randomEngine) ,distColor(randomEngine) ,distColor(randomEngine) ,1.0f };
 	return particle;
 }
 
@@ -275,12 +279,13 @@ void Particle::Debug()
 
 void Particle::instancingBuffer()
 {
-	instancingResource = dxCommon_->CreateBufferResource(sizeof(Matrix4x4) * kNumInstance);
+	instancingResource = dxCommon_->CreateBufferResource(sizeof(ParticleForGPU) * kNumInstance);
 	instancingResource->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
 
 	for (uint32_t index = 0; index < kNumInstance; ++index)
 	{
-		instancingData[index] = MakeIdentity4x4();
+		instancingData[index].worldMatrix = MakeIdentity4x4();
+		instancingData[index].color = particles[index].color;
 	}
 }
 
@@ -292,7 +297,7 @@ void Particle::SetSRV()
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	instancingSrvDesc.Buffer.NumElements = kNumInstance;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(Matrix4x4);
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 	instancingSrvHandleCPU = texture_->GetCPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4);
 	instancingSrvHandleGPU = texture_->GetGPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4);
 

@@ -18,12 +18,19 @@ struct ParticleData
 {
 	Transform transform;
 	Vector3 velocity;
+	Vector4 color;
 };
 
 struct ParticleVertexData
 {
 	Vector4 position;
 	Vector2 texcoord;
+};
+
+struct ParticleForGPU
+{
+	Matrix4x4 worldMatrix;
+	Vector4 color;
 };
 
 class Particle
@@ -140,7 +147,7 @@ private://プライベート変数
 
 
 	Microsoft::WRL::ComPtr<ID3D12Resource>instancingResource;
-	Matrix4x4* instancingData;
+	ParticleForGPU* instancingData;
 	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
