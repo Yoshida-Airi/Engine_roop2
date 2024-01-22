@@ -58,7 +58,7 @@ void TitleScene::Draw()
 	fence_->Draw(camera);
 	cube_->Draw(camera);
 
-	particle->Draw(uiCamera);
+	particle->Draw(camera);
 
 }
 

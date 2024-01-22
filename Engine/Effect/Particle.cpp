@@ -38,12 +38,13 @@ void Particle::Initialize(uint32_t textureHandle)
 
 	SetSRV();
 
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
+	
+
 	for (uint32_t index = 0; index < kNumInstance; ++index)
 	{
-		worldTransform[index].Initialize();
-		worldTransform[index].scale_ = { 1.0f,1.0f,1.0f };
-		worldTransform[index].rotation_ = { 0.0f,0.0f,0.0f };
-		worldTransform[index].translation_ = { index * 10.0f,index * 10.0f,index * 10.0f };
+		particles[index] = MakeNewParticle(randomEngine);
 	}
 
 
@@ -88,8 +89,7 @@ void Particle::Update()
 {
 	for (uint32_t index = 0; index < kNumInstance; ++index)
 	{
-		worldTransform[index].UpdateWorldMatrix();
-		Matrix4x4 worldMatrix = MakeAffinMatrix(worldTransform[index].scale_, worldTransform[index].rotation_, worldTransform[index].translation_);
+		Matrix4x4 worldMatrix = MakeAffinMatrix(particles[index].transform.scale, particles[index].transform.rotate, particles[index].transform.translate);
 		instancingData[index] = worldMatrix;
 	}
 
@@ -110,7 +110,12 @@ void Particle::Update()
 	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeTranselateMatrix(uvTransform.translate));
 	materialData_->uvTransform = uvTransformMatrix_;
 
-
+	for (uint32_t index = 0; index < kNumInstance; ++index)
+	{
+		particles[index].transform.translate.x += particles[index].velocity.x * kDeltaTime;
+		particles[index].transform.translate.y += particles[index].velocity.y * kDeltaTime;
+		particles[index].transform.translate.z += particles[index].velocity.z * kDeltaTime;
+	}
 
 }
 
@@ -236,21 +241,30 @@ void Particle::AdjustTextureSize() {
 	textureSize_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
 }
 
+ParticleData Particle::MakeNewParticle(std::mt19937& randomEngine)
+{
+	std::uniform_real_distribution<float>distribution(-1.0f, 1.0f);
+	ParticleData particle;
+	particle.transform.scale = { 0.005f,0.005f,0.005f };
+	particle.transform.rotate = { 0.0f,3.14f,3.14f };
+	particle.transform.translate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
+	particle.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
+	return particle;
+}
+
 void Particle::Debug()
 {
 #ifdef _DEBUG
 	ImGui::Begin("camera");
 
-	float translate[3] = { worldTransform->translation_.x,worldTransform->translation_.y,worldTransform->translation_.z };
+	float translate[3] = { particles->transform.translate.x, particles->transform.translate.y, particles->transform.translate.z };
 	ImGui::SliderFloat3("transform", translate, -20, 4);
 
-	float rotation[3] = { worldTransform->rotation_.x,worldTransform->rotation_.y,worldTransform->rotation_.z };
+	float rotation[3] = { particles->transform.rotate.x, particles->transform.rotate.y, particles->transform.rotate.z };
 	ImGui::SliderFloat3("rotation", rotation, -20, 4);
 
-	worldTransform->translation_ = { translate[0],translate[1],translate[2] };
-	worldTransform->rotation_ = { rotation[0],rotation[1],rotation[2] };
-
-	worldTransform->UpdateWorldMatrix();
+	particles->transform.translate = { translate[0],translate[1],translate[2] };
+	particles->transform.rotate = { rotation[0],rotation[1],rotation[2] };
 
 	ImGui::End();
 #endif // _DEBUG

@@ -12,6 +12,14 @@
 #include"ICamera.h"
 #include"SpriteGlobals.h"
 
+#include<random>
+
+struct ParticleData
+{
+	Transform transform;
+	Vector3 velocity;
+};
+
 
 class Particle
 {
@@ -37,7 +45,7 @@ public:
 	}
 
 	static const uint32_t kNumInstance = 10;
-	WorldTransform worldTransform[kNumInstance];
+	
 
 	void SetisInvisible(bool isInvisible)
 	{
@@ -132,6 +140,11 @@ private://プライベート変数
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
 
+	ParticleData particles[kNumInstance];
+	const float kDeltaTime = 1.0f / 60.0f;
+
+	
+
 private://プライベート関数
 
 	/// <summary>
@@ -160,6 +173,11 @@ private://プライベート関数
 
 	void AdjustTextureSize();
 
-
+	/// <summary>
+	/// パーティクル生成関数
+	/// </summary>
+	/// <param name="randomEngine">ランダム関数</param>
+	/// <returns>パーティクル</returns>
+	ParticleData MakeNewParticle(std::mt19937& randomEngine);
 
 };
