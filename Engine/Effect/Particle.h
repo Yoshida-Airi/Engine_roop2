@@ -13,13 +13,13 @@
 #include"SpriteGlobals.h"
 
 
-
 class Particle
 {
 public:
 	~Particle();
 
 	void Initialize(uint32_t textureHandle);
+
 	void Update();
 	void Draw(ICamera* camera);
 
@@ -36,13 +36,22 @@ public:
 		textureSrvHandleGPU_ = textureSrvHandleGPU;
 	}
 
-	WorldTransform* worldTransform_;
+	static const uint32_t kNumInstance = 10;
+	WorldTransform worldTransform[kNumInstance];
 
 	void SetisInvisible(bool isInvisible)
 	{
 		isInvisible_ = isInvisible;
 	}
 
+	/// <summary>
+	/// テクスチャサイズ（描画したい範囲
+	/// </summary>
+	/// <param name="textureSize"></param>
+	void SetTextureSize(Vector2 textureSize)
+	{
+		textureSize_ = textureSize;
+	}
 
 	/// <summary>
 	/// テクスチャの左上座標（画像上の描画したい左上座標
@@ -54,12 +63,12 @@ public:
 	}
 
 	/// <summary>
-	/// テクスチャサイズ（切り取って表示したいサイズ
+	/// テクスチャサイズ（表示したいサイズ
 	/// </summary>
 	/// <param name="size"></param>
 	void SetSize(Vector2 size)
 	{
-		cutSize_ = size;
+		size_ = size;
 	}
 
 	/// <summary>
@@ -71,12 +80,7 @@ public:
 		anchorPoint_ = anchorPoint;
 	}
 
-	/// <summary>
-	/// 四角の生成
-	/// </summary>
-	/// <param name="textureHandle">テクスチャ</param>
-	/// <returns>四角形</returns>
-	static Particle* Create(uint32_t textureHandle);
+	void Debug();
 
 private://プライベート変数
 
@@ -106,21 +110,27 @@ private://プライベート変数
 
 	uint32_t textureHandle_;
 
-	Vector2 cutSize_ = { 100.0f,100.0f };
-	Vector2 textureLeftTop = { 0.0f,0.0f };	//テクスチャ左上座標
+	Vector2 size_ = { 100.0f,100.0f };
+	Vector2 textureLeftTop = { 0.0f,0.0f };
 	Vector2 anchorPoint_ = { 0.0f,0.0f };
 
-	//画像のサイズ
+
 	float left;
 	float right;
 	float top;
 	float bottom;
 
-	//texcoord用
 	float texLeft;
 	float texRight;
 	float texTop;
 	float texBottom;
+
+
+	Microsoft::WRL::ComPtr<ID3D12Resource>instancingResource;
+	Matrix4x4* instancingData;
+	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
+	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
+	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
 
 private://プライベート関数
 
@@ -144,9 +154,12 @@ private://プライベート関数
 	/// </summary>
 	void UpdateVertexBuffer();
 
-	/// <summary>
-	/// テクスチャサイズをオリジナルに合わせる
-	/// </summary>
-	void AdjustTextureSize();
-};
+	void instancingBuffer();
+	void SetSRV();
 
+
+	void AdjustTextureSize();
+
+
+
+};

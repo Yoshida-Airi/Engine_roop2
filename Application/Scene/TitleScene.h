@@ -30,11 +30,12 @@ private:
 	Input* input;
 	SceneManager* sceneManager_ = nullptr;
 	ICamera* camera;
+	ICamera* uiCamera;
 
 
 	uint32_t uvTexture;
 
-	std::unique_ptr<Particle> particle = nullptr;
+	Particle* particle = nullptr;
 
 
 

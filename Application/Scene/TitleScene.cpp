@@ -4,6 +4,8 @@
 TitleScene::~TitleScene()
 {
 	delete camera;
+	delete uiCamera;
+	delete particle;
 }
 
 void TitleScene::Initialize()
@@ -14,12 +16,16 @@ void TitleScene::Initialize()
 	camera = new Camera;
 	camera->Initialize();
 
+	uiCamera = new UICamera;
+	uiCamera->Initialize();
+
 	fence_.reset(Model::Create("Resources", "fence.obj"));
 	cube_.reset(Model::Create("Resources", "fence.obj"));
 
 	uvTexture = TextureManager::GetInstance()->LoadTexture("Resources/uvChecker.png");
 
-	particle.reset(Particle::Create(uvTexture));
+	particle = new Particle();
+	particle->Initialize(uvTexture);
 
 
 }
@@ -52,7 +58,7 @@ void TitleScene::Draw()
 	fence_->Draw(camera);
 	cube_->Draw(camera);
 
-	particle->Draw(camera);
+	particle->Draw(uiCamera);
 
 }
 

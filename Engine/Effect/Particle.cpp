@@ -7,7 +7,7 @@
 
 Particle::~Particle()
 {
-	delete worldTransform_;
+
 }
 
 void Particle::Initialize(uint32_t textureHandle)
@@ -16,10 +16,13 @@ void Particle::Initialize(uint32_t textureHandle)
 	dxCommon_ = DirectXCommon::GetInstance();
 	texture_ = TextureManager::GetInstance();
 
-	worldTransform_ = new WorldTransform();
-	worldTransform_->Initialize();
+
 	textureHandle_ = textureHandle;
 
+	resourceDesc_ = texture_->GetResourceDesc(textureHandle_);
+
+	textureSize_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
+	size_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
 
 	uvTransform =
 	{
@@ -31,18 +34,28 @@ void Particle::Initialize(uint32_t textureHandle)
 	VertexBuffer();
 	MaterialBuffer();
 	IndexBuffer();
+	instancingBuffer();
 
-	AdjustTextureSize();
+	SetSRV();
 
-	left = 0.0f * textureSize_.x;
-	right = 1.0f * textureSize_.x;
-	top = 0.0f * textureSize_.y;
-	bottom = 1.0f * textureSize_.y;
+	for (uint32_t index = 0; index < kNumInstance; ++index)
+	{
+		worldTransform[index].Initialize();
+		worldTransform[index].scale_ = { 1.0f,1.0f,1.0f };
+		worldTransform[index].rotation_ = { 0.0f,0.0f,0.0f };
+		worldTransform[index].translation_ = { index * 10.0f,index * 10.0f,index * 10.0f };
+	}
 
-	texLeft = textureLeftTop.x / textureSize_.x;
-	texRight = (textureLeftTop.x + textureSize_.x) / textureSize_.x;
-	texTop = textureLeftTop.y / textureSize_.y;
-	texBottom = (textureLeftTop.y + textureSize_.y) / textureSize_.y;
+
+	left = 0.0f * size_.x;
+	right = 1.0f * size_.x;
+	top = 0.0f * size_.y;
+	bottom = 1.0f * size_.y;
+
+	texLeft = textureLeftTop.x / resourceDesc_.Width;
+	texRight = (textureLeftTop.x + textureSize_.x) / resourceDesc_.Width;
+	texTop = textureLeftTop.y / resourceDesc_.Height;
+	texBottom = (textureLeftTop.y + textureSize_.y) / resourceDesc_.Height;
 
 
 	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
@@ -63,21 +76,24 @@ void Particle::Initialize(uint32_t textureHandle)
 
 	SetMaterialData(color);
 
-
 	indexData_[0] = 0;
 	indexData_[1] = 1;
 	indexData_[2] = 2;
 	indexData_[3] = 1;
 	indexData_[4] = 3;
 	indexData_[5] = 2;
-
-
-
 }
 
 void Particle::Update()
 {
-	worldTransform_->UpdateWorldMatrix();
+	for (uint32_t index = 0; index < kNumInstance; ++index)
+	{
+		worldTransform[index].UpdateWorldMatrix();
+		Matrix4x4 worldMatrix = MakeAffinMatrix(worldTransform[index].scale_, worldTransform[index].rotation_, worldTransform[index].translation_);
+		instancingData[index] = worldMatrix;
+	}
+
+
 	UpdateVertexBuffer();
 
 #ifdef _DEBUG
@@ -94,22 +110,7 @@ void Particle::Update()
 	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeTranselateMatrix(uvTransform.translate));
 	materialData_->uvTransform = uvTransformMatrix_;
 
-	worldTransform_->scale_ = { 0.005f,0.005f,0.005f };
-	worldTransform_->rotation_.y =3.14f;
-	worldTransform_->rotation_.z = 3.14f;
 
-
-
-	ImGui::Begin("particle");
-
-	float translate[3] = { worldTransform_->rotation_.x,worldTransform_->rotation_.y,worldTransform_->rotation_.z };
-	ImGui::DragFloat3("transform", translate, -20, 4);
-
-	worldTransform_->rotation_ = { translate[0],translate[1],translate[2] };
-
-	worldTransform_->UpdateWorldMatrix();
-
-	ImGui::End();
 
 }
 
@@ -128,15 +129,16 @@ void Particle::Draw(ICamera* camera)
 	dxCommon_->GetParticleCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	//マテリアルCBufferの場所を設定
 	dxCommon_->GetParticleCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
-	//wvp用のCbufferの場所を設定
-	dxCommon_->GetParticleCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform_->constBuffer_->GetGPUVirtualAddress());
 	//カメラ用のCBufferの場所を設定
 	dxCommon_->GetParticleCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetParticleCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
+	////wvp用のCbufferの場所を設定
+	//dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, worldTransform.constBuffer_->GetGPUVirtualAddress());
+	dxCommon_->GetParticleCommandList()->SetGraphicsRootDescriptorTable(1, instancingSrvHandleGPU);
 	//描画
 	/*dxCommon_->GetCommandList()->DrawInstanced(6, 1, 0, 0);*/
-	dxCommon_->GetParticleCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	dxCommon_->GetParticleCommandList()->DrawIndexedInstanced(6, kNumInstance, 0, 0, 0);
 }
 
 void Particle::SetVertexData(const float left, const float right, const float top, const float bottom)
@@ -152,18 +154,9 @@ void Particle::SetMaterialData(const Vector4 color)
 	materialData_[0].color = color;
 }
 
-Particle* Particle::Create(uint32_t textureHandle)
-{
-	Particle*  particle= new Particle();
-	particle->Initialize(textureHandle);
-	return particle;
-}
-
-
 /*=====================================*/
 /* 　　　　   プライベートメソッド　　　    */
 /*=====================================*/
-
 
 void Particle::VertexBuffer()
 {
@@ -207,15 +200,15 @@ void Particle::UpdateVertexBuffer()
 
 
 	//テクスチャのサイズを合わせる
-	left = (0.0f - anchorPoint_.x) * cutSize_.x;
-	right = (1.0f - anchorPoint_.x) * cutSize_.x;
-	top = (0.0f - anchorPoint_.y) * cutSize_.y;
-	bottom = (1.0f - anchorPoint_.y) * cutSize_.y;
+	left = (0.0f - anchorPoint_.x) * size_.x;
+	right = (1.0f - anchorPoint_.x) * size_.x;
+	top = (0.0f - anchorPoint_.y) * size_.y;
+	bottom = (1.0f - anchorPoint_.y) * size_.y;
 
-	texLeft = textureLeftTop.x / textureSize_.x;
-	texRight = (textureLeftTop.x + cutSize_.x) / textureSize_.x;
-	texTop = textureLeftTop.y / textureSize_.y;
-	texBottom = (textureLeftTop.y + cutSize_.y) / textureSize_.y;
+	texLeft = textureLeftTop.x / resourceDesc_.Width;
+	texRight = (textureLeftTop.x + textureSize_.x) / resourceDesc_.Width;
+	texTop = textureLeftTop.y / resourceDesc_.Height;
+	texBottom = (textureLeftTop.y + textureSize_.y) / resourceDesc_.Height;
 
 
 
@@ -240,8 +233,60 @@ void Particle::AdjustTextureSize() {
 	//テクスチャの情報を取得
 	resourceDesc_ = TextureManager::GetInstance()->GetResourceDesc(textureHandle_);
 	//テクスチャサイズの初期化
-
 	textureSize_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
-	cutSize_ = textureSize_;
+}
+
+void Particle::Debug()
+{
+#ifdef _DEBUG
+	ImGui::Begin("camera");
+
+	float translate[3] = { worldTransform->translation_.x,worldTransform->translation_.y,worldTransform->translation_.z };
+	ImGui::SliderFloat3("transform", translate, -20, 4);
+
+	float rotation[3] = { worldTransform->rotation_.x,worldTransform->rotation_.y,worldTransform->rotation_.z };
+	ImGui::SliderFloat3("rotation", rotation, -20, 4);
+
+	worldTransform->translation_ = { translate[0],translate[1],translate[2] };
+	worldTransform->rotation_ = { rotation[0],rotation[1],rotation[2] };
+
+	worldTransform->UpdateWorldMatrix();
+
+	ImGui::End();
+#endif // _DEBUG
+
+
 
 }
+
+void Particle::instancingBuffer()
+{
+	instancingResource = dxCommon_->CreateBufferResource(sizeof(Matrix4x4) * kNumInstance);
+	instancingResource->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
+
+	for (uint32_t index = 0; index < kNumInstance; ++index)
+	{
+		instancingData[index] = MakeIdentity4x4();
+	}
+}
+
+void Particle::SetSRV()
+{
+	instancingSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	instancingSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	instancingSrvDesc.Buffer.FirstElement = 0;
+	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	instancingSrvDesc.Buffer.NumElements = kNumInstance;
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(Matrix4x4);
+	instancingSrvHandleCPU = texture_->GetCPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4);
+	instancingSrvHandleGPU = texture_->GetGPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4);
+
+	//先頭はImGuiが使っているので次のを使う
+	instancingSrvHandleCPU.ptr += (dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 3);
+	instancingSrvHandleGPU.ptr += (dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 3);
+
+
+	dxCommon_->GetDevice()->CreateShaderResourceView(instancingResource.Get(), &instancingSrvDesc, instancingSrvHandleCPU);
+}
+
