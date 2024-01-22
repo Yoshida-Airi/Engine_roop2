@@ -13,10 +13,11 @@
 #include"SpriteGlobals.h"
 
 
-class Sprite
+
+class Particle
 {
 public:
-	~Sprite();
+	~Particle();
 
 	void Initialize(uint32_t textureHandle);
 	void Update();
@@ -75,7 +76,7 @@ public:
 	/// </summary>
 	/// <param name="textureHandle">テクスチャ</param>
 	/// <returns>四角形</returns>
-	static Sprite* Create(uint32_t textureHandle);
+	static Particle* Create(uint32_t textureHandle);
 
 private://プライベート変数
 
@@ -147,6 +148,5 @@ private://プライベート関数
 	/// テクスチャサイズをオリジナルに合わせる
 	/// </summary>
 	void AdjustTextureSize();
-
 };
 

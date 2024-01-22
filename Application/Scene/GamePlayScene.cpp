@@ -93,6 +93,8 @@ void GamePlayScene::Update()
 	model->worldTransform_->translation_.x = 3.0f;
 
 
+
+
 }
 
 void GamePlayScene::Draw()

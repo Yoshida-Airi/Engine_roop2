@@ -87,7 +87,9 @@
     <ClCompile Include="Engine\Base\Scene\SceneManager.cpp">
       <Filter>Engine\Base\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="Engine\Effect\Particle.cpp">
+      <Filter>Engine\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -180,7 +182,12 @@
     <ClInclude Include="Engine\Base\Scene\SceneManager.h">
       <Filter>Engine\Base\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Particle.h" />
+    <ClInclude Include="Engine\Effect\Particle.h">
+      <Filter>Engine\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\SpriteGlobals.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -215,6 +222,9 @@
     </Filter>
     <Filter Include="Engine\Base\Scene">
       <UniqueIdentifier>{7bee2264-0e25-44a2-b1f1-5b7c4b30097e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Effect">
+      <UniqueIdentifier>{1c099ef8-0a40-41ef-a025-335419dd52fb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

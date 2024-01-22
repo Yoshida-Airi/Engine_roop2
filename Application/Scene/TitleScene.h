@@ -14,6 +14,7 @@
 #include"Camera.h"
 #include"UICamera.h"
 
+#include"Particle.h"
 
 
 class TitleScene :public BaseScene
@@ -29,9 +30,12 @@ private:
 	Input* input;
 	SceneManager* sceneManager_ = nullptr;
 	ICamera* camera;
-	ModelLoader* object;
-	ModelData fenceData;
-	ModelData cubeData;
+
+
+	uint32_t uvTexture;
+
+	std::unique_ptr<Particle> particle = nullptr;
+
 
 
 	std::unique_ptr<Model> fence_ = nullptr;
