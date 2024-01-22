@@ -18,7 +18,7 @@ TextureManager::~TextureManager()
 /// <summary>
 /// 初期化
 /// </summary>
-void TextureManager::Initialize(const std::string& filePath)
+void TextureManager::Initialize()
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	srvDescriptoHeap_ = dxCommon_->GetSRVDescriptorHeap();
