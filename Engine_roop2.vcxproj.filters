@@ -108,6 +108,9 @@
     <ClCompile Include="Application\Object\Skydome\Skydome.cpp">
       <Filter>Application\Object\Skydome</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\RailCamera.cpp">
+      <Filter>Application\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -235,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="Application\Object\Skydome\Skydome.h">
       <Filter>Application\Object\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\RailCamera.h">
+      <Filter>Application\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

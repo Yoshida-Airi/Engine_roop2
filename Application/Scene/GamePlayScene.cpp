@@ -5,6 +5,7 @@ GamePlayScene::~GamePlayScene()
 
 	delete camera;
 	delete uiCamera;
+	delete railCamera;
 
 	delete skydome;
 	delete player;
@@ -30,6 +31,9 @@ void GamePlayScene::Initialize()
 
 	uiCamera = new UICamera;
 	uiCamera->Initialize();
+
+	railCamera = new RailCamera();
+	railCamera->Initialize();
 
 	skydome = new Skydome();
 	skydome->Initialize();
@@ -57,6 +61,12 @@ void GamePlayScene::Update()
 	{
 		sceneManager_->ChangeScene("TITLE");
 	}
+
+	railCamera->Update();
+	camera->matView = railCamera->camera->matView;
+	camera->matProjection = railCamera->camera->matProjection;
+
+	camera->UpdateMatrix();
 
 	skydome->Update();
 	player->Update();

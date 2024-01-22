@@ -17,6 +17,7 @@
 #include"Player.h"
 #include"Enemy.h"
 #include"Skydome.h"
+#include"RailCamera.h"
 
 /// <summary>
 /// ゲームプレイシーン
@@ -39,6 +40,7 @@ private:
 
 	ICamera* camera;
 	ICamera* uiCamera;
+	RailCamera* railCamera = nullptr;
 
 	Input* input;
 
