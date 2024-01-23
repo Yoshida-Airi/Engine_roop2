@@ -43,6 +43,7 @@ void Particle::Initialize(uint32_t textureHandle)
 	}
 
 
+
 	VertexBuffer();
 	MaterialBuffer();
 	IndexBuffer();
@@ -101,7 +102,23 @@ void Particle::Update()
 	ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
 	ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
 	ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
+
 	ImGui::End();
+
+
+	ImGui::Begin("particle");
+	if (ImGui::Button("Add Particle"))
+	{
+		std::random_device seedGenerator;
+		std::mt19937 randomEngine(seedGenerator());
+
+		Emitter emitter;
+		emitter.count = 3;
+
+		particles.splice(particles.end(), Emission(emitter, randomEngine));
+	}
+	ImGui::End();
+
 #endif // _DEBUG
 
 
@@ -304,6 +321,18 @@ void Particle::Debug()
 
 
 
+}
+
+std::list<ParticleData> Particle::Emission(const Emitter& emitter, std::mt19937& randomEngine)
+{
+	std::list<ParticleData>particle;
+
+	for (uint32_t count = 0; count < emitter.count; ++count)
+	{
+		particle.push_back(MakeNewParticle(randomEngine));
+	}
+
+	return particle;
 }
 
 void Particle::instancingBuffer()

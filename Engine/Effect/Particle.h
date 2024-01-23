@@ -23,6 +23,14 @@ struct ParticleData
 	float currentTime;
 };
 
+struct Emitter
+{
+	Transform transform;	//エミッタのTransform
+	uint32_t count;			//発生数
+	float frequency;		//発生頻度
+	float frequencyTime;	//頻度用時刻
+};
+
 struct ParticleVertexData
 {
 	Vector4 position;
@@ -103,6 +111,8 @@ public:
 	}
 
 	void Debug();
+
+	std::list<ParticleData>Emission(const Emitter& emitter, std::mt19937& randomEngine);
 
 private://プライベート変数
 
