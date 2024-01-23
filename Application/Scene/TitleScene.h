@@ -33,7 +33,7 @@ private:
 	ICamera* uiCamera;
 
 
-	uint32_t uvTexture;
+	uint32_t  circle;
 
 	Particle* particle = nullptr;
 

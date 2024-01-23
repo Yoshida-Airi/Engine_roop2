@@ -22,10 +22,10 @@ void TitleScene::Initialize()
 	fence_.reset(Model::Create("Resources", "fence.obj"));
 	cube_.reset(Model::Create("Resources", "fence.obj"));
 
-	uvTexture = TextureManager::GetInstance()->LoadTexture("Resources/uvChecker.png");
+	circle = TextureManager::GetInstance()->LoadTexture("Resources/circle.png");
 
 	particle = new Particle();
-	particle->Initialize(uvTexture);
+	particle->Initialize(circle);
 
 
 }
