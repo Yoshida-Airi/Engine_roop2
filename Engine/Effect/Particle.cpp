@@ -10,7 +10,7 @@ Particle::~Particle()
 
 }
 
-void Particle::Initialize(uint32_t textureHandle)
+void Particle::Initialize(uint32_t textureHandle, Emitter emitter)
 {
 
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -18,6 +18,7 @@ void Particle::Initialize(uint32_t textureHandle)
 
 
 	textureHandle_ = textureHandle;
+	emitter_ = emitter;
 
 	resourceDesc_ = texture_->GetResourceDesc(textureHandle_);
 
@@ -93,33 +94,18 @@ void Particle::Initialize(uint32_t textureHandle)
 void Particle::Update()
 {
 
-
-
 	UpdateVertexBuffer();
 
-#ifdef _DEBUG
-	ImGui::Begin("uvTransform");
-	ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
-	ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
-	ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
 
-	ImGui::End();
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
 
-
-	ImGui::Begin("particle");
-	if (ImGui::Button("Add Particle"))
+	emitter_.frequencyTime += kDeltaTime;
+	if (emitter_.frequency <= emitter_.frequencyTime)
 	{
-		std::random_device seedGenerator;
-		std::mt19937 randomEngine(seedGenerator());
-
-		Emitter emitter;
-		emitter.count = 3;
-
-		particles.splice(particles.end(), Emission(emitter, randomEngine));
+		particles.splice(particles.end(), Emission(emitter_, randomEngine));
+		emitter_.frequencyTime -= emitter_.frequency;
 	}
-	ImGui::End();
-
-#endif // _DEBUG
 
 
 	Matrix4x4 uvTransformMatrix_ = MakeScaleMatrix(uvTransform.scale);
@@ -158,7 +144,7 @@ void Particle::Draw(ICamera* camera)
 		particleIterator-> transform.translate.z += (*particleIterator).velocity.z * kDeltaTime;
 						
 		particleIterator-> currentTime += kDeltaTime;
-
+		
 
 		if (numInstance < kNumMaxInstance)
 		{
@@ -333,6 +319,14 @@ std::list<ParticleData> Particle::Emission(const Emitter& emitter, std::mt19937&
 	}
 
 	return particle;
+}
+
+Particle Particle::Create(uint32_t textureHandle, Emitter emitter)
+{
+	Particle* particle = new Particle();
+	particle->Initialize(textureHandle, emitter);
+
+	return Particle();
 }
 
 void Particle::instancingBuffer()

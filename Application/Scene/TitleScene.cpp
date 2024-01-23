@@ -25,7 +25,11 @@ void TitleScene::Initialize()
 	circle = TextureManager::GetInstance()->LoadTexture("Resources/circle.png");
 
 	particle = new Particle();
-	particle->Initialize(circle);
+	Emitter emitter;
+	emitter.count = 3;
+	emitter.frequency = 0.5f;
+	emitter.frequencyTime = 0.0f;
+	particle->Initialize(circle, emitter);
 
 
 }

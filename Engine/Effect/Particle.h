@@ -48,7 +48,7 @@ class Particle
 public:
 	~Particle();
 
-	void Initialize(uint32_t textureHandle);
+	void Initialize(uint32_t textureHandle, Emitter emitter);
 
 	void Update();
 	void Draw(ICamera* camera);
@@ -114,6 +114,8 @@ public:
 
 	std::list<ParticleData>Emission(const Emitter& emitter, std::mt19937& randomEngine);
 
+	static Particle Create(uint32_t textureHandle, Emitter emitter);
+
 private://プライベート変数
 
 	static const uint32_t kNumMaxInstance = 10;
@@ -143,6 +145,7 @@ private://プライベート変数
 	bool isInvisible_ = false;	//非表示フラグ	true : 消える
 
 	uint32_t textureHandle_;
+	Emitter emitter_;
 
 	Vector2 size_ = { 100.0f,100.0f };
 	Vector2 textureLeftTop = { 0.0f,0.0f };
