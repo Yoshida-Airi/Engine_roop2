@@ -118,7 +118,7 @@ private:
 	/// <param name="VS">VertexShaderBlob</param>
 	/// <param name="PS">PixcelShaderBlob</param>
 	/// <returns></returns>
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC CreatePSO(Microsoft::WRL::ComPtr< IDxcBlob>VS, Microsoft::WRL::ComPtr< IDxcBlob>PS, Microsoft::WRL::ComPtr< ID3D12RootSignature>rootSignature);
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC CreatePSO(Microsoft::WRL::ComPtr< IDxcBlob>VS, Microsoft::WRL::ComPtr< IDxcBlob>PS, Microsoft::WRL::ComPtr< ID3D12RootSignature>rootSignature, D3D12_DEPTH_STENCIL_DESC depth);
 
 	/// <summary>
 	/// ルートシグネチャの生成
@@ -231,6 +231,8 @@ private:
 
 	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
 	Microsoft::WRL::ComPtr< ID3D12PipelineState> particleGraphicPipelineState = nullptr;
+
+	D3D12_DEPTH_STENCIL_DESC particleDepthStencilDesc{};	//DepthStensilStateの設定
 
 	D3D12_VIEWPORT viewport{};	//ビューポート
 	D3D12_RECT scissorRect{};	//シザー矩形
