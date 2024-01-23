@@ -37,7 +37,9 @@ void Particle::Initialize(uint32_t textureHandle)
 
 	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
 	{
-		particles[index] = MakeNewParticle(randomEngine);
+		particles.push_back(MakeNewParticle(randomEngine));
+		particles.push_back(MakeNewParticle(randomEngine));
+		particles.push_back(MakeNewParticle(randomEngine));
 	}
 
 
@@ -119,28 +121,37 @@ void Particle::Draw(ICamera* camera)
 		return;
 	}
 
+
+
 	uint32_t numInstance = 0;
-	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
+	for (std::list<ParticleData>::iterator particleIterator = particles.begin(); particleIterator != particles.end(); )
 	{
-		if (particles[index].lifeTime <= particles[index].currentTime)
+		if ((*particleIterator).lifeTime <= (*particleIterator).currentTime)
 		{
+			particleIterator = particles.erase(particleIterator);
 			continue;
 		}
 
-		float alpha = 1.0f - (particles[index].currentTime / particles[index].lifeTime);
+		float alpha = 1.0f - particleIterator->currentTime / particleIterator->lifeTime;
 
-		Matrix4x4 worldMatrix = MakeAffinMatrix(particles[index].transform.scale, particles[index].transform.rotate, particles[index].transform.translate);
+		Matrix4x4 worldMatrix = MakeAffinMatrix(particleIterator->transform.scale, particleIterator->transform.rotate, particleIterator->transform.translate);
 
-		particles[index].transform.translate.x += particles[index].velocity.x * kDeltaTime;
-		particles[index].transform.translate.y += particles[index].velocity.y * kDeltaTime;
-		particles[index].transform.translate.z += particles[index].velocity.z * kDeltaTime;
-	
-		particles[index].currentTime += kDeltaTime;
+		particleIterator-> transform.translate.x += (*particleIterator).velocity.x * kDeltaTime;
+		particleIterator-> transform.translate.y += (*particleIterator).velocity.y * kDeltaTime;
+		particleIterator-> transform.translate.z += (*particleIterator).velocity.z * kDeltaTime;
+						
+		particleIterator-> currentTime += kDeltaTime;
 
-		instancingData[numInstance].worldMatrix = worldMatrix;
-		instancingData[numInstance].color = particles[index].color;
-		instancingData[numInstance].color.w = alpha;
-		++numInstance;
+
+		if (numInstance < kNumMaxInstance)
+		{
+			instancingData[numInstance].worldMatrix = worldMatrix;
+			instancingData[numInstance].color = (*particleIterator).color;
+			instancingData[numInstance].color.w = alpha;
+			++numInstance;
+		}
+
+		++particleIterator;
 	}
 
 	//VBVを設定
@@ -276,20 +287,20 @@ ParticleData Particle::MakeNewParticle(std::mt19937& randomEngine)
 
 void Particle::Debug()
 {
-#ifdef _DEBUG
-	ImGui::Begin("camera");
-
-	float translate[3] = { particles->transform.translate.x, particles->transform.translate.y, particles->transform.translate.z };
-	ImGui::SliderFloat3("transform", translate, -20, 4);
-
-	float rotation[3] = { particles->transform.rotate.x, particles->transform.rotate.y, particles->transform.rotate.z };
-	ImGui::SliderFloat3("rotation", rotation, -20, 4);
-
-	particles->transform.translate = { translate[0],translate[1],translate[2] };
-	particles->transform.rotate = { rotation[0],rotation[1],rotation[2] };
-
-	ImGui::End();
-#endif // _DEBUG
+//#ifdef _DEBUG
+//	ImGui::Begin("camera");
+//
+//	float translate[3] = { particles->transform.translate.x, particles->transform.translate.y, particles->transform.translate.z };
+//	ImGui::SliderFloat3("transform", translate, -20, 4);
+//
+//	float rotation[3] = { particles->transform.rotate.x, particles->transform.rotate.y, particles->transform.rotate.z };
+//	ImGui::SliderFloat3("rotation", rotation, -20, 4);
+//
+//	particles->transform.translate = { translate[0],translate[1],translate[2] };
+//	particles->transform.rotate = { rotation[0],rotation[1],rotation[2] };
+//
+//	ImGui::End();
+//#endif // _DEBUG
 
 
 
@@ -300,10 +311,10 @@ void Particle::instancingBuffer()
 	instancingResource = dxCommon_->CreateBufferResource(sizeof(ParticleForGPU) * kNumMaxInstance);
 	instancingResource->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
 
-	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
+	for (std::list<ParticleData>::iterator particleIterator = particles.begin(); particleIterator != particles.end(); ++particleIterator)
 	{
-		instancingData[index].worldMatrix = MakeIdentity4x4();
-		instancingData[index].color = particles[index].color;
+		instancingData->worldMatrix = MakeIdentity4x4();
+		instancingData->color = particles.begin()->color;
 	}
 }
 
