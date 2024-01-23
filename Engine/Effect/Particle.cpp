@@ -127,6 +127,8 @@ void Particle::Draw(ICamera* camera)
 			continue;
 		}
 
+		float alpha = 1.0f - (particles[index].currentTime / particles[index].lifeTime);
+
 		Matrix4x4 worldMatrix = MakeAffinMatrix(particles[index].transform.scale, particles[index].transform.rotate, particles[index].transform.translate);
 
 		particles[index].transform.translate.x += particles[index].velocity.x * kDeltaTime;
@@ -137,6 +139,7 @@ void Particle::Draw(ICamera* camera)
 
 		instancingData[numInstance].worldMatrix = worldMatrix;
 		instancingData[numInstance].color = particles[index].color;
+		instancingData[numInstance].color.w = alpha;
 		++numInstance;
 	}
 
