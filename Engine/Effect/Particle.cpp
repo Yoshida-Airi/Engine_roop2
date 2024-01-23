@@ -35,7 +35,7 @@ void Particle::Initialize(uint32_t textureHandle)
 	std::mt19937 randomEngine(seedGenerator());
 
 
-	for (uint32_t index = 0; index < kNumInstance; ++index)
+	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
 	{
 		particles[index] = MakeNewParticle(randomEngine);
 	}
@@ -89,11 +89,7 @@ void Particle::Initialize(uint32_t textureHandle)
 
 void Particle::Update()
 {
-	for (uint32_t index = 0; index < kNumInstance; ++index)
-	{
-		Matrix4x4 worldMatrix = MakeAffinMatrix(particles[index].transform.scale, particles[index].transform.rotate, particles[index].transform.translate);
-		instancingData[index].worldMatrix = worldMatrix;
-	}
+
 
 
 	UpdateVertexBuffer();
@@ -112,12 +108,7 @@ void Particle::Update()
 	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeTranselateMatrix(uvTransform.translate));
 	materialData_->uvTransform = uvTransformMatrix_;
 
-	for (uint32_t index = 0; index < kNumInstance; ++index)
-	{
-		particles[index].transform.translate.x += particles[index].velocity.x * kDeltaTime;
-		particles[index].transform.translate.y += particles[index].velocity.y * kDeltaTime;
-		particles[index].transform.translate.z += particles[index].velocity.z * kDeltaTime;
-	}
+	
 
 }
 
@@ -126,6 +117,27 @@ void Particle::Draw(ICamera* camera)
 	if (isInvisible_ == true)
 	{
 		return;
+	}
+
+	uint32_t numInstance = 0;
+	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
+	{
+		if (particles[index].lifeTime <= particles[index].currentTime)
+		{
+			continue;
+		}
+
+		Matrix4x4 worldMatrix = MakeAffinMatrix(particles[index].transform.scale, particles[index].transform.rotate, particles[index].transform.translate);
+
+		particles[index].transform.translate.x += particles[index].velocity.x * kDeltaTime;
+		particles[index].transform.translate.y += particles[index].velocity.y * kDeltaTime;
+		particles[index].transform.translate.z += particles[index].velocity.z * kDeltaTime;
+	
+		particles[index].currentTime += kDeltaTime;
+
+		instancingData[numInstance].worldMatrix = worldMatrix;
+		instancingData[numInstance].color = particles[index].color;
+		++numInstance;
 	}
 
 	//VBVを設定
@@ -145,7 +157,7 @@ void Particle::Draw(ICamera* camera)
 	dxCommon_->GetParticleCommandList()->SetGraphicsRootDescriptorTable(1, instancingSrvHandleGPU);
 	//描画
 	/*dxCommon_->GetCommandList()->DrawInstanced(6, 1, 0, 0);*/
-	dxCommon_->GetParticleCommandList()->DrawIndexedInstanced(6, kNumInstance, 0, 0, 0);
+	dxCommon_->GetParticleCommandList()->DrawIndexedInstanced(6, numInstance, 0, 0, 0);
 }
 
 void Particle::SetVertexData(const float left, const float right, const float top, const float bottom)
@@ -247,12 +259,15 @@ ParticleData Particle::MakeNewParticle(std::mt19937& randomEngine)
 {
 	std::uniform_real_distribution<float>distribution(-1.0f, 1.0f);
 	std::uniform_real_distribution<float>distColor(0.0f, 1.0f);
+	std::uniform_real_distribution<float>distTime(1.0f, 3.0f);
 	ParticleData particle;
 	particle.transform.scale = { 0.005f,0.005f,0.005f };
 	particle.transform.rotate = { 0.0f,3.14f,3.14f };
 	particle.transform.translate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
 	particle.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
 	particle.color = { distColor(randomEngine) ,distColor(randomEngine) ,distColor(randomEngine) ,1.0f };
+	particle.lifeTime = distTime(randomEngine);
+	particle.currentTime = 0;
 	return particle;
 }
 
@@ -279,10 +294,10 @@ void Particle::Debug()
 
 void Particle::instancingBuffer()
 {
-	instancingResource = dxCommon_->CreateBufferResource(sizeof(ParticleForGPU) * kNumInstance);
+	instancingResource = dxCommon_->CreateBufferResource(sizeof(ParticleForGPU) * kNumMaxInstance);
 	instancingResource->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
 
-	for (uint32_t index = 0; index < kNumInstance; ++index)
+	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
 	{
 		instancingData[index].worldMatrix = MakeIdentity4x4();
 		instancingData[index].color = particles[index].color;
@@ -296,7 +311,7 @@ void Particle::SetSRV()
 	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingSrvDesc.Buffer.NumElements = kNumInstance;
+	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance;
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 	instancingSrvHandleCPU = texture_->GetCPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4);
 	instancingSrvHandleGPU = texture_->GetGPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4);

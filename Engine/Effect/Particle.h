@@ -19,6 +19,8 @@ struct ParticleData
 	Transform transform;
 	Vector3 velocity;
 	Vector4 color;
+	float lifeTime;
+	float currentTime;
 };
 
 struct ParticleVertexData
@@ -56,7 +58,7 @@ public:
 		textureSrvHandleGPU_ = textureSrvHandleGPU;
 	}
 
-	static const uint32_t kNumInstance = 10;
+	
 	
 
 	void SetisInvisible(bool isInvisible)
@@ -103,6 +105,8 @@ public:
 	void Debug();
 
 private://プライベート変数
+
+	static const uint32_t kNumMaxInstance = 10;
 
 	DirectXCommon* dxCommon_;
 	TextureManager* texture_;
@@ -152,7 +156,7 @@ private://プライベート変数
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
 
-	ParticleData particles[kNumInstance];
+	ParticleData particles[kNumMaxInstance];
 	const float kDeltaTime = 1.0f / 60.0f;
 
 	
