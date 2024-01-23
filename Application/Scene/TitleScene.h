@@ -35,6 +35,7 @@ private:
 
 	uint32_t  circle;
 
+	Emitter emitter;
 	Particle* particle = nullptr;
 
 

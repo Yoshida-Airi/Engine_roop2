@@ -24,12 +24,14 @@ void TitleScene::Initialize()
 
 	circle = TextureManager::GetInstance()->LoadTexture("Resources/circle.png");
 
-	particle = new Particle();
-	Emitter emitter;
+	
 	emitter.count = 3;
 	emitter.frequency = 0.5f;
 	emitter.frequencyTime = 0.0f;
-	particle->Initialize(circle, emitter);
+	emitter.transform.translate = { 10.8f,0.2f,0.0f };
+	emitter.transform.rotate = { 0.0f,0.0f,0.0f };
+	emitter.transform.scale = { 1.0f,1.0f,1.0f };
+	particle = Particle::Create(circle, emitter);
 
 
 }
@@ -49,6 +51,8 @@ void TitleScene::Update()
 	cube_->Update();
 
 	particle->Update();
+
+
 
 
 	cube_->ModelDebug("cube");

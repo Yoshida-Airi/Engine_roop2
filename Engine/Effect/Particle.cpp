@@ -38,9 +38,9 @@ void Particle::Initialize(uint32_t textureHandle, Emitter emitter)
 
 	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
 	{
-		particles.push_back(MakeNewParticle(randomEngine));
-		particles.push_back(MakeNewParticle(randomEngine));
-		particles.push_back(MakeNewParticle(randomEngine));
+		particles.push_back(MakeNewParticle(randomEngine,emitter_.transform.translate));
+		particles.push_back(MakeNewParticle(randomEngine, emitter_.transform.translate));
+		particles.push_back(MakeNewParticle(randomEngine, emitter_.transform.translate));
 	}
 
 
@@ -113,8 +113,13 @@ void Particle::Update()
 	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeTranselateMatrix(uvTransform.translate));
 	materialData_->uvTransform = uvTransformMatrix_;
 
-	
+	ImGui::Begin("emitter");
 
+	float translate[3] = { emitter_.transform.translate.x,emitter_.transform.translate.y,emitter_.transform.translate.z };
+	ImGui::DragFloat3("transform", translate, -100, 100);
+	emitter_.transform.translate = { translate[0],translate[1],translate[2] };
+
+	ImGui::End();
 }
 
 void Particle::Draw(ICamera* camera)
@@ -272,15 +277,20 @@ void Particle::AdjustTextureSize() {
 	textureSize_ = { float(resourceDesc_.Width),float(resourceDesc_.Height) };
 }
 
-ParticleData Particle::MakeNewParticle(std::mt19937& randomEngine)
+ParticleData Particle::MakeNewParticle(std::mt19937& randomEngine, const Vector3& translate)
 {
+	
 	std::uniform_real_distribution<float>distribution(-1.0f, 1.0f);
 	std::uniform_real_distribution<float>distColor(0.0f, 1.0f);
 	std::uniform_real_distribution<float>distTime(1.0f, 3.0f);
+
+	Vector3 randomTranslate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
+
+
 	ParticleData particle;
 	particle.transform.scale = { 0.005f,0.005f,0.005f };
 	particle.transform.rotate = { 0.0f,3.14f,3.14f };
-	particle.transform.translate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
+	particle.transform.translate = { translate.x + randomTranslate.x,translate.y + randomTranslate.y,translate.z + randomTranslate.z };
 	particle.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
 	particle.color = { distColor(randomEngine) ,distColor(randomEngine) ,distColor(randomEngine) ,1.0f };
 	particle.lifeTime = distTime(randomEngine);
@@ -315,18 +325,18 @@ std::list<ParticleData> Particle::Emission(const Emitter& emitter, std::mt19937&
 
 	for (uint32_t count = 0; count < emitter.count; ++count)
 	{
-		particle.push_back(MakeNewParticle(randomEngine));
+		particle.push_back(MakeNewParticle(randomEngine, emitter_.transform.translate));
 	}
 
 	return particle;
 }
 
-Particle Particle::Create(uint32_t textureHandle, Emitter emitter)
+Particle* Particle::Create(uint32_t textureHandle, Emitter emitter)
 {
 	Particle* particle = new Particle();
 	particle->Initialize(textureHandle, emitter);
 
-	return Particle();
+	return particle;
 }
 
 void Particle::instancingBuffer()
