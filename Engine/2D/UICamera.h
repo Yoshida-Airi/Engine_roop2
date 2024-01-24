@@ -28,10 +28,6 @@ public:
 
 #pragma endregion
 
-	// ビュー行列
-	Matrix4x4 matView;
-	// 射影行列
-	Matrix4x4 matProjection;
 
 
 	UICamera() = default;
