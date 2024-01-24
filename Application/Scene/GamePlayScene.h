@@ -19,6 +19,8 @@
 #include"Skydome.h"
 #include"RailCamera.h"
 
+#include<sstream>
+
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -41,6 +43,17 @@ public:
 	/// </summary>
 	void SpawnEnemy(const Vector3& position);
 
+
+	/// <summary>
+	/// 敵発生データの読み込み
+	/// </summary>
+	void LoadEnemyPopData();
+
+	/// <summary>
+	/// 敵発生コマンドの更新
+	/// <summary>
+	void UpdateEnemyPopCommands();
+
 private:
 	TextureManager* texture;
 	SceneManager* sceneManager_ = nullptr;
@@ -56,6 +69,11 @@ private:
 
 
 	Player* player = nullptr;
+
+	// 敵発生コマンド
+	std::stringstream enemyPopCommands;
+	bool isWaitTime_ = true;	//待機中フラグ　true::待機中
+	int32_t waitTimer_ = 0;	//待機タイマー
 	std::list<Enemy*> enemys;
 	std::list<EnemyBullet*> enemyBullets_;
 

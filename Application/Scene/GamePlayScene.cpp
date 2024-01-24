@@ -31,6 +31,9 @@ void GamePlayScene::Initialize()
 	imgui = ImGuiManager::GetInstance();
 #endif // _DEBUG
 
+	// 敵のデータ取得
+	LoadEnemyPopData();
+
 	//当たり判定処理の設定
 	colliderManager_ = new CollisionManager;
 
@@ -50,9 +53,6 @@ void GamePlayScene::Initialize()
 
 	player = new Player();
 	player->Initialize({0.0f,0.0f,30.0f});
-	
-	SpawnEnemy({ 0.0f,0.2f,30.0f });
-	SpawnEnemy({ 1.0f,0.2f,30.0f });
 	
 
 	player->SetParent(&railCamera->GetWorldTransform());
@@ -131,6 +131,9 @@ void GamePlayScene::Update()
 	skydome->Update();
 	player->Update();
 
+	//敵の生成
+	UpdateEnemyPopCommands();
+
 	// 敵キャラの更新
 	for (Enemy* enemy : enemys) {
 		enemy->Update();
@@ -179,4 +182,85 @@ void GamePlayScene::SpawnEnemy(const Vector3& position)
 
 	// リストに登録
 	enemys.push_back(enemy);
+}
+
+void GamePlayScene::LoadEnemyPopData()
+{
+	//ファイルを開く
+	std::ifstream file;
+	file.open("Csv/EnemyPop.csv");
+	assert(file.is_open());
+
+	//ファイルの内容を文字列ストリームにコピー
+	enemyPopCommands << file.rdbuf();
+
+	//ファイルを閉じる
+	file.close();
+}
+
+void GamePlayScene::UpdateEnemyPopCommands()
+{
+	//待機処理
+	if (isWaitTime_)
+	{
+		waitTimer_--;
+		if (waitTimer_ <= 0)
+		{
+			//待機完了
+			isWaitTime_ = false;
+		}
+		return;
+	}
+
+	//1行分の文字列を入れる変数
+	std::string line;
+
+	// コマンド実行ループ
+	while (getline(enemyPopCommands, line)) {
+		// 一桁分の文字列をストリームに変換して解析しやすくなる
+		std::istringstream line_stream(line);
+
+		std::string word;
+		//,区切りで行の先端文字列を取得
+		getline(line_stream, word, ',');
+
+		//"//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			// コメント行を飛ばす
+			continue;
+		}
+
+		// POPコマンド
+		if (word.find("POP") == 0) {
+			// x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			// 敵を発生させる
+			SpawnEnemy(Vector3(x, y, z));
+		}
+
+		// WAITコマンド
+		else if (word.find("WAIT") == 0) {
+			getline(line_stream, word, ',');
+
+			// 待ち時間
+			int32_t waitTime = atoi(word.c_str());
+
+			// 待機開始
+			isWaitTime_ = true;
+			waitTimer_ = waitTime;
+
+			// コマンドループを抜ける
+			break;
+		}
+	}
 }
