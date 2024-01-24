@@ -41,7 +41,7 @@ void GamePlayScene::Initialize()
 	skydome->Initialize();
 
 	player = new Player();
-	player->Initialize({-5.0f,0.0f,0.0f});
+	player->Initialize({0.0f,0.0f,30.0f});
 
 	enemy = new Enemy();
 	enemy->SetPlayer(player);

@@ -1,11 +1,15 @@
 #pragma once
-#include"ICamera.h"
+#include"WorldTransform.h"
 #include"Camera.h"
-#include"Model.h"
+#include"MathUtilty.h"
+#include"ImGuiManager.h"
+
+/// <summary>
+/// レールカメラ
+/// </summary>
 class RailCamera
 {
 public:
-	
 	~RailCamera();
 
 	/// <summary>
@@ -32,12 +36,9 @@ public:
 
 
 private:
-
 	// ワールド変換データ
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	Camera* camera;
 
-	
 };
-

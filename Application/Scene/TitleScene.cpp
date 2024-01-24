@@ -25,6 +25,7 @@ void TitleScene::Initialize()
 void TitleScene::Update()
 {
 	camera->CameraDebug();
+	camera->UpdateMatrix();
 
 	input->TriggerKey(DIK_0);
 
@@ -41,7 +42,10 @@ void TitleScene::Update()
 	cube_->ModelDebug("cube");
 	fence_->ModelDebug("fence");
 
-	
+	camera->matView = {
+		1.0f,1.0f,1.0f,1.0f,
+		3.0f,0.0f,1.0f,2.0f,
+	};
 	
 }
 
