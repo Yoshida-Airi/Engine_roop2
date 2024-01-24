@@ -93,6 +93,7 @@ void Enemy::DeleteBullet()
 
 void Enemy::OnCollision()
 {
+	isDead_ = true;
 }
 
 void Enemy::Fire()

@@ -36,6 +36,11 @@ public:
 	/// <param name="enemyBullet">敵弾</param>
 	void AddEnemyBullet(EnemyBullet* enemyBullet);
 
+	/// <summary>
+	/// 敵の発生
+	/// </summary>
+	void SpawnEnemy(const Vector3& position);
+
 private:
 	TextureManager* texture;
 	SceneManager* sceneManager_ = nullptr;
@@ -51,7 +56,7 @@ private:
 
 
 	Player* player = nullptr;
-	Enemy* enemy = nullptr;
+	std::list<Enemy*> enemys;
 	std::list<EnemyBullet*> enemyBullets_;
 
 	Skydome* skydome = nullptr;

@@ -9,7 +9,10 @@ GamePlayScene::~GamePlayScene()
 
 	delete skydome;
 	delete player;
-	delete enemy;
+	for (Enemy* enemy : enemys)
+	{
+		delete enemy;
+	}
 
 	for (EnemyBullet* bullet : enemyBullets_)
 	{
@@ -47,11 +50,8 @@ void GamePlayScene::Initialize()
 
 	player = new Player();
 	player->Initialize({0.0f,0.0f,30.0f});
-
-	enemy = new Enemy();
-	enemy->SetPlayer(player);
-	enemy->SetGameScene(this);
-	enemy->Initialize({10.0f,0.2f,30.0f});
+	
+	SpawnEnemy({ 0.0f,0.2f,30.0f });
 	
 
 	player->SetParent(&railCamera->GetWorldTransform());
@@ -72,6 +72,14 @@ void GamePlayScene::Update()
 			return false;
 		});
 
+	// デスフラグの立った敵を削除
+	enemys.remove_if([](Enemy* enemy) {
+		if (enemy->IsDead()) {
+			delete enemy;
+			return true;
+		}
+		return false;
+		});
 
 	camera->UpdateMatrix();
 
@@ -106,7 +114,9 @@ void GamePlayScene::Update()
 
 	//コライダーにオブジェクトを登録する
 	colliderManager_->AddColliders(player);
-	colliderManager_->AddColliders(enemy);
+	for (Enemy* enemy : enemys) {
+		colliderManager_->AddColliders(enemy);
+	}
 	for (PlayerBullet* playerBullet : playerBullets) {
 		colliderManager_->AddColliders(playerBullet);
 	}
@@ -114,12 +124,16 @@ void GamePlayScene::Update()
 		colliderManager_->AddColliders(enemyBullet);
 	}
 
-	//当たり判定
-	colliderManager_->ChackAllCollisions();
+	////当たり判定
+	//colliderManager_->ChackAllCollisions();
 
 	skydome->Update();
 	player->Update();
-	enemy->Update();
+
+	// 敵キャラの更新
+	for (Enemy* enemy : enemys) {
+		enemy->Update();
+	}
 
 	//弾の更新
 	for (EnemyBullet* bullet : enemyBullets_)
@@ -134,7 +148,10 @@ void GamePlayScene::Draw()
 
 	skydome->Draw(camera);
 	player->Draw(camera);
-	enemy->Draw(camera);
+	// 敵キャラ
+	for (Enemy* enemy : enemys) {
+		enemy->Draw(camera);
+	}
 
 	//弾の描画
 	for (EnemyBullet* bullet : enemyBullets_)
@@ -147,4 +164,18 @@ void GamePlayScene::Draw()
 void GamePlayScene::AddEnemyBullet(EnemyBullet* enemyBullet) {
 	// リストに登録する
 	enemyBullets_.push_back(enemyBullet);
+}
+
+void GamePlayScene::SpawnEnemy(const Vector3& position)
+{
+	// 敵を発生させる
+	Enemy* enemy = new Enemy();
+	// 敵キャラに自キャラのアドレスを渡す
+	enemy->SetPlayer(player);
+	enemy->SetGameScene(this);
+	// 敵の初期化
+	enemy->Initialize(position);
+
+	// リストに登録
+	enemys.push_back(enemy);
 }

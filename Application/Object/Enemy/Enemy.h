@@ -58,6 +58,8 @@ public:
 		gameScene_ = gameScene;
 	}
 
+	bool IsDead() const { return isDead_; };
+
 private:
 
 	std::unique_ptr<Model>  enemyModel_ = nullptr;
@@ -72,6 +74,8 @@ private:
 	IEnemyState* state;
 
 	Player* player_ = nullptr;
+
+	bool isDead_ = false;
 
 };
 
