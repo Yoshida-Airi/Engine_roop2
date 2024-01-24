@@ -39,7 +39,7 @@ public:
 	/// 親子関係を結ぶ
 	/// </summary>
 	/// <param name="model">親のモデル</param>
-	void Parent(Model* model);
+	void SetParent(WorldTransform* worldTransform);
 
 	/// <summary>
 	/// ライトの有無

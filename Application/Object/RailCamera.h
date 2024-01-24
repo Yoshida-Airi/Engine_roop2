@@ -5,14 +5,38 @@
 class RailCamera
 {
 public:
+	
 	~RailCamera();
-	void Initialize();
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Initialize(WorldTransform worldTransform, Vector3& radian);
+
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
-	Vector3 GetWorldPosition();
-	ICamera* camera = nullptr;
+	/// <summary>
+	/// ビュープロジェクションのゲッター
+	/// </summary>
+	/// <returns>レールカメラのビュープロジェクション</returns>
+	Camera* GetCamera() { return camera; };
+
+	/// <summary>
+	/// トランスフォームのゲッター
+	/// </summary>
+	/// <returns>レールカメラのワールドトランスフォーム</returns>
+	const WorldTransform& GetWorldTransform() const { return worldTransform_; };
+
+
 private:
-	std::unique_ptr<Model> cameraModel = nullptr;
+
+	// ワールド変換データ
+	WorldTransform worldTransform_;
+	//ビュープロジェクション
+	Camera* camera;
 
 	
 };

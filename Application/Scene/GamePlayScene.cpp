@@ -32,8 +32,10 @@ void GamePlayScene::Initialize()
 	uiCamera = new UICamera;
 	uiCamera->Initialize();
 
+	railCameraWorldTransform_.Initialize();
+
 	railCamera = new RailCamera();
-	railCamera->Initialize();
+	railCamera->Initialize(railCameraWorldTransform_, railCameraWorldTransform_.rotation_);
 
 	skydome = new Skydome();
 	skydome->Initialize();
@@ -45,11 +47,14 @@ void GamePlayScene::Initialize()
 	enemy->SetPlayer(player);
 	enemy->Initialize({10.0f,0.2f,30.0f});
 
+	player->SetParent(&railCamera->GetWorldTransform());
+
 }
 
 void GamePlayScene::Update()
 {
-	input->TriggerKey(DIK_0);
+
+	camera->UpdateMatrix();
 
 #ifdef _DEBUG
 	
@@ -62,22 +67,20 @@ void GamePlayScene::Update()
 		sceneManager_->ChangeScene("TITLE");
 	}
 
+	//レールカメラの更新
+	railCameraWorldTransform_.UpdateWorldMatrix();
 	railCamera->Update();
-	camera->matView = railCamera->camera->matView;
-	camera->matProjection = railCamera->camera->matProjection;
+	camera->matView = railCamera->GetCamera()->matView;
+	camera->matProjection = railCamera->GetCamera()->matProjection;
 
-	camera->UpdateMatrix();
+	camera->TransferMatrix();
 
-	skydome->Update();
-	player->Update();
-	enemy->Update();
-	
+
 
 	// 自弾リストの取得
 	const std::list<PlayerBullet*>& playerBullets = player->GetBullets();
 	// 敵弾リストの取得
 	const std::list<EnemyBullet*>& enemyBullets = enemy->GetBullets();
-
 
 	//リストをクリアする
 	colliderManager_->ListClear();
@@ -95,6 +98,10 @@ void GamePlayScene::Update()
 	//当たり判定
 	colliderManager_->ChackAllCollisions();
 
+	skydome->Update();
+	player->Update();
+	enemy->Update();
+	
 }
 
 void GamePlayScene::Draw()

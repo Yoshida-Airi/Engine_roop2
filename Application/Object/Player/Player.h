@@ -19,6 +19,8 @@ public:
 
 	const std::list<PlayerBullet*>& GetBullets()const { return bullets_; };
 
+	void SetParent(const WorldTransform* transform);
+
 private://メンバ変数
 	Input* input_ = nullptr;
 

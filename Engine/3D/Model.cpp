@@ -117,9 +117,10 @@ void Model::ModelDebug(const char title[10])
 
 }
 
-void Model::Parent(Model* model)
+
+void Model::SetParent(WorldTransform* worldTransform)
 {
-	this->worldTransform_->parent_ = model->worldTransform_;
+	this->worldTransform_->parent_ = worldTransform;
 }
 
 

@@ -78,6 +78,11 @@ void Player::OnCollision()
 {
 }
 
+void Player::SetParent(const WorldTransform* transform)
+{
+	playerModel_->worldTransform_->parent_ = transform;
+}
+
 void Player::Move()
 {
 	//キャラクターの移動ベクトル

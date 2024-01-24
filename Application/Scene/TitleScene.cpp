@@ -41,7 +41,7 @@ void TitleScene::Update()
 	cube_->ModelDebug("cube");
 	fence_->ModelDebug("fence");
 
-	cube_->Parent(fence_.get());
+	
 	
 }
 

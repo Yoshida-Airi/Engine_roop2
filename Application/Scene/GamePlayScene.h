@@ -57,6 +57,8 @@ private:
 
 #endif // _DEBUG
 
+	//ワールドトランスフォーム
+	WorldTransform railCameraWorldTransform_;
 
 };
 
