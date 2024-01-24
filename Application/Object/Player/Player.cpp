@@ -19,6 +19,7 @@ void Player::Initialize(Vector3 pos)
 	SetCollisionAttribute(kCollisionAttributePlayer);
 	//衝突対象を自分の属性以外に設定
 	SetCollisionMask(kCollisionAttributeEnemy);
+	SetCollisionMask(kCollisionAttributeEnemyBullet);
 
 	playerModel_->worldTransform_->translation_ = pos;
 

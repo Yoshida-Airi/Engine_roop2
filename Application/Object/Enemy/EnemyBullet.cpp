@@ -6,7 +6,7 @@ void EnemyBullet::Initialize(Vector3 pos, const Vector3& velocity)
 {
 
 	// 衝突属性を設定
-	SetCollisionAttribute(kCollisionAttributeEnemy);
+	SetCollisionAttribute(kCollisionAttributeEnemyBullet);
 	// 衝突対象を自分の属性以外に設定
 	SetCollisionMask(kCollisionAttributePlayer);
 

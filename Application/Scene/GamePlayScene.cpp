@@ -52,6 +52,7 @@ void GamePlayScene::Initialize()
 	player->Initialize({0.0f,0.0f,30.0f});
 	
 	SpawnEnemy({ 0.0f,0.2f,30.0f });
+	SpawnEnemy({ 1.0f,0.2f,30.0f });
 	
 
 	player->SetParent(&railCamera->GetWorldTransform());
@@ -124,8 +125,8 @@ void GamePlayScene::Update()
 		colliderManager_->AddColliders(enemyBullet);
 	}
 
-	////当たり判定
-	//colliderManager_->ChackAllCollisions();
+	//当たり判定
+	colliderManager_->ChackAllCollisions();
 
 	skydome->Update();
 	player->Update();
