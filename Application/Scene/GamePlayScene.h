@@ -30,6 +30,11 @@ public:
 	void Update()override;
 	void Draw()override;
 
+	/// <summary>
+	/// 敵弾を追加する
+	/// </summary>
+	/// <param name="enemyBullet">敵弾</param>
+	void AddEnemyBullet(EnemyBullet* enemyBullet);
 
 private:
 	TextureManager* texture;
@@ -47,6 +52,8 @@ private:
 
 	Player* player = nullptr;
 	Enemy* enemy = nullptr;
+	std::list<EnemyBullet*> enemyBullets_;
+
 	Skydome* skydome = nullptr;
 
 

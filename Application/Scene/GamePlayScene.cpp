@@ -11,6 +11,11 @@ GamePlayScene::~GamePlayScene()
 	delete player;
 	delete enemy;
 
+	for (EnemyBullet* bullet : enemyBullets_)
+	{
+		delete bullet;
+	}
+
 }
 
 void GamePlayScene::Initialize()
@@ -45,7 +50,9 @@ void GamePlayScene::Initialize()
 
 	enemy = new Enemy();
 	enemy->SetPlayer(player);
+	enemy->SetGameScene(this);
 	enemy->Initialize({10.0f,0.2f,30.0f});
+	
 
 	player->SetParent(&railCamera->GetWorldTransform());
 
@@ -53,6 +60,18 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
+
+	//デスフラグの立った弾を削除
+	enemyBullets_.remove_if([](EnemyBullet* bullet)
+		{
+			if (bullet->IsDead())
+			{
+				delete bullet;
+				return true;
+			}
+			return false;
+		});
+
 
 	camera->UpdateMatrix();
 
@@ -79,8 +98,8 @@ void GamePlayScene::Update()
 
 	// 自弾リストの取得
 	const std::list<PlayerBullet*>& playerBullets = player->GetBullets();
-	// 敵弾リストの取得
-	const std::list<EnemyBullet*>& enemyBullets = enemy->GetBullets();
+	//// 敵弾リストの取得
+	//const std::list<EnemyBullet*>& enemyBullets = enemy->GetBullets();
 
 	//リストをクリアする
 	colliderManager_->ListClear();
@@ -91,7 +110,7 @@ void GamePlayScene::Update()
 	for (PlayerBullet* playerBullet : playerBullets) {
 		colliderManager_->AddColliders(playerBullet);
 	}
-	for (EnemyBullet* enemyBullet : enemyBullets) {
+	for (EnemyBullet* enemyBullet : enemyBullets_) {
 		colliderManager_->AddColliders(enemyBullet);
 	}
 
@@ -101,6 +120,12 @@ void GamePlayScene::Update()
 	skydome->Update();
 	player->Update();
 	enemy->Update();
+
+	//弾の更新
+	for (EnemyBullet* bullet : enemyBullets_)
+	{
+		bullet->Update();
+	}
 	
 }
 
@@ -111,4 +136,15 @@ void GamePlayScene::Draw()
 	player->Draw(camera);
 	enemy->Draw(camera);
 
+	//弾の描画
+	for (EnemyBullet* bullet : enemyBullets_)
+	{
+		bullet->Draw(camera);
+	}
+
+}
+
+void GamePlayScene::AddEnemyBullet(EnemyBullet* enemyBullet) {
+	// リストに登録する
+	enemyBullets_.push_back(enemyBullet);
 }

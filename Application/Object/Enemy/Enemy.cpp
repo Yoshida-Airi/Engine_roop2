@@ -1,15 +1,10 @@
 #include "Enemy.h"
 #include "Player.h"
 #include"CollisionConfig.h"
+#include"GamePlayScene.h"
 
 Enemy::~Enemy()
 {
-	for (EnemyBullet* bullet : bullets_)
-	{
-		delete bullet;
-	}
-
-
 	for (TimedCall* timeCall : this->timedCalls_)
 	{
 		delete timeCall;
@@ -44,18 +39,6 @@ void Enemy::Update()
 		});
 
 
-	//デスフラグの立った弾を削除
-	bullets_.remove_if([](EnemyBullet* bullet)
-		{
-			if (bullet->IsDead())
-			{
-				delete bullet;
-				return true;
-			}
-			return false;
-		});
-
-
 	enemyModel_->Update();
 
 	state->Update(this);
@@ -65,25 +48,12 @@ void Enemy::Update()
 	{
 		timedCall->Update();
 	}
-
-	//弾の更新
-	for (EnemyBullet* bullet : bullets_)
-	{
-		bullet->Update();
-	}
-
 	
 }
 
 void Enemy::Draw(ICamera* camera)
 {
 	enemyModel_->Draw(camera);
-
-	//弾の描画
-	for (EnemyBullet* bullet : bullets_)
-	{
-		bullet->Draw(camera);
-	}
 }
 
 void Enemy::Move(Vector3& velocity)
@@ -159,6 +129,6 @@ void Enemy::Fire()
 	newBullet->Initialize(GetWorldPosition(), velocity);
 
 	//弾の登録
-	bullets_.push_back(newBullet);
+	gameScene_->AddEnemyBullet(newBullet);
 
 }

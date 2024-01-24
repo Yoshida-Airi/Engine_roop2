@@ -9,6 +9,7 @@
 #include "Collider.h"
 
 #include<list>
+class GamePlayScene;
 class Player;
 class Enemy :public Collider
 {
@@ -41,6 +42,8 @@ public:
 	//弾を発射し、タイマーをリセットするコールバック関数
 	void AttackReset();
 
+	void OnCollision()override;
+
 	/// <summary>
 	/// タイムコールをすべて消す
 	/// </summary>
@@ -49,17 +52,18 @@ public:
 	//セッター
 	void SetPlayer(Player* player) { player_ = player; };
 
-	void OnCollision()override;
-
-	const std::list<EnemyBullet*>& GetBullets()const { return bullets_; };
+	
+	void SetGameScene(GamePlayScene* gameScene)
+	{
+		gameScene_ = gameScene;
+	}
 
 private:
 
 	std::unique_ptr<Model>  enemyModel_ = nullptr;
 
-
-	////弾
-	std::list<EnemyBullet*> bullets_;
+	// ゲームシーン
+	GamePlayScene* gameScene_ = nullptr;
 
 	//時限発動のリスト
 	std::list<TimedCall*> timedCalls_;
