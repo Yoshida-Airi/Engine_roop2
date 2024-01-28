@@ -289,35 +289,12 @@ void Player::Set3DReticle(const ICamera* camera)
 }
 
 
-void Player::Set3DReticleMousePosition(const ICamera* camera) {
+void Player::Set3DReticleMousePosition(const ICamera* camera) 
+{
 	
-
-	//// 自機のワールド座標から3Dレティクルのワールド座標を計算
-	//// 自機から3Dレティクルへの距離
-	//const float kDistancePlayerTo3DReticle = 50.0f;
-	//// 自機から3Dレティクルへのオフセット(Z+向き)
-	//Vector3 offset = { 0, 0, 1.0f };
-	//// 自機のワールド行列の回転を反映
-	//offset = TransformNormal(offset, playerModel_->worldTransform_->matWorld_);
-	//// ベクトルの長さを整える
-	//offset = Multiply(kDistancePlayerTo3DReticle, Normalize(offset));
-	//// 3Dレティクルの座標を設定
-	//reticleModel->worldTransform_->translation_ = Add(GetWorldPosition(), offset);
-	//// ワールド行列の更新
-	//reticleModel->worldTransform_->UpdateWorldMatrix();
-
-	//// 3Dレティクルのワールド座標から2Dレティクルのスクリーン座標を計算
-	//Vector3 positionReticle = GetReticleWorldPosition();
 	// ビューポート行列
 	Matrix4x4 matViewport =
 		MakeViewportMatrix(0, 0, WinApp::kCilentWidth, WinApp::kCilentHeight, 0, 1);
-	//// ビュー行列とプロジェクション行列、ビューポート行列を合成する
-	//Matrix4x4 matViewProjectionViewport =
-	//	Multiply(camera->matView, Multiply(camera->matProjection, matViewport));
-	//// ワールド→スクリーン座標変換(ここまで3Dから2Dになる)
-	//positionReticle = CoorTransform(positionReticle, matViewProjectionViewport);
-	//// スプライトのレティクルに座標設定
-	//sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
 
 	POINT mousePosition;
 	//マウス座標(スクリーン座標)を取得する
@@ -343,18 +320,18 @@ void Player::Set3DReticleMousePosition(const ICamera* camera) {
 	Vector3 posFar =
 		Vector3(sprite2DReticle_->GetPosition().x, sprite2DReticle_->GetPosition().y, 1);
 
-	/*Vector2 spritePosirion = sprite2DReticle_->GetPosition();*/
+	Vector2 spritePosirion = sprite2DReticle_->GetPosition();
 
-	//XINPUT_STATE joyState;
+	XINPUT_STATE joyState;
 
-	//if (Input::GetInstance()->GetJoystickState(0, joyState))
-	//{
-	//	spritePosirion.x += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * 5.0f;
-	//	spritePosirion.y -= (float)joyState.Gamepad.sThumbRY / SHRT_MAX * 5.0f;
+	if (Input::GetInstance()->GetJoystickState(0, joyState))
+	{
+		spritePosirion.x += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * 5.0f;
+		spritePosirion.y -= (float)joyState.Gamepad.sThumbRY / SHRT_MAX * 5.0f;
 
-	//	sprite2DReticle_->SetPosition(spritePosirion);
+		sprite2DReticle_->SetPosition(spritePosirion);
 
-	//}
+	}
 
 
 	//スクリーン座標系からワールド座標系へ
@@ -366,12 +343,13 @@ void Player::Set3DReticleMousePosition(const ICamera* camera) {
 	mouseDirection = Normalize(mouseDirection);
 
 	//カメラから照準オブジェクトの距離
-	const float kDistanceTestObject = 50.0f;
+	const float kDistanceTestObject = 100.0f;
 	reticleModel->worldTransform_->translation_ =
 		Add(posNear, Multiply(kDistanceTestObject, mouseDirection));
 
 	reticleModel->worldTransform_->UpdateWorldMatrix();
 
+#ifdef _DEBUG
 	ImGui::Begin("reticle");
 	ImGui::Text(
 		"2DReticle:(%f,%f)", sprite2DReticle_->GetPosition().x, sprite2DReticle_->GetPosition().y);
@@ -381,4 +359,7 @@ void Player::Set3DReticleMousePosition(const ICamera* camera) {
 		"3DReticle:(%+2f,%+2f,%+2f)", reticleModel->worldTransform_->translation_.x,
 		reticleModel->worldTransform_->translation_.y, reticleModel->worldTransform_->translation_.z);
 	ImGui::End();
+#endif // _DEBUG
+
+	
 }

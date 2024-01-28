@@ -9,7 +9,6 @@
 #pragma comment(lib,"dxguid.lib")
 #pragma comment(lib,"XInput.lib")
 
-
 class Input
 {
 public:
@@ -35,6 +34,9 @@ public:
 	/// <returns>トリガーかどうか</returns>
 	bool TriggerKey(BYTE keyNumber);
 
+	// ジョイスティックのデッドゾーンを適用する関数
+	SHORT ApplyDeadzone(SHORT value, SHORT deadzone);
+
 	bool GetJoystickState(int32_t stickNo, XINPUT_STATE& state);
 
 private:
@@ -47,5 +49,10 @@ private:
 	BYTE keyPre[256] = {};	//前回の全キーの状態
 
 	static Input* instance;
+
+
+	// デッドゾーンの設定
+	const int DEADZONE_THRESHOLD = 8000;
+
 
 };
