@@ -81,6 +81,7 @@ private:
 
 
 
+
 #ifdef _DEBUG
 
 	ImGuiManager* imgui;

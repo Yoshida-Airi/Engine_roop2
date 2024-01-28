@@ -9,6 +9,7 @@ GamePlayScene::~GamePlayScene()
 
 	delete skydome;
 	delete player;
+
 	for (Enemy* enemy : enemys)
 	{
 		delete enemy;
@@ -56,6 +57,8 @@ void GamePlayScene::Initialize()
 	
 
 	player->SetParent(&railCamera->GetWorldTransform());
+	
+
 
 }
 

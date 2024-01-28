@@ -20,6 +20,16 @@ void RailCamera::Initialize(WorldTransform worldTransform, Vector3& radian)
 	camera->farZ = 1000;
 	camera->Initialize();
 
+	controlPoints_ =
+	{
+		{0,0,0},
+		{10,10,0},
+		{10,15,0},
+		{20,15,0},
+		{20,0,0},
+		{30,0,0},
+	};
+
 }
 
 /// <summary>
@@ -27,41 +37,94 @@ void RailCamera::Initialize(WorldTransform worldTransform, Vector3& radian)
 /// </summary>
 void RailCamera::Update()
 {
-	//ワールドトランスフォームの座標の数値を加算したりする(移動)
-	worldTransform_.translation_.z += 0.03f;
-	//ワールドトランスフォームの角度の数値を加算したりする(回転)
-	/*worldTransform_.rotation_.x += 0.001f;*/
-	//ワールドトランスフォームのワールド行列再計算
-	worldTransform_.UpdateWorldMatrix();
-	// 行列を定数バッファに転送
-	worldTransform_.TransferMatrix();
+	//視点の媒介変数の処理
+	if (targetSection_ != 5) {
+		eyet_ += 1.0f / 340.0f;
+		if (eyet_ >= 1.0f) {
+			eyet_ = 0.0f;
+			eyeSection_++;
+		}
+	}
 
-	//カメラオブジェクトのワールド行列からビュー行列を計算する
-	camera->matView = Inverse(worldTransform_.matWorld_);
+	//注視点の媒介変数の処理
+	if (targetSection_ != 5) {
+		targett_ += 1.0f / 340.0f;
+		if (targett_ >= 1.0f) {
+			targett_ = 0.0f;
+			targetSection_++;
+		}
+	}
+
+	CatmullRomPosition(controlPoints_, eyet_);
 
 
-	//カメラの座標を画面表示する処理
-	ImGui::Begin("Camera");
-	float CameraPos[] = {
-		worldTransform_.translation_.x, worldTransform_.translation_.y,
-		worldTransform_.translation_.z };
+	//注視点の通過点の切り替え
+	if (targetSection_ - 1 == -1) {
+		target_ = CatmullRomInterpolation(
+			controlPoints_[targetSection_], controlPoints_[targetSection_],
+			controlPoints_[targetSection_ + 1], controlPoints_[targetSection_ + 2], targett_);
+	}
+	else if (targetSection_ + 1 == 5) {
+		target_ = CatmullRomInterpolation(
+			controlPoints_[targetSection_ - 1], controlPoints_[targetSection_],
+			controlPoints_[targetSection_ + 1], controlPoints_[targetSection_ + 1], targett_);
+	}
+	else if (targetSection_ != 5) {
+		target_ = CatmullRomInterpolation(
+			controlPoints_[targetSection_ - 1], controlPoints_[targetSection_],
+			controlPoints_[targetSection_ + 1], controlPoints_[targetSection_ + 2], targett_);
+	}
 
-	ImGui::SliderFloat3("position", CameraPos, 30.0f, -30.0f);
+	//注視点と視点の差分ベクトル
+	Vector3 forward = Normalize(Subtract(target_, eye_));
 
-	worldTransform_.translation_.x = CameraPos[0];
-	worldTransform_.translation_.y = CameraPos[1];
-	worldTransform_.translation_.z = CameraPos[2];
+	//z座標軸
+	Vector3 z = Subtract(target_, eye_);
+	z = Normalize(z);
+	//x座標軸
+	Vector3 x = Cross({ 0.0f, 1.0f, 0.0f }, z);
+	x = Normalize(x);
+	//y座標軸
+	Vector3 y = Cross(z, x);
+	//view行列の作成
+	Matrix4x4 matrix{};
+	matrix.m[0][0] = x.x;
+	matrix.m[0][1] = y.x;
+	matrix.m[0][2] = z.x;
+	matrix.m[0][3] = 0.0f;
+	matrix.m[1][0] = x.y;
+	matrix.m[1][1] = y.y;
+	matrix.m[1][2] = z.y;
+	matrix.m[1][3] = 0.0f;
+	matrix.m[2][0] = x.z;
+	matrix.m[2][1] = y.z;
+	matrix.m[2][2] = z.z;
+	matrix.m[2][3] = 0.0f;
+	matrix.m[3][0] = -Dot(eye_, x);
+	matrix.m[3][1] = -Dot(eye_, y);
+	matrix.m[3][2] = -Dot(eye_, z);
+	matrix.m[3][3] = 1.0f;
+	camera->matView = matrix;
 
-	float CameraRotate[] = {
-		worldTransform_.rotation_.x, worldTransform_.rotation_.y, worldTransform_.rotation_.z };
+	//view行列の位置や方向をワールド行列に反映
+	worldTransform_.translation_ = eye_;
+	worldTransform_.rotation_.y = std::atan2(forward.x, forward.z);
+	float length = Length({ forward.x, 0, forward.z });
+	worldTransform_.rotation_.x = std::atan2(-forward.y, length);
+	worldTransform_.matWorld_ = MakeAffinMatrix(
+		worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
-	//カメラの角度
-	ImGui::SliderFloat3("Rotate", CameraRotate, 30.0f, -30.0f);
-
-	worldTransform_.rotation_.x = CameraRotate[0];
-	worldTransform_.rotation_.y = CameraRotate[1];
-	worldTransform_.rotation_.z = CameraRotate[2];
-
+	ImGui::Begin("RailCamera34");
+	ImGui::DragFloat3("CameraTranslation", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat3("CameraRotation", &worldTransform_.rotation_.x, 0.01f);
+	ImGui::DragFloat4("WorldTransform m[0]", &worldTransform_.matWorld_.m[0][0], 0.01f);
+	ImGui::DragFloat4("WorldTransform m[1]", &worldTransform_.matWorld_.m[1][0], 0.01f);
+	ImGui::DragFloat4("WorldTransform m[2]", &worldTransform_.matWorld_.m[2][0], 0.01f);
+	ImGui::DragFloat4("WorldTransform m[3]", &worldTransform_.matWorld_.m[3][0], 0.01f);
+	ImGui::DragFloat4("ViewProjection m[0]", &camera->matView.m[0][0], 0.01f);
+	ImGui::DragFloat4("ViewProjection m[1]", &camera->matView.m[1][0], 0.01f);
+	ImGui::DragFloat4("ViewProjection m[2]", &camera->matView.m[2][0], 0.01f);
+	ImGui::DragFloat4("ViewProjection m[3]", &camera->matView.m[3][0], 0.01f);
 	ImGui::End();
 
 }
