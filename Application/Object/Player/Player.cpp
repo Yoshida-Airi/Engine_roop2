@@ -13,7 +13,7 @@ void Player::Initialize(Vector3 pos)
 {
 	
 	input_ = Input::GetInstance();
-	playerModel_ = Model::Create("Resources", "cube.obj"); // 所有権を移動
+	playerModel_ = Model::Create("Resources", "cube.obj"); 
 	
 	//衝突属性を設定
 	SetCollisionAttribute(kCollisionAttributePlayer);
@@ -22,6 +22,8 @@ void Player::Initialize(Vector3 pos)
 	SetCollisionMask(kCollisionAttributeEnemyBullet);
 
 	playerModel_->worldTransform_->translation_ = pos;
+
+	reticleModel= Model::Create("Resources", "cube.obj");
 
 }
 
@@ -46,6 +48,18 @@ void Player::Update()
 	Debug();
 #endif // _DEBUG
 
+	//自機から3Dレティクルへの距離
+	const float kDistancePlayerTo3DReticle = 50.0f;
+	//自機から3Dレティクルへのオフセット
+	Vector3 offset = { 0,0,1.0f };
+	//自機のワールド行列の回転を反映
+	offset = TransformNormal(offset, playerModel_->worldTransform_->matWorld_);
+	//ベクトルの長さを整える
+	offset = Multiply(kDistancePlayerTo3DReticle, Normalize(offset));
+	//3Dレティクルの座標を設定
+	reticleModel->worldTransform_->translation_ = Add(GetWorldPosition(), offset);
+	//ワールド行列の更新
+	reticleModel->worldTransform_->UpdateWorldMatrix();
 	
 
 }
@@ -53,6 +67,7 @@ void Player::Update()
 void Player::Draw(ICamera* camera)
 {
 	playerModel_->Draw(camera);
+	reticleModel->Draw(camera);
 
 	//弾の描画
 	for (PlayerBullet*bullet : bullets_)
@@ -157,8 +172,12 @@ void Player::Attack()
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
 
-		//速度ベクトルを自機の向きに合わせて回転
-		velocity = TransformNormal(velocity, playerModel_->worldTransform_->matWorld_);
+		//自機から照準オブジェクトへのベクトル
+		velocity = Subtract(reticleModel->worldTransform_->translation_, GetWorldPosition());
+		velocity = Multiply(kBulletSpeed, Normalize(velocity));
+
+		////速度ベクトルを自機の向きに合わせて回転
+		//velocity = TransformNormal(velocity, playerModel_->worldTransform_->matWorld_);
 
 		//球を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();

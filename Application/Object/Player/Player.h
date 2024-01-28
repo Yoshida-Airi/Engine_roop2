@@ -29,6 +29,8 @@ private://メンバ変数
 	//弾
 	std::list<PlayerBullet*> bullets_;
 
+	std::unique_ptr<Model> reticleModel = nullptr;
+
 private://メンバ関数
 
 	/// <summary>
