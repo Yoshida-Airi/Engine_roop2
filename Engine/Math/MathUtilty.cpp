@@ -554,3 +554,79 @@ Vector3 CoorTransform(const Vector3& vector, const Matrix4x4& matrix) {
 
 	return result;
 }
+
+Vector3 CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vector3& p2, const Vector3& p3, float t)
+{
+	const float s = 0.5f;
+
+	float t2 = t * t;	//tの2乗
+	float t3 = t2 * t;	//tの3乗
+
+	Vector3 e3;
+	e3.x = -p0.x + 3 * p1.x - 3 * p2.x + p3.x;
+	e3.y = -p0.y + 3 * p1.y - 3 * p2.y + p3.y;
+	e3.z = -p0.z + 3 * p1.z - 3 * p2.z + p3.z;
+
+	Vector3 e2;
+	e2.x = 2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x;
+	e2.y = 2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y;
+	e2.z = 2 * p0.z - 5 * p1.z + 4 * p2.z - p3.z;
+
+	Vector3 e1;
+	e1.x = -p0.x + p2.x;
+	e1.y = -p0.y + p2.y;
+	e1.z = -p0.z + p2.z;
+
+	Vector3 e0;
+	e0.x = 2 * p1.x;
+	e0.y = 2 * p1.y;
+	e0.z = 2 * p1.z;
+
+	Vector3 result;
+
+	result.x = s * (e3.x * t3 + e2.x * t2 + e1.x * t + e0.x);
+	result.y = s * (e3.y * t3 + e2.y * t2 + e1.y * t + e0.y);
+	result.z = s * (e3.z * t3 + e2.z * t2 + e1.z * t + e0.z);
+
+	return result;
+}
+
+Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t)
+{
+	assert(points.size() >= 4 && "制御点は4点以上必要です");
+	
+	size_t division = points.size() - 1;
+	float areaWidth = 1.0f / division;
+	float t_2 = std::fmod(t, areaWidth) * division;
+	t_2 = std::clamp(t_2, 0.0f, 1.0f);
+
+	//区間番号
+	size_t index = static_cast<size_t>(t / areaWidth);
+	//区間番号が上限を超えないように収める
+	index = std::min(index, division - 1);
+
+	size_t index0 = index - 1;
+	size_t index1 = index;
+	size_t index2 = index + 1;
+	size_t index3 = index + 2;
+
+	if (index == 0)
+	{
+		index0 == index1;
+	}
+
+	if (index3 >= points.size())
+	{
+		index3 = index2;
+	}
+
+	const Vector3& p0 = points[index0];
+	const Vector3& p1 = points[index1];
+	const Vector3& p2 = points[index2];
+	const Vector3& p3 = points[index3];
+
+	return CatmullRomInterpolation(p0, p1, p2, p3, t_2);
+	
+}
+
+

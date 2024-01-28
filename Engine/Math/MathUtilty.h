@@ -4,6 +4,9 @@
 #include <assert.h>
 #include <cmath>
 #include <math.h>
+#include<vector>
+#include <iostream>
+#include <algorithm>
 
 
 // 加算
@@ -84,3 +87,10 @@ Vector3 Lerp(const Vector3& s, const Vector3& e, float t);
 Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t);
 
 Vector3 CoorTransform(const Vector3& vector, const Matrix4x4& matrix);
+
+//CatmullRom補間
+Vector3 CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vector3& p2, const Vector3& p3, float t);
+
+//CatmullRomスプライン曲線上の座標を得る
+Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t);
+
