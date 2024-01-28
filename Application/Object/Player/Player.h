@@ -62,7 +62,7 @@ private://メンバ関数
 	/// </summary>
 	void Debug();
 
-
+	void Set3DReticle(const ICamera* camera);
 
 	
 };

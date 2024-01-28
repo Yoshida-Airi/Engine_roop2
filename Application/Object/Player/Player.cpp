@@ -53,33 +53,7 @@ void Player::Update()
 #ifdef _DEBUG
 	Debug();
 #endif // _DEBUG
-
-	//自機から3Dレティクルへの距離
-	const float kDistancePlayerTo3DReticle = 50.0f;
-	//自機から3Dレティクルへのオフセット
-	Vector3 offset = { 0,0,1.0f };
-	//自機のワールド行列の回転を反映
-	offset = TransformNormal(offset, playerModel_->worldTransform_->matWorld_);
-	//ベクトルの長さを整える
-	offset = Multiply(kDistancePlayerTo3DReticle, Normalize(offset));
-	//3Dレティクルの座標を設定
-	reticleModel->worldTransform_->translation_ = Add(GetWorldPosition(), offset);
-	//ワールド行列の更新
-	reticleModel->worldTransform_->UpdateWorldMatrix();
-
-	//3Dレティクルのワールド座標から2Dレティクルのスクリーン座標を計算
-	Vector3 positionReticle = GetReticleWorldPosition();
-	//ビューポート行列
-	Matrix4x4 matViewport =
-		MakeViewportMatrix(0, 0, WinApp::kCilentWidth, WinApp::kCilentHeight, 0, 1);
-	//ビュー行列とプロジェクション行列、ビューポート行列を合成する
-	Matrix4x4 matViewProjectionViewport =
-		Multiply(camera_->matView, Multiply(camera_->matProjection, matViewport));
-	//ワールド→スクリーン座標変換(ここまで3Dから2Dになる)
-	positionReticle = CoorTransform(positionReticle, matViewProjectionViewport);
-	//スプライトのレティクルに座標設定
-	sprite2DReticle_->worldTransform.translation_ = { positionReticle.x, positionReticle.y };
-
+	Set3DReticle(camera_);
 
 	sprite2DReticle_->Update();
 
@@ -241,4 +215,35 @@ void Player::Debug()
 	playerModel_->worldTransform_->UpdateWorldMatrix();
 
 	ImGui::End();
+}
+
+void Player::Set3DReticle(const ICamera* camera)
+{
+	//自機から3Dレティクルへの距離
+	const float kDistancePlayerTo3DReticle = 50.0f;
+	//自機から3Dレティクルへのオフセット
+	Vector3 offset = { 0,0,1.0f };
+	//自機のワールド行列の回転を反映
+	offset = TransformNormal(offset, playerModel_->worldTransform_->matWorld_);
+	//ベクトルの長さを整える
+	offset = Multiply(kDistancePlayerTo3DReticle, Normalize(offset));
+	//3Dレティクルの座標を設定
+	reticleModel->worldTransform_->translation_ = Add(GetWorldPosition(), offset);
+	//ワールド行列の更新
+	reticleModel->worldTransform_->UpdateWorldMatrix();
+
+	//3Dレティクルのワールド座標から2Dレティクルのスクリーン座標を計算
+	Vector3 positionReticle = GetReticleWorldPosition();
+	//ビューポート行列
+	Matrix4x4 matViewport =
+		MakeViewportMatrix(0, 0, WinApp::kCilentWidth, WinApp::kCilentHeight, 0, 1);
+	//ビュー行列とプロジェクション行列、ビューポート行列を合成する
+	Matrix4x4 matViewProjectionViewport =
+		Multiply(camera->matView, Multiply(camera->matProjection, matViewport));
+	//ワールド→スクリーン座標変換(ここまで3Dから2Dになる)
+	positionReticle = CoorTransform(positionReticle, matViewProjectionViewport);
+	//スプライトのレティクルに座標設定
+	sprite2DReticle_->worldTransform.translation_ = { positionReticle.x, positionReticle.y };
+
+
 }
