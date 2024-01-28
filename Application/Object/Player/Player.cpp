@@ -7,6 +7,8 @@ Player::~Player()
 	{
 		delete bullet;
 	}
+
+
 }
 
 void Player::Initialize(Vector3 pos)
@@ -24,6 +26,9 @@ void Player::Initialize(Vector3 pos)
 	playerModel_->worldTransform_->translation_ = pos;
 
 	reticleModel= Model::Create("Resources", "cube.obj");
+	sprite2DReticle_.reset(Sprite::Create(textureReticle));
+	sprite2DReticle_->SetAnchorPoint({ 0.5f,0.5f });
+	sprite2DReticle_->SetTextureLeftTop({ 640.0f,360.0f });
 
 }
 
@@ -75,6 +80,11 @@ void Player::Draw(ICamera* camera)
 		bullet->Draw(camera);
 	}
 
+}
+
+void Player::DrawUI(ICamera* camera)
+{
+	sprite2DReticle_->Draw(camera);
 }
 
 Vector3 Player::GetWorldPosition()

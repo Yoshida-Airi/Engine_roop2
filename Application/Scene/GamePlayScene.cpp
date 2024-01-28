@@ -162,6 +162,7 @@ void GamePlayScene::Draw()
 	{
 		bullet->Draw(camera);
 	}
+	player->DrawUI(uiCamera);
 
 }
 

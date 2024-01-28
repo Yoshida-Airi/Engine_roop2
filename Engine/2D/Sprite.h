@@ -95,7 +95,7 @@ public:
 	/// </summary>
 	/// <param name="textureHandle">テクスチャ</param>
 	/// <returns>四角形</returns>
-	std::unique_ptr< Sprite> Create(uint32_t textureHandle);
+	static Sprite* Create(uint32_t textureHandle);
 
 private://プライベート変数
 

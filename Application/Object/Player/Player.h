@@ -1,5 +1,6 @@
 #pragma once
 #include"Model.h"
+#include"Sprite.h"
 #include"Input.h"
 #include"PlayerBullet.h"
 #include"Collider.h"
@@ -12,6 +13,7 @@ public:
 	void Initialize(Vector3 pos);
 	void Update();
 	void Draw(ICamera* camera);
+	void DrawUI(ICamera* camera);
 
 	Vector3 GetWorldPosition()override;
 
@@ -24,12 +26,15 @@ public:
 private://メンバ変数
 	Input* input_ = nullptr;
 
+	uint32_t textureReticle = TextureManager::GetInstance()->LoadTexture("Resources/reticle.png");
+
 	std::unique_ptr<Model> playerModel_ = nullptr;
 
 	//弾
 	std::list<PlayerBullet*> bullets_;
 
 	std::unique_ptr<Model> reticleModel = nullptr;
+	std::unique_ptr<Sprite> sprite2DReticle_ = nullptr;
 
 private://メンバ関数
 
