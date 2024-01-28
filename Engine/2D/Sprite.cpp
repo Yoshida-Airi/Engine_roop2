@@ -93,7 +93,7 @@ void Sprite::Update()
 	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeTranselateMatrix(uvTransform.translate));
 	materialData_->uvTransform = uvTransformMatrix_;
 
-
+	worldTransform.translation_ = { position.x,position.y,0.0f };
 
 }
 

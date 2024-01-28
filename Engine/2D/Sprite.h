@@ -90,6 +90,9 @@ public:
 		anchorPoint_ = anchorPoint;
 	}
 
+	const Vector2& GetPosition()const { return position; }
+	void SetPosition(const Vector2& position) { this->position = position; };
+
 	/// <summary>
 	/// 四角の生成
 	/// </summary>
@@ -140,6 +143,8 @@ private://プライベート変数
 	float texRight;
 	float texTop;
 	float texBottom;
+
+	Vector2 position = { 0.0f,0.0f };
 
 private://プライベート関数
 

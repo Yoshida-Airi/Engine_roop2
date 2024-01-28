@@ -64,6 +64,8 @@ private://メンバ関数
 
 	void Set3DReticle(const ICamera* camera);
 
+	void Set3DReticleMousePosition(const ICamera* camera);
+
 	
 };
 

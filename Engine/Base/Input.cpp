@@ -67,10 +67,10 @@ bool Input::TriggerKey(BYTE keyNumber)
 	return false;
 }
 
-//bool Input::GetJoystickState(int32_t stickNo, XINPUT_STATE& state)
-//{
-//	DWORD Result = XInputGetState(stickNo, &state);
-//	return Result == ERROR_SUCCESS;
-//}
+bool Input::GetJoystickState(int32_t stickNo, XINPUT_STATE& state)
+{
+	DWORD Result = XInputGetState(stickNo, &state);
+	return Result == ERROR_SUCCESS;
+}
 
 Input* Input::instance = NULL;
