@@ -83,3 +83,4 @@ Vector3 Lerp(const Vector3& s, const Vector3& e, float t);
 // 球面線形補間
 Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t);
 
+Vector3 CoorTransform(const Vector3& vector, const Matrix4x4& matrix);

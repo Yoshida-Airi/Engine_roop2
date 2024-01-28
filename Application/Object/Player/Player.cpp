@@ -76,7 +76,7 @@ void Player::Update()
 	Matrix4x4 matViewProjectionViewport =
 		Multiply(camera_->matView, Multiply(camera_->matProjection, matViewport));
 	//ワールド→スクリーン座標変換(ここまで3Dから2Dになる)
-	positionReticle = TransformNormal(positionReticle, matViewProjectionViewport);
+	positionReticle = CoorTransform(positionReticle, matViewProjectionViewport);
 	//スプライトのレティクルに座標設定
 	sprite2DReticle_->worldTransform.translation_ = { positionReticle.x, positionReticle.y };
 
