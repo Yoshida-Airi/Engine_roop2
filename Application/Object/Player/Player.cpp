@@ -28,7 +28,7 @@ void Player::Initialize(Vector3 pos)
 	reticleModel= Model::Create("Resources", "cube.obj");
 	sprite2DReticle_.reset(Sprite::Create(textureReticle));
 	sprite2DReticle_->SetAnchorPoint({ 0.5f,0.5f });
-	sprite2DReticle_->SetTextureLeftTop({ 640.0f,360.0f });
+	sprite2DReticle_->worldTransform.translation_ = { 640.0f,360.0f };
 
 }
 
@@ -66,6 +66,7 @@ void Player::Update()
 	//ワールド行列の更新
 	reticleModel->worldTransform_->UpdateWorldMatrix();
 	
+	sprite2DReticle_->Update();
 
 }
 
