@@ -11,12 +11,13 @@ Player::~Player()
 
 }
 
-void Player::Initialize(Vector3 pos)
+void Player::Initialize(Vector3 pos, ICamera* camera)
 {
 	
 	input_ = Input::GetInstance();
 	playerModel_ = Model::Create("Resources", "cube.obj"); 
-	
+	camera_ = camera;
+
 	//衝突属性を設定
 	SetCollisionAttribute(kCollisionAttributePlayer);
 	//衝突対象を自分の属性以外に設定
@@ -65,10 +66,25 @@ void Player::Update()
 	reticleModel->worldTransform_->translation_ = Add(GetWorldPosition(), offset);
 	//ワールド行列の更新
 	reticleModel->worldTransform_->UpdateWorldMatrix();
-	
+
+	//3Dレティクルのワールド座標から2Dレティクルのスクリーン座標を計算
+	Vector3 positionReticle = GetReticleWorldPosition();
+	//ビューポート行列
+	Matrix4x4 matViewport =
+		MakeViewportMatrix(0, 0, WinApp::kCilentWidth, WinApp::kCilentHeight, 0, 1);
+	//ビュー行列とプロジェクション行列、ビューポート行列を合成する
+	Matrix4x4 matViewProjectionViewport =
+		Multiply(camera_->matView, Multiply(camera_->matProjection, matViewport));
+	//ワールド→スクリーン座標変換(ここまで3Dから2Dになる)
+	positionReticle = TransformNormal(positionReticle, matViewProjectionViewport);
+	//スプライトのレティクルに座標設定
+	sprite2DReticle_->worldTransform.translation_ = { positionReticle.x, positionReticle.y };
+
+
 	sprite2DReticle_->Update();
 
-}
+};
+
 
 void Player::Draw(ICamera* camera)
 {
@@ -97,6 +113,19 @@ Vector3 Player::GetWorldPosition()
 	worldpos.x = playerModel_->worldTransform_->matWorld_.m[3][0];
 	worldpos.y = playerModel_->worldTransform_->matWorld_.m[3][1];
 	worldpos.z = playerModel_->worldTransform_->matWorld_.m[3][2];
+
+	return worldpos;
+}
+
+Vector3 Player::GetReticleWorldPosition()
+{
+	// ワールド座標を入れる変数
+	Vector3 worldpos;
+
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldpos.x = reticleModel->worldTransform_->matWorld_.m[3][0];
+	worldpos.y = reticleModel->worldTransform_->matWorld_.m[3][1];
+	worldpos.z = reticleModel->worldTransform_->matWorld_.m[3][2];
 
 	return worldpos;
 }

@@ -52,7 +52,7 @@ void GamePlayScene::Initialize()
 	skydome->Initialize();
 
 	player = new Player();
-	player->Initialize({0.0f,0.0f,30.0f});
+	player->Initialize({ 0.0f,0.0f,30.0f }, camera);
 	
 
 	player->SetParent(&railCamera->GetWorldTransform());

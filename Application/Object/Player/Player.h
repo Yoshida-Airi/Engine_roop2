@@ -5,17 +5,19 @@
 #include"PlayerBullet.h"
 #include"Collider.h"
 #include<list>
+#include"Camera.h"
 
 class Player :public Collider
 {
 public:
 	~Player();
-	void Initialize(Vector3 pos);
+	void Initialize(Vector3 pos, ICamera* camera);
 	void Update();
 	void Draw(ICamera* camera);
 	void DrawUI(ICamera* camera);
 
 	Vector3 GetWorldPosition()override;
+	Vector3 GetReticleWorldPosition();
 
 	void OnCollision()override;
 
@@ -25,6 +27,7 @@ public:
 
 private://メンバ変数
 	Input* input_ = nullptr;
+	ICamera* camera_ = nullptr;
 
 	uint32_t textureReticle = TextureManager::GetInstance()->LoadTexture("Resources/reticle.png");
 
