@@ -54,6 +54,11 @@ public:
 	/// <summary>
 	void UpdateEnemyPopCommands();
 
+
+	void StartFadeOut();
+
+	void UpdateFadeOut();
+
 private:
 	TextureManager* texture;
 	SceneManager* sceneManager_ = nullptr;
@@ -79,7 +84,11 @@ private:
 
 	Skydome* skydome = nullptr;
 
+	uint32_t fadeTex;
+	std::unique_ptr<Sprite>fadeSprite = nullptr;
 
+	float alpha = 0;
+	bool isFadingOut = false;
 
 
 #ifdef _DEBUG

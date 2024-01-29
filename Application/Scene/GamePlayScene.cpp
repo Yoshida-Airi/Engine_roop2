@@ -58,95 +58,112 @@ void GamePlayScene::Initialize()
 
 	player->SetParent(&railCamera->GetWorldTransform());
 	
+	fadeTex = TextureManager::GetInstance()->LoadTexture("Resources/black.png");
 
+	fadeSprite.reset(Sprite::Create(fadeTex));
+	fadeSprite->SetSize({ 1280,720 });
+	fadeSprite->SetisInvisible(false);
+	alpha = 1.0f;
+	fadeSprite->SetMaterialData({ 1.0f,1.0f,1.0f,alpha });
 
+	StartFadeOut();
 }
 
 void GamePlayScene::Update()
 {
 
-	//デスフラグの立った弾を削除
-	enemyBullets_.remove_if([](EnemyBullet* bullet)
-		{
-			if (bullet->IsDead())
+
+	if (isFadingOut == true)
+	{
+		UpdateFadeOut();
+	}
+
+
+		//デスフラグの立った弾を削除
+		enemyBullets_.remove_if([](EnemyBullet* bullet)
 			{
-				delete bullet;
+				if (bullet->IsDead())
+				{
+					delete bullet;
+					return true;
+				}
+				return false;
+			});
+
+		// デスフラグの立った敵を削除
+		enemys.remove_if([](Enemy* enemy) {
+			if (enemy->IsDead()) {
+				delete enemy;
 				return true;
 			}
 			return false;
-		});
+			});
 
-	// デスフラグの立った敵を削除
-	enemys.remove_if([](Enemy* enemy) {
-		if (enemy->IsDead()) {
-			delete enemy;
-			return true;
-		}
-		return false;
-		});
-
-	camera->UpdateMatrix();
+		camera->UpdateMatrix();
 
 #ifdef _DEBUG
-	
-	camera->CameraDebug();
+
+		camera->CameraDebug();
 
 #endif // _DEBUG
 
-	if (input->TriggerKey(DIK_RETURN))
-	{
-		sceneManager_->ChangeScene("TITLE");
-	}
+		if (input->TriggerKey(DIK_RETURN))
+		{
+			sceneManager_->ChangeScene("TITLE");
+		}
 
-	//レールカメラの更新
-	railCameraWorldTransform_.UpdateWorldMatrix();
-	railCamera->Update();
-	camera->matView = railCamera->GetCamera()->matView;
-	camera->matProjection = railCamera->GetCamera()->matProjection;
+		//レールカメラの更新
+		railCameraWorldTransform_.UpdateWorldMatrix();
+		railCamera->Update();
+		camera->matView = railCamera->GetCamera()->matView;
+		camera->matProjection = railCamera->GetCamera()->matProjection;
 
-	camera->TransferMatrix();
+		camera->TransferMatrix();
 
 
 
-	// 自弾リストの取得
-	const std::list<PlayerBullet*>& playerBullets = player->GetBullets();
-	//// 敵弾リストの取得
-	//const std::list<EnemyBullet*>& enemyBullets = enemy->GetBullets();
+		// 自弾リストの取得
+		const std::list<PlayerBullet*>& playerBullets = player->GetBullets();
+		//// 敵弾リストの取得
+		//const std::list<EnemyBullet*>& enemyBullets = enemy->GetBullets();
 
-	//リストをクリアする
-	colliderManager_->ListClear();
+		//リストをクリアする
+		colliderManager_->ListClear();
 
-	//コライダーにオブジェクトを登録する
-	colliderManager_->AddColliders(player);
-	for (Enemy* enemy : enemys) {
-		colliderManager_->AddColliders(enemy);
-	}
-	for (PlayerBullet* playerBullet : playerBullets) {
-		colliderManager_->AddColliders(playerBullet);
-	}
-	for (EnemyBullet* enemyBullet : enemyBullets_) {
-		colliderManager_->AddColliders(enemyBullet);
-	}
+		//コライダーにオブジェクトを登録する
+		colliderManager_->AddColliders(player);
+		for (Enemy* enemy : enemys) {
+			colliderManager_->AddColliders(enemy);
+		}
+		for (PlayerBullet* playerBullet : playerBullets) {
+			colliderManager_->AddColliders(playerBullet);
+		}
+		for (EnemyBullet* enemyBullet : enemyBullets_) {
+			colliderManager_->AddColliders(enemyBullet);
+		}
 
-	//当たり判定
-	colliderManager_->ChackAllCollisions();
+		//当たり判定
+		colliderManager_->ChackAllCollisions();
 
-	skydome->Update();
-	player->Update();
+		skydome->Update();
+		player->Update();
 
-	//敵の生成
-	UpdateEnemyPopCommands();
+		//敵の生成
+		UpdateEnemyPopCommands();
 
-	// 敵キャラの更新
-	for (Enemy* enemy : enemys) {
-		enemy->Update();
-	}
+		// 敵キャラの更新
+		for (Enemy* enemy : enemys) {
+			enemy->Update();
+		}
 
-	//弾の更新
-	for (EnemyBullet* bullet : enemyBullets_)
-	{
-		bullet->Update();
-	}
+		//弾の更新
+		for (EnemyBullet* bullet : enemyBullets_)
+		{
+			bullet->Update();
+		}
+
+		fadeSprite->Update();
+	
 	
 }
 
@@ -166,6 +183,8 @@ void GamePlayScene::Draw()
 		bullet->Draw(camera);
 	}
 	player->DrawUI(uiCamera);
+
+	fadeSprite->Draw(uiCamera);
 
 }
 
@@ -266,5 +285,24 @@ void GamePlayScene::UpdateEnemyPopCommands()
 			// コマンドループを抜ける
 			break;
 		}
+	}
+}
+
+
+void GamePlayScene::StartFadeOut()
+{
+	isFadingOut = true;
+	fadeSprite->SetisInvisible(false);
+}
+
+void GamePlayScene::UpdateFadeOut()
+{
+	alpha -= 0.01f; // フェードイン速度の調整（必要に応じて変更）
+	fadeSprite->SetMaterialData({ 1.0f, 1.0f, 1.0f, alpha });
+
+	if (alpha <= 0.0f)
+	{
+		// フェードイン完了時の処理
+		isFadingOut = false;
 	}
 }
