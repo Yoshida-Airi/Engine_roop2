@@ -23,11 +23,11 @@ void RailCamera::Initialize(WorldTransform worldTransform, Vector3& radian)
 	controlPoints_ =
 	{
 		{0,0,0},
-		{10,10,0},
-		{10,15,0},
-		{20,15,0},
-		{20,0,0},
-		{30,0,0},
+		{0,0,5},
+		{0,0,10},
+		{0,0,15},
+		{0,0,20},
+		{0,0,25},
 	};
 
 }
@@ -55,25 +55,12 @@ void RailCamera::Update()
 		}
 	}
 
-	CatmullRomPosition(controlPoints_, eyet_);
 
 
-	//注視点の通過点の切り替え
-	if (targetSection_ - 1 == -1) {
-		target_ = CatmullRomInterpolation(
-			controlPoints_[targetSection_], controlPoints_[targetSection_],
-			controlPoints_[targetSection_ + 1], controlPoints_[targetSection_ + 2], targett_);
-	}
-	else if (targetSection_ + 1 == 5) {
-		target_ = CatmullRomInterpolation(
-			controlPoints_[targetSection_ - 1], controlPoints_[targetSection_],
-			controlPoints_[targetSection_ + 1], controlPoints_[targetSection_ + 1], targett_);
-	}
-	else if (targetSection_ != 5) {
-		target_ = CatmullRomInterpolation(
-			controlPoints_[targetSection_ - 1], controlPoints_[targetSection_],
-			controlPoints_[targetSection_ + 1], controlPoints_[targetSection_ + 2], targett_);
-	}
+	eye_ = CatmullRomPosition(controlPoints_, eyet_);
+	
+	target_ = CatmullRomPosition(controlPoints_, targett_);
+
 
 	//注視点と視点の差分ベクトル
 	Vector3 forward = Normalize(Subtract(target_, eye_));
