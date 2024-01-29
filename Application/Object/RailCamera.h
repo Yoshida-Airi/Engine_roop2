@@ -20,7 +20,7 @@ public:
 
 	float toRadians(float degrees);
 
-	void setCircleControlPoints(std::vector<Vector3>& points, float radius, float centerX, float centerY, float centerZ);
+	void setCircleControlPoints(std::vector<Vector3>& points, float radius, float centerX, float centerY, float centerZ, float elevationPerRotation);
 
 	/// <summary>
 	/// 初期化

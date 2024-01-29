@@ -260,7 +260,7 @@ void Player::Debug()
 void Player::Set3DReticle(const ICamera* camera)
 {
 	//自機から3Dレティクルへの距離
-	const float kDistancePlayerTo3DReticle = 50.0f;
+	const float kDistancePlayerTo3DReticle = 100.0f;
 	//自機から3Dレティクルへのオフセット
 	Vector3 offset = { 0,0,1.0f };
 	//自機のワールド行列の回転を反映
