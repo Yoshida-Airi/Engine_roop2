@@ -30,7 +30,7 @@ void TitleScene::Initialize()
 
 	titleSprite.reset(Sprite::Create(titleTex));
 	ABottonSprite.reset(Sprite::Create(ABottonTex));
-	ABottonSprite->SetPosition({ 620.0f,500.0f });
+	ABottonSprite->SetPosition({ 610.0f,500.0f });
 
 	InitializeFloatingGimmick();
 	
