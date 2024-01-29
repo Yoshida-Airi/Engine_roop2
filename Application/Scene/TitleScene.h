@@ -28,6 +28,10 @@ public:
 
 	void UpAndDownMotion(float time);
 
+	void StartFadeIn();
+
+	void UpdateFadeIn();
+
 private:
 
 	Input* input;
@@ -40,6 +44,8 @@ private:
 	std::unique_ptr<Sprite>titleSprite = nullptr;
 	uint32_t ABottonTex;
 	std::unique_ptr<Sprite>ABottonSprite = nullptr;
+	uint32_t fadeTex;
+	std::unique_ptr<Sprite>fadeSprite = nullptr;
 
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;
@@ -58,6 +64,9 @@ private:
 	bool isMove = false;
 
 	float flashTime = 0.0f;
+
+	float alpha = 0;
+	bool isFadingIn = false;
 	
 };
 

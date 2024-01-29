@@ -20,6 +20,7 @@ void TitleScene::Initialize()
 
 	titleTex = TextureManager::GetInstance()->LoadTexture("Resources/title.png");
 	ABottonTex = TextureManager::GetInstance()->LoadTexture("Resources/ABotton.png");
+	fadeTex= TextureManager::GetInstance()->LoadTexture("Resources/black.png");
 
 	fence_ = Model::Create("Resources", "fence.obj");
 	fence_->SetisInvisible(true);
@@ -31,6 +32,12 @@ void TitleScene::Initialize()
 	titleSprite.reset(Sprite::Create(titleTex));
 	ABottonSprite.reset(Sprite::Create(ABottonTex));
 	ABottonSprite->SetPosition({ 610.0f,500.0f });
+	fadeSprite.reset(Sprite::Create(fadeTex));
+	fadeSprite->SetSize({ 1280,720 });
+	fadeSprite->SetisInvisible(true);
+	alpha = 0;
+	fadeSprite->SetMaterialData({ 1.0f,1.0f,1.0f,alpha });
+
 
 	InitializeFloatingGimmick();
 	
@@ -49,7 +56,10 @@ void TitleScene::Update()
 	//シーン遷移
 	if (input->TriggerKey(DIK_RETURN))
 	{
-		sceneManager_->ChangeScene("GAMEPLAY");
+		
+		// フェードイン開始
+		StartFadeIn();
+		
 	}
 
 	//ゲームパットの状態を得る変数(XINPUT)
@@ -59,7 +69,8 @@ void TitleScene::Update()
 	{
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
 		{
-			sceneManager_->ChangeScene("GAMEPLAY");
+			// フェードイン開始
+			StartFadeIn();
 		}
 		
 	}
@@ -72,6 +83,7 @@ void TitleScene::Update()
 
 	titleSprite->Update();
 	ABottonSprite->Update();
+	fadeSprite->Update();
 
 	cube_->ModelDebug("cube");
 	fence_->ModelDebug("fence");
@@ -99,6 +111,11 @@ void TitleScene::Update()
 		flashTime = 0;
 	}
 
+	// フェードイン中の処理
+	if (isFadingIn)
+	{
+		UpdateFadeIn();
+	}
 	
 }
 
@@ -110,6 +127,7 @@ void TitleScene::Draw()
 
 	titleSprite->Draw(uiCamera);
 	ABottonSprite->Draw(uiCamera);
+	fadeSprite->Draw(uiCamera);
 }
 
 
@@ -136,3 +154,21 @@ void TitleScene::UpAndDownMotion(float time)
 	cube_->worldTransform_->translation_.y = (std::sin(UpdownParameter_) * amplitude_);
 }
 
+void TitleScene::StartFadeIn()
+{
+	isFadingIn = true;
+	fadeSprite->SetisInvisible(false);
+}
+
+void TitleScene::UpdateFadeIn()
+{
+	alpha += 0.01f; // フェードイン速度の調整（必要に応じて変更）
+	fadeSprite->SetMaterialData({ 1.0f, 1.0f, 1.0f, alpha });
+
+	if (alpha >= 1.0f)
+	{
+		// フェードイン完了時の処理
+		isFadingIn = false;
+		sceneManager_->ChangeScene("GAMEPLAY");
+	}
+}
