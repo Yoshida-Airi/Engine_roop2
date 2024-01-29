@@ -5,6 +5,23 @@ RailCamera::~RailCamera()
 	delete camera;
 }
 
+
+// 角度をラジアンに変換する関数
+float RailCamera::toRadians(float degrees) {
+	return degrees * static_cast<float>(M_PI) / 180.0f;
+}
+
+// 円を描くための制御点を円上に等間隔で配置する関数
+void RailCamera::setCircleControlPoints(std::vector<Vector3>& points, float radius, float centerX, float centerY, float centerZ) {
+	// 360度を6等分して制御点を配置する
+	for (int i = 0; i < 12; ++i) {
+		float angle = toRadians(static_cast<float>(i * 30));  // 60度ごとに配置
+		float x = centerX + radius * std::cos(angle);
+		float z= centerZ + radius * std::sin(angle);
+		points.push_back({ x, centerY, z });
+	}
+}
+
 /// <summary>
 /// 初期化
 /// </summary>
@@ -20,15 +37,17 @@ void RailCamera::Initialize(WorldTransform worldTransform, Vector3& radian)
 	camera->farZ = 1000;
 	camera->Initialize();
 
-	controlPoints_ =
-	{
-		{0,0,0},
-		{10,10,0},
-		{10,15,0},
-		{20,15,0},
-		{20,0,0},
-		{30,0,0},
-	};
+	setCircleControlPoints(controlPoints_, 1.0f, 0.0f, 0.0f, 0.0f);
+
+	//controlPoints_ =
+	//{
+	//	{0,0,0},
+	//	{0,0,0},
+	//	{0,0,0},
+	//	{0,0,0},
+	//	{0,0,0},
+	//	{0,0,0},
+	//};
 
 }
 
@@ -39,7 +58,7 @@ void RailCamera::Update()
 {
 	//視点の媒介変数の処理
 	if (targetSection_ != 5) {
-		eyet_ += 1.0f / 340.0f;
+		eyet_ += 1.0f / 360.0f;
 		if (eyet_ >= 1.0f) {
 			eyet_ = 0.0f;
 			eyeSection_++;
@@ -48,15 +67,15 @@ void RailCamera::Update()
 
 	//注視点の媒介変数の処理
 	if (targetSection_ != 5) {
-		targett_ -= 1.0f / 340.0f;
+		targett_ -= 1.0f / 360.0f;
 		if (targett_ >= 1.0f) {
 			targett_ = 0.0f;
 			targetSection_++;
 		}
 	}
 
-	eye_ = CatmullRomPosition(controlPoints_, eyet_);
-	target_ = CatmullRomPosition(controlPoints_, targett_);
+	eye_ = ClosedLoopCatmullRomPosition(controlPoints_, eyet_);
+	target_ = ClosedLoopCatmullRomPosition(controlPoints_, targett_);
 
 
 	//注視点と視点の差分ベクトル

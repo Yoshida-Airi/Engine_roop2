@@ -584,9 +584,9 @@ Vector3 CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vect
 
 	Vector3 result;
 
-	result.x = s * (e3.x * t3 + e2.x * t2 + e1.x * t + e0.x);
-	result.y = s * (e3.y * t3 + e2.y * t2 + e1.y * t + e0.y);
-	result.z = s * (e3.z * t3 + e2.z * t2 + e1.z * t + e0.z);
+	result.x = s * ((e3.x * t3) + (e2.x * t2) + (e1.x * t) + e0.x);
+	result.y = s * ((e3.y * t3) + (e2.y * t2) + (e1.y * t) + e0.y);
+	result.z = s * ((e3.z * t3) + (e2.z * t2) + (e1.z * t) + e0.z);
 
 	return result;
 }
@@ -627,6 +627,33 @@ Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t)
 
 	return CatmullRomInterpolation(p0, p1, p2, p3, t_2);
 	
+}
+
+Vector3 ClosedLoopCatmullRomPosition(const std::vector<Vector3>& points, float t)
+{
+	assert(points.size() >= 4 && "制御点は4点以上必要です");
+
+	size_t division = points.size();
+	float areaWidth = 1.0f / division;
+	float t_2 = std::fmod(t, areaWidth) * division;
+	t_2 = std::clamp(t_2, 0.0f, 1.0f);
+
+	// 区間番号
+	size_t index = static_cast<size_t>(t / areaWidth);
+	// 区間番号が上限を超えないように収める
+	index = std::min(index, division - 1);
+
+	size_t index0 = (index + division - 1) % division;
+	size_t index1 = index;
+	size_t index2 = (index + 1) % division;
+	size_t index3 = (index + 2) % division;
+
+	const Vector3& p0 = points[index0];
+	const Vector3& p1 = points[index1];
+	const Vector3& p2 = points[index2];
+	const Vector3& p3 = points[index3];
+
+	return CatmullRomInterpolation(p0, p1, p2, p3, t_2);
 }
 
 

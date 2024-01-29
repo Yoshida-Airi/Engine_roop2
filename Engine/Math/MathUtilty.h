@@ -94,6 +94,8 @@ Vector3 CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vect
 //CatmullRomスプライン曲線上の座標を得る
 Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t);
 
+Vector3 ClosedLoopCatmullRomPosition(const std::vector<Vector3>& points, float t);
+
 //クロス積
 Vector3 Cross(const Vector3& v1, const Vector3& v2);
 

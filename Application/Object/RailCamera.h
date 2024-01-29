@@ -4,6 +4,11 @@
 #include"MathUtilty.h"
 #include"ImGuiManager.h"
 #include"Model.h"
+#include <cmath>
+
+#ifndef M_PI
+#define M_PI (3.14159265358979323846)
+#endif
 
 /// <summary>
 /// レールカメラ
@@ -12,6 +17,10 @@ class RailCamera
 {
 public:
 	~RailCamera();
+
+	float toRadians(float degrees);
+
+	void setCircleControlPoints(std::vector<Vector3>& points, float radius, float centerX, float centerY, float centerZ);
 
 	/// <summary>
 	/// 初期化
