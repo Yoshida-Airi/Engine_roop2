@@ -9,7 +9,7 @@ void PlayerBullet::Initialize(Vector3 pos, const Vector3& velocity)
 	SetCollisionMask(kCollisionAttributeEnemy);
 
 
-	bulletModel_ = Model::Create("Resources","cube.obj");
+	bulletModel_ = Model::Create("Resources","player.obj");
 	bulletModel_->worldTransform_->translation_ = pos;
 	velocity_ = velocity;
 }

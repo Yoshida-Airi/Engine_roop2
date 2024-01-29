@@ -19,7 +19,7 @@ void Enemy::Initialize(Vector3 pos)
 	// 衝突対象を自分の属性以外に設定
 	SetCollisionMask(kCollisionAttributePlayer);
 	
-	enemyModel_ = Model::Create("Resources", "cube.obj");
+	enemyModel_ = Model::Create("Resources", "enemy.obj");
 	enemyModel_->worldTransform_->translation_ = pos;
 
 	state = new EnemyStateApproach();

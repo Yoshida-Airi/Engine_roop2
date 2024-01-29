@@ -12,30 +12,19 @@ float RailCamera::toRadians(float degrees) {
 }
 
 // 円を描くための制御点を円上に等間隔で配置する関数
-void RailCamera::setCircleControlPoints(std::vector<Vector3>& points, float radius, float centerX, float centerY, float centerZ, float elevationPerRotation) {
+void RailCamera::setCircleControlPoints(std::vector<Vector3>& points, float radius, float centerX, float centerY, float centerZ) {
 	
-	// 前回の角度を保持する変数
-	float prevAngle = 0.0f;
-	
+
 	// 360度を6等分して制御点を配置する
-	for (int i = 0; i < 12; ++i) {
-		float angle = toRadians(static_cast<float>(i * 30));  // 60度ごとに配置
+	for (int i = 0; i < 6; ++i) {
+		float angle = toRadians(static_cast<float>(i * 60));  // 60度ごとに配置
 		float x = centerX + radius * std::cos(angle);
 		float y = centerY;
 		float z= centerZ + radius * std::sin(angle);
 		
-		// 角度の変化をチェックして一周したかどうかを判定
-		float angleChange = angle - prevAngle;
-		if (angleChange < 0.0f) {
-			y = centerY + elevationPerRotation;
-		}
 
 		// 制御点の座標を追加
 		points.push_back({ x, y, z });
-
-
-		// 前回の角度を更新
-		prevAngle = angle;
 
 	}
 }
@@ -55,7 +44,7 @@ void RailCamera::Initialize(WorldTransform worldTransform, Vector3& radian)
 	camera->farZ = 1000;
 	camera->Initialize();
 
-	setCircleControlPoints(controlPoints_, 0.1f, 0.0f, 0.0f, 0.0f, 1.0f);
+	setCircleControlPoints(controlPoints_, 0.01f, 0.0f, 0.0f, 0.0f);
 
 	//controlPoints_ =
 	//{
@@ -85,7 +74,7 @@ void RailCamera::Update()
 
 	//注視点の媒介変数の処理
 	if (targetSection_ != 5) {
-		targett_ -= 1.0f / 360.0f;
+		targett_ += 1.0f / 360.0f;
 		if (targett_ >= 1.0f) {
 			targett_ = 0.0f;
 			targetSection_++;
