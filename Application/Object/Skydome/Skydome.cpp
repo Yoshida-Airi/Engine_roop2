@@ -6,9 +6,9 @@ void Skydome::Initialize()
 	
 
 	// 天球の大きさ(大きさによってはカメラのfarZをSetterで設定しよう)
-	skydomeModel_->worldTransform_->scale_.x = 100.0f;
-	skydomeModel_->worldTransform_->scale_.y = 100.0f;
-	skydomeModel_->worldTransform_->scale_.z = 100.0f;
+	skydomeModel_->worldTransform_->scale_.x = 1000.0f;
+	skydomeModel_->worldTransform_->scale_.y = 1000.0f;
+	skydomeModel_->worldTransform_->scale_.z = 1000.0f;
 
 
 }

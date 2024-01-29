@@ -3,6 +3,7 @@
 #include"Camera.h"
 #include"MathUtilty.h"
 #include"ImGuiManager.h"
+#include"Model.h"
 
 /// <summary>
 /// レールカメラ
@@ -42,6 +43,8 @@ private:
 	Camera* camera;
 
 	std::vector<Vector3>controlPoints_;
+	std::vector<Model>pointDrawing;
+	const size_t segmentCount = 100;
 
 	Vector3 eye_;
 	Vector3 target_;

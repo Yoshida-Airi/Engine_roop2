@@ -14,7 +14,7 @@ void RailCamera::Initialize(WorldTransform worldTransform, Vector3& radian)
 	worldTransform_ = worldTransform;
 	worldTransform_.rotation_ = radian;
 
-	worldTransform_.translation_.z = -60;
+	//worldTransform_.translation_.z = -60;
 	//ビュープロジェクションの初期化
 	camera = new Camera();
 	camera->farZ = 1000;
@@ -23,11 +23,11 @@ void RailCamera::Initialize(WorldTransform worldTransform, Vector3& radian)
 	controlPoints_ =
 	{
 		{0,0,0},
-		{0,0,5},
-		{0,0,10},
-		{0,0,15},
-		{0,0,20},
-		{0,0,25},
+		{10,10,0},
+		{10,15,0},
+		{20,15,0},
+		{20,0,0},
+		{30,0,0},
 	};
 
 }
@@ -48,17 +48,14 @@ void RailCamera::Update()
 
 	//注視点の媒介変数の処理
 	if (targetSection_ != 5) {
-		targett_ += 1.0f / 340.0f;
+		targett_ -= 1.0f / 340.0f;
 		if (targett_ >= 1.0f) {
 			targett_ = 0.0f;
 			targetSection_++;
 		}
 	}
 
-
-
 	eye_ = CatmullRomPosition(controlPoints_, eyet_);
-	
 	target_ = CatmullRomPosition(controlPoints_, targett_);
 
 
@@ -100,6 +97,7 @@ void RailCamera::Update()
 	worldTransform_.rotation_.x = std::atan2(-forward.y, length);
 	worldTransform_.matWorld_ = MakeAffinMatrix(
 		worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+
 
 	ImGui::Begin("RailCamera34");
 	ImGui::DragFloat3("CameraTranslation", &worldTransform_.translation_.x, 0.01f);

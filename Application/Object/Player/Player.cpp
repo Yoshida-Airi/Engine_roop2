@@ -343,7 +343,7 @@ void Player::Set3DReticleMousePosition(const ICamera* camera)
 	mouseDirection = Normalize(mouseDirection);
 
 	//カメラから照準オブジェクトの距離
-	const float kDistanceTestObject = 100.0f;
+	const float kDistanceTestObject = 50.0f;
 	reticleModel->worldTransform_->translation_ =
 		Add(posNear, Multiply(kDistanceTestObject, mouseDirection));
 
