@@ -294,21 +294,27 @@ void Player::Set3DReticle(const ICamera* camera)
 
 void Player::Set3DReticleMousePosition(const ICamera* camera) 
 {
-	
+
+	XINPUT_STATE joyState;
+
 	// ビューポート行列
 	Matrix4x4 matViewport =
 		MakeViewportMatrix(0, 0, WinApp::kCilentWidth, WinApp::kCilentHeight, 0, 1);
 
-	POINT mousePosition;
-	//マウス座標(スクリーン座標)を取得する
-	GetCursorPos(&mousePosition);
+	if (!Input::GetInstance()->GetJoystickState(0, joyState))
+	{
+		POINT mousePosition;
+		//マウス座標(スクリーン座標)を取得する
+		GetCursorPos(&mousePosition);
 
-	//クライアントエリア座標に変換する
-	HWND hwnd = WinApp::GetInstance()->GetHwnd();
-	ScreenToClient(hwnd, &mousePosition);
+		//クライアントエリア座標に変換する
+		HWND hwnd = WinApp::GetInstance()->GetHwnd();
+		ScreenToClient(hwnd, &mousePosition);
 
-	//マウス座標を2Dレティクルのスプライトに代入する
-	sprite2DReticle_->SetPosition(Vector2(float(mousePosition.x), float(mousePosition.y)));
+
+		//マウス座標を2Dレティクルのスプライトに代入する
+		sprite2DReticle_->SetPosition(Vector2(float(mousePosition.x), float(mousePosition.y)));
+	}
 
 	// ビュー行列とプロジェクション行列、ビューポート行列を合成する
 	Matrix4x4 matVPV =
@@ -325,7 +331,6 @@ void Player::Set3DReticleMousePosition(const ICamera* camera)
 
 	Vector2 spritePosirion = sprite2DReticle_->GetPosition();
 
-	XINPUT_STATE joyState;
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState))
 	{
@@ -333,9 +338,7 @@ void Player::Set3DReticleMousePosition(const ICamera* camera)
 		spritePosirion.y -= (float)joyState.Gamepad.sThumbRY / SHRT_MAX * 5.0f;
 
 		sprite2DReticle_->SetPosition(spritePosirion);
-
 	}
-
 
 	//スクリーン座標系からワールド座標系へ
 	posNear = CoorTransform(posNear, matInverseVPV);
