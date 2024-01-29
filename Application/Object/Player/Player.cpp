@@ -159,8 +159,8 @@ void Player::Move()
 	SumVector3(playerModel_->worldTransform_->translation_, move);
 
 	//移動限界座標
-	const float kMoveLimitX = 17.5f;
-	const float kMoveLimitY = 9.0f;
+	const float kMoveLimitX = 10.0f;
+	const float kMoveLimitY = 5.0f;
 
 	//範囲を超えない処理
 	playerModel_->worldTransform_->translation_.x = max(playerModel_->worldTransform_->translation_.x, -kMoveLimitX);

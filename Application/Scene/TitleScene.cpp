@@ -45,7 +45,8 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
-	camera->CameraDebug();
+
+	
 	camera->UpdateMatrix();
 
 	uiCamera->UpdateMatrix();
@@ -85,8 +86,13 @@ void TitleScene::Update()
 	ABottonSprite->Update();
 	fadeSprite->Update();
 
+#ifdef _DEBUG
+	camera->CameraDebug();
 	cube_->ModelDebug("cube");
 	fence_->ModelDebug("fence");
+#endif // _DEBAG
+
+	
 
 	camera->matView = {
 		1.0f,1.0f,1.0f,1.0f,

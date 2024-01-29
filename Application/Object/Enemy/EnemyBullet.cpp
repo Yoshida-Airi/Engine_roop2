@@ -15,10 +15,10 @@ void EnemyBullet::Initialize(Vector3 pos, const Vector3& velocity)
 	velocity_ = velocity;
 
 
-	//// Z方向に伸びた形状
-	//bulletModel_->worldTransform_->scale_.x = 0.5f;
-	//bulletModel_->worldTransform_->scale_.y = 0.5f;
-	//bulletModel_->worldTransform_->scale_.z = 3.0f;
+	// Z方向に伸びた形状
+	bulletModel_->worldTransform_->scale_.x = 0.5f;
+	bulletModel_->worldTransform_->scale_.y = 0.5f;
+	bulletModel_->worldTransform_->scale_.z = 3.0f;
 
 }
 
@@ -37,17 +37,17 @@ void EnemyBullet::Update()
 	//***********************************************//
 
 	// 敵弾から自キャラへのベクトルを計算
-	//Vector3 toPlayer = Subtract(player_->GetWorldPosition(), GetWorldPosition());
+	Vector3 toPlayer = Subtract(player_->GetWorldPosition(), GetWorldPosition());
 
-	//// ベクトルを正規化する
-	//toPlayer = Normalize(toPlayer);
-	//velocity_ = Normalize(velocity_);
+	// ベクトルを正規化する
+	toPlayer = Normalize(toPlayer);
+	velocity_ = Normalize(velocity_);
 
-	//// 球面線形補完により、今の速度と自キャラへのベクトルを内挿し、新たな速度とする
-	//velocity_ = Slerp(velocity_, toPlayer, 0.009f);
-	//velocity_.x *= 2.0f;
-	//velocity_.y *= 2.0f;
-	//velocity_.z *= 2.0f;
+	// 球面線形補完により、今の速度と自キャラへのベクトルを内挿し、新たな速度とする
+	velocity_ = Slerp(velocity_, toPlayer, 0.009f);
+	velocity_.x *= 2.0f;
+	velocity_.y *= 2.0f;
+	velocity_.z *= 2.0f;
 
 	//***********************************************//
 	//			　　　弾を進行方向に向ける				 //
