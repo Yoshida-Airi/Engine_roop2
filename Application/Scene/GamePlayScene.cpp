@@ -49,6 +49,7 @@ void GamePlayScene::Initialize()
 	railCamera = new RailCamera();
 	railCamera->Initialize(railCameraWorldTransform_, railCameraWorldTransform_.rotation_);
 
+
 	skydome = new Skydome();
 	skydome->Initialize();
 

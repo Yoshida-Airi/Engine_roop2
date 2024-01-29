@@ -102,7 +102,9 @@ void Enemy::Fire()
 
 	// 弾の速度
 	const float kBulletSpeed = 1.0f;
-	/*Vector3 velocity(0, 0, kBulletSpeed);*/
+	//Vector3 velocity(0, 0, kBulletSpeed);
+
+
 
 	// 自キャラのワールド座標を取得する
 	Vector3 worldPlayer = player_->GetWorldPosition();

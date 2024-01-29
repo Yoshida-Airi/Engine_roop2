@@ -334,8 +334,8 @@ void Player::Set3DReticleMousePosition(const ICamera* camera)
 
 	if (Input::GetInstance()->GetJoystickState(0, joyState))
 	{
-		spritePosirion.x += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * 5.0f;
-		spritePosirion.y -= (float)joyState.Gamepad.sThumbRY / SHRT_MAX * 5.0f;
+		spritePosirion.x += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * 10.0f;
+		spritePosirion.y -= (float)joyState.Gamepad.sThumbRY / SHRT_MAX * 10.0f;
 
 		sprite2DReticle_->SetPosition(spritePosirion);
 	}
@@ -355,6 +355,7 @@ void Player::Set3DReticleMousePosition(const ICamera* camera)
 
 	reticleModel->worldTransform_->UpdateWorldMatrix();
 
+
 #ifdef _DEBUG
 	ImGui::Begin("reticle");
 	ImGui::Text(
@@ -366,6 +367,7 @@ void Player::Set3DReticleMousePosition(const ICamera* camera)
 		reticleModel->worldTransform_->translation_.y, reticleModel->worldTransform_->translation_.z);
 	ImGui::End();
 #endif // _DEBUG
+
 
 	
 }
