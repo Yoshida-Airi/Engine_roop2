@@ -68,7 +68,6 @@ void RailCamera::Update()
 		eyet_ += 1.0f / 360.0f;
 		if (eyet_ >= 1.0f) {
 			eyet_ = 0.0f;
-			eyeSection_++;
 		}
 	}
 
@@ -77,7 +76,6 @@ void RailCamera::Update()
 		targett_ += 1.0f / 360.0f;
 		if (targett_ >= 1.0f) {
 			targett_ = 0.0f;
-			targetSection_++;
 		}
 	}
 

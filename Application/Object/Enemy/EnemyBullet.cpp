@@ -10,7 +10,7 @@ void EnemyBullet::Initialize(Vector3 pos, const Vector3& velocity)
 	// 衝突対象を自分の属性以外に設定
 	SetCollisionMask(kCollisionAttributePlayer);
 
-	bulletModel_ = Model::Create("Resources", "cube.obj");
+	bulletModel_ = Model::Create("Resources", "enemyBullet.obj");
 	bulletModel_->worldTransform_->translation_ = pos;
 	velocity_ = velocity;
 
