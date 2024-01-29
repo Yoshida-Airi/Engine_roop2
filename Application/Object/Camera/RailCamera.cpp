@@ -44,17 +44,15 @@ void RailCamera::Initialize(WorldTransform worldTransform, Vector3& radian)
 	camera->farZ = 1000;
 	camera->Initialize();
 
-	setCircleControlPoints(controlPoints_, 0.1f, 0.0f, 0.0f, 0.0f);
+	//setCircleControlPoints(controlPoints_, 0.1f, 0.0f, 0.0f, 0.0f);
 
-	//controlPoints_ =
-	//{
-	//	{0,0,0},
-	//	{0,0,0},
-	//	{0,0,0},
-	//	{0,0,0},
-	//	{0,0,0},
-	//	{0,0,0},
-	//};
+	controlPoints_ =
+	{
+		{0,0,0},
+		{5,0,-5},
+		{10,0,0},
+		{15,0,10},
+	};
 
 }
 

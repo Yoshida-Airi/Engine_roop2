@@ -25,8 +25,11 @@ void Player::Initialize(Vector3 pos, ICamera* camera)
 	SetCollisionMask(kCollisionAttributeEnemyBullet);
 
 	playerModel_->worldTransform_->translation_ = pos;
+	
 
 	reticleModel= Model::Create("Resources", "cube.obj");
+	reticleModel->worldTransform_->scale_ = { 0.5f,0.5f,0.5f };
+
 	sprite2DReticle_.reset(Sprite::Create(textureReticle));
 	sprite2DReticle_->SetAnchorPoint({ 0.5f,0.5f });
 	sprite2DReticle_->worldTransform.translation_ = { 640.0f,360.0f };
@@ -343,7 +346,7 @@ void Player::Set3DReticleMousePosition(const ICamera* camera)
 	mouseDirection = Normalize(mouseDirection);
 
 	//カメラから照準オブジェクトの距離
-	const float kDistanceTestObject = 50.0f;
+	const float kDistanceTestObject = 100.0f;
 	reticleModel->worldTransform_->translation_ =
 		Add(posNear, Multiply(kDistanceTestObject, mouseDirection));
 
