@@ -487,8 +487,8 @@ void DirectXCommon::SetupPSO()
 	SetupShader();
 	SetupDepthStencilState();
 
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc = CreatePSO(vertexShaderBlob, pixelShaderBlob, rootSignature, depthStencilDesc);
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc2 = CreatePSO(particleVertexShaderBlob, particlePixelShaderBlob, particleRootSignature, particleDepthStencilDesc);
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc = CreatePSO(vertexShaderBlob, pixelShaderBlob, rootSignature, depthStencilDesc, blendNoneDesc);
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc2 = CreatePSO(particleVertexShaderBlob, particlePixelShaderBlob, particleRootSignature, particleDepthStencilDesc, blendAddDesc);
 
 	hr = device->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicPipelineState));
 	assert(SUCCEEDED(hr));
@@ -664,14 +664,25 @@ void DirectXCommon::SetupInputLayout()
 void DirectXCommon::SetupBlendState()
 {
 	//すべての色情報を書き込む
-	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-	blendDesc.RenderTarget[0].BlendEnable = TRUE;
-	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
-	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
-	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+	blendNoneDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blendNoneDesc.RenderTarget[0].BlendEnable = TRUE;
+	blendNoneDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	blendNoneDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+	blendNoneDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	blendNoneDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+	blendNoneDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	blendNoneDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+
+
+	//すべての色情報を書き込む
+	blendAddDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blendAddDesc.RenderTarget[0].BlendEnable = TRUE;
+	blendAddDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	blendAddDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+	blendAddDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+	blendAddDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+	blendAddDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	blendAddDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 }
 
 void DirectXCommon::SetupRasterrizerState()
@@ -827,7 +838,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateDepthStencilTextureR
 }
 
 
-D3D12_GRAPHICS_PIPELINE_STATE_DESC DirectXCommon::CreatePSO(Microsoft::WRL::ComPtr< IDxcBlob>VS, Microsoft::WRL::ComPtr< IDxcBlob>PS, Microsoft::WRL::ComPtr< ID3D12RootSignature>rootSignature, D3D12_DEPTH_STENCIL_DESC depth)
+D3D12_GRAPHICS_PIPELINE_STATE_DESC DirectXCommon::CreatePSO(Microsoft::WRL::ComPtr< IDxcBlob>VS, Microsoft::WRL::ComPtr< IDxcBlob>PS, Microsoft::WRL::ComPtr< ID3D12RootSignature>rootSignature, D3D12_DEPTH_STENCIL_DESC depth, D3D12_BLEND_DESC blendDesc)
 {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 	graphicsPipelineStateDesc.pRootSignature = rootSignature.Get();

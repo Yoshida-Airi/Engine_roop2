@@ -118,7 +118,7 @@ private:
 	/// <param name="VS">VertexShaderBlob</param>
 	/// <param name="PS">PixcelShaderBlob</param>
 	/// <returns></returns>
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC CreatePSO(Microsoft::WRL::ComPtr< IDxcBlob>VS, Microsoft::WRL::ComPtr< IDxcBlob>PS, Microsoft::WRL::ComPtr< ID3D12RootSignature>rootSignature, D3D12_DEPTH_STENCIL_DESC depth);
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC CreatePSO(Microsoft::WRL::ComPtr< IDxcBlob>VS, Microsoft::WRL::ComPtr< IDxcBlob>PS, Microsoft::WRL::ComPtr< ID3D12RootSignature>rootSignature, D3D12_DEPTH_STENCIL_DESC depth, D3D12_BLEND_DESC blendDesc);
 
 	/// <summary>
 	/// ルートシグネチャの生成
@@ -217,7 +217,7 @@ private:
 	IDxcCompiler3* dxcCompiler = nullptr;
 	IDxcIncludeHandler* includeHandler = nullptr;
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
-	D3D12_BLEND_DESC blendDesc{};
+	
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs[3] = {};
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
 	Microsoft::WRL::ComPtr< ID3D12RootSignature> rootSignature = nullptr;	//バイナリを元に生成
@@ -231,6 +231,9 @@ private:
 
 	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
 	Microsoft::WRL::ComPtr< ID3D12PipelineState> particleGraphicPipelineState = nullptr;
+
+	D3D12_BLEND_DESC blendNoneDesc{};
+	D3D12_BLEND_DESC blendAddDesc{};
 
 	D3D12_DEPTH_STENCIL_DESC particleDepthStencilDesc{};	//DepthStensilStateの設定
 
