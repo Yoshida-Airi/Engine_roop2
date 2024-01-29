@@ -25,6 +25,7 @@ void Enemy::Initialize(Vector3 pos)
 	state = new EnemyStateApproach();
 	state->Initialize(this);
 
+	InitializeFloatingGimmick();
 }
 
 void Enemy::Update()
@@ -49,6 +50,8 @@ void Enemy::Update()
 		timedCall->Update();
 	}
 	
+	UpAndDownMotion(1.5f);
+
 }
 
 void Enemy::Draw(ICamera* camera)
@@ -133,5 +136,30 @@ void Enemy::Fire()
 
 	//弾の登録
 	gameScene_->AddEnemyBullet(newBullet);
+
+}
+
+
+void Enemy::InitializeFloatingGimmick() {
+
+	//浮遊ギミックの媒介変数
+	UpdownParameter_ = 0.0f;
+	swingParameter_ = 0.0f;
+	//浮遊移動のサイクル<frame>
+	uint16_t cycle_ = 60;
+	//浮遊の振動<m>
+	amplitude_ = 3.0f;
+}
+
+void Enemy::UpAndDownMotion(float time)
+{
+	//1フレームでのパラメータ加算値
+	const float step = time * 3.14f / cycle_;
+	//パラメータを１ステップ分加算
+	UpdownParameter_ += step;
+	//2πを超えたら０に戻す
+	UpdownParameter_ = std::fmod(UpdownParameter_, 2.0f * 3.14f);
+	//浮遊を座標に反映
+	enemyModel_->worldTransform_->translation_.y = (std::sin(UpdownParameter_) * amplitude_);
 
 }

@@ -59,6 +59,7 @@ public:
 
 	void UpdateFadeOut();
 
+
 private:
 	TextureManager* texture;
 	SceneManager* sceneManager_ = nullptr;
@@ -99,6 +100,7 @@ private:
 
 	//ワールドトランスフォーム
 	WorldTransform railCameraWorldTransform_;
+
 
 };
 

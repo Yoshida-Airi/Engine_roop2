@@ -307,3 +307,5 @@ void GamePlayScene::UpdateFadeOut()
 		isFadingOut = false;
 	}
 }
+
+
