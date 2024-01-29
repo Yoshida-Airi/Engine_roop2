@@ -108,8 +108,8 @@
     <ClCompile Include="Application\Object\Skydome\Skydome.cpp">
       <Filter>Application\Object\Skydome</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\RailCamera.cpp">
-      <Filter>Application\Object</Filter>
+    <ClCompile Include="Application\Object\Camera\RailCamera.cpp">
+      <Filter>Application\Object\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -239,8 +239,8 @@
     <ClInclude Include="Application\Object\Skydome\Skydome.h">
       <Filter>Application\Object\Skydome</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\RailCamera.h">
-      <Filter>Application\Object</Filter>
+    <ClInclude Include="Application\Object\Camera\RailCamera.h">
+      <Filter>Application\Object\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -291,6 +291,9 @@
     </Filter>
     <Filter Include="Application\Object\Skydome">
       <UniqueIdentifier>{5749f5e1-24ea-49bb-acab-30421acaff05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Camera">
+      <UniqueIdentifier>{3718d651-cacf-4115-8c8a-99693dd5399e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

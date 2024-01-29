@@ -65,7 +65,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Application;$(ProjectDir)Application\Scene;$(ProjectDir)Application\Object;$(ProjectDir)Application\Object\Player;$(ProjectDir)Application\Object\Enemy;$(ProjectDir)Application\Object\Skydome;$(ProjectDir)Engine\2D;$(ProjectDir)Engine\Utility;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Application;$(ProjectDir)Application\Scene;$(ProjectDir)Application\Object;$(ProjectDir)Application\Object\Player;$(ProjectDir)Application\Object\Enemy;$(ProjectDir)Application\Object\Skydome;$(ProjectDir)Application\Object\Camera;$(ProjectDir)Engine\2D;$(ProjectDir)Engine\Utility;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,7 +91,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Application;$(ProjectDir)Application\Scene;$(ProjectDir)Application\Object;$(ProjectDir)Application\Object\Player;$(ProjectDir)Application\Object\Enemy;$(ProjectDir)Application\Object\Skydome;$(ProjectDir)Engine\2D;$(ProjectDir)Engine\Utility;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Application;$(ProjectDir)Application\Scene;$(ProjectDir)Application\Object;$(ProjectDir)Application\Object\Player;$(ProjectDir)Application\Object\Enemy;$(ProjectDir)Application\Object\Skydome;$(ProjectDir)Application\Object\Camera;$(ProjectDir)Engine\2D;$(ProjectDir)Engine\Utility;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,7 +138,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Player\PlayerBullet.cpp" />
     <ClCompile Include="Engine\Utility\TimedCall.cpp" />
     <ClCompile Include="Application\Object\Skydome\Skydome.cpp" />
-    <ClCompile Include="Application\Object\RailCamera.cpp" />
+    <ClCompile Include="Application\Object\Camera\RailCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Object\CollisionConfig.h" />
@@ -183,7 +183,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Enemy\IEnemyState.h" />
     <ClInclude Include="Engine\Utility\TimedCall.h" />
     <ClInclude Include="Application\Object\Skydome\Skydome.h" />
-    <ClInclude Include="Application\Object\RailCamera.h" />
+    <ClInclude Include="Application\Object\Camera\RailCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D.PS.hlsl">

@@ -31,6 +31,8 @@ private:
 	ICamera* camera;
 
 
+
+
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;
 	
