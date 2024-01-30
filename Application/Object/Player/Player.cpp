@@ -28,12 +28,13 @@ void Player::Initialize(Vector3 pos, ICamera* camera)
 	
 
 	reticleModel= Model::Create("Resources", "cube.obj");
+	reticleModel->worldTransform_->translation_ = { 3.0f,3.0f };
 	reticleModel->worldTransform_->scale_ = { 0.5f,0.5f,0.5f };
 
 	sprite2DReticle_.reset(Sprite::Create(textureReticle));
 	sprite2DReticle_->SetAnchorPoint({ 0.5f,0.5f });
 	sprite2DReticle_->worldTransform.translation_ = { 640.0f,360.0f };
-
+	sprite2DReticle_->SetPosition({ 640.0f,360.0f });
 }
 
 void Player::Update()
