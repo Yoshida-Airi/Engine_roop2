@@ -51,7 +51,10 @@ void RailCamera::Initialize(WorldTransform worldTransform, Vector3& radian)
 		{0,0,0},
 		{5,0,-5},
 		{10,0,0},
-		{15,0,10},
+		{15,0,5},
+		{10,0,10},
+		{5,0,5},
+		{0,0,0}
 	};
 
 }
@@ -61,7 +64,6 @@ void RailCamera::Initialize(WorldTransform worldTransform, Vector3& radian)
 /// </summary>
 void RailCamera::Update()
 {
-	//視点の媒介変数の処理
 	if (targetSection_ != 5) {
 		eyet_ += 1.0f / 360.0f;
 		if (eyet_ >= 1.0f) {
@@ -69,7 +71,6 @@ void RailCamera::Update()
 		}
 	}
 
-	//注視点の媒介変数の処理
 	if (targetSection_ != 5) {
 		targett_ += 1.0f / 360.0f;
 		if (targett_ >= 1.0f) {
@@ -84,42 +85,26 @@ void RailCamera::Update()
 	//注視点と視点の差分ベクトル
 	Vector3 forward = Normalize(Subtract(target_, eye_));
 
-	//z座標軸
-	Vector3 z = Subtract(target_, eye_);
-	z = Normalize(z);
-	//x座標軸
-	Vector3 x = Cross({ 0.0f, 1.0f, 0.0f }, z);
-	x = Normalize(x);
-	//y座標軸
-	Vector3 y = Cross(z, x);
-	//view行列の作成
-	Matrix4x4 matrix{};
-	matrix.m[0][0] = x.x;
-	matrix.m[0][1] = y.x;
-	matrix.m[0][2] = z.x;
-	matrix.m[0][3] = 0.0f;
-	matrix.m[1][0] = x.y;
-	matrix.m[1][1] = y.y;
-	matrix.m[1][2] = z.y;
-	matrix.m[1][3] = 0.0f;
-	matrix.m[2][0] = x.z;
-	matrix.m[2][1] = y.z;
-	matrix.m[2][2] = z.z;
-	matrix.m[2][3] = 0.0f;
-	matrix.m[3][0] = -Dot(eye_, x);
-	matrix.m[3][1] = -Dot(eye_, y);
-	matrix.m[3][2] = -Dot(eye_, z);
-	matrix.m[3][3] = 1.0f;
-	camera->matView = matrix;
 
-	//view行列の位置や方向をワールド行列に反映
+	Matrix4x4 rotateX = MakeRotateXMatrix(worldTransform_.rotation_.x);
+	Matrix4x4 rotateY = MakeRotateYMatrix(worldTransform_.rotation_.y);
+	Matrix4x4 rotateZ = MakeRotateZMatrix(worldTransform_.rotation_.z);
+
+	Matrix4x4 rotateMatrix = Multiply(Multiply(rotateX, rotateY), rotateZ);
+	Matrix4x4 scale = MakeScaleMatrix(worldTransform_.scale_);
+	Matrix4x4 translate = MakeTranselateMatrix(worldTransform_.translation_);
+
+	worldTransform_.matWorld_ = Multiply(scale, Multiply(rotateMatrix, translate));
+	
+
 	worldTransform_.translation_ = eye_;
 	worldTransform_.rotation_.y = std::atan2(forward.x, forward.z);
-	float length = Length({ forward.x, 0, forward.z });
-	worldTransform_.rotation_.x = std::atan2(-forward.y, length);
+	float velocity = sqrt(forward.x * forward.x + forward.z * forward.z);
+	worldTransform_.rotation_.x = std::atan2(-forward.y, velocity);
 	worldTransform_.matWorld_ = MakeAffinMatrix(
 		worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
+	camera->matView = Inverse(worldTransform_.matWorld_);
 
 	ImGui::Begin("RailCamera34");
 	ImGui::DragFloat3("CameraTranslation", &worldTransform_.translation_.x, 0.01f);
