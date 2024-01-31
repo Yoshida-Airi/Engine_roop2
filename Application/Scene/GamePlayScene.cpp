@@ -113,6 +113,11 @@ void GamePlayScene::Update()
 			sceneManager_->ChangeScene("TITLE");
 		}
 
+		if (player->GetHP() == 0)
+		{
+			sceneManager_->ChangeScene("GAMEOVER");
+		}
+
 		//レールカメラの更新
 		railCameraWorldTransform_.UpdateWorldMatrix();
 		railCamera->Update();

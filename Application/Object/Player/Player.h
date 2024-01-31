@@ -25,6 +25,8 @@ public:
 
 	void SetParent(const WorldTransform* transform);
 
+	int GetHP()const { return Hp; };
+
 private://メンバ変数
 	Input* input_ = nullptr;
 	ICamera* camera_ = nullptr;

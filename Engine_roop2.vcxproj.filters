@@ -111,6 +111,9 @@
     <ClCompile Include="Application\Object\Camera\RailCamera.cpp">
       <Filter>Application\Object\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Scene\GameOverScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -241,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="Application\Object\Camera\RailCamera.h">
       <Filter>Application\Object\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\GameOverScene.h">
+      <Filter>Application\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
