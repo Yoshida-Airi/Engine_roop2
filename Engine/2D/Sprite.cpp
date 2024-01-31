@@ -80,16 +80,7 @@ void Sprite::Initialize(uint32_t textureHandle)
 		std::random_device seedGenerator;
 		std::mt19937 randomEngine(seedGenerator());
 
-		std::uniform_real_distribution<float>distribution(-1.0f, 1.0f);
-		particles[index].transform.translate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
-		particles[index].velocity = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
-
-
-		particles[index].transform.scale = { 0.005f,0.005f,0.005f };
-		particles[index].transform.rotate = { 0.0f,3.14f,3.14f };
-		/*particles[index].transform.translate = { index * 0.1f,index * 0.1f,index * 0.1f };
-
-		particles[index].velocity = { 0.0f,0.1f,0.0f };*/
+		particles[index] = MakeNewParticle(randomEngine, { 0,0,0 });
 
 	}
 
@@ -305,4 +296,22 @@ void Sprite::SetSRV()
 	instancingSrvHandleGPU.ptr += (dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 5);
 
 	dxCommon_->GetDevice()->CreateShaderResourceView(instancingResources_.Get(), &instancingSrvDesc, instancingSrvHandleCPU);
+}
+
+Particle Sprite::MakeNewParticle(std::mt19937& randomEngine, const Vector3& translate)
+{
+	std::uniform_real_distribution<float>distribution(-1.0f, 1.0f);
+	std::uniform_real_distribution<float>distColor(0.0f, 1.0f);
+	std::uniform_real_distribution<float>distTime(1.0f, 3.0f);
+
+	Vector3 randomTranslate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
+
+
+	Particle particle;
+	particle.transform.scale = { 0.005f,0.005f,0.005f };
+	particle.transform.rotate = { 0.0f,3.14f,3.14f };
+	particle.transform.translate = { translate.x + randomTranslate.x,translate.y + randomTranslate.y,translate.z + randomTranslate.z };
+	particle.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
+
+	return particle;
 }

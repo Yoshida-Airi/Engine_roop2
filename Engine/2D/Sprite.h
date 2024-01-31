@@ -200,5 +200,7 @@ private://プライベート関数
 
 	void SetSRV();
 
+	Particle MakeNewParticle(std::mt19937& randomEngine, const Vector3& translate);
+
 };
 
