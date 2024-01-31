@@ -39,6 +39,8 @@ struct Particle
 	Transform transform;
 	Vector3 velocity;
 	Vector4 color;
+	float lifeTime;
+	float currentTime;
 };
 
 struct ParticleForGPU
@@ -120,7 +122,8 @@ public:
 
 private://プライベート変数
 
-	static const uint32_t kNumInstance = 10;
+	static const uint32_t kNumMaxInstance = 10;
+	uint32_t numInstance = 0;
 
 	DirectXCommon* dxCommon_;
 	TextureManager* texture_;
@@ -171,7 +174,7 @@ private://プライベート変数
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
 
-	Particle particles[kNumInstance];
+	Particle particles[kNumMaxInstance];
 
 	const float kDeltaTime = 1.0f / 60.0f;
 

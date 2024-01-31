@@ -75,7 +75,7 @@ void Sprite::Initialize(uint32_t textureHandle)
 	indexData_[4] = 3;
 	indexData_[5] = 2;
 
-	for (uint32_t index = 0; index < kNumInstance; ++index)
+	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
 	{
 		std::random_device seedGenerator;
 		std::mt19937 randomEngine(seedGenerator());
@@ -91,16 +91,12 @@ void Sprite::Update()
 	worldTransform_->UpdateWorldMatrix();
 	UpdateVertexBuffer();
 
-	for (uint32_t index = 0; index < kNumInstance; ++index)
+	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
 	{
 
 
-		Matrix4x4 worldMatrix = MakeAffinMatrix(particles[index].transform.scale, particles[index].transform.rotate, particles[index].transform.translate);
-		instancingData[index].WVP = worldMatrix;
-		instancingData[index].color = particles[index].color;
-		particles[index].transform.translate.x += particles[index].velocity.x * kDeltaTime;
-		particles[index].transform.translate.y += particles[index].velocity.y * kDeltaTime;
-		particles[index].transform.translate.z += particles[index].velocity.z * kDeltaTime;
+	
+		
 	}
 
 
@@ -122,6 +118,30 @@ void Sprite::Draw(ICamera* camera)
 		return;
 	}
 
+	uint32_t numInstance = 0;
+	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
+	{
+		if (particles[index].lifeTime <= particles[index].currentTime)
+		{
+			continue;
+		}
+
+		//float alpha = 1.0f - particleIterator->currentTime / particleIterator->lifeTime;
+
+		Matrix4x4 worldMatrix = MakeAffinMatrix(particles[index].transform.scale, particles[index].transform.rotate, particles[index].transform.translate);
+
+		particles[index].transform.translate.x += particles[index].velocity.x * kDeltaTime;
+		particles[index].transform.translate.y += particles[index].velocity.y * kDeltaTime;
+		particles[index].transform.translate.z += particles[index].velocity.z * kDeltaTime;
+		particles[index].currentTime += kDeltaTime;
+
+		instancingData[index].WVP = worldMatrix;
+		instancingData[index].color = particles[index].color;
+
+
+		++numInstance;
+	}
+
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(dxCommon_->GetPRootSignature());
 	dxCommon_->GetCommandList()->SetPipelineState(dxCommon_->GetPGraphicPipelineState());
 
@@ -141,7 +161,7 @@ void Sprite::Draw(ICamera* camera)
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
 	//描画
 	/*dxCommon_->GetCommandList()->DrawInstanced(6, 1, 0, 0);*/
-	dxCommon_->GetCommandList()->DrawIndexedInstanced(6, kNumInstance, 0, 0, 0);
+	dxCommon_->GetCommandList()->DrawIndexedInstanced(6, numInstance, 0, 0, 0);
 }
 
 void Sprite::SetVertexData(const float left, const float right, const float top, const float bottom)
@@ -270,10 +290,10 @@ void Sprite::AdjustTextureSize() {
 
 void Sprite::InstancingBuffer()
 {
-	instancingResources_ = dxCommon_->CreateBufferResource(sizeof(ParticleForGPU) * kNumInstance);
+	instancingResources_ = dxCommon_->CreateBufferResource(sizeof(ParticleForGPU) * kNumMaxInstance);
 	instancingResources_->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
 
-	for (uint32_t index = 0; index < kNumInstance; ++index)
+	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
 	{
 		instancingData[index].WVP = MakeIdentity4x4();
 		instancingData[index].color = { 1.0f,1.0f,1.0f,1.0f };
@@ -288,7 +308,7 @@ void Sprite::SetSRV()
 	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingSrvDesc.Buffer.NumElements = kNumInstance;
+	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance;
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 	instancingSrvHandleCPU = texture_->GetCPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4);
 	instancingSrvHandleGPU = texture_->GetGPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4);
@@ -315,6 +335,7 @@ Particle Sprite::MakeNewParticle(std::mt19937& randomEngine, const Vector3& tran
 	particle.transform.translate = { translate.x + randomTranslate.x,translate.y + randomTranslate.y,translate.z + randomTranslate.z };
 	particle.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
 	particle.color = { distColor(randomEngine) ,distColor(randomEngine) ,distColor(randomEngine) ,1.0f };
-
+	particle.lifeTime = distTime(randomEngine);
+	particle.currentTime = 0;
 	return particle;
 }
