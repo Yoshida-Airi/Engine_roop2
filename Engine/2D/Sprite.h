@@ -106,12 +106,15 @@ public:
 
 private://プライベート変数
 
+	static const uint32_t kNumInstance = 10;
+
 	DirectXCommon* dxCommon_;
 	TextureManager* texture_;
 
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> indexResource_;	//頂点リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource>instancingResources_;
 
 	D3D12_RESOURCE_DESC resourceDesc_{};	//テクスチャの情報
 
@@ -124,6 +127,7 @@ private://プライベート変数
 	VertexData* vertexData_ = nullptr;	//頂点データ
 	Material* materialData_ = nullptr;	//マテリアルデータ
 	uint32_t* indexData_ = nullptr;		//インデックスデータ
+	Matrix4x4* instancingData = nullptr;
 
 	Transform uvTransform;
 	Vector2 textureSize_;	//切り出しサイズ
@@ -147,6 +151,13 @@ private://プライベート変数
 	float texRight;
 	float texTop;
 	float texBottom;
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
+
+	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
+	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
+
+	Transform transform[kNumInstance];
 
 private://プライベート関数
 
@@ -174,6 +185,10 @@ private://プライベート関数
 	/// テクスチャサイズをオリジナルに合わせる
 	/// </summary>
 	void AdjustTextureSize();
+
+	void InstancingBuffer();
+
+	void SetSRV();
 
 };
 

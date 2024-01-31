@@ -44,6 +44,13 @@ public:
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; };
 	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc; };
 
+	ID3D12RootSignature* GetRootSignature()const { return rootSignature.Get(); };
+	ID3D12RootSignature* GetPRootSignature()const { return particleRootSignature.Get(); };
+
+	ID3D12PipelineState* GetGraphicPipelineState()const { return graphicPipelineState.Get(); };
+	ID3D12PipelineState* GetPGraphicPipelineState()const { return PgraphicPipelineState.Get(); };
+
+
 private:
 
 	/// <summary>
@@ -115,6 +122,8 @@ private:
 	/// ルートシグネチャの生成
 	/// </summary>
 	void SetupRootSignature();
+
+	void SetupParticleRootSignature();
 
 	/// <summary>
 	/// インプットレイアウトの生成
@@ -198,12 +207,17 @@ private:
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs[3] = {};
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
 	Microsoft::WRL::ComPtr< ID3D12RootSignature> rootSignature = nullptr;	//バイナリを元に生成
+	Microsoft::WRL::ComPtr< ID3D12RootSignature> particleRootSignature = nullptr;	//バイナリを元に生成
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};	//DepthStensilStateの設定
 
 	Microsoft::WRL::ComPtr< IDxcBlob> vertexShaderBlob;
 	Microsoft::WRL::ComPtr< IDxcBlob> pixelShaderBlob;
 
+	Microsoft::WRL::ComPtr< IDxcBlob> PvertexShaderBlob;
+	Microsoft::WRL::ComPtr< IDxcBlob> PpixelShaderBlob;
+
 	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
+	Microsoft::WRL::ComPtr< ID3D12PipelineState> PgraphicPipelineState = nullptr;
 
 	D3D12_VIEWPORT viewport{};	//ビューポート
 	D3D12_RECT scissorRect{};	//シザー矩形

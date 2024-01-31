@@ -11,7 +11,7 @@ struct ViewProjectionMatrix
     float32_t4x4 projection;
 };
 
-ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
+StructuredBuffer<TransformationMatrix> gTransformationMatrices : register(t0);
 ConstantBuffer<ViewProjectionMatrix> gViewProjectionMatrix : register(b1);
 
 
@@ -22,7 +22,7 @@ struct VertexShaderInput
     float32_t3 normal : NORMAL0;
 };
 
-VertexShaderOutput main(VertexShaderInput input)
+VertexShaderOutput main(VertexShaderInput input, uint32_t instanceId : SV_InstanceID)
 {
     VertexShaderOutput output;
     
@@ -30,9 +30,9 @@ VertexShaderOutput main(VertexShaderInput input)
 
     // 通常カメラ
     float32_t4x4 ViewProjectionMatrix = mul(gViewProjectionMatrix.view, gViewProjectionMatrix.projection);
-    float32_t4x4 WorldViewProjectionMatrix = mul(gTransformationMatrix.WorldMatrix, ViewProjectionMatrix);
+    float32_t4x4 WorldViewProjectionMatrix = mul(gTransformationMatrices[instanceId].WorldMatrix, ViewProjectionMatrix);
     output.position = mul(input.position, WorldViewProjectionMatrix);
-    output.normal = normalize(mul(input.normal, (float32_t3x3) gTransformationMatrix.WorldMatrix));
+    output.normal = normalize(mul(input.normal, (float32_t3x3) gTransformationMatrices[instanceId].WorldMatrix));
     
     return output;
 }
