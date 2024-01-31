@@ -84,7 +84,6 @@ void DirectXCommon::PreDraw()
 	commandList->RSSetScissorRects(1, &scissorRect);
 	commandList->SetGraphicsRootSignature(rootSignature.Get());
 	commandList->SetPipelineState(graphicPipelineState.Get());
-	commandList->SetPipelineState(graphicPipelineState.Get());
 	commandList->SetDescriptorHeaps(1, srvDescriptorHeap.GetAddressOf());
 	commandList->OMSetRenderTargets(1, &rtvHandles[backBufferIndex], false, &dsvhandle);
 	commandList->ClearDepthStencilView(dsvhandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
