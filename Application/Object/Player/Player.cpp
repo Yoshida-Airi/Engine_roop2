@@ -8,6 +8,11 @@ Player::~Player()
 		delete bullet;
 	}
 
+	for (int i = 0; i < 3; ++i)
+	{
+		delete heartSprite_[i];
+
+	}
 
 }
 
@@ -35,6 +40,21 @@ void Player::Initialize(Vector3 pos, ICamera* camera)
 	sprite2DReticle_->SetAnchorPoint({ 0.5f,0.5f });
 	sprite2DReticle_->worldTransform.translation_ = { 640.0f,360.0f };
 	sprite2DReticle_->SetPosition({ 640.0f,360.0f });
+
+	
+
+	for (int i = 0; i < 3; ++i)
+	{
+		heartSprite_[i] = new Sprite();
+		heartTex = TextureManager::GetInstance()->LoadTexture("Resources/Heart.png");
+		heartSprite_[i]->Initialize(heartTex);
+	}
+
+	heartSprite_[1]->SetPosition({ 40.0,0.0f });
+	heartSprite_[2]->SetPosition({ 80.0f,0.0f });
+
+	Hp = 3;
+
 }
 
 void Player::Update()
@@ -64,6 +84,10 @@ void Player::Update()
 
 	sprite2DReticle_->Update();
 
+	for (int i = 0; i < 3; ++i)
+	{
+		heartSprite_[i]->Update();
+	}
 };
 
 
@@ -78,11 +102,37 @@ void Player::Draw(ICamera* camera)
 		bullet->Draw(camera);
 	}
 
+	
+
 }
 
 void Player::DrawUI(ICamera* camera)
 {
 	sprite2DReticle_->Draw(camera);
+
+	if (Hp == 3)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			heartSprite_[i]->Draw(camera);
+		}
+	}
+
+	if (Hp == 2)
+	{
+		for (int i = 0; i < 2; ++i)
+		{
+			heartSprite_[i]->Draw(camera);
+		}
+	}
+
+	if (Hp == 1)
+	{
+		for (int i = 0; i < 1; ++i)
+		{
+			heartSprite_[i]->Draw(camera);
+		}
+	}
 }
 
 Vector3 Player::GetWorldPosition()
@@ -113,6 +163,7 @@ Vector3 Player::GetReticleWorldPosition()
 
 void Player::OnCollision()
 {
+	Hp -= 1;
 }
 
 void Player::SetParent(const WorldTransform* transform)

@@ -30,6 +30,7 @@ private://メンバ変数
 	ICamera* camera_ = nullptr;
 
 	uint32_t textureReticle = TextureManager::GetInstance()->LoadTexture("Resources/reticle.png");
+	uint32_t heartTex;
 
 	std::unique_ptr<Model> playerModel_ = nullptr;
 
@@ -38,6 +39,9 @@ private://メンバ変数
 
 	std::unique_ptr<Model> reticleModel = nullptr;
 	std::unique_ptr<Sprite> sprite2DReticle_ = nullptr;
+
+	Sprite* heartSprite_[3] = {};
+	int Hp = 3;
 
 private://メンバ関数
 
