@@ -22,7 +22,7 @@ void TitleScene::Initialize()
 
 
 	fence_.reset(Model::Create("Resources", "fence.obj"));
-	cube_.reset(Model::Create("Resources", "fence.obj"));
+	cube_.reset(Model::Create("Resources", "cube.obj"));
 
 }
 
