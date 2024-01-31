@@ -122,6 +122,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Logger\Logger.cpp" />
     <ClCompile Include="Application\Scene\GamePlayScene.cpp" />
     <ClCompile Include="Application\Scene\GameOverScene.cpp" />
+    <ClCompile Include="Application\Scene\GameClearScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Math\MathUtilty.cpp" />
     <ClCompile Include="Engine\3D\Model.cpp" />
@@ -186,6 +187,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Skydome\Skydome.h" />
     <ClInclude Include="Application\Object\Camera\RailCamera.h" />
     <ClInclude Include="Application\Scene\GameOverScene.h" />
+    <ClInclude Include="Application\Scene\GameClearScene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D.PS.hlsl">

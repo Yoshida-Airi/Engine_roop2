@@ -114,6 +114,9 @@
     <ClCompile Include="Application\Scene\GameOverScene.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Scene\GameClearScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -246,6 +249,9 @@
       <Filter>Application\Object\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Application\Scene\GameOverScene.h">
+      <Filter>Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\GameClearScene.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
   </ItemGroup>

@@ -68,11 +68,13 @@ void GamePlayScene::Initialize()
 	fadeSprite->SetMaterialData({ 1.0f,1.0f,1.0f,alpha });
 
 	StartFadeOut();
+
+	clearTIme = 0;
 }
 
 void GamePlayScene::Update()
 {
-
+	clearTIme++;
 
 	if (isFadingOut == true)
 	{
@@ -116,6 +118,11 @@ void GamePlayScene::Update()
 		if (player->GetHP() == 0)
 		{
 			sceneManager_->ChangeScene("GAMEOVER");
+		}
+
+		if (clearTIme >= 1800)
+		{
+			sceneManager_->ChangeScene("GAMECLEAR");
 		}
 
 		//レールカメラの更新
@@ -170,6 +177,7 @@ void GamePlayScene::Update()
 
 		fadeSprite->Update();
 	
+
 	
 }
 

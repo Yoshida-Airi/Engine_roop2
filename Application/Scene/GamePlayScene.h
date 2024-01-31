@@ -91,6 +91,7 @@ private:
 	float alpha = 0;
 	bool isFadingOut = false;
 
+	float clearTIme = 0;
 
 #ifdef _DEBUG
 
