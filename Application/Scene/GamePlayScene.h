@@ -46,6 +46,7 @@ private:
 
 	Input* input;
 
+	Emitter emitter;
 
 	std::unique_ptr<Triangle> triangle = nullptr;
 	std::unique_ptr<Triangle> triangle2 = nullptr;

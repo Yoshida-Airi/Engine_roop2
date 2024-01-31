@@ -26,7 +26,7 @@ public:
 
 private:
 
-	EfectManager* efect = nullptr;
+	//EfectManager* efect = nullptr;
 
 	Input* input;
 	SceneManager* sceneManager_ = nullptr;

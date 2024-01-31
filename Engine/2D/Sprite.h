@@ -43,6 +43,14 @@ struct Particle
 	float currentTime;
 };
 
+struct Emitter
+{
+	Transform transform;	//エミッタのTransform
+	uint32_t count;			//発生数
+	float frequency;		//発生頻度
+	float frequencyTime;	//頻度用時刻
+};
+
 struct ParticleForGPU
 {
 	Matrix4x4 WVP;
@@ -54,7 +62,7 @@ class Sprite
 public:
 	~Sprite();
 
-	void Initialize(uint32_t textureHandle);
+	void Initialize(uint32_t textureHandle, Emitter emitter);
 	void Update();
 	void Draw(ICamera* camera);
 
@@ -113,12 +121,14 @@ public:
 	/// </summary>
 	/// <param name="textureHandle">テクスチャ</param>
 	/// <returns>四角形</returns>
-	static Sprite* Create(uint32_t textureHandle);
+	static Sprite* Create(uint32_t textureHandle,Emitter emitter);
 
 	/// <summary>
 	/// Imgui
 	/// </summary>
 	void Debug(const char* name);
+
+	std::list<Particle>Emission(const Emitter& emitter, std::mt19937& randomEngine);
 
 private://プライベート変数
 
@@ -174,7 +184,8 @@ private://プライベート変数
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
 
-	Particle particles[kNumMaxInstance];
+	std::list<Particle> particles;
+	Emitter emitter_;
 
 	const float kDeltaTime = 1.0f / 60.0f;
 

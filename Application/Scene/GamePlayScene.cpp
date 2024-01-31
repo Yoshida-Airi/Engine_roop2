@@ -44,12 +44,23 @@ void GamePlayScene::Initialize()
 	
 	//sprite->SetisInvisible(true);
 
-
-	sprite2.reset(Sprite::Create(circle));
+	emitter.count = 3;
+	emitter.frequency = 0.5f;
+	emitter.frequencyTime = 0.0f;
+	emitter.transform.translate = { 0.0f,0.2f,0.0f };
+	emitter.transform.rotate = { 0.0f,0.0f,0.0f };
+	emitter.transform.scale = { 1.0f,1.0f,1.0f };
+	sprite2.reset(Sprite::Create(circle,emitter));
 	/*sprite2->SetSize({ 64.0f, 64.0f });
 	sprite2->SetTextureLeftTop({ 0,0 });*/
 	/*sprite2->SetisInvisible(true);*/
 
+	emitter.count = 3;
+	emitter.frequency = 0.5f;
+	emitter.frequencyTime = 0.0f;
+	emitter.transform.translate = { 10.8f,0.2f,0.0f };
+	emitter.transform.rotate = { 0.0f,0.0f,0.0f };
+	emitter.transform.scale = { 1.0f,1.0f,1.0f };
 	sphere.reset(Sphere::Create(monsterBall));
 	//sphere->SetisInvisible(true);
 

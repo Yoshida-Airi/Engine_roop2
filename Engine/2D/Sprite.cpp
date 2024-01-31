@@ -10,7 +10,7 @@ Sprite::~Sprite()
 	delete worldTransform_;
 }
 
-void Sprite::Initialize(uint32_t textureHandle)
+void Sprite::Initialize(uint32_t textureHandle, Emitter emitter)
 {
 
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -20,7 +20,8 @@ void Sprite::Initialize(uint32_t textureHandle)
 	worldTransform_->Initialize();
 	textureHandle_ = textureHandle;
 
-	
+	emitter_ = emitter;
+
 	uvTransform =
 	{
 		{1.0f,1.0f,1.0f,},
@@ -75,12 +76,16 @@ void Sprite::Initialize(uint32_t textureHandle)
 	indexData_[4] = 3;
 	indexData_[5] = 2;
 
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
+
+
 	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
 	{
-		std::random_device seedGenerator;
-		std::mt19937 randomEngine(seedGenerator());
-
-		particles[index] = MakeNewParticle(randomEngine, { 0,0,0 });
+		
+		particles.push_back(MakeNewParticle(randomEngine, emitter_.transform.translate));
+		particles.push_back(MakeNewParticle(randomEngine, emitter_.transform.translate));
+		particles.push_back(MakeNewParticle(randomEngine, emitter_.transform.translate));
 
 	}
 
@@ -88,17 +93,20 @@ void Sprite::Initialize(uint32_t textureHandle)
 
 void Sprite::Update()
 {
+	
+
 	worldTransform_->UpdateWorldMatrix();
 	UpdateVertexBuffer();
 
-	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
+	std::random_device seedGenerator;
+	std::mt19937 randomEngine(seedGenerator());
+
+	emitter_.frequencyTime += kDeltaTime;
+	if (emitter_.frequency <= emitter_.frequencyTime)
 	{
-
-
-	
-		
+		particles.splice(particles.end(), Emission(emitter_, randomEngine));
+		emitter_.frequencyTime -= emitter_.frequency;
 	}
-
 
 	Matrix4x4 uvTransformMatrix_ = MakeScaleMatrix(uvTransform.scale);
 	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeRotateZMatrix(uvTransform.rotate.z));
@@ -106,7 +114,13 @@ void Sprite::Update()
 	materialData_->uvTransform = uvTransformMatrix_;
 
 	
-	
+	ImGui::Begin("emitter");
+
+	float translate[3] = { emitter_.transform.translate.x,emitter_.transform.translate.y,emitter_.transform.translate.z };
+	ImGui::DragFloat3("transform", translate, -100, 100);
+	emitter_.transform.translate = { translate[0],translate[1],translate[2] };
+
+	ImGui::End();
 
 
 }
@@ -119,28 +133,34 @@ void Sprite::Draw(ICamera* camera)
 	}
 
 	uint32_t numInstance = 0;
-	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
+	for (std::list<Particle>::iterator particleIterator = particles.begin(); particleIterator != particles.end(); )
 	{
-		if (particles[index].lifeTime <= particles[index].currentTime)
+		if ((*particleIterator).lifeTime <= (*particleIterator).currentTime)
 		{
+			particleIterator = particles.erase(particleIterator);
 			continue;
 		}
 
-		float alpha = 1.0f - (particles[index].currentTime / particles[index].lifeTime);
+		float alpha = 1.0f - particleIterator->currentTime / particleIterator->lifeTime;
 
-		Matrix4x4 worldMatrix = MakeAffinMatrix(particles[index].transform.scale, particles[index].transform.rotate, particles[index].transform.translate);
+		Matrix4x4 worldMatrix = MakeAffinMatrix(particleIterator->transform.scale, particleIterator->transform.rotate, particleIterator->transform.translate);
 
-		particles[index].transform.translate.x += particles[index].velocity.x * kDeltaTime;
-		particles[index].transform.translate.y += particles[index].velocity.y * kDeltaTime;
-		particles[index].transform.translate.z += particles[index].velocity.z * kDeltaTime;
-		particles[index].currentTime += kDeltaTime;
+		particleIterator->transform.translate.x += (*particleIterator).velocity.x * kDeltaTime;
+		particleIterator->transform.translate.y += (*particleIterator).velocity.y * kDeltaTime;
+		particleIterator->transform.translate.z += (*particleIterator).velocity.z * kDeltaTime;
 
-		instancingData[index].WVP = worldMatrix;
-		instancingData[index].color = particles[index].color;
-		instancingData[index].color.w = alpha;
+		particleIterator->currentTime += kDeltaTime;
 
 
-		++numInstance;
+		if (numInstance < kNumMaxInstance)
+		{
+			instancingData[numInstance].WVP = worldMatrix;
+			instancingData[numInstance].color = (*particleIterator).color;
+			instancingData[numInstance].color.w = alpha;
+			++numInstance;
+		}
+
+		++particleIterator;
 	}
 
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(dxCommon_->GetPRootSignature());
@@ -183,10 +203,10 @@ void Sprite::SetAlpha()
 	
 }
 
-Sprite* Sprite::Create(uint32_t textureHandle)
+Sprite* Sprite::Create(uint32_t textureHandle, Emitter emitter)
 {
 	Sprite* sprite = new Sprite();
-	sprite->Initialize(textureHandle);
+	sprite->Initialize(textureHandle,emitter);
 	return sprite;
 }
 
@@ -201,6 +221,19 @@ void Sprite::Debug(const char* name)
 	ImGui::End();
 #endif // _DEBUG
 }
+
+std::list<Particle> Sprite::Emission(const Emitter& emitter, std::mt19937& randomEngine)
+{
+	std::list<Particle>particle;
+
+	for (uint32_t count = 0; count < emitter.count; ++count)
+	{
+		particle.push_back(MakeNewParticle(randomEngine, emitter_.transform.translate));
+	}
+
+	return particle;
+}
+
 
 
 /*=====================================*/
