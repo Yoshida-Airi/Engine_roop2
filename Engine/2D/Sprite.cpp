@@ -77,9 +77,12 @@ void Sprite::Initialize(uint32_t textureHandle)
 
 	for (uint32_t index = 0; index < kNumInstance; ++index)
 	{
-		transform[index].scale = { 0.005f,0.005f,0.005f };
-		transform[index].rotate = { 0.0f,3.14f,3.14f };
-		transform[index].translate = { index * 0.1f,index * 0.1f,index * 0.1f };
+		particles[index].transform.scale = { 0.005f,0.005f,0.005f };
+		particles[index].transform.rotate = { 0.0f,3.14f,3.14f };
+		particles[index].transform.translate = { index * 0.1f,index * 0.1f,index * 0.1f };
+
+		particles[index].velocity = { 0.0f,0.1f,0.0f };
+
 	}
 
 }
@@ -91,8 +94,9 @@ void Sprite::Update()
 
 	for (uint32_t index = 0; index < kNumInstance; ++index)
 	{
-		Matrix4x4 worldMatrix = MakeAffinMatrix(transform[index].scale, transform[index].rotate, transform[index].translate);
+		Matrix4x4 worldMatrix = MakeAffinMatrix(particles[index].transform.scale, particles[index].transform.rotate, particles[index].transform.translate);
 		instancingData[index] = worldMatrix;
+		particles[index].transform.translate.y += particles[index].velocity.y * kDeltaTime;
 	}
 
 

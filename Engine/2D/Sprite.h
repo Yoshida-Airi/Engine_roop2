@@ -32,6 +32,12 @@ enum VertexNumber
 	RT
 };
 
+struct Particle
+{
+	Transform transform;
+	Vector3 velocity;
+};
+
 
 class Sprite
 {
@@ -157,7 +163,9 @@ private://プライベート変数
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
 
-	Transform transform[kNumInstance];
+	Particle particles[kNumInstance];
+
+	const float kDeltaTime = 1.0f / 60.0f;
 
 private://プライベート関数
 
