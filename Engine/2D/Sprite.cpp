@@ -77,11 +77,19 @@ void Sprite::Initialize(uint32_t textureHandle)
 
 	for (uint32_t index = 0; index < kNumInstance; ++index)
 	{
+		std::random_device seedGenerator;
+		std::mt19937 randomEngine(seedGenerator());
+
+		std::uniform_real_distribution<float>distribution(-1.0f, 1.0f);
+		particles[index].transform.translate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
+		particles[index].velocity = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
+
+
 		particles[index].transform.scale = { 0.005f,0.005f,0.005f };
 		particles[index].transform.rotate = { 0.0f,3.14f,3.14f };
-		particles[index].transform.translate = { index * 0.1f,index * 0.1f,index * 0.1f };
+		/*particles[index].transform.translate = { index * 0.1f,index * 0.1f,index * 0.1f };
 
-		particles[index].velocity = { 0.0f,0.1f,0.0f };
+		particles[index].velocity = { 0.0f,0.1f,0.0f };*/
 
 	}
 
@@ -94,9 +102,13 @@ void Sprite::Update()
 
 	for (uint32_t index = 0; index < kNumInstance; ++index)
 	{
+
+
 		Matrix4x4 worldMatrix = MakeAffinMatrix(particles[index].transform.scale, particles[index].transform.rotate, particles[index].transform.translate);
 		instancingData[index] = worldMatrix;
+		particles[index].transform.translate.x += particles[index].velocity.x * kDeltaTime;
 		particles[index].transform.translate.y += particles[index].velocity.y * kDeltaTime;
+		particles[index].transform.translate.z += particles[index].velocity.z * kDeltaTime;
 	}
 
 
@@ -105,6 +117,8 @@ void Sprite::Update()
 	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeTranselateMatrix(uvTransform.translate));
 	materialData_->uvTransform = uvTransformMatrix_;
 
+	
+	
 
 
 }
