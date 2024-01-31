@@ -96,7 +96,8 @@ void Sprite::Update()
 
 
 		Matrix4x4 worldMatrix = MakeAffinMatrix(particles[index].transform.scale, particles[index].transform.rotate, particles[index].transform.translate);
-		instancingData[index] = worldMatrix;
+		instancingData[index].WVP = worldMatrix;
+		instancingData[index].color = particles[index].color;
 		particles[index].transform.translate.x += particles[index].velocity.x * kDeltaTime;
 		particles[index].transform.translate.y += particles[index].velocity.y * kDeltaTime;
 		particles[index].transform.translate.z += particles[index].velocity.z * kDeltaTime;
@@ -269,12 +270,13 @@ void Sprite::AdjustTextureSize() {
 
 void Sprite::InstancingBuffer()
 {
-	instancingResources_ = dxCommon_->CreateBufferResource(sizeof(Matrix4x4) * kNumInstance);
+	instancingResources_ = dxCommon_->CreateBufferResource(sizeof(ParticleForGPU) * kNumInstance);
 	instancingResources_->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
 
 	for (uint32_t index = 0; index < kNumInstance; ++index)
 	{
-		instancingData[index] = MakeIdentity4x4();
+		instancingData[index].WVP = MakeIdentity4x4();
+		instancingData[index].color = { 1.0f,1.0f,1.0f,1.0f };
 	}
 }
 
@@ -287,7 +289,7 @@ void Sprite::SetSRV()
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	instancingSrvDesc.Buffer.NumElements = kNumInstance;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(Matrix4x4);
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
 	instancingSrvHandleCPU = texture_->GetCPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4);
 	instancingSrvHandleGPU = texture_->GetGPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 4);
 
@@ -312,6 +314,7 @@ Particle Sprite::MakeNewParticle(std::mt19937& randomEngine, const Vector3& tran
 	particle.transform.rotate = { 0.0f,3.14f,3.14f };
 	particle.transform.translate = { translate.x + randomTranslate.x,translate.y + randomTranslate.y,translate.z + randomTranslate.z };
 	particle.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
+	particle.color = { distColor(randomEngine) ,distColor(randomEngine) ,distColor(randomEngine) ,1.0f };
 
 	return particle;
 }

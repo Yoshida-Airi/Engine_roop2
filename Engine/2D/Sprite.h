@@ -38,8 +38,14 @@ struct Particle
 {
 	Transform transform;
 	Vector3 velocity;
+	Vector4 color;
 };
 
+struct ParticleForGPU
+{
+	Matrix4x4 WVP;
+	Vector4 color;
+};
 
 class Sprite
 {
@@ -135,7 +141,7 @@ private://プライベート変数
 	VertexData* vertexData_ = nullptr;	//頂点データ
 	Material* materialData_ = nullptr;	//マテリアルデータ
 	uint32_t* indexData_ = nullptr;		//インデックスデータ
-	Matrix4x4* instancingData = nullptr;
+	ParticleForGPU* instancingData = nullptr;
 
 	Transform uvTransform;
 	Vector2 textureSize_;	//切り出しサイズ
