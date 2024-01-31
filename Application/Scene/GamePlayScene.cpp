@@ -22,6 +22,7 @@ void GamePlayScene::Initialize()
 	uvTexture = texture->LoadTexture("Resources/uvChecker.png");
 	monsterBall = texture->LoadTexture("Resources/monsterBall.png");
 	Doll = texture->LoadTexture("Resources/Doll.png");
+	circle = texture->LoadTexture("Resources/circle.png");
 
 	camera = new Camera;
 	camera->Initialize();
@@ -44,7 +45,7 @@ void GamePlayScene::Initialize()
 	//sprite->SetisInvisible(true);
 
 
-	sprite2.reset(Sprite::Create(uvTexture));
+	sprite2.reset(Sprite::Create(circle));
 	/*sprite2->SetSize({ 64.0f, 64.0f });
 	sprite2->SetTextureLeftTop({ 0,0 });*/
 	/*sprite2->SetisInvisible(true);*/

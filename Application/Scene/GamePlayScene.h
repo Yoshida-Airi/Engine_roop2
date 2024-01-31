@@ -35,6 +35,7 @@ private:
 	uint32_t uvTexture;
 	uint32_t monsterBall;
 	uint32_t Doll;
+	uint32_t circle;
 
 	ModelLoader* object;
 	ModelData plane;

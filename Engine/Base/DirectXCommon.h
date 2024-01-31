@@ -203,7 +203,7 @@ private:
 	IDxcCompiler3* dxcCompiler = nullptr;
 	IDxcIncludeHandler* includeHandler = nullptr;
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
-	D3D12_BLEND_DESC blendDesc{};
+	
 	D3D12_INPUT_ELEMENT_DESC inputElementDescs[3] = {};
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
 	Microsoft::WRL::ComPtr< ID3D12RootSignature> rootSignature = nullptr;	//バイナリを元に生成
@@ -221,6 +221,9 @@ private:
 
 	D3D12_VIEWPORT viewport{};	//ビューポート
 	D3D12_RECT scissorRect{};	//シザー矩形
+
+	D3D12_BLEND_DESC NormalblendDesc{};
+	D3D12_BLEND_DESC AddblendDesc{};
 
 	//静的メンバ変数の宣言と初期化
 	static DirectXCommon* instance;

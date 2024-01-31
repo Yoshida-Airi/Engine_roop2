@@ -454,7 +454,7 @@ void DirectXCommon::SetupPSO()
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc;
 	graphicsPipelineStateDesc.VS = { vertexShaderBlob->GetBufferPointer(),vertexShaderBlob->GetBufferSize() };
 	graphicsPipelineStateDesc.PS = { pixelShaderBlob->GetBufferPointer(),pixelShaderBlob->GetBufferSize() };
-	graphicsPipelineStateDesc.BlendState = blendDesc;
+	graphicsPipelineStateDesc.BlendState = NormalblendDesc;
 	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc;
 
 
@@ -479,7 +479,7 @@ void DirectXCommon::SetupPSO()
 	graphicsPipelineStateDesc2.InputLayout = inputLayoutDesc;
 	graphicsPipelineStateDesc2.VS = { PvertexShaderBlob->GetBufferPointer(),PvertexShaderBlob->GetBufferSize() };
 	graphicsPipelineStateDesc2.PS = { PpixelShaderBlob->GetBufferPointer(),PpixelShaderBlob->GetBufferSize() };
-	graphicsPipelineStateDesc2.BlendState = blendDesc;
+	graphicsPipelineStateDesc2.BlendState = AddblendDesc;
 	graphicsPipelineStateDesc2.RasterizerState = rasterizerDesc;
 
 
@@ -669,16 +669,24 @@ void DirectXCommon::SetupInputLayout()
 void DirectXCommon::SetupBlendState()
 {
 	//すべての色情報を書き込む
-	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-	blendDesc.RenderTarget[0].BlendEnable = TRUE;
-	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
-	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
-	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+	NormalblendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	NormalblendDesc.RenderTarget[0].BlendEnable = TRUE;
+	NormalblendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	NormalblendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+	NormalblendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	NormalblendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+	NormalblendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	NormalblendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 
-
+	//すべての色情報を書き込む
+	AddblendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	AddblendDesc.RenderTarget[0].BlendEnable = TRUE;
+	AddblendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	AddblendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+	AddblendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+	AddblendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+	AddblendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	AddblendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 
 }
 
@@ -708,7 +716,7 @@ void DirectXCommon::SetupDepthStencilState()
 	//Depthの機能を有効化する
 	depthStencilDesc.DepthEnable = true;
 	//書き込みします
-	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	//比較関数はLessEqual。つまり、近ければ描画される
 	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 }
