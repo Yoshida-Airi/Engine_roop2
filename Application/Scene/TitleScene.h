@@ -6,7 +6,7 @@
 #include"Input.h"
 
 #include"Triangle.h"
-#include"Sprite.h"
+#include"ParticleSystem.h"
 #include"Sphere.h"
 #include"Model.h"
 

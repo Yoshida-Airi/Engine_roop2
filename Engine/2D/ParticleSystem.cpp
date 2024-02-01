@@ -1,16 +1,16 @@
-#include "Sprite.h"
+#include "ParticleSystem.h"
 #include"TextureManager.h"
 
 /*=====================================*/
 /* 　　　　   パブリックメソッド　　　	　 */
 /*=====================================*/
 
-Sprite::~Sprite()
+ParticleSystem::~ParticleSystem()
 {
 	delete worldTransform_;
 }
 
-void Sprite::Initialize(uint32_t textureHandle, Emitter emitter)
+void ParticleSystem::Initialize(uint32_t textureHandle, Emitter emitter)
 {
 
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -91,7 +91,7 @@ void Sprite::Initialize(uint32_t textureHandle, Emitter emitter)
 
 }
 
-void Sprite::Update()
+void ParticleSystem::Update()
 {
 	
 
@@ -125,7 +125,7 @@ void Sprite::Update()
 
 }
 
-void Sprite::Draw(ICamera* camera)
+void ParticleSystem::Draw(ICamera* camera)
 {
 	if (isInvisible_ == true)
 	{
@@ -185,7 +185,7 @@ void Sprite::Draw(ICamera* camera)
 	dxCommon_->GetCommandList()->DrawIndexedInstanced(6, numInstance, 0, 0, 0);
 }
 
-void Sprite::SetVertexData(const float left, const float right, const float top, const float bottom)
+void ParticleSystem::SetVertexData(const float left, const float right, const float top, const float bottom)
 {
 	this->left = left;
 	this->right = right;
@@ -193,24 +193,24 @@ void Sprite::SetVertexData(const float left, const float right, const float top,
 	this->bottom = bottom;
 }
 
-void Sprite::SetMaterialData(const Vector4 color)
+void ParticleSystem::SetMaterialData(const Vector4 color)
 {
 	materialData_[0].color = color;
 }
 
-void Sprite::SetAlpha()
+void ParticleSystem::SetAlpha()
 {
 	
 }
 
-Sprite* Sprite::Create(uint32_t textureHandle, Emitter emitter)
+ParticleSystem* ParticleSystem::Create(uint32_t textureHandle, Emitter emitter)
 {
-	Sprite* sprite = new Sprite();
+	ParticleSystem* sprite = new ParticleSystem();
 	sprite->Initialize(textureHandle,emitter);
 	return sprite;
 }
 
-void Sprite::Debug(const char* name)
+void ParticleSystem::Debug(const char* name)
 {
 #ifdef _DEBUG
 	ImGui::Begin(name);
@@ -222,7 +222,7 @@ void Sprite::Debug(const char* name)
 #endif // _DEBUG
 }
 
-std::list<Particle> Sprite::Emission(const Emitter& emitter, std::mt19937& randomEngine)
+std::list<Particle> ParticleSystem::Emission(const Emitter& emitter, std::mt19937& randomEngine)
 {
 	std::list<Particle>particle;
 
@@ -241,7 +241,7 @@ std::list<Particle> Sprite::Emission(const Emitter& emitter, std::mt19937& rando
 /*=====================================*/
 
 
-void Sprite::VertexBuffer()
+void ParticleSystem::VertexBuffer()
 {
 	vertexResource_ = dxCommon_->CreateBufferResource(sizeof(VertexData) * 6);	//頂点用のデータ
 
@@ -255,7 +255,7 @@ void Sprite::VertexBuffer()
 	vertexResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
 }
 
-void Sprite::MaterialBuffer()
+void ParticleSystem::MaterialBuffer()
 {
 	materialResource_ = dxCommon_->CreateBufferResource(sizeof(Material));	//マテリアル用のデータ
 
@@ -265,7 +265,7 @@ void Sprite::MaterialBuffer()
 
 }
 
-void Sprite::IndexBuffer()
+void ParticleSystem::IndexBuffer()
 {
 	indexResource_ = dxCommon_->CreateBufferResource(sizeof(uint32_t) * 6);
 	//リソースの先頭のアドレスから使う
@@ -278,7 +278,7 @@ void Sprite::IndexBuffer()
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 }
 
-void Sprite::UpdateVertexBuffer()
+void ParticleSystem::UpdateVertexBuffer()
 {
 
 
@@ -312,7 +312,7 @@ void Sprite::UpdateVertexBuffer()
 }
 
 
-void Sprite::AdjustTextureSize() {
+void ParticleSystem::AdjustTextureSize() {
 	//テクスチャの情報を取得
 	resourceDesc_ = TextureManager::GetInstance()->GetResourceDesc(textureHandle_);
 	//テクスチャサイズの初期化
@@ -322,7 +322,7 @@ void Sprite::AdjustTextureSize() {
 
 }
 
-void Sprite::InstancingBuffer()
+void ParticleSystem::InstancingBuffer()
 {
 	instancingResources_ = dxCommon_->CreateBufferResource(sizeof(ParticleForGPU) * kNumMaxInstance);
 	instancingResources_->Map(0, nullptr, reinterpret_cast<void**>(&instancingData));
@@ -334,7 +334,7 @@ void Sprite::InstancingBuffer()
 	}
 }
 
-void Sprite::SetSRV()
+void ParticleSystem::SetSRV()
 {
 
 	instancingSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
@@ -354,7 +354,7 @@ void Sprite::SetSRV()
 	dxCommon_->GetDevice()->CreateShaderResourceView(instancingResources_.Get(), &instancingSrvDesc, instancingSrvHandleCPU);
 }
 
-Particle Sprite::MakeNewParticle(std::mt19937& randomEngine, const Vector3& translate)
+Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, const Vector3& translate)
 {
 	std::uniform_real_distribution<float>distribution(-1.0f, 1.0f);
 	std::uniform_real_distribution<float>distColor(0.0f, 1.0f);

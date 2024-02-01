@@ -18,7 +18,7 @@
     <ClCompile Include="Engine\2D\Triangle.cpp">
       <Filter>Engine\2D</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\2D\Sprite.cpp">
+    <ClCompile Include="Engine\2D\ParticleSystem.cpp">
       <Filter>Engine\2D</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3D\Sphere.cpp">
@@ -95,7 +95,7 @@
     <ClInclude Include="Engine\2D\Triangle.h">
       <Filter>Engine\2D</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\2D\Sprite.h">
+    <ClInclude Include="Engine\2D\ParticleSystem.h">
       <Filter>Engine\2D</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3D\Sphere.h">

@@ -57,10 +57,10 @@ struct ParticleForGPU
 	Vector4 color;
 };
 
-class Sprite
+class ParticleSystem
 {
 public:
-	~Sprite();
+	~ParticleSystem();
 
 	void Initialize(uint32_t textureHandle, Emitter emitter);
 	void Update();
@@ -121,7 +121,7 @@ public:
 	/// </summary>
 	/// <param name="textureHandle">テクスチャ</param>
 	/// <returns>四角形</returns>
-	static Sprite* Create(uint32_t textureHandle,Emitter emitter);
+	static ParticleSystem* Create(uint32_t textureHandle,Emitter emitter);
 
 	/// <summary>
 	/// Imgui
