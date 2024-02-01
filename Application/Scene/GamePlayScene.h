@@ -51,7 +51,8 @@ private:
 	std::unique_ptr<Triangle> triangle = nullptr;
 	std::unique_ptr<Triangle> triangle2 = nullptr;
 	std::unique_ptr<Sprite> sprite = nullptr;
-	std::unique_ptr<ParticleSystem> sprite2 = nullptr;
+	std::unique_ptr<Sprite> sprite2 = nullptr;
+	std::unique_ptr<ParticleSystem> particle = nullptr;
 	std::unique_ptr<Sphere> sphere = nullptr;
 	std::unique_ptr<Model> model = nullptr;
 	std::unique_ptr<Model> model2 = nullptr;

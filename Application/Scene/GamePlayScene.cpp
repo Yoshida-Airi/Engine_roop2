@@ -41,8 +41,15 @@ void GamePlayScene::Initialize()
 	sprite.reset(Sprite::Create(Doll));
 	sprite->SetSize({ 64.0f, 64.0f });
 	sprite->SetTextureLeftTop({ 0,0 });
+
+
+	sprite2.reset(Sprite::Create(uvTexture));
+	sprite2->SetSize({ 64.0f, 64.0f });
+	sprite2->SetTextureLeftTop({ 0,0 });
 	
 	//sprite->SetisInvisible(true);
+	//sprite2->SetisInvisible(true);
+
 
 	emitter.count = 3;
 	emitter.frequency = 0.5f;
@@ -50,22 +57,13 @@ void GamePlayScene::Initialize()
 	emitter.transform.translate = { 0.0f,0.2f,0.0f };
 	emitter.transform.rotate = { 0.0f,0.0f,0.0f };
 	emitter.transform.scale = { 1.0f,1.0f,1.0f };
-	sprite2.reset(ParticleSystem::Create(circle,emitter));
-	/*sprite2->SetSize({ 64.0f, 64.0f });
-	sprite2->SetTextureLeftTop({ 0,0 });*/
-	/*sprite2->SetisInvisible(true);*/
+	particle.reset(ParticleSystem::Create(circle,emitter));
 
-	emitter.count = 3;
-	emitter.frequency = 0.5f;
-	emitter.frequencyTime = 0.0f;
-	emitter.transform.translate = { 10.8f,0.2f,0.0f };
-	emitter.transform.rotate = { 0.0f,0.0f,0.0f };
-	emitter.transform.scale = { 1.0f,1.0f,1.0f };
 	sphere.reset(Sphere::Create(monsterBall));
 	//sphere->SetisInvisible(true);
 
 	model.reset(Model::Create("Resources", "plane.obj"));
-	model2.reset(Model::Create("Resources", "plane.obj"));
+	model2.reset(Model::Create("Resources", "cube.obj"));
 
 }
 
@@ -96,8 +94,10 @@ void GamePlayScene::Update()
 	sprite->Update();
 	sprite2->Update();
 
+	particle->Update();
+
 	//sprite->Debug("Doll");
-	sprite2->Debug("uv");
+	//sprite2->Debug("uv");
 
 	sphere->Update();
 	sphere->worldTransform_->rotation_.y += 0.01f;
@@ -124,8 +124,10 @@ void GamePlayScene::Draw()
 	model->Draw(camera);
 	model2->Draw(camera);
 
+	particle->Draw(camera);
 
 	sprite->Draw(uiCamera);
-	sprite2->Draw(camera);
+	sprite2->Draw(uiCamera);
+
 
 }
