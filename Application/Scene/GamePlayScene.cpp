@@ -37,10 +37,10 @@ void GamePlayScene::Initialize()
 	//triangle->SetisInvisible(true);
 	//triangle2->SetisInvisible(true);
 
-	//
-	/*sprite.reset(Sprite::Create(Doll));
+	
+	sprite.reset(Sprite::Create(Doll));
 	sprite->SetSize({ 64.0f, 64.0f });
-	sprite->SetTextureLeftTop({ 0,0 });*/
+	sprite->SetTextureLeftTop({ 0,0 });
 	
 	//sprite->SetisInvisible(true);
 
@@ -91,9 +91,9 @@ void GamePlayScene::Update()
 	triangle2->worldTransform_->scale_.y = 0.5f;
 	triangle2->worldTransform_->rotation_.y += 0.02f;
 
-	//sprite->worldTransform_->translation_ = { 700.0f };
+	sprite->worldTransform_->translation_ = { 700.0f };
 
-	//sprite->Update();
+	sprite->Update();
 	sprite2->Update();
 
 	//sprite->Debug("Doll");
@@ -125,7 +125,7 @@ void GamePlayScene::Draw()
 	model2->Draw(camera);
 
 
-	/*sprite->Draw(uiCamera);*/
+	sprite->Draw(uiCamera);
 	sprite2->Draw(camera);
 
 }

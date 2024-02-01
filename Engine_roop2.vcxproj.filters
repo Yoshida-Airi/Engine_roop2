@@ -90,6 +90,9 @@
     <ClCompile Include="Engine\Effect\ParticleSystem.cpp">
       <Filter>Engine\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\2D\Sprite.cpp">
+      <Filter>Engine\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -184,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Effect\ParticleSystem.h">
       <Filter>Engine\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2D\Sprite.h">
+      <Filter>Engine\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -130,6 +130,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\MyGame.cpp" />
     <ClCompile Include="Engine\Base\Scene\SceneManager.cpp" />
     <ClCompile Include="Application\Scene\TitleScene.cpp" />
+    <ClCompile Include="Engine\2D\Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Effect\EfectManager.h" />
@@ -163,6 +164,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\MyGame.h" />
     <ClInclude Include="Engine\Base\Scene\SceneManager.h" />
     <ClInclude Include="Application\Scene\TitleScene.h" />
+    <ClInclude Include="Engine\2D\Sprite.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Particle.PS.hlsl">

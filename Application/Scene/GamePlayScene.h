@@ -15,7 +15,7 @@
 #include"UICamera.h"
 
 #include"Input.h"
-
+#include"Sprite.h"
 
 /// <summary>
 /// ゲームプレイシーン
@@ -50,7 +50,7 @@ private:
 
 	std::unique_ptr<Triangle> triangle = nullptr;
 	std::unique_ptr<Triangle> triangle2 = nullptr;
-	std::unique_ptr<ParticleSystem> sprite = nullptr;
+	std::unique_ptr<Sprite> sprite = nullptr;
 	std::unique_ptr<ParticleSystem> sprite2 = nullptr;
 	std::unique_ptr<Sphere> sphere = nullptr;
 	std::unique_ptr<Model> model = nullptr;
