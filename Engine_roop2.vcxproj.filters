@@ -18,9 +18,6 @@
     <ClCompile Include="Engine\2D\Triangle.cpp">
       <Filter>Engine\2D</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\2D\ParticleSystem.cpp">
-      <Filter>Engine\2D</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\3D\Sphere.cpp">
       <Filter>Engine\3D</Filter>
     </ClCompile>
@@ -90,12 +87,12 @@
     <ClCompile Include="Engine\Effect\EfectManager.cpp">
       <Filter>Engine\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Effect\ParticleSystem.cpp">
+      <Filter>Engine\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
-      <Filter>Engine\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\2D\ParticleSystem.h">
       <Filter>Engine\2D</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3D\Sphere.h">
@@ -183,6 +180,9 @@
       <Filter>Engine\Base\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Effect\EfectManager.h">
+      <Filter>Engine\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Effect\ParticleSystem.h">
       <Filter>Engine\Effect</Filter>
     </ClInclude>
   </ItemGroup>
