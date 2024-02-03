@@ -122,7 +122,7 @@ void Model::ModelDebug(const char title[10])
 
 void Model::Parent(Model* model)
 {
-	this->worldTransform_->translation_ = model->worldTransform_->translation_;
+	this->worldTransform_->parent_ = model->worldTransform_;
 }
 
 

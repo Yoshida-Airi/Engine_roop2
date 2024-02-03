@@ -34,36 +34,10 @@ void GamePlayScene::Initialize()
 	triangle.reset(Triangle::Create(uvTexture));
 	triangle2.reset(Triangle::Create(monsterBall));
 	
-	//triangle->SetisInvisible(true);
-	//triangle2->SetisInvisible(true);
 
-	
-	sprite.reset(Sprite::Create(Doll));
-	sprite->SetSize({ 64.0f, 64.0f });
-	sprite->SetTextureLeftTop({ 0,0 });
-
-
-	sprite2.reset(Sprite::Create(uvTexture));
-	sprite2->SetSize({ 64.0f, 64.0f });
-	sprite2->SetTextureLeftTop({ 0,0 });
-	
-	//sprite->SetisInvisible(true);
-	//sprite2->SetisInvisible(true);
-
-
-	emitter.count = 3;
-	emitter.frequency = 0.5f;
-	emitter.frequencyTime = 0.0f;
-	emitter.transform.translate = { 0.0f,0.2f,0.0f };
-	emitter.transform.rotate = { 0.0f,0.0f,0.0f };
-	emitter.transform.scale = { 1.0f,1.0f,1.0f };
-	particle.reset(ParticleSystem::Create(circle,emitter));
 
 	sphere.reset(Sphere::Create(monsterBall));
-	//sphere->SetisInvisible(true);
-
-	model.reset(Model::Create("Resources", "plane.obj"));
-	model2.reset(Model::Create("Resources", "cube.obj"));
+	sphere->worldTransform_->translation_.x = 2.0f;
 
 }
 
@@ -82,6 +56,18 @@ void GamePlayScene::Update()
 		sceneManager_->ChangeScene("TITLE");
 	}
 
+	ImGui::Begin("scene");
+
+	ImGui::Text("+a assignment");
+	
+
+	if (ImGui::Button("Required assignment"))
+	{
+		sceneManager_->ChangeScene("TITLE");
+	}
+
+	ImGui::End();
+
 	triangle->Update();
 	triangle->worldTransform_->rotation_.y += 0.03f;
 
@@ -89,24 +75,9 @@ void GamePlayScene::Update()
 	triangle2->worldTransform_->scale_.y = 0.5f;
 	triangle2->worldTransform_->rotation_.y += 0.02f;
 
-	sprite->worldTransform_->translation_ = { 700.0f };
-
-	sprite->Update();
-	sprite2->Update();
-
-	particle->Update();
-
-	//sprite->Debug("Doll");
-	//sprite2->Debug("uv");
 
 	sphere->Update();
 	sphere->worldTransform_->rotation_.y += 0.01f;
-
-
-	model->Update();
-	model2->Update();
-	model->worldTransform_->translation_.x = 3.0f;
-
 
 }
 
@@ -119,15 +90,6 @@ void GamePlayScene::Draw()
 	
 
 	sphere->Draw(camera);
-
-
-	model->Draw(camera);
-	model2->Draw(camera);
-
-	particle->Draw(camera);
-
-	sprite->Draw(uiCamera);
-	sprite2->Draw(uiCamera);
 
 
 }

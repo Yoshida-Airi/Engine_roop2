@@ -113,7 +113,7 @@ void ParticleSystem::Update()
 	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeTranselateMatrix(uvTransform.translate));
 	materialData_->uvTransform = uvTransformMatrix_;
 
-	
+#ifdef _DEBUG
 	ImGui::Begin("emitter");
 
 	float translate[3] = { emitter_.transform.translate.x,emitter_.transform.translate.y,emitter_.transform.translate.z };
@@ -121,6 +121,9 @@ void ParticleSystem::Update()
 	emitter_.transform.translate = { translate[0],translate[1],translate[2] };
 
 	ImGui::End();
+#endif // _DEBUG
+
+
 
 
 }

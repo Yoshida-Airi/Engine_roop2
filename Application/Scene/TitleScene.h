@@ -9,12 +9,13 @@
 #include"ParticleSystem.h"
 #include"Sphere.h"
 #include"Model.h"
+#include"Sprite.h"
+
 
 #include"ICamera.h"
 #include"Camera.h"
 #include"UICamera.h"
 
-#include"EfectManager.h"
 
 class TitleScene :public BaseScene
 {
@@ -26,21 +27,25 @@ public:
 
 private:
 
-	//EfectManager* efect = nullptr;
-
 	Input* input;
+	TextureManager* texture = nullptr;
 	SceneManager* sceneManager_ = nullptr;
 	ICamera* camera;
 	ICamera* uiCamera;
-	ModelLoader* object;
-	ModelData fenceData;
-	ModelData cubeData;
-
+	
+	uint32_t uvTexture;
+	uint32_t monsterBall;
+	uint32_t Doll;
+	uint32_t circle;
 
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;
 
-	
+	std::unique_ptr<Sprite> sprite = nullptr;
+	std::unique_ptr<Sprite> sprite2 = nullptr;
+
+	Emitter emitter;
+	std::unique_ptr<ParticleSystem> particle = nullptr;
 	
 };
 

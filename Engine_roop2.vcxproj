@@ -106,7 +106,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Effect\EfectManager.cpp" />
-    <ClCompile Include="Engine\Base\Scene\AbstractSceneFactory.cpp" />
     <ClCompile Include="Engine\3D\Camera.cpp" />
     <ClCompile Include="Engine\Base\Framework.cpp" />
     <ClCompile Include="Engine\Base\Scene\SceneFactory.cpp" />
