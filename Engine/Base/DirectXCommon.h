@@ -208,7 +208,9 @@ private:
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
 	Microsoft::WRL::ComPtr< ID3D12RootSignature> rootSignature = nullptr;	//バイナリを元に生成
 	Microsoft::WRL::ComPtr< ID3D12RootSignature> particleRootSignature = nullptr;	//バイナリを元に生成
+	
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};	//DepthStensilStateの設定
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc2{};	//DepthStensilStateの設定
 
 	Microsoft::WRL::ComPtr< IDxcBlob> vertexShaderBlob;
 	Microsoft::WRL::ComPtr< IDxcBlob> pixelShaderBlob;

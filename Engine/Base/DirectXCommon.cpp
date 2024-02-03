@@ -484,7 +484,7 @@ void DirectXCommon::SetupPSO()
 
 
 	//深度の設定
-	graphicsPipelineStateDesc2.DepthStencilState = depthStencilDesc;
+	graphicsPipelineStateDesc2.DepthStencilState = depthStencilDesc2;
 	graphicsPipelineStateDesc2.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
 	//RTV情報
@@ -716,9 +716,16 @@ void DirectXCommon::SetupDepthStencilState()
 	//Depthの機能を有効化する
 	depthStencilDesc.DepthEnable = true;
 	//書き込みします
-	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
 	//比較関数はLessEqual。つまり、近ければ描画される
 	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+
+	//Depthの機能を有効化する
+	depthStencilDesc2.DepthEnable = true;
+	//書き込みします
+	depthStencilDesc2.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	//比較関数はLessEqual。つまり、近ければ描画される
+	depthStencilDesc2.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 }
 
 //CompileShader関数
