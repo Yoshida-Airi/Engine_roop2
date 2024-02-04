@@ -16,6 +16,7 @@ struct Material
 	Matrix4x4 uvTransform;
 	int32_t enableLighting;
 	float padding[3];
+	float shininess;
 };
 
 struct DirectionalLight

@@ -123,12 +123,14 @@ void Sphere::Initialize(uint32_t textureHandle)
 
 	//Lightingを有効にする
 	materialData_->enableLighting = true;
+	
 
 	//ライトのデフォルト値
 
 	lightData_->color = { 1.0f,1.0f,1.0f,1.0f };
-	lightData_->direction = { -1.0f,-1.0f,1.0f };
+	lightData_->direction = Normalize({ 0.0f,-1.0f,0.0f });
 	lightData_->intensity = 1.0f;
+
 }
 
 void Sphere::Update()

@@ -6,7 +6,7 @@
 struct ConstBufferDataViewProjection {
 	Matrix4x4 view;       // ワールド → ビュー変換行列
 	Matrix4x4 projection; // ビュー → プロジェクション変換行列
-
+	Vector3 worldPosition;
 };
 
 

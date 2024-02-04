@@ -28,7 +28,10 @@ private:
 
 	EfectManager* efect = nullptr;
 
+	uint32_t monsterBall;
+
 	Input* input;
+	TextureManager* texture;
 	SceneManager* sceneManager_ = nullptr;
 	ICamera* camera;
 	ICamera* uiCamera;
@@ -36,6 +39,7 @@ private:
 	ModelData fenceData;
 	ModelData cubeData;
 
+	std::unique_ptr<Sphere> sphere = nullptr;
 
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;
