@@ -123,13 +123,15 @@ void Sphere::Initialize(uint32_t textureHandle)
 
 	//Lightingを有効にする
 	materialData_->enableLighting = true;
+	materialData_->shininess = 70.0f;
 	
 
 	//ライトのデフォルト値
 
 	lightData_->color = { 1.0f,1.0f,1.0f,1.0f };
-	lightData_->direction = Normalize({ 0.0f,-1.0f,0.0f });
+	lightData_->direction = Normalize({ 0.0f,-10.0f,0.0f });
 	lightData_->intensity = 1.0f;
+
 
 }
 
@@ -139,14 +141,39 @@ void Sphere::Update()
 
 #ifdef _DEBUG
 
-	ImGui::Begin("light");
+	ImGui::Begin("sphere");
 
-	float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
-	ImGui::SliderFloat3("lightDirection", direction, -1.0f, 1.0f);
+	if (ImGui::TreeNode("light"))
+	{
+		float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
+		ImGui::SliderFloat3("lightDirection", direction, -1.0f, 1.0f);
 
-	lightData_->direction.x = direction[0];
-	lightData_->direction.y = direction[1];
-	lightData_->direction.z = direction[2];
+		lightData_->direction.x = direction[0];
+		lightData_->direction.y = direction[1];
+		lightData_->direction.z = direction[2];
+		ImGui::TreePop();
+	}
+
+
+	if (ImGui::TreeNode("worldTransform"))
+	{
+
+		float translate[3] = { worldTransform_->translation_.x, worldTransform_->translation_.y, worldTransform_->translation_.z };
+		ImGui::SliderFloat3("transform", translate, -20, 4);
+		float rotate[3] = { worldTransform_->rotation_.x, worldTransform_->rotation_.y, worldTransform_->rotation_.z };
+		ImGui::SliderFloat3("rotation_", rotate, -20, 4);
+		float scale[3] = { worldTransform_->scale_.x, worldTransform_->scale_.y, worldTransform_->scale_.z };
+		ImGui::SliderFloat3("scale_", scale, -20, 4);
+
+		worldTransform_->translation_ = { translate[0],translate[1],translate[2] };
+		worldTransform_->rotation_ = { rotate[0],rotate[1],rotate[2] };
+		worldTransform_->scale_ = { scale[0],scale[1],scale[2] };
+
+		worldTransform_->UpdateWorldMatrix();
+
+
+		ImGui::TreePop();
+	}
 
 	ImGui::End();
 #endif // _DEBUG

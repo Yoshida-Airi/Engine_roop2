@@ -3,6 +3,7 @@
 struct TransformationMatrix
 {
     float32_t4x4 WorldMatrix;
+    
 };
 
 struct ViewProjectionMatrix
