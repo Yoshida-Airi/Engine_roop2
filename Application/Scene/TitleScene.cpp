@@ -68,6 +68,8 @@ void TitleScene::Update()
 		sceneManager_->ChangeScene("GAMEPLAY");
 	}
 
+
+#ifdef _DEBUG
 	ImGui::Begin("scene");
 
 	ImGui::Text("Required assignment");
@@ -79,6 +81,9 @@ void TitleScene::Update()
 	}
 
 	ImGui::End();
+#endif // _DEBUG
+
+
 
 
 	fence_->Update();

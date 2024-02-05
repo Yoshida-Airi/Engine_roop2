@@ -56,10 +56,11 @@ void GamePlayScene::Update()
 		sceneManager_->ChangeScene("TITLE");
 	}
 
+#ifdef _DEBUG
 	ImGui::Begin("scene");
 
 	ImGui::Text("+a assignment");
-	
+
 
 	if (ImGui::Button("Required assignment"))
 	{
@@ -67,6 +68,9 @@ void GamePlayScene::Update()
 	}
 
 	ImGui::End();
+#endif // #ifdef _DEBUG
+
+	
 
 	triangle->Update();
 	triangle->worldTransform_->rotation_.y += 0.03f;
