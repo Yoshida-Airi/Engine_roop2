@@ -18,7 +18,7 @@ struct ConstBufferDataViewProjection {
 /// <summary>
 /// ビュープロジェクション変換データ
 /// </summary>
-class Camera 
+class Camera
 {
 public:
 
@@ -86,10 +86,6 @@ private:
 
 	WinApp* winApp;
 	DirectXCommon* dxCommon;
-
-	
-
-
 
 	// マッピング済みアドレス
 	ConstBufferDataViewProjection* constMap = nullptr;
