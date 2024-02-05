@@ -64,7 +64,7 @@ private:
 private:
 
 	
-	PSOData CreatePSO();
+	PSOData CreatePSO(const std::wstring& filePath);
 
 	/// <summary>
 	/// DXCの初期化

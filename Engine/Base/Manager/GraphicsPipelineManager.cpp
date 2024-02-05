@@ -10,7 +10,7 @@ void GraphicsPipelineManager::Initialize()
 	SetupRasterrizerState();
 	SetupDepthStencilState();
 
-	PSOData pso = CreatePSO();
+	PSOData pso = CreatePSO(L"Object3D");
 
 	rootSignature = pso.rootSignature;
 	graphicPipelineState = pso.graphicPipelineState;
@@ -26,7 +26,7 @@ GraphicsPipelineManager* GraphicsPipelineManager::GetInstance()
 	return instance;
 }
 
-GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreatePSO()
+GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreatePSO(const std::wstring& filePath)
 {
 	PSOData psoData;
 
@@ -100,9 +100,9 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreatePSO()
 	assert(SUCCEEDED(hr));
 
 
-	psoData.vertexShaderBlob = CompileShader(L"Resources/Shaders/Object3D.VS.hlsl", L"vs_6_0", dxcUtils, dxcCompiler, includeHandler);
+	psoData.vertexShaderBlob = CompileShader(L"Resources/Shaders/" + filePath + L".VS.hlsl", L"vs_6_0", dxcUtils, dxcCompiler, includeHandler);
 	assert(psoData.vertexShaderBlob != nullptr);
-	psoData.pixelShaderBlob = CompileShader(L"Resources/Shaders/Object3D.PS.hlsl", L"ps_6_0", dxcUtils, dxcCompiler, includeHandler);
+	psoData.pixelShaderBlob = CompileShader(L"Resources/Shaders/" + filePath + L".PS.hlsl", L"ps_6_0", dxcUtils, dxcCompiler, includeHandler);
 	assert(psoData.pixelShaderBlob != nullptr);
 
 
