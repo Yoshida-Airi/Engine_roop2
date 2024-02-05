@@ -84,6 +84,9 @@
     <ClCompile Include="Engine\Effect\EfectManager.cpp">
       <Filter>Engine\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Base\GraphicsPipelineManager.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -178,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Effect\EfectManager.h">
       <Filter>Engine\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\GraphicsPipelineManager.h">
+      <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

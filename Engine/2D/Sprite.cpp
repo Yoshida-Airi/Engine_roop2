@@ -14,6 +14,7 @@ void Sprite::Initialize(uint32_t textureHandle)
 {
 
 	dxCommon_ = DirectXCommon::GetInstance();
+	psoManager_ = GraphicsPipelineManager::GetInstance();
 	texture_ = TextureManager::GetInstance();
 
 	worldTransform_ = new WorldTransform();
@@ -99,8 +100,8 @@ void Sprite::Draw(ICamera* camera)
 		return;
 	}
 
-	dxCommon_->GetCommandList()->SetGraphicsRootSignature(dxCommon_->GetRootSignature());
-	dxCommon_->GetCommandList()->SetPipelineState(dxCommon_->GetGraphicPipelineState());
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetRootSignature());
+	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetGraphicPipelineState());
 
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);

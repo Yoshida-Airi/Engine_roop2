@@ -14,6 +14,7 @@ Framework::~Framework()
 	delete dxCommon;
 	dxCommon = nullptr;
 
+	delete psoManager;
 
 	//WindowAPIの解放
 	delete winApp;
@@ -44,6 +45,8 @@ void Framework::Initialize()
 	dxCommon = DirectXCommon::GetInstance();
 	dxCommon->Initialize();
 
+	psoManager = GraphicsPipelineManager::GetInstance();
+	psoManager->Initialize();
 
 	texture = TextureManager::GetInstance();
 	texture->Initialize();
