@@ -22,11 +22,11 @@ void TitleScene::Initialize()
 
 	uvTexture = texture->LoadTexture("Resources/uvChecker.png");
 	monsterBall = texture->LoadTexture("Resources/monsterBall.png");
-	Doll = texture->LoadTexture("Resources/Doll.png");
+	Enter = texture->LoadTexture("Resources/Enter.png");
 	circle = texture->LoadTexture("Resources/circle.png");
 
-	sprite.reset(Sprite::Create(Doll));
-	sprite->SetSize({ 64.0f, 64.0f });
+	sprite.reset(Sprite::Create(Enter));
+	//sprite->SetSize({ 64.0f, 64.0f });
 	sprite->SetTextureLeftTop({ 0,0 });
 
 

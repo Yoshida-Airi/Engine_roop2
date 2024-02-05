@@ -35,7 +35,7 @@ private:
 	
 	uint32_t uvTexture;
 	uint32_t monsterBall;
-	uint32_t Doll;
+	uint32_t Enter;
 	uint32_t circle;
 
 	std::unique_ptr<Model> fence_ = nullptr;
