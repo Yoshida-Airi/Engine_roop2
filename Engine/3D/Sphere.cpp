@@ -160,6 +160,9 @@ void Sphere::Draw(ICamera* camera)
 		return;
 	}
 
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(dxCommon_->GetRootSignature());
+	dxCommon_->GetCommandList()->SetPipelineState(dxCommon_->GetGraphicPipelineState());
+
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	//形状を設定。PS0にせっていしているものとはまた別。同じものを設定する

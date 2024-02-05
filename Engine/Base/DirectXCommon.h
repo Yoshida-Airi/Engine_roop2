@@ -44,6 +44,12 @@ public:
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; };
 	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc; };
 
+	ID3D12RootSignature* GetRootSignature()const { return rootSignature.Get(); };
+	ID3D12PipelineState* GetGraphicPipelineState()const { return graphicPipelineState.Get(); };
+
+
+private:
+
 private:
 
 	/// <summary>
