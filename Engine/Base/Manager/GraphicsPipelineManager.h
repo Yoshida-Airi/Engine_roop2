@@ -16,6 +16,15 @@
 class GraphicsPipelineManager
 {
 public:
+
+	struct PSOData
+	{
+		Microsoft::WRL::ComPtr< IDxcBlob> vertexShaderBlob;
+		Microsoft::WRL::ComPtr< IDxcBlob> pixelShaderBlob;
+		Microsoft::WRL::ComPtr< ID3D12RootSignature> rootSignature = nullptr;	//バイナリを元に生成
+		Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
+	};
+
 	void Initialize();
 
 	//シングルトン
@@ -54,15 +63,13 @@ private:
 
 private:
 
+	
+	PSOData CreatePSO();
+
 	/// <summary>
 	/// DXCの初期化
 	/// </summary>
 	void InitializeDXCCompiler();
-
-	/// <summary>
-	/// ルートシグネチャの生成
-	/// </summary>
-	void SetupRootSignature();
 
 
 	/// <summary>
@@ -79,11 +86,6 @@ private:
 	/// ラスタライザ－ステートの生成
 	/// </summary>
 	void SetupRasterrizerState();
-
-	/// <summary>
-	/// シェーダーのコンパイル
-	/// </summary>
-	void SetupShader();
 
 	/// <summary>
 	/// 深度
