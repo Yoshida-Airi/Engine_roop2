@@ -5,7 +5,7 @@
 #include"ModelLoader.h"
 #include"Globals.h"
 #include"WorldTransform.h"
-#include"ICamera.h"
+#include"Camera.h"
 #include"ModelData.h"
 
 class Model
@@ -14,7 +14,7 @@ public:
 	~Model();
 	void Initialize(const std::string& directoryPath, const std::string& filename);
 	void Update();
-	void Draw(ICamera* camera);
+	void Draw(Camera* camera);
 
 	/// <summary>
 	/// 表示切り替え

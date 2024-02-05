@@ -154,7 +154,7 @@ void Sphere::Update()
 
 }
 
-void Sphere::Draw(ICamera* camera)
+void Sphere::Draw(Camera* camera)
 {
 	if (isInvisible_ == true)
 	{

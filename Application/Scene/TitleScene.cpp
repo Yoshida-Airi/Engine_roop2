@@ -4,7 +4,6 @@
 TitleScene::~TitleScene()
 {
 	delete camera;
-	delete uiCamera;
 	delete efect;
 }
 
@@ -15,9 +14,6 @@ void TitleScene::Initialize()
 
 	camera = new Camera;
 	camera->Initialize();
-
-	uiCamera = new UICamera;
-	uiCamera->Initialize();
 
 
 

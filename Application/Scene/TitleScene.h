@@ -9,10 +9,7 @@
 #include"Sprite.h"
 #include"Sphere.h"
 #include"Model.h"
-
-#include"ICamera.h"
 #include"Camera.h"
-#include"UICamera.h"
 
 #include"EfectManager.h"
 
@@ -30,8 +27,7 @@ private:
 
 	Input* input;
 	SceneManager* sceneManager_ = nullptr;
-	ICamera* camera;
-	ICamera* uiCamera;
+	Camera* camera;
 	ModelLoader* object;
 	ModelData fenceData;
 	ModelData cubeData;

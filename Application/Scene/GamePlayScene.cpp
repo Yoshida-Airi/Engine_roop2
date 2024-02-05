@@ -4,8 +4,7 @@ GamePlayScene::~GamePlayScene()
 {
 
 	delete camera;
-	delete uiCamera;
-
+	
 }
 
 void GamePlayScene::Initialize()
@@ -26,8 +25,7 @@ void GamePlayScene::Initialize()
 	camera = new Camera;
 	camera->Initialize();
 
-	uiCamera = new UICamera;
-	uiCamera->Initialize();
+	
 
 
 	triangle.reset(Triangle::Create(uvTexture));
@@ -113,7 +111,7 @@ void GamePlayScene::Draw()
 	model2->Draw(camera);
 
 
-	sprite->Draw(uiCamera);
-	sprite2->Draw(uiCamera);
+	sprite->Draw(camera);
+	sprite2->Draw(camera);
 
 }

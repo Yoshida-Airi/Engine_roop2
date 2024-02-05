@@ -5,14 +5,17 @@ struct TransformationMatrix
     float32_t4x4 WorldMatrix;
 };
 
-struct ViewProjectionMatrix
+struct Camera
 {
     float32_t4x4 view;
     float32_t4x4 projection;
+    
+    float32_t4x4 sview;
+    float32_t4x4 sprojection;
 };
 
 ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
-ConstantBuffer<ViewProjectionMatrix> gViewProjectionMatrix : register(b1);
+ConstantBuffer<Camera> gCamera : register(b1);
 
 
 struct VertexShaderInput
@@ -29,7 +32,7 @@ VertexShaderOutput main(VertexShaderInput input)
     output.texcoord = input.texcoord;
 
     // 通常カメラ
-    float32_t4x4 ViewProjectionMatrix = mul(gViewProjectionMatrix.view, gViewProjectionMatrix.projection);
+    float32_t4x4 ViewProjectionMatrix = mul(gCamera.sview, gCamera.sprojection);
     float32_t4x4 WorldViewProjectionMatrix = mul(gTransformationMatrix.WorldMatrix, ViewProjectionMatrix);
     output.position = mul(input.position, WorldViewProjectionMatrix);
     output.normal = normalize(mul(input.normal, (float32_t3x3) gTransformationMatrix.WorldMatrix));

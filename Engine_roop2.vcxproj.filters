@@ -33,9 +33,6 @@
     <ClCompile Include="Engine\Base\WinApp.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\2D\UICamera.cpp">
-      <Filter>Engine\2D</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\3D\Camera.cpp">
       <Filter>Engine\3D</Filter>
     </ClCompile>
@@ -113,14 +110,8 @@
     <ClInclude Include="Engine\Base\WinApp.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\2D\UICamera.h">
-      <Filter>Engine\2D</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\3D\Camera.h">
       <Filter>Engine\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\ICamera.h">
-      <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Input.h">
       <Filter>Engine\Base</Filter>

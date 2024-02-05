@@ -1,11 +1,16 @@
 #pragma once
-#include"ICamera.h"
 #include"MathUtilty.h"
+#include"WinApp.h"
+#include"DirectXCommon.h"
+#include"Transform.h"
 
 // 定数バッファ用データ構造体
 struct ConstBufferDataViewProjection {
 	Matrix4x4 view;       // ワールド → ビュー変換行列
 	Matrix4x4 projection; // ビュー → プロジェクション変換行列
+
+	Matrix4x4 sview;       // ワールド → ビュー変換行列
+	Matrix4x4 sprojection; // ビュー → プロジェクション変換行列
 
 };
 
@@ -13,7 +18,8 @@ struct ConstBufferDataViewProjection {
 /// <summary>
 /// ビュープロジェクション変換データ
 /// </summary>
-class Camera :public ICamera {
+class Camera 
+{
 public:
 
 #pragma region 射影行列の設定
@@ -26,6 +32,17 @@ public:
 	// 深度限界（奥側）
 	float farZ = 1000.0f;
 
+
+	// 定数バッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffer_;
+
+	Transform transform;
+	Matrix4x4 matView;
+	Matrix4x4 matProjection;
+
+	Matrix4x4 smatView;
+	Matrix4x4 smatProjection;
+
 #pragma endregion
 
 
@@ -36,35 +53,43 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize()override;
+	void Initialize();
 	/// <summary>
 	/// 定数バッファ生成
 	/// </summary>
-	void CreateConstBuffer()override;
+	void CreateConstBuffer();
 	/// <summary>
 	/// マッピングする
 	/// </summary>
-	void Map()override;
+	void Map();
 	/// <summary>
 	/// 行列を更新する
 	/// </summary>
-	void UpdateMatrix()override;
+	void UpdateMatrix();
 	/// <summary>
 	/// 行列を転送する
 	/// </summary>
-	void TransferMatrix()override;
+	void TransferMatrix();
 	/// <summary>
 	/// ビュー行列を更新する
 	/// </summary>
-	void UpdateViewMatrix()override;
+	void UpdateViewMatrix();
 	/// <summary>
 	/// 射影行列を更新する
 	/// </summary>
-	void UpdateProjectionMatrix()override;
+	void UpdateProjectionMatrix();
 
-	void CameraDebug()override;
+	void CameraDebug();
 
 private:
+
+
+	WinApp* winApp;
+	DirectXCommon* dxCommon;
+
+	
+
+
 
 	// マッピング済みアドレス
 	ConstBufferDataViewProjection* constMap = nullptr;

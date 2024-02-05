@@ -13,12 +13,12 @@ class EfectManager
 public:
 	void Initialize();
 	void Update(float deltaTime);
-	void Draw(ICamera* camera);
+	void Draw(Camera* camera);
 
 	
 private:
 	TextureManager* texture;
-	ICamera* camera_;
+	Camera* camera_;
 
 	uint32_t blackTexture;
 

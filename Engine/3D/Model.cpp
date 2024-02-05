@@ -65,7 +65,7 @@ void Model::Update()
 
 }
 
-void Model::Draw(ICamera* camera)
+void Model::Draw(Camera* camera)
 {
 	if (isInvisible_ == true)
 	{

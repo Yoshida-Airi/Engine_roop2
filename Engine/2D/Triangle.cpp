@@ -52,7 +52,7 @@ void Triangle::Update()
 
 }
 
-void Triangle::Draw(ICamera* camera)
+void Triangle::Draw(Camera* camera)
 {
 	if (isInvisible_ == true)
 	{

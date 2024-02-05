@@ -27,7 +27,7 @@ void EfectManager::Update(float deltaTime)
     fadeIn->SetMaterialData({ 1.0f, 1.0f, 1.0f, deltaTime_ });
 }
 
-void EfectManager::Draw(ICamera* camera)
+void EfectManager::Draw(Camera* camera)
 {
     fadeIn->Draw(camera);
 }

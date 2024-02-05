@@ -28,6 +28,7 @@ public:
 	struct PsoMember
 	{
 		PSOData object3D;
+		PSOData sprite;
 	};
 
 	void Initialize();
@@ -71,7 +72,8 @@ private:
 private:
 
 	
-	PSOData CreatePSO(const std::wstring& filePath);
+	PSOData CreateObject3D(const std::wstring& filePath);
+	PSOData CreateSprite(const std::wstring& filePath);
 
 	/// <summary>
 	/// DXCの初期化
