@@ -101,9 +101,10 @@ void Sprite::Draw(Camera* camera)
 	}
 
 
-
+	
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().sprite.rootSignature.Get());
 	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().sprite.graphicPipelineState.Get());
+	
 
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
@@ -156,6 +157,12 @@ void Sprite::Debug(const char* name)
 	ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
 	ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
 	ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
+
+	float material[4] = { materialData_->color.x,materialData_->color.y,materialData_->color.z,materialData_->color.w };
+	ImGui::ColorEdit4("material", material);
+
+	materialData_->color = { material[0],material[1],material[2],material[3] };
+
 
 	ImGui::End();
 #endif // _DEBUG

@@ -13,6 +13,13 @@
 
 #include"DirectXCommon.h"
 
+enum BlendMode
+{
+	kBlendModeNone,
+	kBlendModeNormal,
+	kBlendModeAdd,
+};
+
 class GraphicsPipelineManager
 {
 public:
@@ -31,12 +38,16 @@ public:
 		PSOData sprite;
 	};
 
+
+
 	void Initialize();
 
 	//シングルトン
 	static GraphicsPipelineManager* GetInstance();
 
 	PsoMember GetPsoMember()const { return psoMember; };
+
+	void SetBlendMode(BlendMode blendMode) { SetupBlendState(blendMode); };
 	
 
 private:
@@ -98,7 +109,7 @@ private:
 	/// <summary>
 	/// ブレンドステートの設定
 	/// </summary>
-	void SetupBlendState();
+	void SetupBlendState(BlendMode blendMode);
 
 	/// <summary>
 	/// ラスタライザ－ステートの生成

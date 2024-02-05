@@ -15,7 +15,6 @@ void GraphicsPipelineManager::Initialize()
 
 	InitializeDXCCompiler();
 	SetupInputLayout();
-	SetupBlendState();
 	SetupRasterrizerState();
 	SetupDepthStencilState();
 
@@ -65,6 +64,8 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateObject3D(const s
 	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters[4].Descriptor.ShaderRegister = 1;
 
+	SetupBlendState(kBlendModeNormal);
+	
 	psoData = CreateCommonPSO(filePath, rootParameters, 5);
 
 	return psoData;
@@ -106,6 +107,8 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateSprite(const std
 	rootParameters[3].DescriptorTable.pDescriptorRanges = descriptorRange;
 	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);
 
+
+	SetupBlendState(kBlendModeNormal);
 
 	psoData = CreateCommonPSO(filePath, rootParameters, 4);
 
@@ -149,17 +152,49 @@ void GraphicsPipelineManager::SetupInputLayout()
 	inputLayoutDesc.NumElements = _countof(inputElementDescs);
 }
 
-void GraphicsPipelineManager::SetupBlendState()
+void GraphicsPipelineManager::SetupBlendState(BlendMode blendMode)
 {
-	//すべての色情報を書き込む
-	NormalblendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-	NormalblendDesc.RenderTarget[0].BlendEnable = TRUE;
-	NormalblendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	NormalblendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-	NormalblendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
-	NormalblendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
-	NormalblendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	NormalblendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+
+	D3D12_BLEND_DESC blendDesc = {};
+
+	switch (blendMode)
+	{
+	case kBlendModeNone:
+		// ブレンディングなし
+		blendDesc.RenderTarget[0].BlendEnable = FALSE;
+		blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+		break;
+
+	case kBlendModeNormal:
+		// 通常のブレンディング
+		blendDesc.RenderTarget[0].BlendEnable = TRUE;
+		blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+		blendDesc.RenderTarget[0].BlendEnable = TRUE;
+		blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+		blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+		blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+		blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+		break;
+
+	case kBlendModeAdd:
+		// 加算ブレンディング
+		blendDesc.RenderTarget[0].BlendEnable = TRUE;
+		blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+		blendDesc.RenderTarget[0].BlendEnable = TRUE;
+		blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+		blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+		blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+		blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+		blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+		blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+		break;
+	}
+
+	// ブレンドステートを適用
+	NormalblendDesc = blendDesc;
+
 }
 
 void GraphicsPipelineManager::SetupRasterrizerState()
