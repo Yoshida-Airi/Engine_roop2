@@ -7,10 +7,10 @@
     <FxCompile Include="Resources\Shaders\Object3D.VS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Sprite.PS.hlsl">
+    <FxCompile Include="Resources\Shaders\Sprite.PS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Sprite.VS.hlsl">
+    <FxCompile Include="Resources\Shaders\Sprite.VS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
   </ItemGroup>
@@ -237,7 +237,7 @@
     <None Include="Resources\Shaders\Object3D.hlsli">
       <Filter>リソース ファイル\Shader</Filter>
     </None>
-    <None Include="Sprite.hlsli">
+    <None Include="Resources\Shaders\Sprite.hlsli">
       <Filter>リソース ファイル\Shader</Filter>
     </None>
   </ItemGroup>
