@@ -39,7 +39,6 @@ private:
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
 
 	D3D12_BLEND_DESC NormalblendDesc{};
-	D3D12_BLEND_DESC AddblendDesc{};
 
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 

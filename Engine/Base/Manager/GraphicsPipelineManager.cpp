@@ -165,16 +165,6 @@ void GraphicsPipelineManager::SetupBlendState()
 	NormalblendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
 	NormalblendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
 	NormalblendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
-
-	//すべての色情報を書き込む
-	AddblendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-	AddblendDesc.RenderTarget[0].BlendEnable = TRUE;
-	AddblendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	AddblendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-	AddblendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
-	AddblendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
-	AddblendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	AddblendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 }
 
 void GraphicsPipelineManager::SetupRasterrizerState()
