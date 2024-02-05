@@ -10,7 +10,7 @@
 #include"WorldTransform.h"
 #include<wrl.h>
 
-#include"ICamera.h"
+#include"Camera.h"
 
 
 struct SpriteData
@@ -41,7 +41,7 @@ public:
 
 	void Initialize(uint32_t textureHandle);
 	void Update();
-	void Draw(ICamera* camera);
+	void Draw(Camera* camera);
 
 	void SetVertexData(const float left, const float right, const float top, const float bottom);
 

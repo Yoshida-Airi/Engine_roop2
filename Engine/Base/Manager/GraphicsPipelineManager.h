@@ -16,13 +16,28 @@
 class GraphicsPipelineManager
 {
 public:
+
+	struct PSOData
+	{
+		Microsoft::WRL::ComPtr< IDxcBlob> vertexShaderBlob;
+		Microsoft::WRL::ComPtr< IDxcBlob> pixelShaderBlob;
+		Microsoft::WRL::ComPtr< ID3D12RootSignature> rootSignature = nullptr;	//バイナリを元に生成
+		Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
+	};
+
+	struct PsoMember
+	{
+		PSOData object3D;
+		PSOData sprite;
+	};
+
 	void Initialize();
 
 	//シングルトン
 	static GraphicsPipelineManager* GetInstance();
 
-	ID3D12RootSignature* GetRootSignature()const { return rootSignature.Get(); };
-	ID3D12PipelineState* GetGraphicPipelineState()const { return graphicPipelineState.Get(); };
+	PsoMember GetPsoMember()const { return psoMember; };
+	
 
 private:
 
@@ -39,7 +54,6 @@ private:
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
 
 	D3D12_BLEND_DESC NormalblendDesc{};
-	D3D12_BLEND_DESC AddblendDesc{};
 
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 
@@ -50,20 +64,30 @@ private:
 
 	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
 	
+	PsoMember psoMember;
+
 	//静的メンバ変数の宣言と初期化
 	static GraphicsPipelineManager* instance;
 
 private:
 
+	
+	PSOData CreateObject3D(const std::wstring& filePath);
+	PSOData CreateSprite(const std::wstring& filePath);
+
+	/// <summary>
+	/// 全体のPSO生成関数
+	/// </summary>
+	/// <param name="filePath">シェーダーファイル</param>
+	/// <param name="rootParameters">ルートパラメータ</param>
+	/// <param name="numRootParameters">ルートパラメーターの配列数</param>
+	/// <returns>PSOData</returns>
+	GraphicsPipelineManager::PSOData CreateCommonPSO(const std::wstring& filePath, D3D12_ROOT_PARAMETER* rootParameters, int numRootParameters);
+
 	/// <summary>
 	/// DXCの初期化
 	/// </summary>
 	void InitializeDXCCompiler();
-
-	/// <summary>
-	/// ルートシグネチャの生成
-	/// </summary>
-	void SetupRootSignature();
 
 
 	/// <summary>
@@ -80,11 +104,6 @@ private:
 	/// ラスタライザ－ステートの生成
 	/// </summary>
 	void SetupRasterrizerState();
-
-	/// <summary>
-	/// シェーダーのコンパイル
-	/// </summary>
-	void SetupShader();
 
 	/// <summary>
 	/// 深度

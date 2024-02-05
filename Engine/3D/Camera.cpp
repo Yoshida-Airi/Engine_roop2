@@ -37,17 +37,22 @@ void Camera::TransferMatrix()
 {
 	constMap->view = matView;
 	constMap->projection = matProjection;
+
+	constMap->sview = smatView;
+	constMap->sprojection = smatProjection;
 }
 
 void Camera::UpdateViewMatrix()
 {
 	Matrix4x4 cameraMatrix = MakeAffinMatrix(transform.scale, transform.rotate, transform.translate);
 	matView = Inverse(cameraMatrix);
+	smatView = MakeIdentity4x4();
 }
 
 void Camera::UpdateProjectionMatrix()
 {
 	matProjection = MakePerspectiveFovMatrix(0.45f, float(winApp->kCilentWidth) / float(winApp->kCilentHeight), nearZ, farZ);
+	smatProjection = MakeOrthographicmatrix(0.0f, 0.0f, float(winApp->kCilentWidth), float(winApp->kCilentHeight), 0.0f, 100.0f);
 }
 
 void Camera::CameraDebug()

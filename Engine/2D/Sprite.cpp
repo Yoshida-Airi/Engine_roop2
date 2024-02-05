@@ -93,15 +93,17 @@ void Sprite::Update()
 
 }
 
-void Sprite::Draw(ICamera* camera)
+void Sprite::Draw(Camera* camera)
 {
 	if (isInvisible_ == true)
 	{
 		return;
 	}
 
-	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetRootSignature());
-	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetGraphicPipelineState());
+
+
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().sprite.rootSignature.Get());
+	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().sprite.graphicPipelineState.Get());
 
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);

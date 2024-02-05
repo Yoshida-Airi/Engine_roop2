@@ -154,15 +154,15 @@ void Sphere::Update()
 
 }
 
-void Sphere::Draw(ICamera* camera)
+void Sphere::Draw(Camera* camera)
 {
 	if (isInvisible_ == true)
 	{
 		return;
 	}
 
-	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetRootSignature());
-	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetGraphicPipelineState());
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().object3D.rootSignature.Get());
+	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().object3D.graphicPipelineState.Get());
 
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);

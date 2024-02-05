@@ -10,9 +10,8 @@
 #include"Sprite.h"
 #include"Sphere.h"
 #include"Model.h"
-#include"ICamera.h"
 #include"Camera.h"
-#include"UICamera.h"
+
 
 #include"Input.h"
 
@@ -40,8 +39,8 @@ private:
 	ModelData plane;
 	ModelData cube;
 
-	ICamera* camera;
-	ICamera* uiCamera;
+	Camera* camera;
+	
 
 	Input* input;
 

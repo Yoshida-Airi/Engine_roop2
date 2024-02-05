@@ -11,7 +11,7 @@
 #include"WorldTransform.h"
 
 #include"Camera.h"
-#include"ICamera.h"
+
 
 #include<wrl.h>
 
@@ -29,7 +29,7 @@ public:
 	void Initialize(uint32_t textureHandle);
 
 	void Update();
-	void Draw(ICamera* camera);
+	void Draw(Camera* camera);
 
 
 	/// <summary>

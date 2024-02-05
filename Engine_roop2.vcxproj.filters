@@ -7,6 +7,12 @@
     <FxCompile Include="Resources\Shaders\Object3D.VS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\Sprite.PS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Sprite.VS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\2D\Triangle.cpp">
@@ -26,9 +32,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Base\WinApp.cpp">
       <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\2D\UICamera.cpp">
-      <Filter>Engine\2D</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3D\Camera.cpp">
       <Filter>Engine\3D</Filter>
@@ -107,14 +110,8 @@
     <ClInclude Include="Engine\Base\WinApp.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\2D\UICamera.h">
-      <Filter>Engine\2D</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\3D\Camera.h">
       <Filter>Engine\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\ICamera.h">
-      <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Input.h">
       <Filter>Engine\Base</Filter>
@@ -229,6 +226,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Object3D.hlsli">
+      <Filter>リソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Resources\Shaders\Sprite.hlsli">
       <Filter>リソース ファイル\Shader</Filter>
     </None>
   </ItemGroup>
