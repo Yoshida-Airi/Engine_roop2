@@ -17,8 +17,6 @@ class GraphicsPipelineManager
 {
 public:
 	void Initialize();
-	void Update();
-	void Draw();
 
 	//シングルトン
 	static GraphicsPipelineManager* GetInstance();

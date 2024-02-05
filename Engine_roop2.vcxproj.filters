@@ -33,9 +33,6 @@
     <ClCompile Include="Engine\3D\Camera.cpp">
       <Filter>Engine\3D</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\ImGuiManager.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Base\Input.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
@@ -53,9 +50,6 @@
     </ClCompile>
     <ClCompile Include="Engine\3D\ModelLoader.cpp">
       <Filter>Engine\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\TextureManager.cpp">
-      <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Engine</Filter>
@@ -84,8 +78,14 @@
     <ClCompile Include="Engine\Effect\EfectManager.cpp">
       <Filter>Engine\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\GraphicsPipelineManager.cpp">
-      <Filter>Engine\Base</Filter>
+    <ClCompile Include="Engine\Base\Manager\GraphicsPipelineManager.cpp">
+      <Filter>Engine\Base\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Manager\ImGuiManager.cpp">
+      <Filter>Engine\Base\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Manager\TextureManager.cpp">
+      <Filter>Engine\Base\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +114,6 @@
       <Filter>Engine\3D</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\ICamera.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\ImGuiManager.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Input.h">
@@ -152,9 +149,6 @@
     <ClInclude Include="Engine\3D\ModelLoader.h">
       <Filter>Engine\3D</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\TextureManager.h">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Scene\GamePlayScene.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
@@ -182,8 +176,14 @@
     <ClInclude Include="Engine\Effect\EfectManager.h">
       <Filter>Engine\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\GraphicsPipelineManager.h">
-      <Filter>Engine\Base</Filter>
+    <ClInclude Include="Engine\Base\Manager\GraphicsPipelineManager.h">
+      <Filter>Engine\Base\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Manager\ImGuiManager.h">
+      <Filter>Engine\Base\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Manager\TextureManager.h">
+      <Filter>Engine\Base\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +222,9 @@
     </Filter>
     <Filter Include="Engine\Effect">
       <UniqueIdentifier>{7efb11b3-5190-4cbb-a7b5-39b0f5e6ba4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base\Manager">
+      <UniqueIdentifier>{9c53e8b8-5336-4566-9d44-9fd279ae3d78}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

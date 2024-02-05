@@ -2,13 +2,8 @@
 #include"Logger.h"
 #include"WinApp.h"
 #include"DebugHelper.h"
-
 #include<d3d12.h>
-#include<dxgi1_6.h>
 #include<cassert>
-#include<chrono>
-#include<dxcapi.h>
-
 #include<wrl.h>
 
 
@@ -43,10 +38,6 @@ public:
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; };
 	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc; };
 
-
-
-
-private:
 
 private:
 

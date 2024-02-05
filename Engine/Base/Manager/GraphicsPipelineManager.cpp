@@ -40,14 +40,6 @@ void GraphicsPipelineManager::Initialize()
 
 }
 
-void GraphicsPipelineManager::Update()
-{
-}
-
-void GraphicsPipelineManager::Draw()
-{
-}
-
 GraphicsPipelineManager* GraphicsPipelineManager::GetInstance()
 {
 	if (instance == nullptr)
