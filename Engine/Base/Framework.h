@@ -1,6 +1,7 @@
 #pragma once
 #include"WinApp.h"
 #include"DirectXCommon.h"
+#include"GraphicsPipelineManager.h"
 #include"DebugHelper.h"
 #include"TextureManager.h"
 #include"Input.h"
@@ -28,6 +29,7 @@ protected:
 	WinApp* winApp = nullptr;
 	//DirectXの初期化
 	DirectXCommon* dxCommon = nullptr;
+	GraphicsPipelineManager* psoManager = nullptr;
 	TextureManager* texture = nullptr;
 	Input* input;
 	//IScene* scene_ = nullptr;	//シーン

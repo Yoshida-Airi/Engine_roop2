@@ -1,5 +1,6 @@
 #pragma once
 #include"DirectXCommon.h"
+#include"GraphicsPipelineManager.h"
 #include"TextureManager.h"
 #include"ModelLoader.h"
 #include"Globals.h"
@@ -43,6 +44,7 @@ public:
 
 private:
 	DirectXCommon* dxCommon_;
+	GraphicsPipelineManager* psoManager_;
 	TextureManager* texture_;
 	ModelLoader* modelLoader_;
 

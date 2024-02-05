@@ -1,5 +1,6 @@
 #pragma once
 #include"DirectXCommon.h"
+#include"GraphicsPipelineManager.h"
 #include"TextureManager.h"
 #include"VectorMath.h"
 #include"Globals.h"
@@ -59,6 +60,7 @@ public:
 private://プライベート変数
 
 	DirectXCommon* dxCommon_;
+	GraphicsPipelineManager* psoManager_;
 	TextureManager* texture_;
 
 	

@@ -1,5 +1,6 @@
 #pragma once
 #include"DirectXCommon.h"
+#include"GraphicsPipelineManager.h"
 #include"MathUtilty.h"
 #include"VectorMath.h"
 #include"Transform.h"
@@ -47,6 +48,7 @@ public:
 private:
 
 	DirectXCommon* dxCommon_;
+	GraphicsPipelineManager* psoManager_;
 	TextureManager* texture_;
 
 	Microsoft::WRL::ComPtr < ID3D12Resource>vertexResource_;	//頂点リソース
