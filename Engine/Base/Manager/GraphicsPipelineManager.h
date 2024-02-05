@@ -25,13 +25,18 @@ public:
 		Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
 	};
 
+	struct PsoMember
+	{
+		PSOData object3D;
+	};
+
 	void Initialize();
 
 	//シングルトン
 	static GraphicsPipelineManager* GetInstance();
 
-	ID3D12RootSignature* GetRootSignature()const { return rootSignature.Get(); };
-	ID3D12PipelineState* GetGraphicPipelineState()const { return graphicPipelineState.Get(); };
+	PsoMember GetPsoMember()const { return psoMember; };
+	
 
 private:
 
@@ -58,6 +63,8 @@ private:
 
 	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
 	
+	PsoMember psoMember;
+
 	//静的メンバ変数の宣言と初期化
 	static GraphicsPipelineManager* instance;
 

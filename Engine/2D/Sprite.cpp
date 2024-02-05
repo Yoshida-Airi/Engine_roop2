@@ -100,9 +100,10 @@ void Sprite::Draw(ICamera* camera)
 		return;
 	}
 
-	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetRootSignature());
-	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetGraphicPipelineState());
 
+
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().object3D.rootSignature.Get());
+	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().object3D.graphicPipelineState.Get());
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	//ind

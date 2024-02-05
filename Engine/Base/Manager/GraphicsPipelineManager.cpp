@@ -10,10 +10,9 @@ void GraphicsPipelineManager::Initialize()
 	SetupRasterrizerState();
 	SetupDepthStencilState();
 
-	PSOData pso = CreatePSO(L"Object3D");
+	psoMember.object3D = CreatePSO(L"Object3D");
 
-	rootSignature = pso.rootSignature;
-	graphicPipelineState = pso.graphicPipelineState;
+
 
 }
 
