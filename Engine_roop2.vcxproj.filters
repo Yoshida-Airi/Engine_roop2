@@ -93,6 +93,9 @@
     <ClCompile Include="Engine\2D\Sprite.cpp">
       <Filter>Engine\2D</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Base\GraphicsPipelineManager.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="Engine\2D\Sprite.h">
       <Filter>Engine\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\GraphicsPipelineManager.h">
+      <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

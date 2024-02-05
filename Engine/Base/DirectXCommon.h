@@ -44,13 +44,6 @@ public:
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; };
 	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc; };
 
-	ID3D12RootSignature* GetRootSignature()const { return rootSignature.Get(); };
-	ID3D12RootSignature* GetPRootSignature()const { return particleRootSignature.Get(); };
-
-	ID3D12PipelineState* GetGraphicPipelineState()const { return graphicPipelineState.Get(); };
-	ID3D12PipelineState* GetPGraphicPipelineState()const { return PgraphicPipelineState.Get(); };
-
-
 private:
 
 	/// <summary>
@@ -108,66 +101,6 @@ private:
 	/// </summary>
 	void UpdateFixFPS();
 
-	/// <summary>
-	/// DXCの初期化
-	/// </summary>
-	void InitializeDXCCompiler();
-
-	/// <summary>
-	/// PSOの設定
-	/// </summary>
-	void SetupPSO();
-
-	/// <summary>
-	/// ルートシグネチャの生成
-	/// </summary>
-	void SetupRootSignature();
-
-	void SetupParticleRootSignature();
-
-	/// <summary>
-	/// インプットレイアウトの生成
-	/// </summary>
-	void SetupInputLayout();
-
-	/// <summary>
-	/// ブレンドステートの設定
-	/// </summary>
-	void SetupBlendState();
-
-	/// <summary>
-	/// ラスタライザ－ステートの生成
-	/// </summary>
-	void SetupRasterrizerState();
-
-	/// <summary>
-	/// シェーダーのコンパイル
-	/// </summary>
-	void SetupShader();
-
-	/// <summary>
-	/// 深度
-	/// </summary>
-	void SetupDepthStencilState();
-
-	/// <summary>
-	/// コンパイルシェーダー
-	/// </summary>
-	/// <param name="filePath">シェーダーフィいる名</param>
-	/// <param name="profile">プロファイル</param>
-	/// <param name="dxcUtils"></param>
-	/// <param name="dxcCompiler"></param>
-	/// <param name="incledeHandler"></param>
-	/// <returns></returns>
-	IDxcBlob* CompileShader
-	(
-		const std::wstring& filePath,
-		const wchar_t* profile,
-		IDxcUtils* dxcUtils,
-		IDxcCompiler3* dxcCompiler,
-		IDxcIncludeHandler* includeHandler
-	);
-
 	Microsoft::WRL::ComPtr< ID3D12Resource> CreateDepthStencilTextureResource(int32_t width, int32_t height);
 
 
@@ -199,31 +132,15 @@ private:
 	//記録時間(FPS固定)
 	std::chrono::steady_clock::time_point reference_;
 
-	IDxcUtils* dxcUtils = nullptr;
-	IDxcCompiler3* dxcCompiler = nullptr;
-	IDxcIncludeHandler* includeHandler = nullptr;
+
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 	
-	D3D12_INPUT_ELEMENT_DESC inputElementDescs[3] = {};
-	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
-	Microsoft::WRL::ComPtr< ID3D12RootSignature> rootSignature = nullptr;	//バイナリを元に生成
-	Microsoft::WRL::ComPtr< ID3D12RootSignature> particleRootSignature = nullptr;	//バイナリを元に生成
+
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};	//DepthStensilStateの設定
 
-	Microsoft::WRL::ComPtr< IDxcBlob> vertexShaderBlob;
-	Microsoft::WRL::ComPtr< IDxcBlob> pixelShaderBlob;
-
-	Microsoft::WRL::ComPtr< IDxcBlob> PvertexShaderBlob;
-	Microsoft::WRL::ComPtr< IDxcBlob> PpixelShaderBlob;
-
-	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
-	Microsoft::WRL::ComPtr< ID3D12PipelineState> PgraphicPipelineState = nullptr;
-
+	
 	D3D12_VIEWPORT viewport{};	//ビューポート
 	D3D12_RECT scissorRect{};	//シザー矩形
-
-	D3D12_BLEND_DESC NormalblendDesc{};
-	D3D12_BLEND_DESC AddblendDesc{};
 
 	//静的メンバ変数の宣言と初期化
 	static DirectXCommon* instance;

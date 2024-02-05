@@ -7,6 +7,7 @@
 #include"SceneManager.h"
 #include"ImGuiManager.h"
 #include"AbstractSceneFactory.h"
+#include"GraphicsPipelineManager.h"
 
 class Framework
 {
@@ -28,6 +29,7 @@ protected:
 	WinApp* winApp = nullptr;
 	//DirectXの初期化
 	DirectXCommon* dxCommon = nullptr;
+	GraphicsPipelineManager* PSOManager = nullptr;
 	TextureManager* texture = nullptr;
 	Input* input;
 	//IScene* scene_ = nullptr;	//シーン

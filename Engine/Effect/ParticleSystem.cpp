@@ -14,6 +14,7 @@ void ParticleSystem::Initialize(uint32_t textureHandle, Emitter emitter)
 {
 
 	dxCommon_ = DirectXCommon::GetInstance();
+	psoManager_ = GraphicsPipelineManager::GetInstance();
 	texture_ = TextureManager::GetInstance();
 
 	worldTransform_ = new WorldTransform();
@@ -163,8 +164,8 @@ void ParticleSystem::Draw(ICamera* camera)
 		++particleIterator;
 	}
 
-	dxCommon_->GetCommandList()->SetGraphicsRootSignature(dxCommon_->GetPRootSignature());
-	dxCommon_->GetCommandList()->SetPipelineState(dxCommon_->GetPGraphicPipelineState());
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPRootSignature());
+	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPGraphicPipelineState());
 
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
