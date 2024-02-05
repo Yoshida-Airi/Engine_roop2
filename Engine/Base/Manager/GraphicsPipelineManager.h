@@ -76,6 +76,15 @@ private:
 	PSOData CreateSprite(const std::wstring& filePath);
 
 	/// <summary>
+	/// 全体のPSO生成関数
+	/// </summary>
+	/// <param name="filePath">シェーダーファイル</param>
+	/// <param name="rootParameters">ルートパラメータ</param>
+	/// <param name="numRootParameters">ルートパラメーターの配列数</param>
+	/// <returns>PSOData</returns>
+	GraphicsPipelineManager::PSOData CreateCommonPSO(const std::wstring& filePath, D3D12_ROOT_PARAMETER* rootParameters, int numRootParameters);
+
+	/// <summary>
 	/// DXCの初期化
 	/// </summary>
 	void InitializeDXCCompiler();
