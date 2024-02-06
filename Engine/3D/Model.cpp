@@ -9,7 +9,7 @@ Model::~Model()
 	delete worldTransform_;
 }
 
-void Model::Initialize(const std::string& directoryPath, const std::string& filename)
+void Model::Initialize(const std::string& filename)
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 	psoManager_ = GraphicsPipelineManager::GetInstance();
@@ -18,7 +18,7 @@ void Model::Initialize(const std::string& directoryPath, const std::string& file
 	worldTransform_ = new WorldTransform();
 	worldTransform_->Initialize();
 
-	modelData_ = modelLoader_->LoadObjFile(directoryPath, filename);
+	modelData_ = modelLoader_->LoadObjFile(filename);
 	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
 
 	VertexBuffer();
@@ -95,10 +95,10 @@ void Model::Draw(Camera* camera)
 
 }
 
-Model*  Model::Create(const std::string& directoryPath, const std::string& filename)
+Model*  Model::Create( const std::string& filename)
 {
 	Model* model = new Model();
-	model->Initialize(directoryPath, filename);
+	model->Initialize(filename);
 	return model;
 }
 
