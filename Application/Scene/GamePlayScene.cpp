@@ -50,8 +50,8 @@ void GamePlayScene::Initialize()
 	sphere.reset(Sphere::Create(monsterBall));
 	sphere->SetisInvisible(true);
 
-	model.reset(Model::Create("Resources", "plane.obj"));
-	model2.reset(Model::Create("Resources", "plane.obj"));
+	model.reset(Model::Create("plane.obj"));
+	model2.reset(Model::Create("plane.obj"));
 
 }
 

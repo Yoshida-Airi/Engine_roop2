@@ -12,7 +12,7 @@ class Model
 {
 public:
 	~Model();
-	void Initialize(const std::string& directoryPath, const std::string& filename);
+	void Initialize(const std::string& filename);
 	void Update();
 	void Draw(Camera* camera);
 
@@ -32,7 +32,7 @@ public:
 	/// </summary>
 	/// <param name="data">モデルデータ</param>
 	/// <returns>モデル</returns>
-	static Model* Create(const std::string& directoryPath, const std::string& filename);
+	static Model* Create(const std::string& filename);
 
 	void ModelDebug(const char title[10]);
 

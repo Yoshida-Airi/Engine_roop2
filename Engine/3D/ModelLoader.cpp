@@ -13,14 +13,16 @@ ModelLoader::~ModelLoader()
 {
 }
 
-ModelData ModelLoader::LoadObjFile(const std::string& directoryPath, const std::string& filename)
+ModelData ModelLoader::LoadObjFile(const std::string& filename)
 {
 	uint32_t index = 0;
+
+	const std::string& filePathName = "Resources/" + filename;
 
 	for (int i = 0; i < kMaxModel; i++)
 	{
 		//同じモデルがあった場合
-		if (model[i].filename == directoryPath + "/" + filename)
+		if (model[i].filename == filePathName)
 		{
 			return model[i];
 		}
@@ -28,7 +30,7 @@ ModelData ModelLoader::LoadObjFile(const std::string& directoryPath, const std::
 		if (IsusedModel[i] == false) {
 			index = i;
 			IsusedModel[i] = true;
-			model.at(index).filename = directoryPath + "/" + filename;
+			model.at(index).filename = filePathName;
 			break;
 		}
 	}
@@ -46,7 +48,7 @@ ModelData ModelLoader::LoadObjFile(const std::string& directoryPath, const std::
 	std::string line;	//ファイルから読んだ1行を格納するもの
 
 	//2.ファイルを開く
-	std::ifstream file(directoryPath + "/" + filename);	//ファイルを開く
+	std::ifstream file(filePathName);	//ファイルを開く
 	assert(file.is_open());	//とりあえず開けなかったら止める
 
 	//3.実際にファイルを読み、ModelDataを構築していく
@@ -117,7 +119,7 @@ ModelData ModelLoader::LoadObjFile(const std::string& directoryPath, const std::
 			std::string materialFilename;
 			s >> materialFilename;
 			//基本的にObjファイルと同一階層にmtlは存在させるので、ディレクトリ名とファイル名を渡す
-			model.at(index).material = LoadMaterialTemplateFile(directoryPath, materialFilename);
+			model.at(index).material = LoadMaterialTemplateFile(materialFilename);
 		}
 	}
 
@@ -128,14 +130,16 @@ ModelData ModelLoader::LoadObjFile(const std::string& directoryPath, const std::
 }
 
 
-MaterialData ModelLoader::LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename)
+MaterialData ModelLoader::LoadMaterialTemplateFile(const std::string& filename)
 {
+	const std::string& filePathName = "Resources/" + filename;
+
 	//1.中で必要となる変数の宣言
 	MaterialData materialData;	//構築するMaterialData
 	std::string line;	//ファイルから読んだ1行を格納するもの
 
 	//2.ファイルを開く
-	std::ifstream file(directoryPath + "/" + filename);
+	std::ifstream file(filePathName);
 	assert(file.is_open());//とりあえず開けなかったら止める
 
 	//3.実際にファイルを読み、MaterialDataを構築していく
