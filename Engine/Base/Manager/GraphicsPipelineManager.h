@@ -15,9 +15,12 @@
 
 enum BlendMode
 {
-	kBlendModeNone,
-	kBlendModeNormal,
-	kBlendModeAdd,
+	kBlendModeNone,		//ブレンドなし
+	kBlendModeNormal,	//通常のブレンド
+	kBlendModeAdd,		//加算
+	kBlendModeSubtract,	//減算
+	kBlendModeMultily,	//乗算
+	kBlendModeScreen,	//スクリーン
 };
 
 class GraphicsPipelineManager
@@ -46,9 +49,6 @@ public:
 	static GraphicsPipelineManager* GetInstance();
 
 	PsoMember GetPsoMember()const { return psoMember; };
-
-	void SetBlendMode(BlendMode blendMode) { SetupBlendState(blendMode); };
-	
 
 private:
 
