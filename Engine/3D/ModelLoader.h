@@ -25,7 +25,7 @@ public:
 	/// <summary>
 	/// Objファイルを読むための関数
 	/// </summary>
-	ModelData LoadObjFile(const std::string& filename);
+	ModelData LoadObjFile(const std::string& directoryPath, const std::string& filename);
 
 
 private:
@@ -43,6 +43,6 @@ private:
 	/// <summary>
 	/// mtlファイルを読むための関数
 	/// </summary>
-	MaterialData LoadMaterialTemplateFile(const std::string& filename);
+	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename);
 };
 

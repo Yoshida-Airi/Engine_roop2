@@ -13,14 +13,14 @@ ModelLoader::~ModelLoader()
 {
 }
 
-ModelData ModelLoader::LoadObjFile( const std::string& filename)
+ModelData ModelLoader::LoadObjFile(const std::string& directoryPath, const std::string& filename)
 {
 	uint32_t index = 0;
 
 	for (int i = 0; i < kMaxModel; i++)
 	{
 		//同じモデルがあった場合
-		if (model[i].filename == "Resources/" + filename)
+		if (model[i].filename == directoryPath + "/" + filename)
 		{
 			return model[i];
 		}
@@ -28,7 +28,7 @@ ModelData ModelLoader::LoadObjFile( const std::string& filename)
 		if (IsusedModel[i] == false) {
 			index = i;
 			IsusedModel[i] = true;
-			model.at(index).filename = "Resources/" + filename;
+			model.at(index).filename = directoryPath + "/" + filename;
 			break;
 		}
 	}
@@ -46,7 +46,7 @@ ModelData ModelLoader::LoadObjFile( const std::string& filename)
 	std::string line;	//ファイルから読んだ1行を格納するもの
 
 	//2.ファイルを開く
-	std::ifstream file("Resources/" + filename);	//ファイルを開く
+	std::ifstream file(directoryPath + "/" + filename);	//ファイルを開く
 	assert(file.is_open());	//とりあえず開けなかったら止める
 
 	//3.実際にファイルを読み、ModelDataを構築していく
@@ -117,7 +117,7 @@ ModelData ModelLoader::LoadObjFile( const std::string& filename)
 			std::string materialFilename;
 			s >> materialFilename;
 			//基本的にObjファイルと同一階層にmtlは存在させるので、ディレクトリ名とファイル名を渡す
-			model.at(index).material = LoadMaterialTemplateFile(materialFilename);
+			model.at(index).material = LoadMaterialTemplateFile(directoryPath, materialFilename);
 		}
 	}
 
@@ -128,14 +128,14 @@ ModelData ModelLoader::LoadObjFile( const std::string& filename)
 }
 
 
-MaterialData ModelLoader::LoadMaterialTemplateFile(const std::string& filename)
+MaterialData ModelLoader::LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& filename)
 {
 	//1.中で必要となる変数の宣言
 	MaterialData materialData;	//構築するMaterialData
 	std::string line;	//ファイルから読んだ1行を格納するもの
 
 	//2.ファイルを開く
-	std::ifstream file("Resources/" + filename);
+	std::ifstream file(directoryPath + "/" + filename);
 	assert(file.is_open());//とりあえず開けなかったら止める
 
 	//3.実際にファイルを読み、MaterialDataを構築していく
@@ -151,7 +151,7 @@ MaterialData ModelLoader::LoadMaterialTemplateFile(const std::string& filename)
 			std::string textureFilename;
 			s >> textureFilename;
 			//連結してファイルパスにする
-			materialData.textureFilePath = "Resources/" + textureFilename;
+			materialData.textureFilePath = directoryPath + "/" + textureFilename;
 		}
 	}
 
