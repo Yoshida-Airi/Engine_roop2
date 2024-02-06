@@ -5,6 +5,9 @@
 #include<vector>
 #include<assert.h>
 #include<array>
+#include <iostream>
+#include <filesystem>
+
 
 #include"VectorMath.h"
 #include"Globals.h"

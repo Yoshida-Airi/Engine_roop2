@@ -17,8 +17,8 @@ void TitleScene::Initialize()
 
 
 
-	fence_.reset(Model::Create("fence.obj"));
-	cube_.reset(Model::Create("fence.obj"));
+	fence_.reset(Model::Create("DefaultAssets/fence.obj"));
+	cube_.reset(Model::Create("DefaultAssets/cube.obj"));
 
 }
 

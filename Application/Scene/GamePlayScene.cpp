@@ -18,9 +18,9 @@ void GamePlayScene::Initialize()
 #endif // _DEBUG
 
 
-	uvTexture = texture->LoadTexture("uvChecker.png");
-	monsterBall = texture->LoadTexture("monsterBall.png");
-	Doll = texture->LoadTexture("Doll.png");
+	uvTexture = texture->LoadTexture("DefaultAssets/uvChecker.png");
+	monsterBall = texture->LoadTexture("DefaultAssets/monsterBall.png");
+	Doll = texture->LoadTexture("DefaultAssets/Doll.png");
 
 	camera = new Camera;
 	camera->Initialize();
@@ -50,8 +50,8 @@ void GamePlayScene::Initialize()
 	sphere.reset(Sphere::Create(monsterBall));
 	sphere->SetisInvisible(true);
 
-	model.reset(Model::Create("plane.obj"));
-	model2.reset(Model::Create("plane.obj"));
+	model.reset(Model::Create("DefaultAssets/plane.obj"));
+	model2.reset(Model::Create("DefaultAssets/plane.obj"));
 
 }
 
