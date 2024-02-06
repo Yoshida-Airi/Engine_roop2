@@ -28,9 +28,6 @@ private:
 	Input* input;
 	SceneManager* sceneManager_ = nullptr;
 	Camera* camera;
-	ModelLoader* object;
-	ModelData fenceData;
-	ModelData cubeData;
 
 
 	std::unique_ptr<Model> fence_ = nullptr;
