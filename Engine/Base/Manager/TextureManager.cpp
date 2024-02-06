@@ -38,10 +38,12 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath)
 
 	uint32_t index = 0 ;
 
+	const std::string& filePathName = "Resources/" + filePath;
+
 	for (int i = 0; i < kMaxTexture; i++)
 	{
 		//同じ画像があった場合
-		if (textures_[i].filename == filePath)
+		if (textures_[i].filename == filePathName)
 		{
 			return textures_[i].textureHandle;
 		}
@@ -60,7 +62,7 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath)
 	}
 
 	//Textureを読んで転送する
-	DirectX::ScratchImage mipImages = ImageFileOpen(filePath);
+	DirectX::ScratchImage mipImages = ImageFileOpen(filePathName);
 	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
 	textures_.at(index).textureResource = CreateTextureResource(dxCommon_->GetDevice(), metadata);
 	intermediateResource.at(index) = UploadTextureData(textures_.at(index).textureResource.Get(), mipImages);
@@ -76,7 +78,7 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath)
 	//先頭はImGuiが使っているので次のを使う
 	textures_.at(index).textureSrvHandleCPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	textures_.at(index).textureSrvHandleGPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	textures_.at(index).filename = filePath;
+	textures_.at(index).filename = filePathName;
 	textures_.at(index).textureHandle = index;
 
 	//SRVの作成

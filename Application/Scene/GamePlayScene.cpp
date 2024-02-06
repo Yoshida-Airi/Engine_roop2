@@ -18,9 +18,9 @@ void GamePlayScene::Initialize()
 #endif // _DEBUG
 
 
-	uvTexture = texture->LoadTexture("Resources/uvChecker.png");
-	monsterBall = texture->LoadTexture("Resources/monsterBall.png");
-	Doll = texture->LoadTexture("Resources/Doll.png");
+	uvTexture = texture->LoadTexture("uvChecker.png");
+	monsterBall = texture->LoadTexture("monsterBall.png");
+	Doll = texture->LoadTexture("Doll.png");
 
 	camera = new Camera;
 	camera->Initialize();

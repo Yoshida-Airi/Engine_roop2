@@ -151,7 +151,7 @@ MaterialData ModelLoader::LoadMaterialTemplateFile(const std::string& directoryP
 			std::string textureFilename;
 			s >> textureFilename;
 			//連結してファイルパスにする
-			materialData.textureFilePath = directoryPath + "/" + textureFilename;
+			materialData.textureFilePath =  textureFilename;
 		}
 	}
 
