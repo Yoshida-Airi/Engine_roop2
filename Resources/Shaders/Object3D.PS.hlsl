@@ -35,7 +35,7 @@ PixcelShaderOutput main(VertexShaderOutput input)
     {
         discard;
     }
-    if (textureColor.a == 0.5)
+    if (textureColor.a == 0.0)
     {
         discard;
     }
