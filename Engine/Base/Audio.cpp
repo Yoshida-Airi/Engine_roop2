@@ -120,14 +120,14 @@ uint32_t Audio::SoundLoadWave(const char* filename)
 
 }
 
-void Audio::SoundUoload(SoundData* soundData)
+void Audio::SoundUoload(uint32_t soundData)
 {
 	//バッファのメモリを解放
-	delete[]soundData->pBuffer;
+	delete[]audios_.at(soundData).pBuffer;
 
-	soundData->pBuffer = 0;
-	soundData->bufferSize = 0;
-	soundData->wfex = {};
+	audios_.at(soundData).pBuffer = 0;
+	audios_.at(soundData).bufferSize = 0;
+	audios_.at(soundData).wfex = {};
 }
 
 void Audio::SoundPlayWave(const uint32_t& soundHandle, bool isRoop)

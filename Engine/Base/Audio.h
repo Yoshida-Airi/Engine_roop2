@@ -60,7 +60,7 @@ public:
 	/// 音声ファイルの解放
 	/// </summary>
 	/// <param name="soundData"></param>
-	void SoundUoload(SoundData* soundData);
+	void SoundUoload(uint32_t soundData);
 
 	/// <summary>
 	/// 音声ファイルの実行

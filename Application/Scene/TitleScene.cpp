@@ -12,7 +12,7 @@ void TitleScene::Initialize()
 	input = Input::GetInstance();
 	sceneManager_ = SceneManager::GetInstance();
 
-	uint32_t soundData = Audio::GetInstance()->SoundLoadWave("Resources/Sound/Alarm01.wav");
+	soundData = Audio::GetInstance()->SoundLoadWave("Resources/Sound/Alarm01.wav");
 	Audio::GetInstance()->SoundPlayWave(soundData, false);
 
 	camera = new Camera;
@@ -29,12 +29,10 @@ void TitleScene::Update()
 {
 	camera->CameraDebug();
 
-	input->TriggerKey(DIK_0);
-	
+
 
 	if (input->TriggerKey(DIK_RETURN))
 	{
-		
 		sceneManager_->ChangeScene("GAMEPLAY");
 	}
 

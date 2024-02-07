@@ -30,7 +30,7 @@ private:
 	SceneManager* sceneManager_ = nullptr;
 	Camera* camera;
 
-	Audio* audio = nullptr;
+	uint32_t soundData;
 
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;
