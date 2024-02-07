@@ -6,6 +6,7 @@
 #include<fstream>
 #include<wrl.h>
 #include<cassert>
+#include<array>
 
 struct ChunkHeader
 {
@@ -33,6 +34,9 @@ struct SoundData
 	BYTE* pBuffer;
 	//バッファのサイズ
 	unsigned int bufferSize;
+
+	std::string filename{};
+	uint32_t textureHandle;
 };
 
 class Audio
@@ -50,7 +54,7 @@ public:
 	/// </summary>
 	/// <param name="filename"></param>
 	/// <returns></returns>
-	SoundData SoundLoadWave(const char* filename);
+	uint32_t SoundLoadWave(const char* filename);
 
 	/// <summary>
 	/// 音声ファイルの解放
@@ -63,12 +67,16 @@ public:
 	/// </summary>
 	/// <param name="xAudio2"></param>
 	/// <param name="soundData"></param>
-	void SoundPlayWave(const SoundData& soundData, bool isRoop);
+	void SoundPlayWave(const uint32_t& soundData, bool isRoop);
 
 private:
+	static const size_t kMaxAudio = 256;	//最大テクスチャ数
+
 	Microsoft::WRL::ComPtr<IXAudio2>xAudio2;
 	IXAudio2MasteringVoice* masterVoice;
 
+	bool IsusedAudio[kMaxAudio];
+	std::array<SoundData, kMaxAudio> audios_;
 	static Audio* instance;
 
 	bool isroop;	//false::ループ再生しない　true::ループ再生する

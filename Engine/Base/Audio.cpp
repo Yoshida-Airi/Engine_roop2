@@ -30,8 +30,31 @@ void Audio::Draw()
 {
 }
 
-SoundData Audio::SoundLoadWave(const char* filename)
+uint32_t Audio::SoundLoadWave(const char* filename)
 {
+	uint32_t index = 0;
+
+	for (int i = 0; i < kMaxAudio; i++)
+	{
+		//同じ音声があった場合
+		if (audios_[i].filename == filename)
+		{
+			return audios_[i].textureHandle;
+		}
+
+		if (IsusedAudio[i] == false) {
+			index = i;
+			IsusedAudio[i] = true;
+			break;
+		}
+	}
+
+	//indexが不正な値だった場合止める
+	if (index < 0 || kMaxAudio <= index) {
+		//MaxSpriteより多い
+		assert(false);
+	}
+
 	//ファイルオープン
 	std::ifstream file;
 	file.open(filename, std::ios_base::binary);
@@ -86,13 +109,14 @@ SoundData Audio::SoundLoadWave(const char* filename)
 	file.close();
 
 	//読み込んだ音声データをreturn
-	SoundData soundData = {};
+	audios_.at(index).wfex = format.fmt;
+	audios_.at(index).pBuffer = reinterpret_cast<BYTE*>(pBuffer);
+	audios_.at(index).bufferSize = data.size;
+	audios_.at(index).filename = filename;
+	audios_.at(index).textureHandle = index;
+	
 
-	soundData.wfex = format.fmt;
-	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
-	soundData.bufferSize = data.size;
-
-	return soundData;
+	return index;
 
 }
 
@@ -106,19 +130,20 @@ void Audio::SoundUoload(SoundData* soundData)
 	soundData->wfex = {};
 }
 
-void Audio::SoundPlayWave(const SoundData& soundData, bool isRoop)
+void Audio::SoundPlayWave(const uint32_t& soundHandle, bool isRoop)
 {
+
 	HRESULT hr;
 
 	//波形フォーマットをもとにSourceVoiceの生成
 	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	hr = xAudio2->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
+	hr = xAudio2->CreateSourceVoice(&pSourceVoice, &audios_.at(soundHandle).wfex);
 	assert(SUCCEEDED(hr));
 
 	//再生する波形データの設定
 	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = soundData.pBuffer;
-	buf.AudioBytes = soundData.bufferSize;
+	buf.pAudioData = audios_.at(soundHandle).pBuffer;
+	buf.AudioBytes = audios_.at(soundHandle).bufferSize;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
 	if (isRoop == true)
 	{
