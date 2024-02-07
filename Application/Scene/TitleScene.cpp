@@ -34,6 +34,7 @@ void TitleScene::Update()
 	if (input->TriggerKey(DIK_RETURN))
 	{
 		sceneManager_->ChangeScene("GAMEPLAY");
+		Audio::GetInstance()->SoundStopWave(soundData);
 	}
 
 	fence_->Update();

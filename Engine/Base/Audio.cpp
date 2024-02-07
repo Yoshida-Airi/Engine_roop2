@@ -136,8 +136,7 @@ void Audio::SoundPlayWave(const uint32_t& soundHandle, bool isRoop)
 	HRESULT hr;
 
 	//波形フォーマットをもとにSourceVoiceの生成
-	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	hr = xAudio2->CreateSourceVoice(&pSourceVoice, &audios_.at(soundHandle).wfex);
+	hr = xAudio2->CreateSourceVoice(&audios_.at(soundHandle).pSourceVoice, &audios_.at(soundHandle).wfex);
 	assert(SUCCEEDED(hr));
 
 	//再生する波形データの設定
@@ -151,11 +150,17 @@ void Audio::SoundPlayWave(const uint32_t& soundHandle, bool isRoop)
 	}
 
 	//波形データの再生
-	hr = pSourceVoice->SubmitSourceBuffer(&buf);
-	hr = pSourceVoice->Start();
+	hr = audios_.at(soundHandle).pSourceVoice->SubmitSourceBuffer(&buf);
+	hr = audios_.at(soundHandle).pSourceVoice->Start();
 
 
 
+}
+
+void Audio::SoundStopWave(const uint32_t& soundHandle)
+{
+
+	audios_[soundHandle].pSourceVoice->Stop();
 }
 
 Audio* Audio::instance = NULL;

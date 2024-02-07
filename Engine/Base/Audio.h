@@ -34,6 +34,7 @@ struct SoundData
 	BYTE* pBuffer;
 	//バッファのサイズ
 	unsigned int bufferSize;
+	IXAudio2SourceVoice* pSourceVoice;
 
 	std::string filename{};
 	uint32_t textureHandle;
@@ -68,6 +69,8 @@ public:
 	/// <param name="xAudio2"></param>
 	/// <param name="soundData"></param>
 	void SoundPlayWave(const uint32_t& soundData, bool isRoop);
+
+	void SoundStopWave(const uint32_t& soundHandle);
 
 private:
 	static const size_t kMaxAudio = 256;	//最大テクスチャ数
