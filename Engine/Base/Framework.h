@@ -5,6 +5,7 @@
 #include"DebugHelper.h"
 #include"TextureManager.h"
 #include"Input.h"
+#include"Audio.h"
 #include"SceneManager.h"
 #include"ImGuiManager.h"
 #include"AbstractSceneFactory.h"
@@ -32,6 +33,7 @@ protected:
 	GraphicsPipelineManager* psoManager = nullptr;
 	TextureManager* texture = nullptr;
 	Input* input;
+	Audio* audio;
 	//IScene* scene_ = nullptr;	//シーン
 	SceneManager* sceneManager_ = nullptr;
 

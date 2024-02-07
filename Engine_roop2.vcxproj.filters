@@ -99,6 +99,9 @@
     <ClCompile Include="Engine\Effect\ParticleSystem.cpp">
       <Filter>Engine\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Base\Audio.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Effect\ParticleSystem.h">
       <Filter>Engine\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Audio.h">
+      <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

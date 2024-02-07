@@ -4,6 +4,7 @@
 #include"ImGuiManager.h"
 #include"SceneManager.h"
 #include"Input.h"
+#include"Audio.h"
 
 #include"Triangle.h"
 #include"Sprite.h"
@@ -29,6 +30,7 @@ private:
 	SceneManager* sceneManager_ = nullptr;
 	Camera* camera;
 
+	Audio* audio = nullptr;
 
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;

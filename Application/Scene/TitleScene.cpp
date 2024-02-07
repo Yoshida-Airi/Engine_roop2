@@ -12,6 +12,9 @@ void TitleScene::Initialize()
 	input = Input::GetInstance();
 	sceneManager_ = SceneManager::GetInstance();
 
+	SoundData soundData = Audio::GetInstance()->SoundLoadWave("Resources/Sound/Alarm01.wav");
+	Audio::GetInstance()->SoundPlayWave(soundData, false);
+
 	camera = new Camera;
 	camera->Initialize();
 

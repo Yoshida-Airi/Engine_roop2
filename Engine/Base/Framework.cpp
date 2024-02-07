@@ -6,6 +6,8 @@ Framework::~Framework()
 	delete texture;
 	texture = nullptr;
 
+	delete audio;
+
 	delete input;
 	input = nullptr;
 
@@ -54,6 +56,8 @@ void Framework::Initialize()
 	input = Input::GetInstance();
 	input->Initialize();
 
+	audio = Audio::GetInstance();
+	audio->Initialize();
 
 	imgui = ImGuiManager::GetInstance();
 	imgui->Initialize();
