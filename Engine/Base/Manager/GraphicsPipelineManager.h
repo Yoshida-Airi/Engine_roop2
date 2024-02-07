@@ -39,6 +39,7 @@ public:
 	{
 		PSOData object3D;
 		PSOData sprite;
+		PSOData particle;
 	};
 
 
@@ -85,6 +86,7 @@ private:
 	
 	PSOData CreateObject3D(const std::wstring& filePath);
 	PSOData CreateSprite(const std::wstring& filePath);
+	PSOData CreateParticle(const std::wstring& filePath);
 
 	/// <summary>
 	/// 全体のPSO生成関数
@@ -93,7 +95,13 @@ private:
 	/// <param name="rootParameters">ルートパラメータ</param>
 	/// <param name="numRootParameters">ルートパラメーターの配列数</param>
 	/// <returns>PSOData</returns>
-	GraphicsPipelineManager::PSOData CreateCommonPSO(const std::wstring& filePath, D3D12_ROOT_PARAMETER* rootParameters, int numRootParameters);
+	GraphicsPipelineManager::PSOData CreateCommonPSO
+	(
+		const std::wstring& filePath, 
+		D3D12_ROOT_PARAMETER* rootParameters, 
+		int numRootParameters,
+		D3D12_DEPTH_STENCIL_DESC depthStencilDesc
+	);
 
 	/// <summary>
 	/// DXCの初期化

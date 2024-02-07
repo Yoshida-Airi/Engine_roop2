@@ -1,6 +1,5 @@
 #pragma once
 #include"DirectXCommon.h"
-#include"GraphicsPipelineManager.h"
 #include"TextureManager.h"
 #include"VectorMath.h"
 #include"Globals.h"
@@ -8,17 +7,44 @@
 #include"MathUtilty.h"
 #include"Transform.h"
 #include"WorldTransform.h"
+#include"GraphicsPipelineManager.h"
 #include<wrl.h>
 
 #include"Camera.h"
 
+#include<random>
 
-class Sprite
+
+
+struct Particle
+{
+	Transform transform;
+	Vector3 velocity;
+	Vector4 color;
+	float lifeTime;
+	float currentTime;
+};
+
+struct Emitter
+{
+	Transform transform;	//エミッタのTransform
+	uint32_t count;			//発生数
+	float frequency;		//発生頻度
+	float frequencyTime;	//頻度用時刻
+};
+
+struct ParticleForGPU
+{
+	Matrix4x4 WVP;
+	Vector4 color;
+};
+
+class ParticleSystem
 {
 public:
-	~Sprite();
+	~ParticleSystem();
 
-	void Initialize(uint32_t textureHandle);
+	void Initialize(uint32_t textureHandle, Emitter emitter);
 	void Update();
 	void Draw(Camera* camera);
 
@@ -77,22 +103,29 @@ public:
 	/// </summary>
 	/// <param name="textureHandle">テクスチャ</param>
 	/// <returns>四角形</returns>
-	static Sprite* Create(uint32_t textureHandle);
+	static ParticleSystem* Create(uint32_t textureHandle, Emitter emitter);
 
 	/// <summary>
 	/// Imgui
 	/// </summary>
 	void Debug(const char* name);
 
+	std::list<Particle>Emission(const Emitter& emitter, std::mt19937& randomEngine);
+
 private://プライベート変数
 
+	GraphicsPipelineManager* psoManager_ = nullptr;
+
+	static const uint32_t kNumMaxInstance = 10;
+	uint32_t numInstance = 0;
+
 	DirectXCommon* dxCommon_;
-	GraphicsPipelineManager* psoManager_;
 	TextureManager* texture_;
 
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> indexResource_;	//頂点リソース
+	Microsoft::WRL::ComPtr<ID3D12Resource>instancingResources_;
 
 	D3D12_RESOURCE_DESC resourceDesc_{};	//テクスチャの情報
 
@@ -105,6 +138,7 @@ private://プライベート変数
 	VertexData* vertexData_ = nullptr;	//頂点データ
 	Material* materialData_ = nullptr;	//マテリアルデータ
 	uint32_t* indexData_ = nullptr;		//インデックスデータ
+	ParticleForGPU* instancingData = nullptr;
 
 	Transform uvTransform;
 	Vector2 textureSize_;	//切り出しサイズ
@@ -128,6 +162,16 @@ private://プライベート変数
 	float texRight;
 	float texTop;
 	float texBottom;
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
+
+	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
+	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
+
+	std::list<Particle> particles;
+	Emitter emitter_;
+
+	const float kDeltaTime = 1.0f / 60.0f;
 
 private://プライベート関数
 
@@ -156,5 +200,10 @@ private://プライベート関数
 	/// </summary>
 	void AdjustTextureSize();
 
-};
+	void InstancingBuffer();
 
+	void SetSRV();
+
+	Particle MakeNewParticle(std::mt19937& randomEngine, const Vector3& translate);
+
+};

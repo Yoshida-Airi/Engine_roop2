@@ -10,6 +10,7 @@
 #include"Sprite.h"
 #include"Sphere.h"
 #include"Model.h"
+#include"ParticleSystem.h"
 #include"Camera.h"
 
 
@@ -34,6 +35,7 @@ private:
 	uint32_t uvTexture;
 	uint32_t monsterBall;
 	uint32_t Doll;
+	uint32_t circle;
 
 	ModelLoader* object;
 	ModelData plane;
@@ -53,6 +55,8 @@ private:
 	std::unique_ptr<Model> model = nullptr;
 	std::unique_ptr<Model> model2 = nullptr;
 
+	Emitter emitter;
+	std::unique_ptr<ParticleSystem> particle = nullptr;
 
 #ifdef _DEBUG
 

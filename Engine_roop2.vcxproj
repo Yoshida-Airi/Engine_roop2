@@ -130,6 +130,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\MyGame.cpp" />
     <ClCompile Include="Engine\Base\Scene\SceneManager.cpp" />
     <ClCompile Include="Application\Scene\TitleScene.cpp" />
+    <ClCompile Include="Engine\Effect\ParticleSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Effect\EfectManager.h" />
@@ -162,8 +163,21 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Base\Scene\SceneManager.h" />
     <ClInclude Include="Application\Scene\TitleScene.h" />
     <ClInclude Include="Engine\Base\Manager\GraphicsPipelineManager.h" />
+    <ClInclude Include="Engine\Effect\ParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Resources\Shaders\Particle.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Resources\Shaders\Object3D.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -198,6 +212,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Shaders\Particle.hlsli" />
     <None Include="Resources\Shaders\Sprite.hlsli" />
     <None Include="Resources\Shaders\Object3D.hlsli" />
   </ItemGroup>

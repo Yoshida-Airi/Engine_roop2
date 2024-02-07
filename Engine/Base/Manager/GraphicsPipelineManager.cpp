@@ -16,10 +16,10 @@ void GraphicsPipelineManager::Initialize()
 	InitializeDXCCompiler();
 	SetupInputLayout();
 	SetupRasterrizerState();
-	SetupDepthStencilState();
 
 	psoMember.object3D = CreateObject3D(L"Object3D");
 	psoMember.sprite = CreateSprite(L"Sprite");
+	psoMember.particle = CreateParticle(L"Particle");
 
 }
 
@@ -64,9 +64,17 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateObject3D(const s
 	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters[4].Descriptor.ShaderRegister = 1;
 
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
+	//Depthの機能を有効化する
+	depthStencilDesc.DepthEnable = true;
+	//書き込みします
+	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	//比較関数はLessEqual。つまり、近ければ描画される
+	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+
 	SetupBlendState(kBlendModeNormal);
 	
-	psoData = CreateCommonPSO(filePath, rootParameters, 5);
+	psoData = CreateCommonPSO(filePath, rootParameters, 5, depthStencilDesc);
 
 	return psoData;
 }
@@ -107,10 +115,73 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateSprite(const std
 	rootParameters[3].DescriptorTable.pDescriptorRanges = descriptorRange;
 	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);
 
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
+	//Depthの機能を有効化する
+	depthStencilDesc.DepthEnable = true;
+	//書き込みします
+	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	//比較関数はLessEqual。つまり、近ければ描画される
+	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
 	SetupBlendState(kBlendModeNormal);
 
-	psoData = CreateCommonPSO(filePath, rootParameters, 4);
+	psoData = CreateCommonPSO(filePath, rootParameters, 4, depthStencilDesc);
+
+	return psoData;
+}
+
+GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateParticle(const std::wstring& filePath)
+{
+	PSOData psoData;
+
+	//ディスクリプタレンジ
+	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
+	descriptorRangeForInstancing[0].BaseShaderRegister = 0;	//0から始まる
+	descriptorRangeForInstancing[0].NumDescriptors = 1;
+	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+
+	D3D12_ROOT_PARAMETER rootParameters[5] = {};
+
+	//色
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[0].Descriptor.ShaderRegister = 0;
+
+	//WVP
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	rootParameters[1].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
+	rootParameters[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
+
+	//カメラ
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	rootParameters[2].Descriptor.ShaderRegister = 1;
+
+	//テクスチャ
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[3].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
+	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
+
+	//ライト
+	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[4].Descriptor.ShaderRegister = 1;
+
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
+	//Depthの機能を有効化する
+	depthStencilDesc.DepthEnable = true;
+	//書き込みします
+	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	//比較関数はLessEqual。つまり、近ければ描画される
+	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+
+	SetupBlendState(kBlendModeAdd);
+
+	psoData = CreateCommonPSO(filePath, rootParameters, 5, depthStencilDesc);
 
 	return psoData;
 }
@@ -328,7 +399,7 @@ IDxcBlob* GraphicsPipelineManager::CompileShader
 
 
 
-GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateCommonPSO(const std::wstring& filePath, D3D12_ROOT_PARAMETER* rootParameters, int numRootParameters)
+GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateCommonPSO(const std::wstring& filePath, D3D12_ROOT_PARAMETER* rootParameters, int numRootParameters, D3D12_DEPTH_STENCIL_DESC depthStencilDesc)
 {
 	PSOData psoData;
 

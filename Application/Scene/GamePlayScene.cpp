@@ -21,6 +21,7 @@ void GamePlayScene::Initialize()
 	uvTexture = texture->LoadTexture("DefaultAssets/uvChecker.png");
 	monsterBall = texture->LoadTexture("DefaultAssets/monsterBall.png");
 	Doll = texture->LoadTexture("DefaultAssets/Doll.png");
+	circle = texture->LoadTexture("DefaultAssets/circle.png");
 
 	camera = new Camera;
 	camera->Initialize();
@@ -52,6 +53,14 @@ void GamePlayScene::Initialize()
 
 	model.reset(Model::Create("DefaultAssets/plane.obj"));
 	model2.reset(Model::Create("DefaultAssets/plane.obj"));
+
+	emitter.count = 3;
+	emitter.frequency = 0.5f;
+	emitter.frequencyTime = 0.0f;
+	emitter.transform.translate = { 0.0f,0.2f,0.0f };
+	emitter.transform.rotate = { 0.0f,0.0f,0.0f };
+	emitter.transform.scale = { 1.0f,1.0f,1.0f };
+	particle.reset(ParticleSystem::Create(circle, emitter));
 
 }
 
@@ -93,7 +102,7 @@ void GamePlayScene::Update()
 	model2->Update();
 	model->worldTransform_->translation_.x = 3.0f;
 
-
+	particle->Update();
 }
 
 void GamePlayScene::Draw()
@@ -113,5 +122,7 @@ void GamePlayScene::Draw()
 
 	sprite->Draw(camera);
 	sprite2->Draw(camera);
+
+	particle->Draw(camera);
 
 }
