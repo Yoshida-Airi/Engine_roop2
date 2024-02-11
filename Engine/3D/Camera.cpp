@@ -40,11 +40,13 @@ void Camera::TransferMatrix()
 
 	constMap->sview = smatView;
 	constMap->sprojection = smatProjection;
+
+	constMap->worldPosition = transform.translate;
 }
 
 void Camera::UpdateViewMatrix()
 {
-	Matrix4x4 cameraMatrix = MakeAffinMatrix(transform.scale, transform.rotate, transform.translate);
+	cameraMatrix = MakeAffinMatrix(transform.scale, transform.rotate, transform.translate);
 	matView = Inverse(cameraMatrix);
 	smatView = MakeIdentity4x4();
 }

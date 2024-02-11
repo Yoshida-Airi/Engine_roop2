@@ -12,6 +12,7 @@ struct ConstBufferDataViewProjection {
 	Matrix4x4 sview;       // ワールド → ビュー変換行列
 	Matrix4x4 sprojection; // ビュー → プロジェクション変換行列
 
+	Vector3 worldPosition;
 };
 
 
@@ -42,6 +43,8 @@ public:
 
 	Matrix4x4 smatView;
 	Matrix4x4 smatProjection;
+
+	Matrix4x4 cameraMatrix;
 
 #pragma endregion
 
