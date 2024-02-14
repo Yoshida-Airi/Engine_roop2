@@ -32,8 +32,8 @@ void GamePlayScene::Initialize()
 	triangle.reset(Triangle::Create(uvTexture));
 	triangle2.reset(Triangle::Create(monsterBall));
 	
-	//triangle->SetisInvisible(true);
-	//triangle2->SetisInvisible(true);
+	triangle->SetisInvisible(true);
+	triangle2->SetisInvisible(true);
 
 	//
 	sprite.reset(Sprite::Create(Doll));
@@ -46,13 +46,15 @@ void GamePlayScene::Initialize()
 	sprite2.reset(Sprite::Create(uvTexture));
 	sprite2->SetSize({ 64.0f, 64.0f });
 	sprite2->SetTextureLeftTop({ 0,0 });
-	/*sprite2->SetisInvisible(true);*/
+	//sprite2->SetisInvisible(true);
 
 	sphere.reset(Sphere::Create(monsterBall));
-	sphere->SetisInvisible(true);
+	//sphere->SetisInvisible(true);
 
 	model.reset(Model::Create("DefaultAssets/plane.obj"));
 	model2.reset(Model::Create("DefaultAssets/plane.obj"));
+	//model->SetisInvisible(true);
+	//model2->SetisInvisible(true);
 
 	emitter.count = 3;
 	emitter.frequency = 0.5f;

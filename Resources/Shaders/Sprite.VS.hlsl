@@ -12,6 +12,8 @@ struct Camera
     
     float32_t4x4 sview;
     float32_t4x4 sprojection;
+    
+    float32_t3 worldPosition;
 };
 
 ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);

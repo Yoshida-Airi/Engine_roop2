@@ -62,8 +62,6 @@ private:
 
 	Microsoft::WRL::ComPtr< ID3D12RootSignature> rootSignature = nullptr;	//バイナリを元に生成
 
-	D3D12_INPUT_ELEMENT_DESC inputElementDescs[3] = {};
-	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
 
 	D3D12_BLEND_DESC NormalblendDesc{};
 
@@ -100,7 +98,8 @@ private:
 		const std::wstring& filePath, 
 		D3D12_ROOT_PARAMETER* rootParameters, 
 		int numRootParameters,
-		D3D12_DEPTH_STENCIL_DESC depthStencilDesc
+		D3D12_DEPTH_STENCIL_DESC depthStencilDesc,
+		D3D12_INPUT_LAYOUT_DESC inputLayoutDesc
 	);
 
 	/// <summary>

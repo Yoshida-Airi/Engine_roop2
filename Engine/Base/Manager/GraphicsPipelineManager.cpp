@@ -14,7 +14,7 @@ void GraphicsPipelineManager::Initialize()
 	dxCommon_ = DirectXCommon::GetInstance();
 
 	InitializeDXCCompiler();
-	SetupInputLayout();
+	//SetupInputLayout();
 	SetupRasterrizerState();
 
 	psoMember.object3D = CreateObject3D(L"Object3D");
@@ -72,9 +72,34 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateObject3D(const s
 	//比較関数はLessEqual。つまり、近ければ描画される
 	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
+	D3D12_INPUT_ELEMENT_DESC inputElementDescs[4] = {};
+	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
+	inputElementDescs[0].SemanticName = "POSITION";
+	inputElementDescs[0].SemanticIndex = 0;
+	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[1].SemanticName = "TEXCOORD";
+	inputElementDescs[1].SemanticIndex = 0;
+	inputElementDescs[1].Format = DXGI_FORMAT_R32G32_FLOAT;
+	inputElementDescs[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[2].SemanticName = "NORMAL";
+	inputElementDescs[2].SemanticIndex = 0;
+	inputElementDescs[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	inputElementDescs[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[3].SemanticName = "WPOSITION";
+	inputElementDescs[3].SemanticIndex = 0;
+	inputElementDescs[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	inputElementDescs[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputLayoutDesc.pInputElementDescs = inputElementDescs;
+	inputLayoutDesc.NumElements = _countof(inputElementDescs);
+
 	SetupBlendState(kBlendModeNormal);
 	
-	psoData = CreateCommonPSO(filePath, rootParameters, 5, depthStencilDesc);
+	psoData = CreateCommonPSO(filePath, rootParameters, 5, depthStencilDesc, inputLayoutDesc);
 
 	return psoData;
 }
@@ -123,9 +148,30 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateSprite(const std
 	//比較関数はLessEqual。つまり、近ければ描画される
 	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
+
+	D3D12_INPUT_ELEMENT_DESC inputElementDescs[3] = {};
+	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
+	inputElementDescs[0].SemanticName = "POSITION";
+	inputElementDescs[0].SemanticIndex = 0;
+	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[1].SemanticName = "TEXCOORD";
+	inputElementDescs[1].SemanticIndex = 0;
+	inputElementDescs[1].Format = DXGI_FORMAT_R32G32_FLOAT;
+	inputElementDescs[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[2].SemanticName = "NORMAL";
+	inputElementDescs[2].SemanticIndex = 0;
+	inputElementDescs[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	inputElementDescs[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputLayoutDesc.pInputElementDescs = inputElementDescs;
+	inputLayoutDesc.NumElements = _countof(inputElementDescs);
+
 	SetupBlendState(kBlendModeNormal);
 
-	psoData = CreateCommonPSO(filePath, rootParameters, 4, depthStencilDesc);
+	psoData = CreateCommonPSO(filePath, rootParameters, 4, depthStencilDesc,inputLayoutDesc);
 
 	return psoData;
 }
@@ -179,9 +225,34 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateParticle(const s
 	//比較関数はLessEqual。つまり、近ければ描画される
 	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
+	D3D12_INPUT_ELEMENT_DESC inputElementDescs[4] = {};
+	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
+	inputElementDescs[0].SemanticName = "POSITION";
+	inputElementDescs[0].SemanticIndex = 0;
+	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[1].SemanticName = "TEXCOORD";
+	inputElementDescs[1].SemanticIndex = 0;
+	inputElementDescs[1].Format = DXGI_FORMAT_R32G32_FLOAT;
+	inputElementDescs[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[2].SemanticName = "NORMAL";
+	inputElementDescs[2].SemanticIndex = 0;
+	inputElementDescs[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	inputElementDescs[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[3].SemanticName = "COLOR";
+	inputElementDescs[3].SemanticIndex = 0;
+	inputElementDescs[3].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDescs[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputLayoutDesc.pInputElementDescs = inputElementDescs;
+	inputLayoutDesc.NumElements = _countof(inputElementDescs);
+
 	SetupBlendState(kBlendModeAdd);
 
-	psoData = CreateCommonPSO(filePath, rootParameters, 5, depthStencilDesc);
+	psoData = CreateCommonPSO(filePath, rootParameters, 5, depthStencilDesc,inputLayoutDesc);
 
 	return psoData;
 }
@@ -203,7 +274,7 @@ void GraphicsPipelineManager::InitializeDXCCompiler()
 
 void GraphicsPipelineManager::SetupInputLayout()
 {
-	inputElementDescs[0].SemanticName = "POSITION";
+	/*inputElementDescs[0].SemanticName = "POSITION";
 	inputElementDescs[0].SemanticIndex = 0;
 	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
@@ -220,7 +291,7 @@ void GraphicsPipelineManager::SetupInputLayout()
 
 
 	inputLayoutDesc.pInputElementDescs = inputElementDescs;
-	inputLayoutDesc.NumElements = _countof(inputElementDescs);
+	inputLayoutDesc.NumElements = _countof(inputElementDescs);*/
 }
 
 void GraphicsPipelineManager::SetupBlendState(BlendMode blendMode)
@@ -399,7 +470,7 @@ IDxcBlob* GraphicsPipelineManager::CompileShader
 
 
 
-GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateCommonPSO(const std::wstring& filePath, D3D12_ROOT_PARAMETER* rootParameters, int numRootParameters, D3D12_DEPTH_STENCIL_DESC depthStencilDesc)
+GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateCommonPSO(const std::wstring& filePath, D3D12_ROOT_PARAMETER* rootParameters, int numRootParameters, D3D12_DEPTH_STENCIL_DESC depthStencilDesc, D3D12_INPUT_LAYOUT_DESC inputLayoutDesc)
 {
 	PSOData psoData;
 

@@ -121,7 +121,7 @@ void Sphere::Initialize(uint32_t textureHandle)
 	
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData_->uvTransform = MakeIdentity4x4();
-
+	materialData_->shininess = 70.0f;
 	//Lightingを有効にする
 	materialData_->enableLighting = true;
 
