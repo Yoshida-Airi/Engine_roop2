@@ -29,6 +29,7 @@ void Model::Initialize(const std::string& filename)
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData_->enableLighting = true;
 	materialData_->uvTransform = MakeIdentity4x4();
+	materialData_->shininess = 70.0f;
 
 	//ライトのデフォルト値
 	lightData_->color = { 1.0f,1.0f,1.0f,1.0f };

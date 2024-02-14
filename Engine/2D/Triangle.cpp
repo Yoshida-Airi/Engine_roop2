@@ -22,6 +22,7 @@ void Triangle::Initialize(uint32_t textureHandle)
 
 	VertexBuffer();
 	MaterialBuffer();
+	LightBuffer();
 
 	TriangleData initData;
 	initData.vertex[0] = { -0.5f,-0.5f,0.0f,1.0f };
@@ -43,6 +44,12 @@ void Triangle::Initialize(uint32_t textureHandle)
 	SetMaterialData(initData.color);
 
 	materialData_->uvTransform = MakeIdentity4x4();
+	materialData_->shininess = 70.0f;
+
+	//ライトのデフォルト値
+	lightData_->color = { 1.0f,1.0f,1.0f,1.0f };
+	lightData_->direction = { -1.0f,-1.0f,1.0f };
+	lightData_->intensity = 1.0f;
 
 }
 
@@ -75,6 +82,8 @@ void Triangle::Draw(Camera* camera)
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
+	//ライト用のCBufferの場所を設定
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, lightResource_->GetGPUVirtualAddress());
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(3, 1, 0, 0);
 }
@@ -119,4 +128,10 @@ void Triangle::MaterialBuffer()
 	//書き込むためのアドレスを取得
 	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 
+}
+
+void Triangle::LightBuffer()
+{
+	lightResource_ = dxCommon_->CreateBufferResource(sizeof(DirectionalLight));
+	lightResource_->Map(0, nullptr, reinterpret_cast<void**>(&lightData_));
 }

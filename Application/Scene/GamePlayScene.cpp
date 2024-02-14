@@ -49,7 +49,7 @@ void GamePlayScene::Initialize()
 	/*sprite2->SetisInvisible(true);*/
 
 	sphere.reset(Sphere::Create(monsterBall));
-	sphere->SetisInvisible(true);
+	//sphere->SetisInvisible(true);
 
 	model.reset(Model::Create("DefaultAssets/plane.obj"));
 	model2.reset(Model::Create("DefaultAssets/plane.obj"));
