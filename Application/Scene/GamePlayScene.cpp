@@ -40,21 +40,21 @@ void GamePlayScene::Initialize()
 	sprite->SetSize({ 64.0f, 64.0f });
 	sprite->SetTextureLeftTop({ 0,0 });
 	
-	sprite->SetisInvisible(true);
+	//sprite->SetisInvisible(true);
 
 
 	sprite2.reset(Sprite::Create(uvTexture));
 	sprite2->SetSize({ 64.0f, 64.0f });
 	sprite2->SetTextureLeftTop({ 0,0 });
-	sprite2->SetisInvisible(true);
+	//sprite2->SetisInvisible(true);
 
 	sphere.reset(Sphere::Create(monsterBall));
 	//sphere->SetisInvisible(true);
 
 	model.reset(Model::Create("DefaultAssets/plane.obj"));
 	model2.reset(Model::Create("DefaultAssets/plane.obj"));
-	model->SetisInvisible(true);
-	model2->SetisInvisible(true);
+	//model->SetisInvisible(true);
+	//model2->SetisInvisible(true);
 
 	emitter.count = 3;
 	emitter.frequency = 0.5f;
