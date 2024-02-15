@@ -118,7 +118,7 @@ void ParticleSystem::Update()
 	ImGui::Begin("emitter");
 
 	float translate[3] = { emitter_.transform.translate.x,emitter_.transform.translate.y,emitter_.transform.translate.z };
-	ImGui::DragFloat3("transform", translate, -100, 100);
+	ImGui::DragFloat3("transform", translate, 1, 100);
 	emitter_.transform.translate = { translate[0],translate[1],translate[2] };
 
 	ImGui::End();
