@@ -109,11 +109,6 @@ private:
 
 
 	/// <summary>
-	/// インプットレイアウトの生成
-	/// </summary>
-	void SetupInputLayout();
-
-	/// <summary>
 	/// ブレンドステートの設定
 	/// </summary>
 	void SetupBlendState(BlendMode blendMode);

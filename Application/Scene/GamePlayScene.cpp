@@ -53,6 +53,10 @@ void GamePlayScene::Initialize()
 
 	model.reset(Model::Create("DefaultAssets/plane.obj"));
 	model2.reset(Model::Create("DefaultAssets/plane.obj"));
+
+	model->worldTransform_->rotation_.y = -3.1f;
+	model2->worldTransform_->rotation_.y = -3.1f;
+
 	//model->SetisInvisible(true);
 	//model2->SetisInvisible(true);
 
@@ -99,6 +103,8 @@ void GamePlayScene::Update()
 	sphere->Update();
 	sphere->worldTransform_->rotation_.y += 0.01f;
 
+	model->ModelDebug("plane");
+	model2->ModelDebug("plane2");
 
 	model->Update();
 	model2->Update();

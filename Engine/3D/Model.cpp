@@ -111,8 +111,14 @@ void Model::ModelDebug(const char title[10])
 
 		float translate[3] = { worldTransform_->translation_.x, worldTransform_->translation_.y, worldTransform_->translation_.z };
 		ImGui::SliderFloat3("transform", translate, -20, 4);
+		float rotate[3] = { worldTransform_->rotation_.x, worldTransform_->rotation_.y, worldTransform_->rotation_.z };
+		ImGui::SliderFloat3("rotate", rotate, -20, 4);
+		float scale[3] = { worldTransform_->scale_.x, worldTransform_->scale_.y, worldTransform_->scale_.z };
+		ImGui::SliderFloat3("scale", scale, -20, 4);
 
 		worldTransform_->translation_ = { translate[0],translate[1],translate[2] };
+		worldTransform_->rotation_ = { rotate[0],rotate[1],rotate[2] };
+		worldTransform_->scale_ = { scale[0],scale[1],scale[2] };
 
 		worldTransform_->UpdateWorldMatrix();
 
