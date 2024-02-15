@@ -46,10 +46,5 @@ private:
 
 private:
 
-
-	/// <summary>
-	/// mtlファイルを読むための関数
-	/// </summary>
-	MaterialData LoadMaterialTemplateFile(const std::string& filename);
 };
 
