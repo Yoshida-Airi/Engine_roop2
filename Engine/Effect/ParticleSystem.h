@@ -116,7 +116,7 @@ private://プライベート変数
 
 	GraphicsPipelineManager* psoManager_ = nullptr;
 
-	static const uint32_t kNumMaxInstance = 10;
+	static const uint32_t kNumMaxInstance = 100;
 	uint32_t numInstance = 0;
 
 	DirectXCommon* dxCommon_;

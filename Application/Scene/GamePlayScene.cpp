@@ -60,8 +60,8 @@ void GamePlayScene::Initialize()
 	//model->SetisInvisible(true);
 	//model2->SetisInvisible(true);
 
-	emitter.count = 3;
-	emitter.frequency = 0.5f;
+	emitter.count = 20;
+	emitter.frequency = 0.1f;
 	emitter.frequencyTime = 0.0f;
 	emitter.transform.translate = { 0.0f,0.2f,0.0f };
 	emitter.transform.rotate = { 0.0f,0.0f,0.0f };

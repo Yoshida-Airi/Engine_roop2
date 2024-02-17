@@ -77,18 +77,6 @@ void ParticleSystem::Initialize(uint32_t textureHandle, Emitter emitter)
 	indexData_[4] = 3;
 	indexData_[5] = 2;
 
-	std::random_device seedGenerator;
-	std::mt19937 randomEngine(seedGenerator());
-
-
-	for (uint32_t index = 0; index < kNumMaxInstance; ++index)
-	{
-
-		particles.push_back(MakeNewParticle(randomEngine, emitter_.transform.translate));
-		particles.push_back(MakeNewParticle(randomEngine, emitter_.transform.translate));
-		particles.push_back(MakeNewParticle(randomEngine, emitter_.transform.translate));
-
-	}
 
 }
 
