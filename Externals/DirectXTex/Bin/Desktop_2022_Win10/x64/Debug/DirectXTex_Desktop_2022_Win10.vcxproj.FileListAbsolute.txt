@@ -1,0 +1,1 @@
+C:\01_nihonnkougakuinn\02_GE3\GE3\GE\Externals\DirectXTex\Bin\Desktop_2022_Win10\x64\Debug\DirectXTex.lib
