@@ -51,7 +51,7 @@ void GamePlayScene::Initialize()
 	sphere.reset(Sphere::Create(monsterBall));
 	//sphere->SetisInvisible(true);
 
-	model.reset(Model::Create("DefaultAssets/plane.obj"));
+	model.reset(Model::Create("DefaultAssets/plane.gltf"));
 	model2.reset(Model::Create("DefaultAssets/plane.obj"));
 
 	model->worldTransform_->rotation_.y = 3.14f;

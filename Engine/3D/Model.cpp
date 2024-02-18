@@ -17,9 +17,10 @@ void Model::Initialize(const std::string& filename)
 	modelLoader_ = ModelLoader::GetInstance();
 	worldTransform_ = new WorldTransform();
 	worldTransform_->Initialize();
-
+	
 	modelData_ = modelLoader_->LoadObjFile(filename);
 	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
+
 
 	VertexBuffer();
 	MaterialBuffer();
@@ -39,6 +40,7 @@ void Model::Initialize(const std::string& filename)
 
 void Model::Update()
 {
+
 	worldTransform_->UpdateWorldMatrix();
 
 #ifdef _DEBUG
@@ -72,6 +74,9 @@ void Model::Draw(Camera* camera)
 	{
 		return;
 	}
+
+	worldTransform_->matWorld_ = Multiply(modelData_.rootNode.localMatrix, worldTransform_->matWorld_);
+	worldTransform_->TransferMatrix();
 
 
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().object3D.rootSignature.Get());

@@ -46,5 +46,7 @@ private:
 
 private:
 
+	Node ReadNode(aiNode* node);
+
 };
 
