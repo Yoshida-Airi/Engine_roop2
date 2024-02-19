@@ -11,6 +11,7 @@ public: // サブクラス
 		Vector4 color;
 		Vector3 direction;
 		float intensity;
+		unsigned int active;
 	};
 
 
@@ -23,6 +24,11 @@ public:
 	ID3D12Resource* GetLight()
 	{
 		return lightResource_.Get();
+	}
+
+	void SetActive(int active)
+	{
+		lightData_->active = active;
 	}
 
 private:

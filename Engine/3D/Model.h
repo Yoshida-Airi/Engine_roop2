@@ -42,6 +42,12 @@ public:
 	/// <param name="model">親のモデル</param>
 	void Parent(Model* model);
 
+	void SetDirectinalLight(int active)
+	{
+		light_->SetActive(active);
+	}
+
+
 private:
 	DirectXCommon* dxCommon_;
 	GraphicsPipelineManager* psoManager_;
@@ -67,6 +73,7 @@ private:
 	uint32_t textureHandle_;
 	bool isInvisible_ = false;
 
+	
 private:
 
 	/// <summary>

@@ -21,8 +21,9 @@ void TitleScene::Initialize()
 
 
 	fence_.reset(Model::Create("DefaultAssets/fence.obj"));
+	//fence_->SetDirectinalLight(false);
 	cube_.reset(Model::Create("DefaultAssets/cube.obj"));
-
+	cube_->SetDirectinalLight(false);
 	fence_->worldTransform_->rotation_.y = 3.1f;
 }
 

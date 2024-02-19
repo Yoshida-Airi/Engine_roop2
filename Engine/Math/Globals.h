@@ -16,16 +16,9 @@ struct Material
 {
 	Vector4 color;
 	Matrix4x4 uvTransform;
-	int32_t enableLighting;
 	float shininess;
 };
 
-//struct DirectionalLight
-//{
-//	Vector4 color;
-//	Vector3 direction;
-//	float intensity;
-//};
 
 
 //スプライト用
