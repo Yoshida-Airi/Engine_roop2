@@ -8,6 +8,8 @@
 #include"Camera.h"
 #include"ModelData.h"
 
+#include"PointLight.h"
+
 class Model
 {
 public:
@@ -64,6 +66,8 @@ private:
 
 	uint32_t textureHandle_;
 	bool isInvisible_ = false;
+
+	PointLight* pointLight;
 
 	
 private:

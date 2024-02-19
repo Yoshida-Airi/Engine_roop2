@@ -13,6 +13,7 @@
 #include"ParticleSystem.h"
 #include"Camera.h"
 
+#include"PointLight.h"
 
 #include"Input.h"
 

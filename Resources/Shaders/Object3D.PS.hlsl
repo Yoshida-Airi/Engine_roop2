@@ -15,8 +15,16 @@ struct DirectionalLight
     float intensity;
 };
 
+struct PointLight
+{
+    float32_t4 color;
+    float32_t3 position;
+    float intensity;
+};
+
 ConstantBuffer<Material> gMaterial : register(b0);
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
+ConstantBuffer<PointLight> gPointLight : register(b2);
 Texture2D<float32_t4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
 

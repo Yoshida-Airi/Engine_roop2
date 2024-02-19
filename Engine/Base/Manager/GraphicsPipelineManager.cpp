@@ -36,7 +36,7 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateObject3D(const s
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 
-	D3D12_ROOT_PARAMETER rootParameters[5] = {};
+	D3D12_ROOT_PARAMETER rootParameters[6] = {};
 
 	//色
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
@@ -63,6 +63,11 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateObject3D(const s
 	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters[4].Descriptor.ShaderRegister = 1;
+
+	//ライト
+	rootParameters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[5].Descriptor.ShaderRegister = 2;
 
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
 	//Depthの機能を有効化する
@@ -99,7 +104,7 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateObject3D(const s
 
 	SetupBlendState(kBlendModeNormal);
 	
-	psoData = CreateCommonPSO(filePath, rootParameters, 5, depthStencilDesc, inputLayoutDesc);
+	psoData = CreateCommonPSO(filePath, rootParameters, 6, depthStencilDesc, inputLayoutDesc);
 
 	return psoData;
 }

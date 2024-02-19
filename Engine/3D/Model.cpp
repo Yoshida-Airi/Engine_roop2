@@ -7,6 +7,7 @@
 Model::~Model()
 {
 	delete worldTransform_;
+	delete pointLight;
 }
 
 void Model::Initialize(const std::string& filename)
@@ -39,13 +40,16 @@ void Model::Initialize(const std::string& filename)
 	lightData_->direction = { -1.0f,-1.0f,1.0f };
 	lightData_->intensity = 1.0f;
 
+	pointLight = new PointLight();
+	pointLight->Initialize();
+
 }
 
 void Model::Update()
 {
 
 	worldTransform_->UpdateWorldMatrix();
-
+	pointLight->Update();
 	
 
 #ifdef _DEBUG
@@ -101,6 +105,8 @@ void Model::Draw(Camera* camera)
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
 	//ライト用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, lightResource_->GetGPUVirtualAddress());
+	//ポイントライト
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(5, pointLight->GetResource()->GetGPUVirtualAddress());
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData_.vertices.size()), 1, 0, 0);
 
