@@ -32,7 +32,7 @@ public:
 	/// <summary>
 	/// Objファイルを読むための関数
 	/// </summary>
-	ModelData LoadObjFile(const std::string& filename);
+	ModelData LoadModelFile(const std::string& filename);
 
 
 private:

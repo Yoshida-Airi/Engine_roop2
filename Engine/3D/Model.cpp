@@ -20,7 +20,7 @@ void Model::Initialize(const std::string& filename)
 	light_.reset(new DirectionalLight());
 	light_->Initialize();
 
-	modelData_ = modelLoader_->LoadObjFile(filename);
+	modelData_ = modelLoader_->LoadModelFile(filename);
 	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
 
 
