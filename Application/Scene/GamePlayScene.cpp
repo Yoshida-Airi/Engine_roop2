@@ -49,13 +49,19 @@ void GamePlayScene::Initialize()
 	//sprite2->SetisInvisible(true);
 
 	sphere.reset(Sphere::Create(monsterBall));
+	sphere->worldTransform_->translation_.y = -1.0f;
 	//sphere->SetisInvisible(true);
 
 	model.reset(Model::Create("DefaultAssets/plane.gltf"));
-	model2.reset(Model::Create("DefaultAssets/plane.obj"));
+	model2.reset(Model::Create("DefaultAssets/terrain.obj"));
 
 	model->worldTransform_->rotation_.y = 3.14f;
 	model2->worldTransform_->rotation_.y = 3.14f;
+
+	model2->worldTransform_->translation_ =
+	{
+		0.0f,-1.5,0.0f
+	};
 
 	//model->SetisInvisible(true);
 	//model2->SetisInvisible(true);

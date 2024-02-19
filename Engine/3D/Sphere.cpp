@@ -148,6 +148,14 @@ void Sphere::Update()
 	lightData_->direction.y = direction[1];
 	lightData_->direction.z = direction[2];
 
+	float color[] = { materialData_->color.x,materialData_->color.y,materialData_->color.z,materialData_->color.w };
+	ImGui::ColorEdit4("Pick A Color", color);
+
+	materialData_->color.x = color[0];
+	materialData_->color.y = color[1];
+	materialData_->color.z = color[2];
+	materialData_->color.w = color[3];
+
 	ImGui::End();
 #endif // _DEBUG
 
