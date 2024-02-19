@@ -7,7 +7,7 @@
 #include"WorldTransform.h"
 #include"Camera.h"
 #include"ModelData.h"
-
+#include"DirectionalLight.h"
 class Model
 {
 public:
@@ -47,19 +47,22 @@ private:
 	GraphicsPipelineManager* psoManager_;
 	TextureManager* texture_;
 	ModelLoader* modelLoader_;
+	
 
 	ModelData modelData_;
 
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
-	Microsoft::WRL::ComPtr < ID3D12Resource> lightResource_;
+	//Microsoft::WRL::ComPtr < ID3D12Resource> lightResource_;
+
+	std::unique_ptr< DirectionalLight> light_;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
 
 	VertexData* vertexData_ = nullptr;
 	Material* materialData_ = nullptr;	//マテリアルデータ
-	DirectionalLight* lightData_ = nullptr;
+	//DirectionalLight* lightData_ = nullptr;
 
 	uint32_t textureHandle_;
 	bool isInvisible_ = false;

@@ -13,6 +13,8 @@
 #include<cmath>
 #include<assert.h>
 
+#include"DirectionalLight.h"
+
 #include"Transform.h"
 
 class Sphere
@@ -53,11 +55,11 @@ private:
 
 	Microsoft::WRL::ComPtr < ID3D12Resource>vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr < ID3D12Resource> materialResource_;	//マテリアルリソース
-	Microsoft::WRL::ComPtr < ID3D12Resource> lightResource_;
+	//Microsoft::WRL::ComPtr < ID3D12Resource> lightResource_;
 
 	VertexData* vertexData_ = nullptr;
 	Material* materialData_ = nullptr;	//マテリアルデータ
-	DirectionalLight* lightData_ = nullptr;
+	std::unique_ptr< DirectionalLight> light_;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 	D3D12_VERTEX_BUFFER_VIEW materialBufferView_;

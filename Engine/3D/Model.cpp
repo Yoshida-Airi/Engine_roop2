@@ -17,7 +17,9 @@ void Model::Initialize(const std::string& filename)
 	modelLoader_ = ModelLoader::GetInstance();
 	worldTransform_ = new WorldTransform();
 	worldTransform_->Initialize();
-	
+	light_.reset(new DirectionalLight());
+	light_->Initialize();
+
 	modelData_ = modelLoader_->LoadObjFile(filename);
 	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
 
@@ -32,10 +34,10 @@ void Model::Initialize(const std::string& filename)
 	materialData_->uvTransform = MakeIdentity4x4();
 	materialData_->shininess = 10.0f;
 
-	//ライトのデフォルト値
-	lightData_->color = { 1.0f,1.0f,1.0f,1.0f };
-	lightData_->direction = { -1.0f,-1.0f,1.0f };
-	lightData_->intensity = 1.0f;
+	////ライトのデフォルト値
+	//lightData_->color = { 1.0f,1.0f,1.0f,1.0f };
+	//lightData_->direction = { -1.0f,-1.0f,1.0f };
+	//lightData_->intensity = 1.0f;
 }
 
 void Model::Update()
@@ -47,12 +49,12 @@ void Model::Update()
 
 	ImGui::Begin("light");
 
-	float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
-	ImGui::SliderFloat3("lightDirection", direction, -1.0f, 1.0f);
+	//float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
+	//ImGui::SliderFloat3("lightDirection", direction, -1.0f, 1.0f);
 
-	lightData_->direction.x = direction[0];
-	lightData_->direction.y = direction[1];
-	lightData_->direction.z = direction[2];
+	//lightData_->direction.x = direction[0];
+	//lightData_->direction.y = direction[1];
+	//lightData_->direction.z = direction[2];
 
 
 	float color[] = { materialData_->color.x,materialData_->color.y,materialData_->color.z,materialData_->color.w };
@@ -95,7 +97,7 @@ void Model::Draw(Camera* camera)
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
 	//ライト用のCBufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, lightResource_->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, light_->GetLight()->GetGPUVirtualAddress());
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData_.vertices.size()), 1, 0, 0);
 
@@ -177,6 +179,6 @@ void Model::MaterialBuffer()
 
 void Model::LightBuffer()
 {
-	lightResource_ = dxCommon_->CreateBufferResource(sizeof(DirectionalLight));
-	lightResource_->Map(0, nullptr, reinterpret_cast<void**>(&lightData_));
+	//lightResource_ = dxCommon_->CreateBufferResource(sizeof(DirectionalLight));
+	//lightResource_->Map(0, nullptr, reinterpret_cast<void**>(&lightData_));
 }
