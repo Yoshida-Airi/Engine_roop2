@@ -5,6 +5,7 @@ struct Material
     float32_t4 color;
     float32_t4x4 uvTransform;
     float32_t shininess;
+    int32_t enableLighting;
 };
 
 struct DirectionalLight
@@ -12,7 +13,6 @@ struct DirectionalLight
     float32_t4 color;
     float32_t3 direction;
     float intensity;
-    uint active;
 };
 
 ConstantBuffer<Material> gMaterial : register(b0);
@@ -40,7 +40,7 @@ PixcelShaderOutput main(VertexShaderOutput input)
     float specularPow = pow(saturate(NDotH), gMaterial.shininess);
     
   
-    if (gDirectionalLight.active == true)
+    if (gMaterial.enableLighting != 0)
     {
         
         float NdotL = saturate(dot(normalize(input.normal), -gDirectionalLight.direction));

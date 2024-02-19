@@ -42,11 +42,6 @@ public:
 	/// <param name="model">親のモデル</param>
 	void Parent(Model* model);
 
-	void SetDirectinalLight(int active)
-	{
-		light_->SetActive(active);
-	}
-
 
 private:
 	DirectXCommon* dxCommon_;
