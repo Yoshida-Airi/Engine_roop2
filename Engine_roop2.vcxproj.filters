@@ -241,6 +241,9 @@
     <Filter Include="Engine\Base\Manager">
       <UniqueIdentifier>{9c53e8b8-5336-4566-9d44-9fd279ae3d78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Light">
+      <UniqueIdentifier>{556e2eef-2ae5-495b-a0e2-ee7a5af59989}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Object3D.hlsli">
