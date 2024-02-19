@@ -4,7 +4,6 @@ struct Material
 {
     float32_t4 color;
     float32_t4x4 uvTransform;
-    int32_t enableLighting;
     float32_t shininess;
 };
 
@@ -13,7 +12,7 @@ struct DirectionalLight
     float32_t4 color;
     float32_t3 direction;
     float intensity;
-    
+    uint active;
 };
 
 ConstantBuffer<Material> gMaterial : register(b0);
@@ -40,15 +39,17 @@ PixcelShaderOutput main(VertexShaderOutput input)
     float RdotE = dot(reflectLight, toEye);
     float specularPow = pow(saturate(NDotH), gMaterial.shininess);
     
-    if (gMaterial.enableLighting != 0)
+  
+    if (gDirectionalLight.active == true)
     {
+        
         float NdotL = saturate(dot(normalize(input.normal), -gDirectionalLight.direction));
         float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
         float32_t3 diffuse = gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
      
-        // 鏡面反射
+             // 鏡面反射
         float32_t3 specular = gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float32_t3(1.0f, 1.0f, 1.0f);
-        // すべて加算
+             // すべて加算
         output.color.rgb = diffuse + specular;
         
         output.color.a = gMaterial.color.a * textureColor.a;
@@ -67,5 +68,7 @@ PixcelShaderOutput main(VertexShaderOutput input)
         }
         output.color.a = gMaterial.color.a * textureColor.a;
     }
+    
+
     return output;
 }

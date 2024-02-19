@@ -13,7 +13,7 @@ ModelLoader::~ModelLoader()
 {
 }
 
-ModelData ModelLoader::LoadObjFile(const std::string& filename)
+ModelData ModelLoader::LoadModelFile(const std::string& filename)
 {
 
 	uint32_t index = 0;

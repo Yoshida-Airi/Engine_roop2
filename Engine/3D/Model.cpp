@@ -17,6 +17,10 @@ void Model::Initialize(const std::string& filename)
 	modelLoader_ = ModelLoader::GetInstance();
 	worldTransform_ = new WorldTransform();
 	worldTransform_->Initialize();
+	light_.reset(new DirectionalLight());
+	light_->Initialize();
+
+	modelData_ = modelLoader_->LoadModelFile(filename);
 	
 	modelData_ = modelLoader_->LoadObjFile(filename);
 	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
@@ -28,7 +32,6 @@ void Model::Initialize(const std::string& filename)
 
 	
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
-	materialData_->enableLighting = true;
 	materialData_->uvTransform = MakeIdentity4x4();
 	materialData_->shininess = 10.0f;
 
@@ -42,6 +45,8 @@ void Model::Update()
 {
 
 	worldTransform_->UpdateWorldMatrix();
+
+	light_->Update();
 
 #ifdef _DEBUG
 

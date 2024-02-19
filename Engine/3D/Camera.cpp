@@ -64,8 +64,11 @@ void Camera::CameraDebug()
 
 	float translate[3] = { transform.translate.x,transform.translate.y,transform.translate.z };
 	ImGui::SliderFloat3("transform", translate, -20, 4);
+	float rotate[3] = { transform.rotate.x,transform.rotate.y,transform.rotate.z };
+	ImGui::SliderFloat3("rotate", rotate, -20, 4);
 
 	transform.translate = { translate[0],translate[1],translate[2] };
+	transform.rotate = { rotate[0],rotate[1],rotate[2] };
 
 	UpdateMatrix();
 

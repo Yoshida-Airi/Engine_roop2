@@ -68,7 +68,7 @@ void ParticleSystem::Initialize(uint32_t textureHandle, Emitter emitter)
 
 	SetMaterialData(color);
 
-	materialData_->enableLighting = false;
+	
 
 	indexData_[0] = 0;
 	indexData_[1] = 1;
