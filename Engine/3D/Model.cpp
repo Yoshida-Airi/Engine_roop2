@@ -44,6 +44,8 @@ void Model::Update()
 
 	worldTransform_->UpdateWorldMatrix();
 
+	light_->Update();
+
 #ifdef _DEBUG
 
 	ImGui::Begin("light");
