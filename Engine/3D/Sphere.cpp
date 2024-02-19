@@ -11,9 +11,6 @@ void Sphere::Initialize(uint32_t textureHandle)
 	psoManager_ = GraphicsPipelineManager::GetInstance();
 	texture_ = TextureManager::GetInstance();
 
-	light_.reset(new DirectionalLight());
-	light_->Initialize();
-
 	VertexBuffer();
 	MaterialBuffer();
 	LightBuffer();
@@ -130,9 +127,9 @@ void Sphere::Initialize(uint32_t textureHandle)
 
 	//ライトのデフォルト値
 
-	//lightData_->color = { 1.0f,1.0f,1.0f,1.0f };
-	//lightData_->direction = { -1.0f,-1.0f,1.0f };
-	//lightData_->intensity = 1.0f;
+	lightData_->color = { 1.0f,1.0f,1.0f,1.0f };
+	lightData_->direction = { -1.0f,-1.0f,1.0f };
+	lightData_->intensity = 1.0f;
 }
 
 void Sphere::Update()
@@ -143,12 +140,12 @@ void Sphere::Update()
 
 	ImGui::Begin("light");
 
-	//float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
-	//ImGui::SliderFloat3("lightDirection", direction, -1.0f, 1.0f);
+	float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
+	ImGui::SliderFloat3("lightDirection", direction, -1.0f, 1.0f);
 
-	//lightData_->direction.x = direction[0];
-	//lightData_->direction.y = direction[1];
-	//lightData_->direction.z = direction[2];
+	lightData_->direction.x = direction[0];
+	lightData_->direction.y = direction[1];
+	lightData_->direction.z = direction[2];
 
 	ImGui::End();
 #endif // _DEBUG
@@ -180,7 +177,7 @@ void Sphere::Draw(Camera* camera)
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
 	//ライト用のCBufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, light_->GetLight()->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, lightResource_->GetGPUVirtualAddress());
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(totalVertex, 1, 0, 0);
 }
@@ -228,6 +225,6 @@ void Sphere::MaterialBuffer()
 
 void Sphere::LightBuffer()
 {
-	//lightResource_ = dxCommon_->CreateBufferResource(sizeof(DirectionalLight));
-	//lightResource_->Map(0, nullptr, reinterpret_cast<void**>(&lightData_));
+	lightResource_ = dxCommon_->CreateBufferResource(sizeof(DirectionalLight));
+	lightResource_->Map(0, nullptr, reinterpret_cast<void**>(&lightData_));
 }

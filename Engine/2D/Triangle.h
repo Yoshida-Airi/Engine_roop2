@@ -12,8 +12,6 @@
 
 #include"Camera.h"
 
-#include"DirectionalLight.h"
-
 
 #include<wrl.h>
 
@@ -69,7 +67,7 @@ private://プライベート変数
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> wvpResource_;	//wvpリソース
-	//Microsoft::WRL::ComPtr < ID3D12Resource> lightResource_;
+	Microsoft::WRL::ComPtr < ID3D12Resource> lightResource_;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
@@ -77,13 +75,12 @@ private://プライベート変数
 	VertexData* vertexData_ = nullptr;
 	Material* materialData_ = nullptr;	//マテリアルデータ
 	//Matrix4x4* wvpData_ = nullptr;	//wvpデータ
-	//DirectionalLight* lightData_ = nullptr;
+	DirectionalLight* lightData_ = nullptr;
 
 	Transform cameraTransform_;
 	
 	uint32_t textureHandle_;
 
-	std::unique_ptr< DirectionalLight> light_;
 	
 
 	bool isInvisible_ = false;

@@ -20,12 +20,12 @@ struct Material
 	float shininess;
 };
 
-//struct DirectionalLight
-//{
-//	Vector4 color;
-//	Vector3 direction;
-//	float intensity;
-//};
+struct DirectionalLight
+{
+	Vector4 color;
+	Vector3 direction;
+	float intensity;
+};
 
 
 //スプライト用

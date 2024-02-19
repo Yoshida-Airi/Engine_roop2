@@ -102,9 +102,6 @@
     <ClCompile Include="Engine\Base\Audio.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Light\DirectionalLight.cpp">
-      <Filter>Engine\Light</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -203,9 +200,6 @@
     <ClInclude Include="Engine\Base\Audio.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Light\DirectionalLight.h">
-      <Filter>Engine\Light</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -246,9 +240,6 @@
     </Filter>
     <Filter Include="Engine\Base\Manager">
       <UniqueIdentifier>{9c53e8b8-5336-4566-9d44-9fd279ae3d78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Light">
-      <UniqueIdentifier>{827a80b9-050b-4324-a6d8-2ab89209da79}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
