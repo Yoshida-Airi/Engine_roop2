@@ -50,14 +50,20 @@ PixcelShaderOutput main(VertexShaderOutput input)
   
     if (gMaterial.enableLighting != 0)
     {
-        
+        //平行光源
         float NdotL = saturate(dot(normalize(input.normal), -gDirectionalLight.direction));
         float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
         float32_t3 diffuse = gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
      
-             // 鏡面反射
+        // 鏡面反射
         float32_t3 specular = gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float32_t3(1.0f, 1.0f, 1.0f);
-             // すべて加算
+          
+        
+        //ポイントライト
+        float32_t3 pointLightDirection = normalize(input.worldPosition - gPointLight.position);
+        
+        
+        // すべて加算
         output.color.rgb = diffuse + specular;
         
         output.color.a = gMaterial.color.a * textureColor.a;
