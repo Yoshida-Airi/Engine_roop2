@@ -29,7 +29,17 @@ void TitleScene::Update()
 {
 	camera->CameraDebug();
 
+	//ゲームパットの状態を得る変数(XINPUT)
+	XINPUT_STATE joyState;
 
+	if (Input::GetInstance()->GetJoystickState(0, joyState))
+	{
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
+		{
+			sceneManager_->ChangeScene("GAMEPLAY");
+			Audio::GetInstance()->SoundStopWave(soundData);
+		}
+	}
 
 	if (input->TriggerKey(DIK_RETURN))
 	{

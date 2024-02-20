@@ -1,15 +1,13 @@
 #pragma once
 #define DIRECTINPUT_VERSION 0x0800	//DirectInputのバージョン指定
 #include<dinput.h>
-
+#include<Xinput.h>
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
-
-#include<cassert>
+#pragma comment(lib,"XInput.lib")
 
 #include"WinApp.h"
-
-#include<Xinput.h>
+#include<cassert>
 
 class Input
 {
@@ -36,7 +34,10 @@ public:
 	/// <returns>トリガーかどうか</returns>
 	bool TriggerKey(BYTE keyNumber);
 
-	/*bool GetJoystickState(int32_t stickNo, XINPUT_STATE& state);*/
+	// ジョイスティックのデッドゾーンを適用する関数
+	SHORT ApplyDeadzone(SHORT value, SHORT deadzone);
+
+	bool GetJoystickState(int32_t stickNo, XINPUT_STATE& state);
 
 private:
 
@@ -46,6 +47,10 @@ private:
 	IDirectInputDevice8* keyboard = nullptr;	//キーボードデバイス
 	BYTE key[256] = {};
 	BYTE keyPre[256] = {};	//前回の全キーの状態
+
+	// デッドゾーンの設定
+	const int DEADZONE_THRESHOLD = 8000;
+
 
 	static Input* instance;
 
