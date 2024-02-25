@@ -40,6 +40,10 @@ public:
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()const { return swapChainDesc; };
 	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc; };
 
+public:
+
+	//最大SRV数
+	static const uint32_t kMaxSRVCount;
 
 private:
 
