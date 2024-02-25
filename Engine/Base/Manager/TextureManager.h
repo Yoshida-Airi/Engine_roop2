@@ -48,10 +48,7 @@ public:
 	uint32_t LoadTexture(const std::string& filePath);
 
 	//ゲッター
-	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUHandle(uint32_t index)
-	{
-		return textures_.at(index).textureSrvHandleGPU;
-	}
+	D3D12_GPU_DESCRIPTOR_HANDLE GetSrvGPUHandle(uint32_t textureIndex);
 
 	/// <summary>
 	/// テクスチャの情報を取得
@@ -80,11 +77,13 @@ private:
 	//中間リソース
 	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, kMaxTexture> intermediateResource;
 
-	std::array<TextureData, kMaxTexture> textures_;
+	std::vector<TextureData> textureDatas;
 	bool IsusedTexture[kMaxTexture];
 	uint32_t descriptorSizeSRV;
 
 	static TextureManager* instance;
+
+	static uint32_t kSRVIndexTop;
 
 private:
 

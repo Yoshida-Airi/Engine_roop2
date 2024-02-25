@@ -17,10 +17,9 @@ ModelData ModelLoader::LoadModelFile(const std::string& filename)
 {
 
 	uint32_t index = 0;
-	const std::string& filePathName = "Resources/" + filename;
 
 
-	std::filesystem::path path(filePathName);
+	std::filesystem::path path(filename);
 	std::string filename1 = path.parent_path().string();
 
 	std::filesystem::path path2(filename);
@@ -29,7 +28,7 @@ ModelData ModelLoader::LoadModelFile(const std::string& filename)
 	for (int i = 0; i < kMaxModel; i++)
 	{
 		//同じモデルがあった場合
-		if (model[i].filename == filePathName)
+		if (model[i].filename == filename)
 		{
 			return model[i];
 		}
@@ -37,7 +36,7 @@ ModelData ModelLoader::LoadModelFile(const std::string& filename)
 		if (IsusedModel[i] == false) {
 			index = i;
 			IsusedModel[i] = true;
-			model.at(index).filename = filePathName;
+			model.at(index).filename = filename;
 			break;
 		}
 	}
@@ -48,7 +47,7 @@ ModelData ModelLoader::LoadModelFile(const std::string& filename)
 	}
 
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(filePathName.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(filename.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
 	assert(scene->HasMeshes());
 
 	//meshの解析
