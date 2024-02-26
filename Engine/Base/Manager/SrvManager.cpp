@@ -32,11 +32,25 @@ void SrvManager::PreDraw()
 uint32_t SrvManager::Allocate()
 {
 	//上限に達している
-	assert(useIndex > kMaxSRVCount);
+	assert(useIndex < kMaxSRVCount);
 
 	int index = useIndex;
 	useIndex++;
 	return index;
+}
+
+bool SrvManager::SrvMaxCountCheck()
+{
+	if (kMaxSRVCount < useIndex)
+	{
+		//上限に達していない
+		return false;
+	}
+	else
+	{
+		//上限に達している
+		return true;
+	}
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE SrvManager::GetCPUDescriptorHandle(uint32_t index)
