@@ -83,3 +83,5 @@ Vector3 Lerp(const Vector3& s, const Vector3& e, float t);
 // 球面線形補間
 Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t);
 
+// 任意軸回転行列
+Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle);

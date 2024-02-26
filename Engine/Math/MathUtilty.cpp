@@ -404,9 +404,9 @@ Matrix4x4 MakeAffinMatrix(const Vector3& scale, const Vector3& rotate, const Vec
 	Matrix4x4 resultMakeAffinMatrix;
 	Matrix4x4 resultMakeScaleMatrix = MakeScaleMatrix(scale);
 	Matrix4x4 resultMakeTranselateMatrix = MakeTranselateMatrix(translate);
-	Matrix4x4 resultMakeRotateXMatrix = MakeRotateXMatrix(rotate.x);
-	Matrix4x4 resultMakeRotateYMatrix = MakeRotateYMatrix(rotate.y);
-	Matrix4x4 resultMakeRotateZMatrix = MakeRotateZMatrix(rotate.z);
+	Matrix4x4 resultMakeRotateXMatrix = MakeRotateAxisAngle(Vector3(1.0f, 0.0f, 0.0f), rotate.x);
+	Matrix4x4 resultMakeRotateYMatrix = MakeRotateAxisAngle(Vector3(0.0f, 1.0f, 0.0f), rotate.y);
+	Matrix4x4 resultMakeRotateZMatrix = MakeRotateAxisAngle(Vector3(0.0f, 0.0f, 1.0f), rotate.z);
 
 	Matrix4x4 rotateXYZMatrix = Multiply(
 		resultMakeRotateXMatrix, Multiply(resultMakeRotateYMatrix, resultMakeRotateZMatrix));
@@ -546,6 +546,45 @@ Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t) {
 	result.x = (PositonStart * v1.x + PositonEnd * v2.x) / sinTheta;
 	result.y = (PositonStart * v1.y + PositonEnd * v2.y) / sinTheta;
 	result.z = (PositonStart * v1.z + PositonEnd * v2.z) / sinTheta;
+
+	return result;
+
+}
+
+Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle)
+{
+
+	Matrix4x4 result;
+
+	double radian = angle/* * (static_cast<float>(std::numbers::pi) / 180.0f)*/;
+
+
+
+	float sinTheta = static_cast<float>(std::sin(radian));
+	float cosTheta = static_cast<float>(std::cos(radian));
+
+	Vector3 nAxsis = axis;
+
+
+	result.m[0][0] = nAxsis.x * nAxsis.x * (1 - cosTheta) + cosTheta;
+	result.m[0][1] = nAxsis.x * nAxsis.y * (1 - cosTheta) + nAxsis.z * sinTheta;
+	result.m[0][2] = nAxsis.x * nAxsis.z * (1 - cosTheta) - nAxsis.y * sinTheta;
+	result.m[0][3] = 0.0f;
+
+	result.m[1][0] = nAxsis.x * nAxsis.y * (1 - cosTheta) - nAxsis.z * sinTheta;
+	result.m[1][1] = nAxsis.y * nAxsis.y * (1 - cosTheta) + cosTheta;
+	result.m[1][2] = nAxsis.y * nAxsis.z * (1 - cosTheta) + nAxsis.x * sinTheta;
+	result.m[1][3] = 0.0f;
+
+	result.m[2][0] = nAxsis.x * nAxsis.z * (1 - cosTheta) + nAxsis.y * sinTheta;
+	result.m[2][1] = nAxsis.y * nAxsis.z * (1 - cosTheta) - nAxsis.x * sinTheta;
+	result.m[2][2] = nAxsis.z * nAxsis.z * (1 - cosTheta) + cosTheta;
+	result.m[2][3] = 0.0f;
+
+	result.m[3][0] = 0.0f;
+	result.m[3][1] = 0.0f;
+	result.m[3][2] = 0.0f;
+	result.m[3][3] = 1.0f;
 
 	return result;
 
