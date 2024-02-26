@@ -59,20 +59,27 @@ void Camera::UpdateProjectionMatrix()
 
 void Camera::CameraDebug()
 {
-
+#ifdef _DEBUG
 	ImGui::Begin("camera");
 
 	float translate[3] = { transform.translate.x,transform.translate.y,transform.translate.z };
-	ImGui::SliderFloat3("transform", translate, -20, 4);
+	ImGui::DragFloat3("transform", translate, 0.01f);
 	float rotate[3] = { transform.rotate.x,transform.rotate.y,transform.rotate.z };
-	ImGui::SliderFloat3("rotate", rotate, -20, 4);
+	ImGui::DragFloat3("rotate", rotate, 0.01f);
+	//float scale[3] = { transform.scale.x, transform.scale.y, transform.scale.z };
+	//ImGui::DragFloat3("scale", scale, 1);
+
 
 	transform.translate = { translate[0],translate[1],translate[2] };
 	transform.rotate = { rotate[0],rotate[1],rotate[2] };
+	//transform.scale = { scale[0],scale[1],scale[2] };
 
 	UpdateMatrix();
 
 	ImGui::End();
+
+#endif // _DEBUG
+
 
 
 	

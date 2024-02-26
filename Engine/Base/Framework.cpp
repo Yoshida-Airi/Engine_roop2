@@ -91,7 +91,10 @@ void Framework::Draw()
 	srvManager->PreDraw();
 	sceneManager_->Draw();
 
+#ifdef _DEBUG
 	ImGui::ShowDemoWindow();
+#endif // _DEBUG
+
 	imgui->End();
 	imgui->Draw();
 

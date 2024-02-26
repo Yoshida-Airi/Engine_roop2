@@ -20,7 +20,7 @@ void Model::Initialize(const std::string& filename)
 
 
 	modelData_ = modelLoader_->LoadModelFile(filename);
-	
+
 	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
 
 
@@ -28,7 +28,7 @@ void Model::Initialize(const std::string& filename)
 	MaterialBuffer();
 	LightBuffer();
 
-	
+
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData_->uvTransform = MakeIdentity4x4();
 	materialData_->shininess = 10.0f;
@@ -46,30 +46,34 @@ void Model::Update()
 
 	worldTransform_->UpdateWorldMatrix();
 
-	
-
 #ifdef _DEBUG
-
 	ImGui::Begin("light");
-
-	float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
-	ImGui::SliderFloat3("lightDirection", direction, -1.0f, 1.0f);
-
-	lightData_->direction.x = direction[0];
-	lightData_->direction.y = direction[1];
-	lightData_->direction.z = direction[2];
+	if (ImGui::TreeNode("light"))
+	{
 
 
-	float color[] = { materialData_->color.x,materialData_->color.y,materialData_->color.z,materialData_->color.w };
-	ImGui::ColorEdit4("Pick A Color", color);
+		float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
+		ImGui::DragFloat3("lightDirection", direction, 0.1f);
 
-	materialData_->color.x = color[0];
-	materialData_->color.y = color[1];
-	materialData_->color.z = color[2];
-	materialData_->color.w = color[3];
+		lightData_->direction.x = direction[0];
+		lightData_->direction.y = direction[1];
+		lightData_->direction.z = direction[2];
 
+		float color[] = { materialData_->color.x,materialData_->color.y,materialData_->color.z,materialData_->color.w };
+		ImGui::ColorEdit4("Pick A Color", color);
+
+		materialData_->color.x = color[0];
+		materialData_->color.y = color[1];
+		materialData_->color.z = color[2];
+		materialData_->color.w = color[3];
+
+
+		ImGui::TreePop();
+	}
 	ImGui::End();
+
 #endif // _DEBUG
+
 
 }
 
@@ -106,36 +110,39 @@ void Model::Draw(Camera* camera)
 
 }
 
-Model*  Model::Create(const std::string& filename)
+Model* Model::Create(const std::string& filename)
 {
 	Model* model = new Model();
-	model->Initialize( filename);
+	model->Initialize(filename);
 	return model;
 }
 
 void Model::ModelDebug(const char title[10])
 {
 #ifdef _DEBUG
-		ImGui::Begin(title);
+	ImGui::Begin(title);
 
-
+	if (ImGui::TreeNode("transform"))
+	{
 		float translate[3] = { worldTransform_->translation_.x, worldTransform_->translation_.y, worldTransform_->translation_.z };
-		ImGui::DragFloat3("transform", translate, -20, 10);
-		float rotate[3] = { worldTransform_->rotation_.x, worldTransform_->rotation_.y, worldTransform_->rotation_.z };
-		ImGui::DragFloat3("rotate", rotate, -20, 10);
-		float scale[3] = { worldTransform_->scale_.x, worldTransform_->scale_.y, worldTransform_->scale_.z };
-		ImGui::DragFloat3("scale", scale, -20, 10);
-
+		ImGui::DragFloat3("transform", translate,0.01f);
 		worldTransform_->translation_ = { translate[0],translate[1],translate[2] };
+
+		float rotate[3] = { worldTransform_->rotation_.x, worldTransform_->rotation_.y, worldTransform_->rotation_.z };
+		ImGui::DragFloat3("rotate", rotate, 0.01f);
 		worldTransform_->rotation_ = { rotate[0],rotate[1],rotate[2] };
+
+		float scale[3] = { worldTransform_->scale_.x, worldTransform_->scale_.y, worldTransform_->scale_.z };
+		ImGui::DragFloat3("scale", scale, 0.01f);
 		worldTransform_->scale_ = { scale[0],scale[1],scale[2] };
+		ImGui::TreePop();
 
 		worldTransform_->UpdateWorldMatrix();
 
-		ImGui::End();
+	}
+
+	ImGui::End();
 #endif // _DEBUG
-
-
 
 }
 

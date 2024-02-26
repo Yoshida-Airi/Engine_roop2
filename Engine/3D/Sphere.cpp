@@ -142,7 +142,7 @@ void Sphere::Update()
 	ImGui::Begin("light");
 
 	float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
-	ImGui::SliderFloat3("lightDirection", direction, -1.0f, 1.0f);
+	ImGui::DragFloat3("lightDirection", direction, 0.1f);
 
 	lightData_->direction.x = direction[0];
 	lightData_->direction.y = direction[1];

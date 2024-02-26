@@ -153,15 +153,38 @@ void Sprite::Debug(const char* name)
 {
 #ifdef _DEBUG
 	ImGui::Begin(name);
-	ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
-	ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
-	ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
 
-	float material[4] = { materialData_->color.x,materialData_->color.y,materialData_->color.z,materialData_->color.w };
-	ImGui::ColorEdit4("material", material);
+	if (ImGui::TreeNode("uvTransform"))
+	{
+		ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f);
+		ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f);
+		ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
 
-	materialData_->color = { material[0],material[1],material[2],material[3] };
+		float material[4] = { materialData_->color.x,materialData_->color.y,materialData_->color.z,materialData_->color.w };
+		ImGui::ColorEdit4("material", material);
 
+		materialData_->color = { material[0],material[1],material[2],material[3] };
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("transform"))
+	{
+		float translate[3] = { worldTransform_->translation_.x, worldTransform_->translation_.y, worldTransform_->translation_.z };
+		ImGui::DragFloat3("transform", translate, 5);
+		worldTransform_->translation_ = { translate[0],translate[1],translate[2] };
+
+		float rotate[3] = { worldTransform_->rotation_.x, worldTransform_->rotation_.y, worldTransform_->rotation_.z };
+		ImGui::DragFloat3("rotate", rotate, 5);
+		worldTransform_->rotation_ = { rotate[0],rotate[1],rotate[2] };
+
+		float scale[3] = { worldTransform_->scale_.x, worldTransform_->scale_.y, worldTransform_->scale_.z };
+		ImGui::DragFloat3("scale", scale,5);
+		worldTransform_->scale_ = { scale[0],scale[1],scale[2] };
+		ImGui::TreePop();
+
+		worldTransform_->UpdateWorldMatrix();
+
+	}
 
 	ImGui::End();
 #endif // _DEBUG
