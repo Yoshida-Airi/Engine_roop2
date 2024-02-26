@@ -22,10 +22,12 @@ TextureManager::~TextureManager()
 void TextureManager::Initialize()
 {
 	dxCommon_ = DirectXCommon::GetInstance();
-	srvDescriptoHeap_ = dxCommon_->GetSRVDescriptorHeap();
+	srvManager_ = SrvManager::GetInstance();
+
+	srvDescriptoHeap_ = srvManager_->GetDescriptorHeap();
 	descriptorSizeSRV = dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-	textureDatas.reserve(DirectXCommon::kMaxSRVCount);
+	textureDatas.reserve(SrvManager::kMaxSRVCount);
 
 }
 
@@ -64,7 +66,7 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath)
 	}
 
 	//テクスチャ枚数上限
-	assert(textureDatas.size() + kSRVIndexTop < DirectXCommon::kMaxSRVCount);
+	assert(textureDatas.size() + kSRVIndexTop < SrvManager::kMaxSRVCount);
 
 	//Textureを読んで転送する
 	DirectX::ScratchImage mipImages = ImageFileOpen(filePath);
@@ -102,7 +104,7 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath)
 D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetSrvGPUHandle(uint32_t textureIndex)
 {
 	//範囲外指定違反の場合止める
-	assert(textureIndex < DirectXCommon::kMaxSRVCount);
+	assert(textureIndex < SrvManager::kMaxSRVCount);
 
 	TextureData& textureData = textureDatas.at(textureIndex);
 	return textureData.textureSrvHandleGPU;
@@ -114,7 +116,7 @@ const D3D12_RESOURCE_DESC TextureManager::GetResourceDesc(uint32_t textureHandle
 {
 
 	//範囲外指定違反の場合止める
-	assert(textureHandle < DirectXCommon::kMaxSRVCount);
+	assert(textureHandle < SrvManager::kMaxSRVCount);
 
 	TextureData& textureData = textureDatas.at(textureHandle);
 

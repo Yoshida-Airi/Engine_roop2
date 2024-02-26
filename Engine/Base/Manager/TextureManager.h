@@ -2,12 +2,15 @@
 
 #include"Logger.h"
 #include"DirectXCommon.h"
+#include"SrvManager.h"
 
 #include"DirectXTex.h"
 #include"d3dx12.h"
 
 #include<d3d12.h>
 #include<array>
+
+
 
 #pragma comment(lib,"d3d12.lib")
 
@@ -65,6 +68,7 @@ private:
 
 	static const size_t kMaxTexture = 256;	//最大テクスチャ数
 	DirectXCommon* dxCommon_;
+	SrvManager* srvManager_;
 
 	DirectX::ScratchImage mipImages_;
 	Microsoft::WRL::ComPtr< ID3D12Resource> textureResource_;

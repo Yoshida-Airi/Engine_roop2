@@ -22,8 +22,9 @@ void ImGuiManager::Initialize()
 {
 	winApp_ = WinApp::GetInstance();
 	dxCommon_ = DirectXCommon::GetInstance();
+	srvManager_ = SrvManager::GetInstance();
 
-	srvDescriptorHeap_ = dxCommon_->GetSRVDescriptorHeap();
+	srvDescriptorHeap_ = srvManager_->GetDescriptorHeap();
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
