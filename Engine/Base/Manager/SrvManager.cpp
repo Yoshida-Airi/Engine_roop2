@@ -2,6 +2,15 @@
 
 const uint32_t SrvManager::kMaxSRVCount = 512;
 
+SrvManager* SrvManager::GetInstance()
+{
+	if (instance == nullptr)
+	{
+		instance = new SrvManager;
+	}
+	return instance;
+}
+
 void SrvManager::Initialize()
 {
 	dxCommon = DirectXCommon::GetInstance();
@@ -77,3 +86,5 @@ void SrvManager::CreateSRVforStructuredBuffer(uint32_t srvIndex, ID3D12Resource*
 	dxCommon->GetDevice()->CreateShaderResourceView(pResource, &srvDesc, GetCPUDescriptorHandle(srvIndex));
 
 }
+
+SrvManager* SrvManager::instance = NULL;

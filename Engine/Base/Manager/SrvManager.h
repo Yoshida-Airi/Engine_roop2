@@ -4,6 +4,9 @@
 class SrvManager
 {
 public:
+
+	static SrvManager* GetInstance();
+
 	void Initialize();
 	void PreDraw();
 
@@ -29,7 +32,7 @@ private:
 
 	uint32_t useIndex = 0;	//次に使用するSRVインデックス
 
-
+	static SrvManager* instance;
 
 };
 

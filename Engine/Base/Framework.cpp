@@ -52,7 +52,7 @@ void Framework::Initialize()
 	psoManager = GraphicsPipelineManager::GetInstance();
 	psoManager->Initialize();
 
-	srvManager = new SrvManager();
+	srvManager = SrvManager::GetInstance();
 	srvManager->Initialize();
 
 	texture = TextureManager::GetInstance();
