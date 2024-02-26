@@ -399,20 +399,27 @@ Matrix4x4 MakeRotateZMatrix(float radian) {
 	return resultMakeRotatedMatrix;
 }
 
-// 3次元アフィン変換行列の関数
+// 3次元アフィン変換行列の関数(クオータニオン
 Matrix4x4 MakeAffinMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
 	Matrix4x4 resultMakeAffinMatrix;
 	Matrix4x4 resultMakeScaleMatrix = MakeScaleMatrix(scale);
 	Matrix4x4 resultMakeTranselateMatrix = MakeTranselateMatrix(translate);
-	Matrix4x4 resultMakeRotateXMatrix = MakeRotateXMatrix(rotate.x);
-	Matrix4x4 resultMakeRotateYMatrix = MakeRotateYMatrix(rotate.y);
-	Matrix4x4 resultMakeRotateZMatrix = MakeRotateZMatrix(rotate.z);
+	Quaternion  resultMakeRotateXMatrix = MakeRotateAxisAngleQuaternion(Vector3(1.0f, 0.0f, 0.0f), rotate.x);
+	Quaternion  resultMakeRotateYMatrix = MakeRotateAxisAngleQuaternion(Vector3(0.0f, 1.0f, 0.0f), rotate.y);
+	Quaternion  resultMakeRotateZMatrix = MakeRotateAxisAngleQuaternion(Vector3(0.0f, 0.0f, 1.0f), rotate.z);
 
-	Matrix4x4 rotateXYZMatrix = Multiply(
+	Quaternion rotationQuaternion = Multiply(
 		resultMakeRotateXMatrix, Multiply(resultMakeRotateYMatrix, resultMakeRotateZMatrix));
 
+	// クォータニオンから回転行列を作成
+	Matrix4x4 resultMakeRotateMatrix = MakeRotateMatrix(rotationQuaternion);
+
+
+	//Matrix4x4 rotateXYZMatrix = Multiply(
+	//	resultMakeRotateXMatrix, Multiply(resultMakeRotateYMatrix, resultMakeRotateZMatrix));
+
 	resultMakeAffinMatrix =
-		Multiply(resultMakeScaleMatrix, Multiply(rotateXYZMatrix, resultMakeTranselateMatrix));
+		Multiply(resultMakeScaleMatrix, Multiply(resultMakeRotateMatrix, resultMakeTranselateMatrix));
 
 	return resultMakeAffinMatrix;
 }
@@ -549,4 +556,119 @@ Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t) {
 
 	return result;
 
+}
+
+Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle)
+{
+
+	Matrix4x4 result;
+
+	double radian = angle/* * (static_cast<float>(std::numbers::pi) / 180.0f)*/;
+
+
+
+	float sinTheta = static_cast<float>(std::sin(radian));
+	float cosTheta = static_cast<float>(std::cos(radian));
+
+	Vector3 nAxsis = axis;
+
+
+	result.m[0][0] = nAxsis.x * nAxsis.x * (1 - cosTheta) + cosTheta;
+	result.m[0][1] = nAxsis.x * nAxsis.y * (1 - cosTheta) + nAxsis.z * sinTheta;
+	result.m[0][2] = nAxsis.x * nAxsis.z * (1 - cosTheta) - nAxsis.y * sinTheta;
+	result.m[0][3] = 0.0f;
+
+	result.m[1][0] = nAxsis.x * nAxsis.y * (1 - cosTheta) - nAxsis.z * sinTheta;
+	result.m[1][1] = nAxsis.y * nAxsis.y * (1 - cosTheta) + cosTheta;
+	result.m[1][2] = nAxsis.y * nAxsis.z * (1 - cosTheta) + nAxsis.x * sinTheta;
+	result.m[1][3] = 0.0f;
+
+	result.m[2][0] = nAxsis.x * nAxsis.z * (1 - cosTheta) + nAxsis.y * sinTheta;
+	result.m[2][1] = nAxsis.y * nAxsis.z * (1 - cosTheta) - nAxsis.x * sinTheta;
+	result.m[2][2] = nAxsis.z * nAxsis.z * (1 - cosTheta) + cosTheta;
+	result.m[2][3] = 0.0f;
+
+	result.m[3][0] = 0.0f;
+	result.m[3][1] = 0.0f;
+	result.m[3][2] = 0.0f;
+	result.m[3][3] = 1.0f;
+
+	return result;
+
+}
+
+Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle) {
+	Quaternion result;
+
+	result.x = axis.x * static_cast<float>(std::sin(angle / 2));
+	result.y = axis.y * static_cast<float>(std::sin(angle / 2));
+	result.z = axis.z * static_cast<float>(std::sin(angle / 2));
+	result.w = static_cast<float>(std::cos(angle / 2));
+
+	return result;
+}
+
+Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs) {
+	Quaternion result;
+
+	result.w = lhs.w * rhs.w - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z;
+	result.x = lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y;
+	result.y = lhs.w * rhs.y - lhs.x * rhs.z + lhs.y * rhs.w + lhs.z * rhs.x;
+	result.z = lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x + lhs.z * rhs.w;
+
+	return result;
+}
+
+Quaternion Conjugate(const Quaternion& quaternion) {
+	Quaternion result;
+	result.x = -quaternion.x;
+	result.y = -quaternion.y;
+	result.z = -quaternion.z;
+	result.w = quaternion.w;
+	return result;
+}
+
+Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion) {
+
+	Vector3 result;
+
+	Quaternion vectorQuaternion = { vector.x, vector.y, vector.z, 0 };
+	Quaternion conjugate = Conjugate(quaternion);
+	Quaternion quaternionResult = Multiply(Multiply(quaternion, vectorQuaternion), conjugate);
+
+	result.x = quaternionResult.x;
+	result.y = quaternionResult.y;
+	result.z = quaternionResult.z;
+
+	return result;
+}
+
+Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion)
+{
+	Matrix4x4 result;
+
+	result.m[0][0] = (quaternion.w * quaternion.w) + (quaternion.x * quaternion.x) -
+		(quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
+	result.m[0][1] = 2.0f * ((quaternion.x * quaternion.y) + (quaternion.w * quaternion.z));
+	result.m[0][2] = 2.0f * ((quaternion.x * quaternion.z) - (quaternion.w * quaternion.y));
+	result.m[0][3] = 0.0f;
+
+	result.m[1][0] = 2.0f * ((quaternion.x * quaternion.y) - (quaternion.w * quaternion.z));
+	result.m[1][1] = (quaternion.w * quaternion.w) - (quaternion.x * quaternion.x) +
+		(quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
+	result.m[1][2] = 2.0f * ((quaternion.y * quaternion.z) + (quaternion.w * quaternion.x));
+	result.m[1][3] = 0.0f;
+
+	result.m[2][0] = 2.0f * ((quaternion.x * quaternion.z) + (quaternion.w * quaternion.y));
+	result.m[2][1] = 2.0f * ((quaternion.y * quaternion.z) - (quaternion.w * quaternion.x));
+	result.m[2][2] = (quaternion.w * quaternion.w) - (quaternion.x * quaternion.x) -
+		(quaternion.y * quaternion.y) + (quaternion.z * quaternion.z);
+	result.m[2][3] = 0.0f;
+
+	result.m[3][0] = 0.0f;
+	result.m[3][1] = 0.0f;
+	result.m[3][2] = 0.0f;
+	result.m[3][3] = 1.0f;
+
+	return result;
 }

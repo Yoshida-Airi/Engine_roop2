@@ -2,12 +2,15 @@
 
 #include"Logger.h"
 #include"DirectXCommon.h"
+#include"SrvManager.h"
 
 #include"DirectXTex.h"
 #include"d3dx12.h"
 
 #include<d3d12.h>
 #include<array>
+#include<unordered_map>
+
 
 #pragma comment(lib,"d3d12.lib")
 
@@ -24,6 +27,7 @@ public:
 		Microsoft::WRL::ComPtr< ID3D12Resource> textureResource;
 		std::string filename{};
 		uint32_t textureHandle;
+		uint32_t srvIndex;
 	};
 
 	/// <summary>
@@ -48,10 +52,7 @@ public:
 	uint32_t LoadTexture(const std::string& filePath);
 
 	//ゲッター
-	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUHandle(uint32_t index)
-	{
-		return textures_.at(index).textureSrvHandleGPU;
-	}
+	D3D12_GPU_DESCRIPTOR_HANDLE GetSrvGPUHandle(uint32_t textureHandle);
 
 	/// <summary>
 	/// テクスチャの情報を取得
@@ -63,11 +64,13 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap, uint32_t descriptorSize, uint32_t index);
 
+	std::string SearchFilepath(uint32_t index);
 
 private:
 
 	static const size_t kMaxTexture = 256;	//最大テクスチャ数
 	DirectXCommon* dxCommon_;
+	SrvManager* srvManager_;
 
 	DirectX::ScratchImage mipImages_;
 	Microsoft::WRL::ComPtr< ID3D12Resource> textureResource_;
@@ -80,11 +83,13 @@ private:
 	//中間リソース
 	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, kMaxTexture> intermediateResource;
 
-	std::array<TextureData, kMaxTexture> textures_;
+	std::unordered_map<std::string, TextureData> textureDatas;
 	bool IsusedTexture[kMaxTexture];
 	uint32_t descriptorSizeSRV;
 
 	static TextureManager* instance;
+
+	static uint32_t kSRVIndexTop;
 
 private:
 

@@ -3,6 +3,10 @@
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxguid.lib")
 
+
+//const uint32_t DirectXCommon::kMaxSRVCount = 512;
+
+
 /*======================================*/
 /* 　　　　   パブリックメソッド　　　 　     */
 /*======================================*/
@@ -78,7 +82,7 @@ void DirectXCommon::PreDraw()
 	//コマンドを積む
 	commandList->RSSetViewports(1, &viewport);
 	commandList->RSSetScissorRects(1, &scissorRect);
-	commandList->SetDescriptorHeaps(1, srvDescriptorHeap.GetAddressOf());
+	//commandList->SetDescriptorHeaps(1, srvDescriptorHeap.GetAddressOf());
 	commandList->OMSetRenderTargets(1, &rtvHandles[backBufferIndex], false, &dsvhandle);
 	commandList->ClearDepthStencilView(dsvhandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
@@ -303,7 +307,7 @@ void DirectXCommon::SetupRnderTargetView()
 
 	rtvDescriptorHeap = CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 2, false);
 
-	srvDescriptorHeap = CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);
+	//srvDescriptorHeap = CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, kMaxSRVCount, true);
 	
 	dsvDescriptorHeap = CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1, false);
 

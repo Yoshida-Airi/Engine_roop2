@@ -142,7 +142,7 @@ void Sphere::Update()
 	ImGui::Begin("light");
 
 	float direction[] = { lightData_->direction.x,lightData_->direction.y,lightData_->direction.z };
-	ImGui::SliderFloat3("lightDirection", direction, -1.0f, 1.0f);
+	ImGui::DragFloat3("lightDirection", direction, 0.1f);
 
 	lightData_->direction.x = direction[0];
 	lightData_->direction.y = direction[1];
@@ -184,7 +184,7 @@ void Sphere::Draw(Camera* camera)
 	//カメラ用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetGPUHandle(textureHandle_));
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetSrvGPUHandle(textureHandle_));
 	//ライト用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, lightResource_->GetGPUVirtualAddress());
 	//描画

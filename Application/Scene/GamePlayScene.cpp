@@ -18,10 +18,10 @@ void GamePlayScene::Initialize()
 #endif // _DEBUG
 
 
-	uvTexture = texture->LoadTexture("DefaultAssets/uvChecker.png");
-	monsterBall = texture->LoadTexture("DefaultAssets/monsterBall.png");
-	Doll = texture->LoadTexture("DefaultAssets/Doll.png");
-	circle = texture->LoadTexture("DefaultAssets/circle.png");
+	uvTexture = texture->LoadTexture("Resources/DefaultAssets/uvChecker.png");
+	monsterBall = texture->LoadTexture("Resources/DefaultAssets/monsterBall.png");
+	Doll = texture->LoadTexture("Resources/DefaultAssets/Doll.png");
+	circle = texture->LoadTexture("Resources/DefaultAssets/circle.png");
 
 	camera = new Camera;
 	camera->Initialize();
@@ -52,8 +52,8 @@ void GamePlayScene::Initialize()
 	sphere->worldTransform_->translation_.y = -1.0f;
 	//sphere->SetisInvisible(true);
 
-	model.reset(Model::Create("DefaultAssets/plane.gltf"));
-	model2.reset(Model::Create("DefaultAssets/terrain.obj"));
+	model.reset(Model::Create("Resources/DefaultAssets/plane.gltf"));
+	model2.reset(Model::Create("Resources/DefaultAssets/terrain.obj"));
 
 	model->worldTransform_->rotation_.y = 3.14f;
 	model2->worldTransform_->rotation_.y = 3.14f;

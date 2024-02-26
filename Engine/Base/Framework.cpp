@@ -6,6 +6,8 @@ Framework::~Framework()
 	delete texture;
 	texture = nullptr;
 
+	delete srvManager;
+
 	delete audio;
 
 	delete input;
@@ -50,6 +52,9 @@ void Framework::Initialize()
 	psoManager = GraphicsPipelineManager::GetInstance();
 	psoManager->Initialize();
 
+	srvManager = SrvManager::GetInstance();
+	srvManager->Initialize();
+
 	texture = TextureManager::GetInstance();
 	texture->Initialize();
 
@@ -83,9 +88,13 @@ void Framework::Update()
 void Framework::Draw()
 {
 	dxCommon->PreDraw();
+	srvManager->PreDraw();
 	sceneManager_->Draw();
 
+#ifdef _DEBUG
 	ImGui::ShowDemoWindow();
+#endif // _DEBUG
+
 	imgui->End();
 	imgui->Draw();
 

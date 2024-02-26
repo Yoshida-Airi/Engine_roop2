@@ -83,3 +83,18 @@ Vector3 Lerp(const Vector3& s, const Vector3& e, float t);
 // 球面線形補間
 Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t);
 
+//Quaternionの積
+Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs);
+
+//共役Quaternionを返す
+Quaternion Conjugate(const Quaternion& quaternion);
+
+// 任意軸回転行列
+Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, float angle);
+
+// 任意軸回転を表すQuaternionの生成
+Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle);
+// ベクトルをQuaternionで回転させた結果のベクトルを求める
+Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
+// Quaternionから回転行列を求める
+Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);

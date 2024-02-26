@@ -102,6 +102,9 @@
     <ClCompile Include="Engine\Base\Audio.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Base\Manager\SrvManager.cpp">
+      <Filter>Engine\Base\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Base\Audio.h">
       <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Manager\SrvManager.h">
+      <Filter>Engine\Base\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

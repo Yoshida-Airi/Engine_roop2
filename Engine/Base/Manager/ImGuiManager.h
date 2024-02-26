@@ -1,9 +1,12 @@
 #pragma once
 #include"WinApp.h"
 #include"DirectXCommon.h"
+#include"SrvManager.h"
 
 #include"imgui_impl_dx12.h"
 #include"imgui_impl_win32.h"
+
+
 
 class ImGuiManager
 {
@@ -33,6 +36,7 @@ public:
 private:
 	WinApp* winApp_;
 	DirectXCommon* dxCommon_;
+	SrvManager* srvManager_;
 
 	static ImGuiManager* instance;
 

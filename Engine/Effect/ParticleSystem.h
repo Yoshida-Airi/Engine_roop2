@@ -1,5 +1,6 @@
 #pragma once
 #include"DirectXCommon.h"
+#include"SrvManager.h"
 #include"TextureManager.h"
 #include"VectorMath.h"
 #include"Globals.h"
@@ -115,6 +116,7 @@ public:
 private://プライベート変数
 
 	GraphicsPipelineManager* psoManager_ = nullptr;
+	SrvManager* srvManager_ = nullptr;
 
 	static const uint32_t kNumMaxInstance = 100;
 	uint32_t numInstance = 0;

@@ -11,6 +11,7 @@ void WorldTransform::Initialize()
 	CreateConstBuffer();
 	Map();
 	TransferMatrix();
+
 }
 
 

@@ -1,5 +1,6 @@
 #include "TextureManager.h"
 
+uint32_t TextureManager::kSRVIndexTop = 1;
 
 TextureManager* TextureManager::GetInstance()
 {
@@ -21,8 +22,12 @@ TextureManager::~TextureManager()
 void TextureManager::Initialize()
 {
 	dxCommon_ = DirectXCommon::GetInstance();
-	srvDescriptoHeap_ = dxCommon_->GetSRVDescriptorHeap();
+	srvManager_ = SrvManager::GetInstance();
+
+	srvDescriptoHeap_ = srvManager_->GetDescriptorHeap();
 	descriptorSizeSRV = dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	textureDatas.reserve(SrvManager::kMaxSRVCount);
 
 }
 
@@ -35,19 +40,32 @@ void TextureManager::Update()
 
 uint32_t TextureManager::LoadTexture(const std::string& filePath)
 {
+	uint32_t index = 0;
 
-	uint32_t index = 0 ;
 
-	const std::string& filePathName = "Resources/" + filePath;
+	////読み込み済みテクスチャを検索
+	//auto it = std::find_if(
+	//	textureDatas.begin(),
+	//	textureDatas.end(),
+	//	[&](TextureData& textureData) {return textureData.filename == filePath; }
+	//);
+	//if (it != textureDatas.end())
+	//{
+	//	//読み込み済みなら戻す
+	//	uint32_t textureIndex = static_cast<uint32_t>(std::distance(textureDatas.begin(), it));
+	//	return textureIndex;
+	//}
+
+	//読み込み済みテクスチャを検索
+	if (textureDatas.contains(filePath))
+	{
+		uint32_t textureIndex = textureDatas[filePath].textureHandle;
+		return textureIndex;
+	}
+
 
 	for (int i = 0; i < kMaxTexture; i++)
 	{
-		//同じ画像があった場合
-		if (textures_[i].filename == filePathName)
-		{
-			return textures_[i].textureHandle;
-		}
-
 		if (IsusedTexture[i] == false) {
 			index = i;
 			IsusedTexture[i] = true;
@@ -55,47 +73,76 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath)
 		}
 	}
 
-	//indexが不正な値だった場合止める
-	if (index < 0 || kMaxTexture <= index) {
-		//MaxSpriteより多い
-		assert(false);
-	}
+	//テクスチャ枚入数上限チェック
+	assert(srvManager_->SrvMaxCountCheck());
+
+	//テクスチャ枚数上限
+	assert(textureDatas.size() + kSRVIndexTop < SrvManager::kMaxSRVCount);
 
 	//Textureを読んで転送する
-	DirectX::ScratchImage mipImages = ImageFileOpen(filePathName);
+	DirectX::ScratchImage mipImages = ImageFileOpen(filePath);
 	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
-	textures_.at(index).textureResource = CreateTextureResource(dxCommon_->GetDevice(), metadata);
-	intermediateResource.at(index) = UploadTextureData(textures_.at(index).textureResource.Get(), mipImages);
-	//metadataを基にSRVの設定
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = metadata.format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
-	//SRVを作成するDescriptorHeapの場所を決める
-	textures_.at(index).textureSrvHandleCPU = GetCPUDescriptorHandle(srvDescriptoHeap_, descriptorSizeSRV, index);
-	textures_.at(index).textureSrvHandleGPU = GetGPUDescriptorHandle(srvDescriptoHeap_, descriptorSizeSRV, index);
-	//先頭はImGuiが使っているので次のを使う
-	textures_.at(index).textureSrvHandleCPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	textures_.at(index).textureSrvHandleGPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	textures_.at(index).filename = filePathName;
-	textures_.at(index).textureHandle = index;
+	
+	//テクスチャデータを追加して書き込む
+	//textureDatas.resize(textureDatas.size() + 1);
+	//TextureData& textureData = textureDatas.back();
 
-	//SRVの作成
-	dxCommon_->GetDevice()->CreateShaderResourceView(textures_.at(index).textureResource.Get(), &srvDesc, textures_.at(index).textureSrvHandleCPU);
+	TextureData& textureData = textureDatas[filePath];
+
+
+	textureData.filename = filePath;
+	textureData.textureResource = CreateTextureResource(dxCommon_->GetDevice(), metadata);
+
+
+	textureData.textureResource = CreateTextureResource(dxCommon_->GetDevice(), metadata);
+	intermediateResource.at(index) = UploadTextureData(textureData.textureResource.Get(), mipImages);
+
+
+	//テクスチャデータの要素数番号をSRVのインデックスとする
+	uint32_t srvIndex = static_cast<uint32_t>(textureDatas.size() - 1) + kSRVIndexTop;
+
+	//textureData.textureSrvHandleCPU = GetCPUDescriptorHandle(srvDescriptoHeap_, descriptorSizeSRV, srvIndex);
+	//textureData.textureSrvHandleGPU = GetGPUDescriptorHandle(srvDescriptoHeap_, descriptorSizeSRV, srvIndex);
+
+	textureData.srvIndex = srvManager_->Allocate();
+	textureData.textureSrvHandleCPU = srvManager_->GetCPUDescriptorHandle(textureData.srvIndex);
+	textureData.textureSrvHandleGPU = srvManager_->GetGPUDescriptorHandle(textureData.srvIndex);
+	textureData.textureHandle = index;
+
+	srvManager_->CreateSRVforTexture2D(textureData.srvIndex,textureData.textureResource.Get(), metadata.format, UINT(metadata.mipLevels));
 
 	return index;
 }
 
+D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetSrvGPUHandle(uint32_t textureIndex)
+{
+	//範囲外指定違反の場合止める
+	assert(textureIndex < SrvManager::kMaxSRVCount);
+
+	std::string filePath = SearchFilepath(textureIndex);
+
+	TextureData& textureData = textureDatas[filePath];
+	return textureData.textureSrvHandleGPU;
+}
+
+
+
 const D3D12_RESOURCE_DESC TextureManager::GetResourceDesc(uint32_t textureHandle)
 {
+
+	//範囲外指定違反の場合止める
+	assert(textureHandle < SrvManager::kMaxSRVCount);
+
+	std::string filePath = SearchFilepath(textureHandle);
+
+	TextureData& textureData = textureDatas[filePath];
+
 	//テクスチャの情報を取得
 	D3D12_RESOURCE_DESC resourceDesc{};
-	resourceDesc = textures_[textureHandle].textureResource.Get()->GetDesc();
+	resourceDesc = textureData.textureResource.Get()->GetDesc();
 
 	return resourceDesc;
 }
-
 
 DirectX::ScratchImage TextureManager::ImageFileOpen(const std::string& filePath)
 {
@@ -176,6 +223,18 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUDescriptorHandle(Microsoft::WR
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	handleGPU.ptr += (descriptorSize * index);
 	return handleGPU;
+}
+
+std::string TextureManager::SearchFilepath(uint32_t index)
+{
+
+	for (const auto& pair : textureDatas) {
+		if (pair.second.textureHandle == index) {
+			return pair.second.filename;
+		}
+	}
+	assert(0);
+	return 0;
 }
 
 TextureManager* TextureManager::instance = NULL;
