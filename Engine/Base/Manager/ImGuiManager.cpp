@@ -25,6 +25,7 @@ void ImGuiManager::Initialize()
 	srvManager_ = SrvManager::GetInstance();
 
 	srvDescriptorHeap_ = srvManager_->GetDescriptorHeap();
+	srvManager_->Allocate();
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
