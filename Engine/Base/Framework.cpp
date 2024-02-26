@@ -6,6 +6,8 @@ Framework::~Framework()
 	delete texture;
 	texture = nullptr;
 
+	delete srvManager;
+
 	delete audio;
 
 	delete input;
@@ -49,6 +51,9 @@ void Framework::Initialize()
 
 	psoManager = GraphicsPipelineManager::GetInstance();
 	psoManager->Initialize();
+
+	srvManager = new SrvManager();
+	srvManager->Initialize();
 
 	texture = TextureManager::GetInstance();
 	texture->Initialize();
