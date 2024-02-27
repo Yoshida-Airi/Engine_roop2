@@ -69,7 +69,7 @@
     <ClCompile Include="Application\Scene\TitleScene.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Game\MyGame.cpp">
+    <ClCompile Include="Application\MyGame.cpp">
       <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\Framework.cpp">
@@ -167,7 +167,7 @@
     <ClInclude Include="Application\Scene\TitleScene.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Game\MyGame.h">
+    <ClInclude Include="Application\MyGame.h">
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Framework.h">

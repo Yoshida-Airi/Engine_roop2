@@ -132,7 +132,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\2D\Triangle.cpp" />
     <ClCompile Include="Engine\Base\WinApp.cpp" />
     <ClCompile Include="Engine\Math\WorldTransform.cpp" />
-    <ClCompile Include="Application\Game\MyGame.cpp" />
+    <ClCompile Include="Application\MyGame.cpp" />
     <ClCompile Include="Engine\Base\Scene\SceneManager.cpp" />
     <ClCompile Include="Application\Scene\TitleScene.cpp" />
     <ClCompile Include="Engine\Effect\ParticleSystem.cpp" />
@@ -166,7 +166,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Math\WorldTransform.h" />
     <ClInclude Include="Application\Scene\GamePlayScene.h" />
     <ClInclude Include="Engine\Base\Scene\BaseScene.h" />
-    <ClInclude Include="Application\Game\MyGame.h" />
+    <ClInclude Include="Application\MyGame.h" />
     <ClInclude Include="Engine\Base\Scene\SceneManager.h" />
     <ClInclude Include="Application\Scene\TitleScene.h" />
     <ClInclude Include="Engine\Base\Manager\GraphicsPipelineManager.h" />
