@@ -7,10 +7,11 @@
 
 ParticleSystem::~ParticleSystem()
 {
-	delete worldTransform_;
+	delete emitter_;
+
 }
 
-void ParticleSystem::Initialize(uint32_t textureHandle, Emitter emitter)
+void ParticleSystem::Initialize(uint32_t textureHandle)
 {
 
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -18,11 +19,9 @@ void ParticleSystem::Initialize(uint32_t textureHandle, Emitter emitter)
 	psoManager_ = GraphicsPipelineManager::GetInstance();
 	texture_ = TextureManager::GetInstance();
 
-	worldTransform_ = new WorldTransform();
-	worldTransform_->Initialize();
 	textureHandle_ = textureHandle;
 
-	emitter_ = emitter;
+	//emitter_ = emitter;
 
 	uvTransform =
 	{
@@ -78,24 +77,27 @@ void ParticleSystem::Initialize(uint32_t textureHandle, Emitter emitter)
 	indexData_[4] = 3;
 	indexData_[5] = 2;
 
-
+	emitter_->count = 10;
+	emitter_->frequency = 1.0f;
+	emitter_->frequencyTime = 0.0f;
+	emitter_->transform.translate = { 0.0f,0.2f,0.0f };
+	emitter_->transform.rotate = { 0.0f,0.0f,0.0f };
+	emitter_->transform.scale = { 1.0f,1.0f,1.0f };
 }
 
 void ParticleSystem::Update()
 {
 
-
-	worldTransform_->UpdateWorldMatrix();
 	UpdateVertexBuffer();
 
 	std::random_device seedGenerator;
 	std::mt19937 randomEngine(seedGenerator());
 
-	emitter_.frequencyTime += kDeltaTime;
-	if (emitter_.frequency <= emitter_.frequencyTime)
+	emitter_->frequencyTime += kDeltaTime;
+	if (emitter_->frequency <= emitter_->frequencyTime)
 	{
 		particles.splice(particles.end(), Emission(emitter_, randomEngine));
-		emitter_.frequencyTime -= emitter_.frequency;
+		emitter_->frequencyTime -= emitter_->frequency;
 	}
 
 	Matrix4x4 uvTransformMatrix_ = MakeScaleMatrix(uvTransform.scale);
@@ -173,13 +175,6 @@ void ParticleSystem::Draw(Camera* camera)
 	dxCommon_->GetCommandList()->DrawIndexedInstanced(6, numInstance, 0, 0, 0);
 }
 
-void ParticleSystem::SetVertexData(const float left, const float right, const float top, const float bottom)
-{
-	this->left = left;
-	this->right = right;
-	this->top = top;
-	this->bottom = bottom;
-}
 
 void ParticleSystem::SetMaterialData(const Vector4 color)
 {
@@ -191,10 +186,10 @@ void ParticleSystem::SetAlpha()
 
 }
 
-ParticleSystem* ParticleSystem::Create(uint32_t textureHandle, Emitter emitter)
+ParticleSystem* ParticleSystem::Create(uint32_t textureHandle)
 {
 	ParticleSystem* sprite = new ParticleSystem();
-	sprite->Initialize(textureHandle, emitter);
+	sprite->Initialize(textureHandle);
 	return sprite;
 }
 
@@ -208,26 +203,14 @@ void ParticleSystem::Debug(const char* name)
 		ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
 		ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
 
-		float translate[3] = { emitter_.transform.translate.x,emitter_.transform.translate.y,emitter_.transform.translate.z };
+		float translate[3] = { emitter_->transform.translate.x,emitter_->transform.translate.y,emitter_->transform.translate.z };
 		ImGui::DragFloat3("transform", translate, 1, 100);
-		emitter_.transform.translate = { translate[0],translate[1],translate[2] };
+		emitter_->transform.translate = { translate[0],translate[1],translate[2] };
 		ImGui::TreePop();
 	}
 	ImGui::End();
 #endif // _DEBUG
 
-}
-
-std::list<Particle> ParticleSystem::Emission(const Emitter& emitter, std::mt19937& randomEngine)
-{
-	std::list<Particle>particle;
-
-	for (uint32_t count = 0; count < emitter.count; ++count)
-	{
-		particle.push_back(MakeNewParticle(randomEngine, emitter_.transform.translate));
-	}
-
-	return particle;
 }
 
 
@@ -372,3 +355,16 @@ Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, const Vecto
 	particle.currentTime = 0;
 	return particle;
 }
+
+std::list<Particle> ParticleSystem::Emission(const Emitter* emitter, std::mt19937& randomEngine)
+{
+	std::list<Particle>particle;
+
+	for (uint32_t count = 0; count < emitter->count; ++count)
+	{
+		particle.push_back(MakeNewParticle(randomEngine, emitter->transform.translate));
+	}
+
+	return particle;
+}
+
