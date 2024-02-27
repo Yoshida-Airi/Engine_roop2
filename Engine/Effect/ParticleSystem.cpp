@@ -103,15 +103,7 @@ void ParticleSystem::Update()
 	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeTranselateMatrix(uvTransform.translate));
 	materialData_->uvTransform = uvTransformMatrix_;
 
-#ifdef _DEBUG
-	ImGui::Begin("emitter");
 
-	float translate[3] = { emitter_.transform.translate.x,emitter_.transform.translate.y,emitter_.transform.translate.z };
-	ImGui::DragFloat3("transform", translate, 1, 100);
-	emitter_.transform.translate = { translate[0],translate[1],translate[2] };
-
-	ImGui::End();
-#endif // _DEBUG
 
 
 
@@ -211,8 +203,13 @@ void ParticleSystem::Debug(const char* name)
 	ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
 	ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
 
+	float translate[3] = { emitter_.transform.translate.x,emitter_.transform.translate.y,emitter_.transform.translate.z };
+	ImGui::DragFloat3("transform", translate, 1, 100);
+	emitter_.transform.translate = { translate[0],translate[1],translate[2] };
+
 	ImGui::End();
 #endif // _DEBUG
+
 }
 
 std::list<Particle> ParticleSystem::Emission(const Emitter& emitter, std::mt19937& randomEngine)
@@ -330,21 +327,24 @@ void ParticleSystem::InstancingBuffer()
 void ParticleSystem::SetSRV()
 {
 
-	instancingSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	/*instancingSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
 	instancingSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);
-	instancingSrvHandleCPU = texture_->GetCPUDescriptorHandle(srvManager_->GetDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 7);
-	instancingSrvHandleGPU = texture_->GetGPUDescriptorHandle(srvManager_->GetDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 7);
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);*/
+	//instancingSrvHandleCPU = texture_->GetCPUDescriptorHandle(srvManager_->GetDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 7);
+	//instancingSrvHandleGPU = texture_->GetGPUDescriptorHandle(srvManager_->GetDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 7);
 
-	//先頭はImGuiが使っているので次のを使う
-	instancingSrvHandleCPU.ptr += (dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 10);
-	instancingSrvHandleGPU.ptr += (dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 10);
+	////先頭はImGuiが使っているので次のを使う
+	//instancingSrvHandleCPU.ptr += (dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 10);
+	//instancingSrvHandleGPU.ptr += (dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 10);
 
-	dxCommon_->GetDevice()->CreateShaderResourceView(instancingResources_.Get(), &instancingSrvDesc, instancingSrvHandleCPU);
+	//dxCommon_->GetDevice()->CreateShaderResourceView(instancingResources_.Get(), &instancingSrvDesc, instancingSrvHandleCPU);
+	uint32_t srvIndex = srvManager_->Allocate();
+	srvManager_->CreateSRVforStructuredBuffer(srvIndex, instancingResources_.Get(), kNumMaxInstance, sizeof(ParticleForGPU));
+	instancingSrvHandleGPU = srvManager_->GetGPUDescriptorHandle(srvIndex);
 }
 
 Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, const Vector3& translate)

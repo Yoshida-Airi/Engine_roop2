@@ -57,6 +57,9 @@ private:
 
 	Emitter emitter;
 	std::unique_ptr<ParticleSystem> particle = nullptr;
+	Emitter emitter2;
+	std::unique_ptr<ParticleSystem> particle2 = nullptr;
+
 
 #ifdef _DEBUG
 

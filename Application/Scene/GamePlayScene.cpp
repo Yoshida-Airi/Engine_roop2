@@ -66,13 +66,21 @@ void GamePlayScene::Initialize()
 	//model->SetisInvisible(true);
 	//model2->SetisInvisible(true);
 
-	emitter.count = 20;
+	emitter.count = 50;
 	emitter.frequency = 0.1f;
 	emitter.frequencyTime = 0.0f;
 	emitter.transform.translate = { 0.0f,0.2f,0.0f };
 	emitter.transform.rotate = { 0.0f,0.0f,0.0f };
 	emitter.transform.scale = { 1.0f,1.0f,1.0f };
 	particle.reset(ParticleSystem::Create(circle, emitter));
+
+	emitter2.count = 20;
+	emitter2.frequency = 0.1f;
+	emitter2.frequencyTime = 0.0f;
+	emitter2.transform.translate = { 0.0f,0.2f,0.0f };
+	emitter2.transform.rotate = { 0.0f,0.0f,0.0f };
+	emitter2.transform.scale = { 1.0f,1.0f,1.0f };
+	particle2.reset(ParticleSystem::Create(uvTexture, emitter2));
 
 }
 
@@ -116,7 +124,11 @@ void GamePlayScene::Update()
 	model2->Update();
 	model->worldTransform_->translation_.x = 3.0f;
 
+	particle->Debug("circleParticle");
+	particle2->Debug("uvTextureParticle");
+
 	particle->Update();
+	particle2->Update();
 }
 
 void GamePlayScene::Draw()
@@ -138,5 +150,6 @@ void GamePlayScene::Draw()
 	sprite2->Draw(camera);
 
 	particle->Draw(camera);
+	particle2->Draw(camera);
 
 }
