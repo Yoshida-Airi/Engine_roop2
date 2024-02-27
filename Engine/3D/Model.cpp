@@ -117,12 +117,12 @@ Model* Model::Create(const std::string& filename)
 	return model;
 }
 
-void Model::ModelDebug(const char title[10])
+void Model::ModelDebug(const char* name)
 {
 #ifdef _DEBUG
-	ImGui::Begin(title);
+	ImGui::Begin("model");
 
-	if (ImGui::TreeNode("transform"))
+	if (ImGui::TreeNode(name))
 	{
 		float translate[3] = { worldTransform_->translation_.x, worldTransform_->translation_.y, worldTransform_->translation_.z };
 		ImGui::DragFloat3("transform", translate,0.01f);

@@ -34,7 +34,7 @@ public:
 	/// <returns>モデル</returns>
 	static Model* Create(const std::string& filename);
 
-	void ModelDebug(const char title[10]);
+	void ModelDebug(const char* name);
 
 	/// <summary>
 	/// 親子関係を結ぶ
