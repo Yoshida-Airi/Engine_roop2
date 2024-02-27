@@ -104,10 +104,6 @@ void ParticleSystem::Update()
 	materialData_->uvTransform = uvTransformMatrix_;
 
 
-
-
-
-
 }
 
 void ParticleSystem::Draw(Camera* camera)
@@ -116,6 +112,13 @@ void ParticleSystem::Draw(Camera* camera)
 	{
 		return;
 	}
+
+	Matrix4x4 backToFrontMatrix = MakeRotateYMatrix(std::numbers::pi_v<float>);
+	Matrix4x4 cameraMatrix = Inverse(camera->matView);
+	Matrix4x4 billboardMatrix = Multiply(backToFrontMatrix, cameraMatrix);
+	billboardMatrix.m[3][0] = 0.0f;
+	billboardMatrix.m[3][1] = 0.0f;
+	billboardMatrix.m[3][2] = 0.0f;
 
 	uint32_t numInstance = 0;
 	for (std::list<Particle>::iterator particleIterator = particles.begin(); particleIterator != particles.end(); )
@@ -198,15 +201,18 @@ ParticleSystem* ParticleSystem::Create(uint32_t textureHandle, Emitter emitter)
 void ParticleSystem::Debug(const char* name)
 {
 #ifdef _DEBUG
-	ImGui::Begin(name);
-	ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
-	ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
-	ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
+	ImGui::Begin("particle");
+	if (ImGui::TreeNode(name))
+	{
+		ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
+		ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
+		ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
 
-	float translate[3] = { emitter_.transform.translate.x,emitter_.transform.translate.y,emitter_.transform.translate.z };
-	ImGui::DragFloat3("transform", translate, 1, 100);
-	emitter_.transform.translate = { translate[0],translate[1],translate[2] };
-
+		float translate[3] = { emitter_.transform.translate.x,emitter_.transform.translate.y,emitter_.transform.translate.z };
+		ImGui::DragFloat3("transform", translate, 1, 100);
+		emitter_.transform.translate = { translate[0],translate[1],translate[2] };
+		ImGui::TreePop();
+	}
 	ImGui::End();
 #endif // _DEBUG
 
