@@ -69,7 +69,7 @@
     <ClCompile Include="Application\Scene\TitleScene.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\MyGame.cpp">
+    <ClCompile Include="Application\Game\MyGame.cpp">
       <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\Framework.cpp">
@@ -78,7 +78,7 @@
     <ClCompile Include="Engine\Base\Scene\AbstractSceneFactory.cpp">
       <Filter>Engine\Base\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Scene\SceneFactory.cpp">
+    <ClCompile Include="Application\Scene\SceneFactory.cpp">
       <Filter>Engine\Base\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\Scene\SceneManager.cpp">
@@ -167,7 +167,7 @@
     <ClInclude Include="Application\Scene\TitleScene.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Application\MyGame.h">
+    <ClInclude Include="Application\Game\MyGame.h">
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Framework.h">
@@ -179,7 +179,7 @@
     <ClInclude Include="Engine\Base\Scene\BaseScene.h">
       <Filter>Engine\Base\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Scene\SceneFactory.h">
+    <ClInclude Include="Application\Scene\SceneFactory.h">
       <Filter>Engine\Base\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Scene\SceneManager.h">
