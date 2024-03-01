@@ -27,7 +27,7 @@ public:
 
 	void Draw(Camera* camera);
 
-	WorldTransform* worldTransform_ = {};
+
 
 	/// <summary>
 	/// 表示するかしないか true : 表示しない
@@ -37,6 +37,8 @@ public:
 	{
 		isInvisible_ = isInvisible;
 	}
+
+	WorldTransform* GetWorldTransform()const { return worldTransform_; };
 
 	/// <summary>
 	/// 球体の生成
@@ -64,6 +66,8 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW wvpBufferView_;
 
 	uint32_t textureHandle_;
+
+	WorldTransform* worldTransform_ = {};
 
 	//分割数
 	const uint32_t kSubdivision = 16;

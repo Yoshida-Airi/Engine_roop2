@@ -35,7 +35,7 @@ public:
 		textureSrvHandleGPU_ = textureSrvHandleGPU;
 	}
 
-	WorldTransform* worldTransform_;
+	
 
 	void SetisInvisible(bool isInvisible)
 	{
@@ -70,6 +70,8 @@ public:
 		anchorPoint_ = anchorPoint;
 	}
 
+	WorldTransform* GetWorldTransform()const { return worldTransform_; };
+
 	void SetAlpha();
 
 	/// <summary>
@@ -89,6 +91,8 @@ private://プライベート変数
 	DirectXCommon* dxCommon_;
 	GraphicsPipelineManager* psoManager_;
 	TextureManager* texture_;
+
+	WorldTransform* worldTransform_;
 
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース

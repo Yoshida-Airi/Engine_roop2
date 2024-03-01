@@ -25,7 +25,7 @@ public:
 		isInvisible_ = isInvisible;
 	}
 
-	WorldTransform* worldTransform_;
+
 
 	/// <summary>
 	/// モデルの生成
@@ -42,12 +42,15 @@ public:
 	/// <param name="model">親のモデル</param>
 	void Parent(Model* model);
 
+	WorldTransform* GetWorldTransform()const { return worldTransform_; };
 
 private:
 	DirectXCommon* dxCommon_;
 	GraphicsPipelineManager* psoManager_;
 	TextureManager* texture_;
 	ModelLoader* modelLoader_;
+
+	WorldTransform* worldTransform_;
 
 	ModelData modelData_;
 

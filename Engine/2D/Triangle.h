@@ -48,7 +48,9 @@ public:
 		isInvisible_ = isInvisible;
 	}
 
-	WorldTransform* worldTransform_;
+	
+
+	WorldTransform* GetWorldTransform()const { return worldTransform_; };
 
 	/// <summary>
 	/// 三角形の生成
@@ -81,7 +83,7 @@ private://プライベート変数
 	
 	uint32_t textureHandle_;
 
-	
+	WorldTransform* worldTransform_;
 
 	bool isInvisible_ = false;
 

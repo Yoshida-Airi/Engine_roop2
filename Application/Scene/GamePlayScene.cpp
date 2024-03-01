@@ -49,16 +49,16 @@ void GamePlayScene::Initialize()
 	//sprite2->SetisInvisible(true);
 
 	sphere.reset(Sphere::Create(monsterBall));
-	sphere->worldTransform_->translation_.y = -1.0f;
+	sphere->GetWorldTransform()->translation_.y = -1.0f;
 	//sphere->SetisInvisible(true);
 
 	model.reset(Model::Create("Resources/DefaultAssets/plane.gltf"));
 	model2.reset(Model::Create("Resources/DefaultAssets/terrain.obj"));
 
-	model->worldTransform_->rotation_.y = 3.14f;
-	model2->worldTransform_->rotation_.y = 3.14f;
+	model->GetWorldTransform()->rotation_.y = 3.14f;
+	model2->GetWorldTransform()->rotation_.y = 3.14f;
 
-	model2->worldTransform_->translation_ =
+	model2->GetWorldTransform()->translation_ =
 	{
 		0.0f,-1.5,0.0f
 	};
@@ -91,13 +91,13 @@ void GamePlayScene::Update()
 	}
 
 	triangle->Update();
-	triangle->worldTransform_->rotation_.y += 0.03f;
+	triangle->GetWorldTransform()->rotation_.y += 0.03f;
 
 	triangle2->Update();
-	triangle2->worldTransform_->scale_.y = 0.5f;
-	triangle2->worldTransform_->rotation_.y += 0.02f;
+	triangle2->GetWorldTransform()->scale_.y = 0.5f;
+	triangle2->GetWorldTransform()->rotation_.y += 0.02f;
 
-	sprite->worldTransform_->translation_ = { 700.0f };
+	sprite->GetWorldTransform()->translation_ = { 700.0f };
 
 	sprite->Update();
 	sprite2->Update();
@@ -106,14 +106,14 @@ void GamePlayScene::Update()
 	sprite2->Debug("uv");
 
 	sphere->Update();
-	sphere->worldTransform_->rotation_.y += 0.01f;
+	sphere->GetWorldTransform()->rotation_.y += 0.01f;
 
 	model->ModelDebug("plane");
 	model2->ModelDebug("plane2");
 
 	model->Update();
 	model2->Update();
-	model->worldTransform_->translation_.x = 3.0f;
+	model->GetWorldTransform()->translation_.x = 3.0f;
 
 	particle->Debug("circleParticle");
 	particle2->Debug("uvTextureParticle");

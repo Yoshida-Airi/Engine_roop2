@@ -22,7 +22,7 @@ void TitleScene::Initialize()
 
 	fence_.reset(Model::Create("Resources/DefaultAssets/fence.obj"));
 	cube_.reset(Model::Create("Resources/DefaultAssets/cube.obj"));
-	fence_->worldTransform_->rotation_.y = 3.1f;
+	fence_->GetWorldTransform()->rotation_.y = 3.1f;
 }
 
 void TitleScene::Update()
