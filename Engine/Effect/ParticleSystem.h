@@ -46,9 +46,9 @@ class ParticleSystem
 public:
 	~ParticleSystem();
 
-	void Initialize(uint32_t textureHandle);
+	void Initialize(uint32_t textureHandle, Camera* camera);
 	void Update();
-	void Draw(Camera* camera);
+	void Draw();
 
 	
 	/// <summary>
@@ -96,14 +96,12 @@ public:
 		anchorPoint_ = anchorPoint;
 	}
 
-	void SetAlpha();
-
 	/// <summary>
 	/// 四角の生成
 	/// </summary>
 	/// <param name="textureHandle">テクスチャ</param>
 	/// <returns>四角形</returns>
-	static ParticleSystem* Create(uint32_t textureHandle);
+	static ParticleSystem* Create(uint32_t textureHandle, Camera* camera);
 
 	/// <summary>
 	/// Imgui
@@ -121,6 +119,7 @@ private://プライベート変数
 
 	DirectXCommon* dxCommon_;
 	TextureManager* texture_;
+	Camera* camera_ = nullptr;
 
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース

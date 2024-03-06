@@ -67,11 +67,11 @@ void GamePlayScene::Initialize()
 	//model2->SetisInvisible(true);
 
 
-	particle.reset(ParticleSystem::Create(circle));
+	particle.reset(ParticleSystem::Create(circle,camera));
 	particle->emitter_->count = 100;
 	//particle->SetisInvisible(true);
 
-	particle2.reset(ParticleSystem::Create(uvTexture));
+	particle2.reset(ParticleSystem::Create(uvTexture,camera));
 	//particle2->SetisInvisible(true);
 }
 
@@ -140,7 +140,7 @@ void GamePlayScene::Draw()
 	sprite->Draw(camera);
 	sprite2->Draw(camera);
 
-	particle->Draw(camera);
-	particle2->Draw(camera);
+	particle->Draw();
+	particle2->Draw();
 
 }

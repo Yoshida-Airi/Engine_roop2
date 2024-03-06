@@ -11,7 +11,7 @@ ParticleSystem::~ParticleSystem()
 
 }
 
-void ParticleSystem::Initialize(uint32_t textureHandle)
+void ParticleSystem::Initialize(uint32_t textureHandle, Camera* camera)
 {
 
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -20,6 +20,7 @@ void ParticleSystem::Initialize(uint32_t textureHandle)
 	texture_ = TextureManager::GetInstance();
 
 	textureHandle_ = textureHandle;
+	camera_ = camera;
 
 	//emitter_ = emitter;
 
@@ -105,24 +106,19 @@ void ParticleSystem::Update()
 	uvTransformMatrix_ = Multiply(uvTransformMatrix_, MakeTranselateMatrix(uvTransform.translate));
 	materialData_->uvTransform = uvTransformMatrix_;
 
-
-}
-
-void ParticleSystem::Draw(Camera* camera)
-{
 	if (isInvisible_ == true)
 	{
 		return;
 	}
 
 	Matrix4x4 backToFrontMatrix = MakeRotateYMatrix(std::numbers::pi_v<float>);
-	Matrix4x4 cameraMatrix = Inverse(camera->matView);
+	Matrix4x4 cameraMatrix = Inverse(camera_->matView);
 	Matrix4x4 billboardMatrix = Multiply(backToFrontMatrix, cameraMatrix);
 	billboardMatrix.m[3][0] = 0.0f;
 	billboardMatrix.m[3][1] = 0.0f;
 	billboardMatrix.m[3][2] = 0.0f;
 
-	uint32_t numInstance = 0;
+	numInstance = 0;
 	for (std::list<Particle>::iterator particleIterator = particles.begin(); particleIterator != particles.end(); )
 	{
 		if ((*particleIterator).lifeTime <= (*particleIterator).currentTime)
@@ -153,6 +149,12 @@ void ParticleSystem::Draw(Camera* camera)
 		++particleIterator;
 	}
 
+}
+
+void ParticleSystem::Draw()
+{
+	
+
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().particle.rootSignature.Get());
 	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().particle.graphicPipelineState.Get());
 
@@ -167,7 +169,7 @@ void ParticleSystem::Draw(Camera* camera)
 	//wvp用のCbufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(1, instancingSrvHandleGPU);
 	//カメラ用のCBufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera_->constBuffer_->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetSrvGPUHandle(textureHandle_));
 	//描画
@@ -181,15 +183,10 @@ void ParticleSystem::SetMaterialData(const Vector4 color)
 	materialData_[0].color = color;
 }
 
-void ParticleSystem::SetAlpha()
-{
-
-}
-
-ParticleSystem* ParticleSystem::Create(uint32_t textureHandle)
+ParticleSystem* ParticleSystem::Create(uint32_t textureHandle, Camera* camera)
 {
 	ParticleSystem* sprite = new ParticleSystem();
-	sprite->Initialize(textureHandle);
+	sprite->Initialize(textureHandle, camera);
 	return sprite;
 }
 
@@ -315,22 +312,6 @@ void ParticleSystem::InstancingBuffer()
 
 void ParticleSystem::SetSRV()
 {
-
-	/*instancingSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
-	instancingSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	instancingSrvDesc.Buffer.FirstElement = 0;
-	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPU);*/
-	//instancingSrvHandleCPU = texture_->GetCPUDescriptorHandle(srvManager_->GetDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 7);
-	//instancingSrvHandleGPU = texture_->GetGPUDescriptorHandle(srvManager_->GetDescriptorHeap(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 7);
-
-	////先頭はImGuiが使っているので次のを使う
-	//instancingSrvHandleCPU.ptr += (dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 10);
-	//instancingSrvHandleGPU.ptr += (dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 10);
-
-	//dxCommon_->GetDevice()->CreateShaderResourceView(instancingResources_.Get(), &instancingSrvDesc, instancingSrvHandleCPU);
 	uint32_t srvIndex = srvManager_->Allocate();
 	srvManager_->CreateSRVforStructuredBuffer(srvIndex, instancingResources_.Get(), kNumMaxInstance, sizeof(ParticleForGPU));
 	instancingSrvHandleGPU = srvManager_->GetGPUDescriptorHandle(srvIndex);
