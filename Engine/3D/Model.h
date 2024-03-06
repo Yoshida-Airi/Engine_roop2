@@ -28,9 +28,9 @@ public:
 
 
 	/// <summary>
-	/// モデルの生成
+	/// モデル生成
 	/// </summary>
-	/// <param name="data">モデルデータ</param>
+	/// <param name="filename">ファイルパス名</param>
 	/// <returns>モデル</returns>
 	static Model* Create(const std::string& filename);
 

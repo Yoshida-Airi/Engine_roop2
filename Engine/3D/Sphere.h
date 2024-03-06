@@ -43,7 +43,7 @@ public:
 	/// <summary>
 	/// 球体の生成
 	/// </summary>
-	/// <param name="textureHandle">テクスチャ</param>
+	/// <param name="textureHandle">テクスチャ番号</param>
 	/// <returns>球体</returns>
 	static Sphere* Create(uint32_t textureHandle);
 

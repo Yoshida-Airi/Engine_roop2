@@ -75,10 +75,10 @@ public:
 	void SetAlpha();
 
 	/// <summary>
-	/// 四角の生成
+	/// スプライトの生成
 	/// </summary>
-	/// <param name="textureHandle">テクスチャ</param>
-	/// <returns>四角形</returns>
+	/// <param name="textureHandle">テクスチャ番号</param>
+	/// <returns>スプライト</returns>
 	static Sprite* Create(uint32_t textureHandle);
 
 	/// <summary>

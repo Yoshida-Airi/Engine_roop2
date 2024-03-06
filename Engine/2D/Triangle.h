@@ -55,7 +55,7 @@ public:
 	/// <summary>
 	/// 三角形の生成
 	/// </summary>
-	/// <param name="textureHandle">テクスチャ</param>
+	/// <param name="textureHandle">テクスチャ番号</param>
 	/// <returns>三角形</returns>
 	static Triangle* Create(uint32_t textureHandle);
 	
