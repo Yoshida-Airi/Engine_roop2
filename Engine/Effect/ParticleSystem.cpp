@@ -317,7 +317,7 @@ void ParticleSystem::SetSRV()
 	instancingSrvHandleGPU = srvManager_->GetGPUDescriptorHandle(srvIndex);
 }
 
-Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, const Vector3& translate)
+Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, Emitter* emitter)
 {
 	std::uniform_real_distribution<float>distribution(-1.0f, 1.0f);
 	std::uniform_real_distribution<float>distColor(0.0f, 1.0f);
@@ -329,7 +329,7 @@ Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, const Vecto
 	Particle particle;
 	particle.transform.scale = { 0.005f,0.005f,0.005f };
 	particle.transform.rotate = { 0.0f,3.14f,3.14f };
-	particle.transform.translate = { translate.x + randomTranslate.x,translate.y + randomTranslate.y,translate.z + randomTranslate.z };
+	particle.transform.translate = { emitter->transform.translate.x + randomTranslate.x,emitter->transform.translate.y + randomTranslate.y,emitter->transform.translate.y + randomTranslate.z };
 	particle.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
 	particle.color = { distColor(randomEngine) ,distColor(randomEngine) ,distColor(randomEngine) ,1.0f };
 	particle.lifeTime = distTime(randomEngine);
@@ -337,13 +337,13 @@ Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, const Vecto
 	return particle;
 }
 
-std::list<Particle> ParticleSystem::Emission(const Emitter* emitter, std::mt19937& randomEngine)
+std::list<Particle> ParticleSystem::Emission(Emitter* emitter, std::mt19937& randomEngine)
 {
 	std::list<Particle>particle;
 
 	for (uint32_t count = 0; count < emitter->count; ++count)
 	{
-		particle.push_back(MakeNewParticle(randomEngine, emitter->transform.translate));
+		particle.push_back(MakeNewParticle(randomEngine, emitter));
 	}
 
 	return particle;

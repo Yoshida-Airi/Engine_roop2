@@ -204,7 +204,7 @@ private://プライベート関数
 
 	void SetSRV();
 
-	Particle MakeNewParticle(std::mt19937& randomEngine, const Vector3& translate);
+	Particle MakeNewParticle(std::mt19937& randomEngine, Emitter* emitter);
 
-	std::list<Particle>Emission(const Emitter* emitter, std::mt19937& randomEngine);
+	std::list<Particle>Emission(Emitter* emitter, std::mt19937& randomEngine);
 };
