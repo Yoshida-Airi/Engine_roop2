@@ -198,10 +198,13 @@ void ParticleSystem::Debug(const char* name)
 	ImGui::Begin("particle");
 	if (ImGui::TreeNode(name))
 	{
-		ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
-		ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
-		ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
-
+		if (ImGui::TreeNode("uv"))
+		{
+			ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
+			ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
+			ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
+			ImGui::TreePop();
+		}
 		if (ImGui::TreeNode("emitter"))
 		{
 			float translate[3] = { emitter_->transform.translate.x,emitter_->transform.translate.y,emitter_->transform.translate.z };
@@ -211,6 +214,8 @@ void ParticleSystem::Debug(const char* name)
 			float scale[3] = { emitter_->transform.scale.x,emitter_->transform.scale.y,emitter_->transform.scale.z };
 			ImGui::DragFloat3("scale", scale, 1, 100);
 			emitter_->transform.scale = { scale[0],scale[1],scale[2] };
+
+			ImGui::Checkbox("isRandomPosition", &isRandomPosition_);
 
 			ImGui::TreePop();
 		}
@@ -336,6 +341,11 @@ Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, Emitter* em
 
 	// エミッターのスケールを取得
 	Vector3 emitterScale = emitter->transform.scale;
+	Vector3 randomVelocity = {
+		velocity.x * distribution(randomEngine),
+		velocity.y * distribution(randomEngine),
+		velocity.z * distribution(randomEngine)
+	};
 
 	// パーティクルのランダムな位置を生成（エミッターのスケールを考慮）
 	Vector3 randomTranslate = {
@@ -350,21 +360,24 @@ Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, Emitter* em
 
 	if (isRandamTranslata == true)
 	{
-		particle.transform.translate = 
+		particle.transform.translate =
 		{
 			emitter->transform.translate.x + randomTranslate.x * emitterScale.x,
 			emitter->transform.translate.y + randomTranslate.y * emitterScale.y,
 			emitter->transform.translate.z + randomTranslate.z * emitterScale.z
+
 		};
 	}
 	else
 	{
 		particle.transform.translate =
 		{
-			emitter->transform.translate.x * emitterScale.x,
-			emitter->transform.translate.y * emitterScale.y,
-			emitter->transform.translate.z * emitterScale.z
+			emitter->transform.translate.x ,
+			emitter->transform.translate.y ,
+			emitter->transform.translate.z 
 		};
+
+		
 	}
 
 	particle.velocity = velocity;
