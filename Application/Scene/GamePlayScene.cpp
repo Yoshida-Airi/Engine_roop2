@@ -66,14 +66,15 @@ void GamePlayScene::Initialize()
 	//model->SetisInvisible(true);
 	//model2->SetisInvisible(true);
 
-	Vector3 velocity = { 1.0f,-1.0f,0.0f };
-	particle.reset(ParticleSystem::Create(circle, camera, velocity, true));
+	Vector3 velocity = { 1.0f,1.0f,0.0f };
+	particle.reset(ParticleSystem::Create(circle, camera, velocity, true,false));
 	particle->emitter_->count = 100;
 	particle->emitter_->transform.scale = { 0.5f,0.0f,0.0f };
 	//particle->SetisInvisible(true);
 
-	particle2.reset(ParticleSystem::Create(uvTexture, camera, velocity, true));
-	particle2->SetisInvisible(true);
+	Vector3 velocity2 = { 1.0f,1.0f,1.0f };
+	particle2.reset(ParticleSystem::Create(uvTexture, camera, velocity2, true, true));
+	//particle2->SetisInvisible(true);
 }
 
 void GamePlayScene::Update()
