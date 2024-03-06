@@ -46,7 +46,7 @@ class ParticleSystem
 public:
 	~ParticleSystem();
 
-	void Initialize(uint32_t textureHandle, Camera* camera);
+	void Initialize(uint32_t textureHandle, Camera* camera, Vector3 velocity, bool isRandomPosition);
 	void Update();
 	void Draw();
 
@@ -101,7 +101,7 @@ public:
 	/// </summary>
 	/// <param name="textureHandle">テクスチャ</param>
 	/// <returns>四角形</returns>
-	static ParticleSystem* Create(uint32_t textureHandle, Camera* camera);
+	static ParticleSystem* Create(uint32_t textureHandle, Camera* camera, Vector3 velocity, bool isRandomPosition);
 
 	/// <summary>
 	/// Imgui
@@ -169,7 +169,8 @@ private://プライベート変数
 
 	std::list<Particle> particles;
 	
-
+	bool isRandomPosition_ = false;
+	Vector3 velocity_;
 
 	const float kDeltaTime = 1.0f / 60.0f;
 
@@ -204,7 +205,7 @@ private://プライベート関数
 
 	void SetSRV();
 
-	Particle MakeNewParticle(std::mt19937& randomEngine, Emitter* emitter);
+	Particle MakeNewParticle(std::mt19937& randomEngine, Emitter* emitter, Vector3 velocity,  bool isRandamTranslata);
 
-	std::list<Particle>Emission(Emitter* emitter, std::mt19937& randomEngine);
+	std::list<Particle>Emission(Emitter* emitter, std::mt19937& randomEngine, Vector3 velocity, bool isRandamTranslata);
 };
