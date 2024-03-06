@@ -41,6 +41,12 @@ struct ParticleForGPU
 	Vector4 color;
 };
 
+struct Time
+{
+	float min;
+	float max;
+};
+
 class ParticleSystem
 {
 public:
@@ -108,6 +114,17 @@ public:
 	static ParticleSystem* Create(uint32_t textureHandle, Camera* camera, Vector3 velocity, bool isRandomPosition, bool isRandomVelocity);
 
 	/// <summary>
+	/// 生存時間の設定
+	/// </summary>
+	/// <param name="timeMin">一番短く消したい時間</param>
+	/// <param name="timeMax">一番長く存在していい時間</param>
+	void SetLifeTime(float timeMin,float timeMax)
+	{
+		lifeTime.min = timeMin;
+		lifeTime.max = timeMax;
+	}
+
+	/// <summary>
 	/// Imgui
 	/// </summary>
 	void Debug(const char* name);
@@ -153,6 +170,8 @@ private://プライベート変数
 	Vector2 cutSize_ = { 100.0f,100.0f };
 	Vector2 textureLeftTop = { 0.0f,0.0f };	//テクスチャ左上座標
 	Vector2 anchorPoint_ = { 0.0f,0.0f };
+
+	Time lifeTime = { 1.0,3.0f };
 
 	//画像のサイズ
 	float left;

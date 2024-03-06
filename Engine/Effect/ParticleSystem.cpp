@@ -339,7 +339,7 @@ Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, Emitter* em
 {
 	std::uniform_real_distribution<float>distribution(-1.0f, 1.0f);
 	std::uniform_real_distribution<float>distColor(0.0f, 1.0f);
-	std::uniform_real_distribution<float>distTime(1.0f, 3.0f);
+	std::uniform_real_distribution<float>distTime(lifeTime.min, lifeTime.max);
 
 	// エミッターのスケールを取得
 	Vector3 emitterScale = emitter->transform.scale;
