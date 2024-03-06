@@ -46,7 +46,7 @@ class ParticleSystem
 public:
 	~ParticleSystem();
 
-	void Initialize(uint32_t textureHandle, Camera* camera);
+	void Initialize(uint32_t textureHandle, Camera* camera, Vector3 velocity, bool isRandomPosition, bool isRandomVelocity);
 	void Update();
 	void Draw();
 
@@ -97,11 +97,15 @@ public:
 	}
 
 	/// <summary>
-	/// 四角の生成
+	/// パーティクルの生成
 	/// </summary>
-	/// <param name="textureHandle">テクスチャ</param>
-	/// <returns>四角形</returns>
-	static ParticleSystem* Create(uint32_t textureHandle, Camera* camera);
+	/// <param name="textureHandle">テクスチャ番号</param>
+	/// <param name="camera">カメラ</param>
+	/// <param name="velocity">速度</param>
+	/// <param name="isRandomPosition">ランダムな位置に置くか　true : 置く</param>
+	/// <param name="isRandomVelocity">ランダムな速度にするか　true : する</param>
+	/// <returns>パーティクル</returns>
+	static ParticleSystem* Create(uint32_t textureHandle, Camera* camera, Vector3 velocity, bool isRandomPosition, bool isRandomVelocity);
 
 	/// <summary>
 	/// Imgui
@@ -114,7 +118,7 @@ private://プライベート変数
 	GraphicsPipelineManager* psoManager_ = nullptr;
 	SrvManager* srvManager_ = nullptr;
 
-	static const uint32_t kNumMaxInstance = 100;
+	static const uint32_t kNumMaxInstance = 500;
 	uint32_t numInstance = 0;
 
 	DirectXCommon* dxCommon_;
@@ -169,7 +173,9 @@ private://プライベート変数
 
 	std::list<Particle> particles;
 	
-
+	bool isRandomPosition_ = false;
+	bool isRandomVelocity_ = false;
+	Vector3 velocity_;
 
 	const float kDeltaTime = 1.0f / 60.0f;
 
@@ -204,7 +210,7 @@ private://プライベート関数
 
 	void SetSRV();
 
-	Particle MakeNewParticle(std::mt19937& randomEngine, const Vector3& translate);
+	Particle MakeNewParticle(std::mt19937& randomEngine, Emitter* emitter, Vector3 velocity, bool isRandamTranslata, bool isRandomVelocity);
 
-	std::list<Particle>Emission(const Emitter* emitter, std::mt19937& randomEngine);
+	std::list<Particle>Emission(Emitter* emitter, std::mt19937& randomEngine, Vector3 velocity, bool isRandamTranslata, bool isRandomVelocity);
 };

@@ -110,6 +110,7 @@ void Model::Draw(Camera* camera)
 
 }
 
+
 Model* Model::Create(const std::string& filename)
 {
 	Model* model = new Model();

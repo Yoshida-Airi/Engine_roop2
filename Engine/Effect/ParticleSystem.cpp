@@ -11,7 +11,7 @@ ParticleSystem::~ParticleSystem()
 
 }
 
-void ParticleSystem::Initialize(uint32_t textureHandle, Camera* camera)
+void ParticleSystem::Initialize(uint32_t textureHandle, Camera* camera, Vector3 velocity, bool isRandomPosition, bool isRandomVelocity)
 {
 
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -21,6 +21,9 @@ void ParticleSystem::Initialize(uint32_t textureHandle, Camera* camera)
 
 	textureHandle_ = textureHandle;
 	camera_ = camera;
+	isRandomPosition_ = isRandomPosition;
+	velocity_ = velocity;
+	isRandomVelocity_ = isRandomVelocity;
 
 	//emitter_ = emitter;
 
@@ -69,7 +72,7 @@ void ParticleSystem::Initialize(uint32_t textureHandle, Camera* camera)
 
 	SetMaterialData(color);
 
-	
+
 
 	indexData_[0] = 0;
 	indexData_[1] = 1;
@@ -97,7 +100,7 @@ void ParticleSystem::Update()
 	emitter_->frequencyTime += kDeltaTime;
 	if (emitter_->frequency <= emitter_->frequencyTime)
 	{
-		particles.splice(particles.end(), Emission(emitter_, randomEngine));
+		particles.splice(particles.end(), Emission(emitter_, randomEngine, velocity_, isRandomPosition_, isRandomVelocity_));
 		emitter_->frequencyTime -= emitter_->frequency;
 	}
 
@@ -153,7 +156,7 @@ void ParticleSystem::Update()
 
 void ParticleSystem::Draw()
 {
-	
+
 
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().particle.rootSignature.Get());
 	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().particle.graphicPipelineState.Get());
@@ -183,10 +186,10 @@ void ParticleSystem::SetMaterialData(const Vector4 color)
 	materialData_[0].color = color;
 }
 
-ParticleSystem* ParticleSystem::Create(uint32_t textureHandle, Camera* camera)
+ParticleSystem* ParticleSystem::Create(uint32_t textureHandle, Camera* camera, Vector3 velocity, bool isRandomPosition, bool isRandomVelocity)
 {
 	ParticleSystem* sprite = new ParticleSystem();
-	sprite->Initialize(textureHandle, camera);
+	sprite->Initialize(textureHandle, camera, velocity, isRandomPosition, isRandomVelocity);
 	return sprite;
 }
 
@@ -196,13 +199,28 @@ void ParticleSystem::Debug(const char* name)
 	ImGui::Begin("particle");
 	if (ImGui::TreeNode(name))
 	{
-		ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
-		ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
-		ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
+		if (ImGui::TreeNode("uv"))
+		{
+			ImGui::DragFloat2("UVTransform", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
+			ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
+			ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("emitter"))
+		{
+			float translate[3] = { emitter_->transform.translate.x,emitter_->transform.translate.y,emitter_->transform.translate.z };
+			ImGui::DragFloat3("transform", translate, 0.1f);
+			emitter_->transform.translate = { translate[0],translate[1],translate[2] };
 
-		float translate[3] = { emitter_->transform.translate.x,emitter_->transform.translate.y,emitter_->transform.translate.z };
-		ImGui::DragFloat3("transform", translate, 1, 100);
-		emitter_->transform.translate = { translate[0],translate[1],translate[2] };
+			float scale[3] = { emitter_->transform.scale.x,emitter_->transform.scale.y,emitter_->transform.scale.z };
+			ImGui::DragFloat3("scale", scale, 0.1f);
+			emitter_->transform.scale = { scale[0],scale[1],scale[2] };
+
+			ImGui::Checkbox("isRandomPosition", &isRandomPosition_);
+			ImGui::Checkbox("isRandomVelocity", &isRandomVelocity_);
+
+			ImGui::TreePop();
+		}
 		ImGui::TreePop();
 	}
 	ImGui::End();
@@ -317,33 +335,72 @@ void ParticleSystem::SetSRV()
 	instancingSrvHandleGPU = srvManager_->GetGPUDescriptorHandle(srvIndex);
 }
 
-Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, const Vector3& translate)
+Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, Emitter* emitter, Vector3 velocity, bool isRandamTranslate, bool isRandamVelocity)
 {
 	std::uniform_real_distribution<float>distribution(-1.0f, 1.0f);
 	std::uniform_real_distribution<float>distColor(0.0f, 1.0f);
 	std::uniform_real_distribution<float>distTime(1.0f, 3.0f);
 
-	Vector3 randomTranslate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
+	// エミッターのスケールを取得
+	Vector3 emitterScale = emitter->transform.scale;
 
+	// パーティクルのランダムな位置を生成（エミッターのスケールを考慮）
+	Vector3 randomTranslate = {
+		distribution(randomEngine) ,
+		distribution(randomEngine) ,
+		distribution(randomEngine)
+	};
 
 	Particle particle;
 	particle.transform.scale = { 0.005f,0.005f,0.005f };
 	particle.transform.rotate = { 0.0f,3.14f,3.14f };
-	particle.transform.translate = { translate.x + randomTranslate.x,translate.y + randomTranslate.y,translate.z + randomTranslate.z };
-	particle.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
+
+	if (isRandamTranslate == true)
+	{
+		particle.transform.translate =
+		{
+			emitter->transform.translate.x + randomTranslate.x * emitterScale.x,
+			emitter->transform.translate.y + randomTranslate.y * emitterScale.y,
+			emitter->transform.translate.z + randomTranslate.z * emitterScale.z
+
+		};
+	}
+	else
+	{
+		particle.transform.translate =
+		{
+			emitter->transform.translate.x ,
+			emitter->transform.translate.y ,
+			emitter->transform.translate.z 
+		};
+
+		
+	}
+
+	if (isRandamVelocity == true)
+	{
+		particle.velocity.x = velocity.x + randomTranslate.x;
+		particle.velocity.y = velocity.y + randomTranslate.y;
+		particle.velocity.z = velocity.z + randomTranslate.z;
+	}
+	else
+	{
+		particle.velocity = velocity;
+	}
+
 	particle.color = { distColor(randomEngine) ,distColor(randomEngine) ,distColor(randomEngine) ,1.0f };
 	particle.lifeTime = distTime(randomEngine);
 	particle.currentTime = 0;
 	return particle;
 }
 
-std::list<Particle> ParticleSystem::Emission(const Emitter* emitter, std::mt19937& randomEngine)
+std::list<Particle> ParticleSystem::Emission(Emitter* emitter, std::mt19937& randomEngine, Vector3 velocity, bool isRandamTranslate, bool isRandomVelocity)
 {
 	std::list<Particle>particle;
 
 	for (uint32_t count = 0; count < emitter->count; ++count)
 	{
-		particle.push_back(MakeNewParticle(randomEngine, emitter->transform.translate));
+		particle.push_back(MakeNewParticle(randomEngine, emitter, velocity, isRandamTranslate, isRandomVelocity));
 	}
 
 	return particle;
