@@ -37,10 +37,6 @@ private:
 	uint32_t Doll;
 	uint32_t circle;
 
-	ModelLoader* object;
-	ModelData plane;
-	ModelData cube;
-
 	Camera* camera;
 	
 

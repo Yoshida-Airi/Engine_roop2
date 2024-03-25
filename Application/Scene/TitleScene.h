@@ -12,7 +12,7 @@
 #include"Model.h"
 #include"Camera.h"
 
-#include"EfectManager.h"
+#include"ParticleSystem.h"
 
 class TitleScene :public BaseScene
 {
@@ -24,18 +24,22 @@ public:
 
 private:
 
-	EfectManager* efect = nullptr;
-
 	Input* input;
 	SceneManager* sceneManager_ = nullptr;
+	TextureManager* texture;
 	Camera* camera;
 
 	uint32_t soundData;
 
+
+	uint32_t uvTexture;
+	uint32_t circle;
+
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;
 
-	
+	std::unique_ptr<ParticleSystem> particle = nullptr;
+	std::unique_ptr<ParticleSystem> particle2 = nullptr;
 	
 };
 
