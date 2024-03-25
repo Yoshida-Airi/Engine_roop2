@@ -1,17 +1,11 @@
 #pragma once
 
 #include"BaseScene.h"
-#include"ImGuiManager.h"
 #include"SceneManager.h"
 #include"Input.h"
-#include"Audio.h"
 
-#include"Triangle.h"
-#include"Sprite.h"
-#include"Sphere.h"
-#include"Model.h"
 #include"Camera.h"
-
+#include"Model.h"
 #include"ParticleSystem.h"
 
 class TitleScene :public BaseScene
@@ -29,15 +23,15 @@ private:
 	TextureManager* texture;
 	Camera* camera;
 
-	uint32_t soundData;
-
-
+	//テクスチャ保存
 	uint32_t uvTexture;
 	uint32_t circle;
 
+	//モデル
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;
 
+	//パーティクル
 	std::unique_ptr<ParticleSystem> particle = nullptr;
 	std::unique_ptr<ParticleSystem> particle2 = nullptr;
 	
