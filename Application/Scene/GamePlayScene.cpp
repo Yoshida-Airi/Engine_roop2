@@ -22,12 +22,10 @@ void GamePlayScene::Initialize()
 	monsterBall = texture->LoadTexture("Resources/DefaultAssets/monsterBall.png");
 	Doll = texture->LoadTexture("Resources/DefaultAssets/Doll.png");
 	circle = texture->LoadTexture("Resources/DefaultAssets/circle.png");
+	gamePlayScene = texture->LoadTexture("Resources/gamePlayScene.png");
 
 	camera = new Camera;
 	camera->Initialize();
-
-	
-
 
 	triangle.reset(Triangle::Create(uvTexture));
 	triangle2.reset(Triangle::Create(monsterBall));
@@ -43,9 +41,7 @@ void GamePlayScene::Initialize()
 	//sprite->SetisInvisible(true);
 
 
-	sprite2.reset(Sprite::Create(uvTexture));
-	sprite2->SetSize({ 64.0f, 64.0f });
-	sprite2->SetTextureLeftTop({ 0,0 });
+	sprite2.reset(Sprite::Create(gamePlayScene));
 	//sprite2->SetisInvisible(true);
 
 	sphere.reset(Sphere::Create(monsterBall));

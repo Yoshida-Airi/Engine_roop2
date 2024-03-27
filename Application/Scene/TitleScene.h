@@ -24,18 +24,19 @@ public:
 
 private:
 
-	EfectManager* efect = nullptr;
 
 	Input* input;
 	SceneManager* sceneManager_ = nullptr;
+	TextureManager* texture;
 	Camera* camera;
 
 	uint32_t soundData;
+	uint32_t gameTitleTex;
 
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;
 
-	
+	std::unique_ptr<Sprite> sprite = nullptr;
 	
 };
 

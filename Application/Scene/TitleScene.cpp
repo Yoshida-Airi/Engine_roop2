@@ -4,13 +4,15 @@
 TitleScene::~TitleScene()
 {
 	delete camera;
-	delete efect;
 }
 
 void TitleScene::Initialize()
 {
 	input = Input::GetInstance();
 	sceneManager_ = SceneManager::GetInstance();
+	texture = TextureManager::GetInstance();
+
+	gameTitleTex = texture->LoadTexture("Resources/Title.png");
 
 	soundData = Audio::GetInstance()->SoundLoadWave("Resources/Sound/Alarm01.wav");
 	Audio::GetInstance()->SoundPlayWave(soundData, false);
@@ -18,11 +20,11 @@ void TitleScene::Initialize()
 	camera = new Camera;
 	camera->Initialize();
 
-
-
 	fence_.reset(Model::Create("Resources/DefaultAssets/fence.obj"));
 	cube_.reset(Model::Create("Resources/DefaultAssets/cube.obj"));
 	fence_->GetWorldTransform()->rotation_.y = 3.1f;
+
+	sprite.reset(Sprite::Create(gameTitleTex));
 }
 
 void TitleScene::Update()
@@ -56,6 +58,7 @@ void TitleScene::Update()
 	fence_->ModelDebug("fence");
 	fence_->Parent(cube_.get());
 
+	sprite->Update();
 
 }
 
@@ -63,6 +66,8 @@ void TitleScene::Draw()
 {
 	fence_->Draw(camera);
 	cube_->Draw(camera);
+
+	sprite->Draw(camera);
 
 }
 

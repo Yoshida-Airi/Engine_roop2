@@ -36,10 +36,7 @@ private:
 	uint32_t monsterBall;
 	uint32_t Doll;
 	uint32_t circle;
-
-	ModelLoader* object;
-	ModelData plane;
-	ModelData cube;
+	uint32_t gamePlayScene;
 
 	Camera* camera;
 	
