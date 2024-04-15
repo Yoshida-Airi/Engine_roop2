@@ -17,11 +17,51 @@
 #include<assimp/scene.h>
 #include<assimp/postprocess.h>
 
+#include"map"
+
+
+
+//キーフレームを表現
+template<typename tValue>
+struct Keyframe
+{
+	float time;
+	tValue value;
+};
+
+using KeyframeVector3 = Keyframe<Vector3>;
+using KeyframeQuatanion = Keyframe<Quaternion>;
+
+
+template<typename tValue>
+struct AnimationCurve
+{
+	std::vector<Keyframe<tValue>>Keyframe;
+};
+
+struct NodeAnimation
+{
+	AnimationCurve<Vector3>transform;
+	AnimationCurve<Quaternion>rotate;
+	AnimationCurve<Vector3>scale;
+};
+
+
+struct Animation
+{
+	float duration;	//アニメーション全体の尺（秒
+	//NodeAnimationの集合。Node名でひけるように
+	std::map<std::string, NodeAnimation>nodeAnimation;
+};
+
+
+
 class ModelLoader
 {
 public:
 
 	static ModelLoader* GetInstance();
+
 
 
 	~ModelLoader();
@@ -33,6 +73,10 @@ public:
 	/// Objファイルを読むための関数
 	/// </summary>
 	ModelData LoadModelFile(const std::string& filename);
+
+	Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
+
+
 
 
 private:
@@ -47,6 +91,7 @@ private:
 private:
 
 	Node ReadNode(aiNode* node);
+
 
 };
 

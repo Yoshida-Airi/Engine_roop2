@@ -37,10 +37,6 @@ private:
 	uint32_t Doll;
 	uint32_t circle;
 
-	ModelLoader* object;
-	ModelData plane;
-	ModelData cube;
-
 	Camera* camera;
 	
 
@@ -57,13 +53,6 @@ private:
 
 	std::unique_ptr<ParticleSystem> particle = nullptr;
 	std::unique_ptr<ParticleSystem> particle2 = nullptr;
-
-
-#ifdef _DEBUG
-
-	ImGuiManager* imgui;
-
-#endif // _DEBUG
 
 
 };

@@ -94,6 +94,11 @@ ModelData ModelLoader::LoadModelFile(const std::string& filename)
 	return model[index];
 }
 
+Animation ModelLoader::LoadAnimationFile(const std::string& directoryPath, const std::string& filename)
+{
+	return Animation();
+}
+
 Node ModelLoader::ReadNode(aiNode* node)
 {
 	Node result;
