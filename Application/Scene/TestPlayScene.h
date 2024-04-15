@@ -2,6 +2,7 @@
 #include"BaseScene.h"
 
 #include"Model.h"
+#include"Camera.h"
 
 class TestPlayScene:public BaseScene
 {
@@ -13,6 +14,8 @@ public:
 
 
 private:
+	Camera* camera;
+
 	std::unique_ptr<Model> model = nullptr;
 
 };
