@@ -12,6 +12,8 @@ public:
 	void Update()override;
 	void Draw()override;
 
+	Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
+
 
 private:
 	Camera* camera;
