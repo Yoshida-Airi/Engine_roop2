@@ -61,6 +61,10 @@ Matrix4x4 MakeRotateZMatrix(float radian);
 // 3次元アフィン変換行列の関数
 Matrix4x4 MakeAffinMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
+// 3次元アフィン変換行列の関数
+Matrix4x4 MakeAffinMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate);
+
+
 //同次座標系に拡張する
 Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
 
@@ -98,3 +102,5 @@ Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle);
 Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
 // Quaternionから回転行列を求める
 Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
+
+Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);
