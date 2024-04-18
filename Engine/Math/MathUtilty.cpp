@@ -419,7 +419,7 @@ Matrix4x4 MakeAffinMatrix(const Vector3& scale, const Vector3& rotate, const Vec
 	//	resultMakeRotateXMatrix, Multiply(resultMakeRotateYMatrix, resultMakeRotateZMatrix));
 
 	resultMakeAffinMatrix =
-		Multiply(resultMakeScaleMatrix, Multiply(resultMakeRotateMatrix, resultMakeTranselateMatrix));
+		Multiply(Multiply(resultMakeRotateMatrix, resultMakeTranselateMatrix),resultMakeScaleMatrix);
 
 	return resultMakeAffinMatrix;
 }
@@ -434,7 +434,7 @@ Matrix4x4 MakeAffinMatrix(const Vector3& scale, const Quaternion& rotate, const 
 
 
 	// アフィン変換行列を構築: S * R * T の順で合成
-	resultMakeAffinMatrix = Multiply(resultMakeScaleMatrix, Multiply(rotateMatrix, resultMakeTranselateMatrix));
+	resultMakeAffinMatrix = Multiply(Multiply(rotateMatrix, resultMakeTranselateMatrix),resultMakeScaleMatrix);
 
 	return resultMakeAffinMatrix;
 }

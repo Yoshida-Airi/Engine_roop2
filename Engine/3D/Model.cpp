@@ -84,8 +84,8 @@ void Model::Update()
 	Vector3 scale = CalculateValue(rootNodeAnimation.scale.Keyframes, animationTime);
 	Matrix4x4 localMatrix = MakeAffinMatrix(scale, rotate, translate);
 
-	worldTransform_->matWorld_ = Multiply( localMatrix , worldTransform_->matWorld_);
-	
+	worldTransform_->matWorld_ = Multiply(Multiply(modelData_.rootNode.localMatrix, localMatrix), worldTransform_->matWorld_);
+	worldTransform_->TransferMatrix();
 
 }
 
@@ -95,9 +95,6 @@ void Model::Draw(Camera* camera)
 	{
 		return;
 	}
-
-	worldTransform_->matWorld_ = Multiply(modelData_.rootNode.localMatrix, worldTransform_->matWorld_);
-	worldTransform_->TransferMatrix();
 
 
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().object3D.rootSignature.Get());
@@ -150,7 +147,7 @@ void Model::ModelDebug(const char* name)
 		worldTransform_->scale_ = { scale[0],scale[1],scale[2] };
 		ImGui::TreePop();
 
-		worldTransform_->UpdateWorldMatrix();
+		//worldTransform_->UpdateWorldMatrix();
 
 	}
 
