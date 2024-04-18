@@ -252,7 +252,7 @@ Animation Model::LoadAnimationFile(const std::string& directoryPath, const std::
 			aiVectorKey& keyAssimp = nodeAnimationAssimp->mScalingKeys[keyIndex];
 			KeyframeVector3 keyframe;
 			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	//秒に変換
-			keyframe.value = { -keyAssimp.mValue.x,keyAssimp.mValue.y,keyAssimp.mValue.z };	//右手から左手
+			keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y,keyAssimp.mValue.z };	//右手から左手
 			nodeAnimation.scale.Keyframes.push_back(keyframe);
 		}
 
