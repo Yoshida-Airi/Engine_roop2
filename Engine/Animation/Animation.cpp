@@ -1,5 +1,6 @@
 #include "Animation.h"
 
+
 Animation* Animation::GetInstance()
 {
 	if (instance == nullptr)
@@ -117,6 +118,42 @@ Quaternion Animation::CalculateValue(const std::vector<KeyframeQuatanion>& keyfr
 	}
 
 	return (*keyframes.begin()).value;
+}
+
+Skeleton Animation::CreateSkelton(const Node& rootNode)
+{
+	Skeleton skeleton;
+	skeleton.root = CreateJoint(rootNode, {}, skeleton.joints);
+
+	//名前とindexのマッピングを行いアクセスしやすくする
+	for (const Joint& joint : skeleton.joints)
+	{
+		skeleton.jointmap.emplace(joint.name, joint.index);
+	}
+
+	return skeleton;
+}
+
+int32_t Animation::CreateJoint(const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints)
+{
+	Joint joint;
+	joint.name = node.name;
+	joint.lacalMatrix = node.localMatrix;
+	joint.sleletonSpaceMatrix = MakeIdentity4x4();
+	joint.transform = node.transform;
+	joint.index = int32_t(joints.size());	//現在登録されている数をindexに
+	joint.parent = parent;
+	joints.push_back(joint);	//skeletonのJoint列に追加
+	
+	for (const Node& child : node.children)
+	{
+		//子Jointを作成し、そのIndexを登録
+		int32_t childIndex = CreateJoint(child, joint.index, joints);
+		joints[joint.index].children.push_back(childIndex);
+	}
+	//自身のIndexを返す
+	return joint.index;
+
 }
 
 Animation* Animation::instance = NULL;
