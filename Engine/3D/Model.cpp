@@ -94,7 +94,7 @@ void Model::Update()
 	}
 	else
 	{
-		worldTransform_->matWorld_ = Multiply(modelData_.rootNode.localMatrix, worldTransform_->matWorld_);
+		//worldTransform_->matWorld_;
 		worldTransform_->TransferMatrix();
 	}
 
