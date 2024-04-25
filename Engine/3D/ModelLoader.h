@@ -17,11 +17,18 @@
 #include<assimp/scene.h>
 #include<assimp/postprocess.h>
 
+#include<map>
+
+
+
+
+
 class ModelLoader
 {
 public:
 
 	static ModelLoader* GetInstance();
+
 
 
 	~ModelLoader();
@@ -33,6 +40,7 @@ public:
 	/// Objファイルを読むための関数
 	/// </summary>
 	ModelData LoadModelFile(const std::string& filename);
+
 
 
 private:
@@ -47,6 +55,7 @@ private:
 private:
 
 	Node ReadNode(aiNode* node);
+
 
 };
 

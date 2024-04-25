@@ -7,6 +7,8 @@
 #include"WorldTransform.h"
 #include"Camera.h"
 #include"ModelData.h"
+#include"Animation.h"
+
 
 class Model
 {
@@ -49,6 +51,7 @@ private:
 	GraphicsPipelineManager* psoManager_;
 	TextureManager* texture_;
 	ModelLoader* modelLoader_;
+	Animation* animation_;
 
 	WorldTransform* worldTransform_;
 
@@ -68,6 +71,9 @@ private:
 	uint32_t textureHandle_;
 	bool isInvisible_ = false;
 
+
+	AnimationData animation;
+	float animationTime = 0.0f;
 	
 private:
 
@@ -86,5 +92,9 @@ private:
 	/// </summary>
 	void LightBuffer();
 
+	/*Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
+
+	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, float time);
+	Quaternion CalculateValue(const std::vector<KeyframeQuatanion>& keyframes, float time);*/
 };
 

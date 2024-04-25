@@ -419,7 +419,22 @@ Matrix4x4 MakeAffinMatrix(const Vector3& scale, const Vector3& rotate, const Vec
 	//	resultMakeRotateXMatrix, Multiply(resultMakeRotateYMatrix, resultMakeRotateZMatrix));
 
 	resultMakeAffinMatrix =
-		Multiply(resultMakeScaleMatrix, Multiply(resultMakeRotateMatrix, resultMakeTranselateMatrix));
+		Multiply(Multiply(resultMakeScaleMatrix, resultMakeRotateMatrix), resultMakeTranselateMatrix);
+
+	return resultMakeAffinMatrix;
+}
+
+Matrix4x4 MakeAffinMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate)
+{
+	Matrix4x4 resultMakeAffinMatrix;
+	Matrix4x4 resultMakeScaleMatrix = MakeScaleMatrix(scale);
+	Matrix4x4 resultMakeTranselateMatrix = MakeTranselateMatrix(translate);
+	Matrix4x4 rotateMatrix = MakeRotateMatrix(rotate);
+
+
+	
+	// アフィン変換行列を構築: S * R * T の順で合成
+	resultMakeAffinMatrix = Multiply(Multiply(resultMakeScaleMatrix,rotateMatrix), resultMakeTranselateMatrix);
 
 	return resultMakeAffinMatrix;
 }
@@ -647,22 +662,19 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion)
 {
 	Matrix4x4 result;
 
-	result.m[0][0] = (quaternion.w * quaternion.w) + (quaternion.x * quaternion.x) -
-		(quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
-	result.m[0][1] = 2.0f * ((quaternion.x * quaternion.y) + (quaternion.w * quaternion.z));
-	result.m[0][2] = 2.0f * ((quaternion.x * quaternion.z) - (quaternion.w * quaternion.y));
+	result.m[0][0] = quaternion.w * quaternion.w + quaternion.x * quaternion.x - quaternion.y * quaternion.y - quaternion.z * quaternion.z;
+	result.m[0][1] = 2.0f * (quaternion.x * quaternion.y + quaternion.w * quaternion.z);
+	result.m[0][2] = 2.0f * (quaternion.x * quaternion.z - quaternion.w * quaternion.y);
 	result.m[0][3] = 0.0f;
 
-	result.m[1][0] = 2.0f * ((quaternion.x * quaternion.y) - (quaternion.w * quaternion.z));
-	result.m[1][1] = (quaternion.w * quaternion.w) - (quaternion.x * quaternion.x) +
-		(quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
-	result.m[1][2] = 2.0f * ((quaternion.y * quaternion.z) + (quaternion.w * quaternion.x));
+	result.m[1][0] = 2.0f * (quaternion.x * quaternion.y - quaternion.w * quaternion.z);
+	result.m[1][1] = quaternion.w * quaternion.w - quaternion.x * quaternion.x + quaternion.y * quaternion.y - quaternion.z * quaternion.z;
+	result.m[1][2] = 2.0f * (quaternion.y * quaternion.z + quaternion.w * quaternion.x);
 	result.m[1][3] = 0.0f;
 
-	result.m[2][0] = 2.0f * ((quaternion.x * quaternion.z) + (quaternion.w * quaternion.y));
-	result.m[2][1] = 2.0f * ((quaternion.y * quaternion.z) - (quaternion.w * quaternion.x));
-	result.m[2][2] = (quaternion.w * quaternion.w) - (quaternion.x * quaternion.x) -
-		(quaternion.y * quaternion.y) + (quaternion.z * quaternion.z);
+	result.m[2][0] = 2.0f * (quaternion.x * quaternion.z + quaternion.w * quaternion.y);
+	result.m[2][1] = 2.0f * (quaternion.y * quaternion.z - quaternion.w * quaternion.x);
+	result.m[2][2] = quaternion.w * quaternion.w - quaternion.x * quaternion.x - quaternion.y * quaternion.y + quaternion.z * quaternion.z;
 	result.m[2][3] = 0.0f;
 
 	result.m[3][0] = 0.0f;
@@ -671,4 +683,38 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion)
 	result.m[3][3] = 1.0f;
 
 	return result;
+}
+
+Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
+{
+	Quaternion q0_ = q0;
+	Quaternion q1_ = q1;
+
+	// 内積を計算
+	float dot = q0_.w * q1_.w + q0_.x * q1_.x + q0_.y * q1_.y + q0_.z * q1_.z;
+
+	if (dot < 0)
+	{
+		q0_ = Quaternion(-q0_.x, -q0_.y, -q0_.z, -q0_.w);
+		dot = -dot;
+	}
+
+	//なす角を求める
+	float theta_0 = std::acos(dot);
+
+	float theta = theta_0 * t; // 補間する角度
+	float sin_theta = std::sin(theta);
+	float sin_theta_0 = std::sin(theta_0);
+
+	float scale0 = std::cos(theta) - dot * sin_theta / sin_theta_0;
+	float scale1 = sin_theta / sin_theta_0;
+
+	Quaternion result;
+
+	result = {
+		scale0 * q0_.x + scale1 * q1_.x, scale0 * q0_.y + scale1 * q1_.y,
+		scale0 * q0_.z + scale1 * q1_.z, scale0 * q0_.w + scale1 * q1_.w };
+
+	return result;
+
 }

@@ -94,6 +94,8 @@ ModelData ModelLoader::LoadModelFile(const std::string& filename)
 	return model[index];
 }
 
+
+
 Node ModelLoader::ReadNode(aiNode* node)
 {
 	Node result;

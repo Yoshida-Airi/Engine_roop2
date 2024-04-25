@@ -12,7 +12,7 @@ void TitleScene::Initialize()
 	input = Input::GetInstance();
 	sceneManager_ = SceneManager::GetInstance();
 
-	soundData = Audio::GetInstance()->SoundLoadWave("Resources/Sound/Alarm01.wav");
+	soundData = Audio::GetInstance()->SoundLoadWave("Resources/SampleSound/Alarm01.wav");
 	Audio::GetInstance()->SoundPlayWave(soundData, false);
 
 	camera = new Camera;
@@ -20,8 +20,8 @@ void TitleScene::Initialize()
 
 
 
-	fence_.reset(Model::Create("Resources/DefaultAssets/fence.obj"));
-	cube_.reset(Model::Create("Resources/DefaultAssets/cube.obj"));
+	fence_.reset(Model::Create("Resources/SampleAssets/fence.obj"));
+	cube_.reset(Model::Create("Resources/SampleAssets/cube.obj"));
 	fence_->GetWorldTransform()->rotation_.y = 3.1f;
 }
 

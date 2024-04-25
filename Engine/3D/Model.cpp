@@ -15,6 +15,8 @@ void Model::Initialize(const std::string& filename)
 	psoManager_ = GraphicsPipelineManager::GetInstance();
 	texture_ = TextureManager::GetInstance();
 	modelLoader_ = ModelLoader::GetInstance();
+	animation_ = Animation::GetInstance();
+
 	worldTransform_ = new WorldTransform();
 	worldTransform_->Initialize();
 
@@ -22,6 +24,9 @@ void Model::Initialize(const std::string& filename)
 	modelData_ = modelLoader_->LoadModelFile(filename);
 
 	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
+
+
+	animation = animation_->LoadAnimationFile(filename);
 
 
 	VertexBuffer();
@@ -74,6 +79,24 @@ void Model::Update()
 
 #endif // _DEBUG
 
+	if (animation.isValid == true)
+	{
+		animationTime += 1.0f / 60.0f;
+		animationTime = std::fmod(animationTime, animation.duration);
+		NodeAnimation& rootNodeAnimation = animation.nodeAnimations[modelData_.rootNode.name];
+		Vector3 translate = animation_->CalculateValue(rootNodeAnimation.translate.Keyframes, animationTime);
+		Quaternion rotate = animation_->CalculateValue(rootNodeAnimation.rotate.Keyframes, animationTime);
+		Vector3 scale = animation_->CalculateValue(rootNodeAnimation.scale.Keyframes, animationTime);
+		Matrix4x4 localMatrix = MakeAffinMatrix(scale, rotate, translate);
+
+		worldTransform_->matWorld_ = Multiply(localMatrix, worldTransform_->matWorld_);
+		worldTransform_->TransferMatrix();
+	}
+	else
+	{
+		worldTransform_->matWorld_ = Multiply(modelData_.rootNode.localMatrix, worldTransform_->matWorld_);
+		worldTransform_->TransferMatrix();
+	}
 
 }
 
@@ -83,9 +106,6 @@ void Model::Draw(Camera* camera)
 	{
 		return;
 	}
-
-	worldTransform_->matWorld_ = Multiply(modelData_.rootNode.localMatrix, worldTransform_->matWorld_);
-	worldTransform_->TransferMatrix();
 
 
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().object3D.rootSignature.Get());
@@ -126,7 +146,7 @@ void Model::ModelDebug(const char* name)
 	if (ImGui::TreeNode(name))
 	{
 		float translate[3] = { worldTransform_->translation_.x, worldTransform_->translation_.y, worldTransform_->translation_.z };
-		ImGui::DragFloat3("transform", translate,0.01f);
+		ImGui::DragFloat3("transform", translate, 0.01f);
 		worldTransform_->translation_ = { translate[0],translate[1],translate[2] };
 
 		float rotate[3] = { worldTransform_->rotation_.x, worldTransform_->rotation_.y, worldTransform_->rotation_.z };
@@ -138,7 +158,7 @@ void Model::ModelDebug(const char* name)
 		worldTransform_->scale_ = { scale[0],scale[1],scale[2] };
 		ImGui::TreePop();
 
-		worldTransform_->UpdateWorldMatrix();
+		//worldTransform_->UpdateWorldMatrix();
 
 	}
 
@@ -193,3 +213,4 @@ void Model::LightBuffer()
 	lightResource_ = dxCommon_->CreateBufferResource(sizeof(DirectionalLight));
 	lightResource_->Map(0, nullptr, reinterpret_cast<void**>(&lightData_));
 }
+
