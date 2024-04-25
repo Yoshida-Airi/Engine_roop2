@@ -21,38 +21,38 @@
 
 
 
-//キーフレームを表現
-template<typename tValue>
-struct Keyframe
-{
-	float time;
-	tValue value;
-};
-
-using KeyframeVector3 = Keyframe<Vector3>;
-using KeyframeQuatanion = Keyframe<Quaternion>;
-
-template<typename tValue>
-struct AnimationCurve
-{
-	std::vector<Keyframe<tValue>>Keyframes;
-};
-
-struct NodeAnimation
-{
-	AnimationCurve<Vector3>translate;
-	AnimationCurve<Quaternion>rotate;
-	AnimationCurve<Vector3>scale;
-};
-
-
-struct Animation
-{
-	float duration;	//アニメーション全体の尺（秒
-	//NodeAnimationの集合。Node名でひけるように
-	std::map<std::string, NodeAnimation>nodeAnimations;
-};
-
+////キーフレームを表現
+//template<typename tValue>
+//struct Keyframe
+//{
+//	float time;
+//	tValue value;
+//};
+//
+//using KeyframeVector3 = Keyframe<Vector3>;
+//using KeyframeQuatanion = Keyframe<Quaternion>;
+//
+//template<typename tValue>
+//struct AnimationCurve
+//{
+//	std::vector<Keyframe<tValue>>Keyframes;
+//};
+//
+//struct NodeAnimation
+//{
+//	AnimationCurve<Vector3>translate;
+//	AnimationCurve<Quaternion>rotate;
+//	AnimationCurve<Vector3>scale;
+//};
+//
+//
+//struct Animation
+//{
+//	float duration;	//アニメーション全体の尺（秒
+//	//NodeAnimationの集合。Node名でひけるように
+//	std::map<std::string, NodeAnimation>nodeAnimations;
+//};
+//
 
 
 class ModelLoader
@@ -73,7 +73,7 @@ public:
 	/// </summary>
 	ModelData LoadModelFile(const std::string& filename);
 
-	Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
+//	Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
 
 
 

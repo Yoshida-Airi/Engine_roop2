@@ -65,7 +65,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <AdditionalIncludeDirectories>$(ProjectDir)Externals\assimp\include;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Engine\2D;$(ProjectDir)Application\Scene;$(ProjectDir)Application;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Engine\Base\Manager;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Effect;$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Effect;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Base\Manager;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Application;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\2D;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Externals\assimp\include;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Engine\2D;$(ProjectDir)Application\Scene;$(ProjectDir)Application;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Engine\Base\Manager;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Effect;$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Animation;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Effect;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Base\Manager;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Application;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\2D;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -93,7 +93,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>MinSpace</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)Externals\assimp\include;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Engine\2D;$(ProjectDir)Application\Scene;$(ProjectDir)Application;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Engine\Base\Manager;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Effect;$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Effect;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Base\Manager;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Application;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\2D;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Externals\assimp\include;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Engine\2D;$(ProjectDir)Application\Scene;$(ProjectDir)Application;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Engine\Base\Manager;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Effect;$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Animation;$(ProjectDir)Engine\3D;$(ProjectDir)Engine\Effect;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Logger;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Base\Manager;$(ProjectDir)Engine\Base\Scene;$(ProjectDir)Application;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\2D;$(ProjectDir)Externals\DirectXTex;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -109,6 +109,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Animation\Animation.cpp" />
     <ClCompile Include="Engine\Base\Audio.cpp" />
     <ClCompile Include="Engine\Effect\EfectManager.cpp" />
     <ClCompile Include="Engine\Base\Scene\AbstractSceneFactory.cpp" />
@@ -140,6 +141,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Scene\TestPlayScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Animation\Animation.h" />
     <ClInclude Include="Engine\Base\Audio.h" />
     <ClInclude Include="Engine\Effect\EfectManager.h" />
     <ClInclude Include="Engine\3D\Camera.h" />

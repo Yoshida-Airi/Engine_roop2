@@ -108,6 +108,9 @@
     <ClCompile Include="Application\Scene\SceneFactory.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Animation\Animation.cpp">
+      <Filter>Engine\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -212,6 +215,9 @@
     <ClInclude Include="Application\Scene\SceneFactory.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Animation\Animation.h">
+      <Filter>Engine\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -255,6 +261,9 @@
     </Filter>
     <Filter Include="Engine\Light">
       <UniqueIdentifier>{556e2eef-2ae5-495b-a0e2-ee7a5af59989}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Animation">
+      <UniqueIdentifier>{eb0ea847-3ae9-4f7e-9205-c36a4e26d58a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
