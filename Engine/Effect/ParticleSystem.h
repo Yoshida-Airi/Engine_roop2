@@ -20,7 +20,7 @@
 
 struct Particle
 {
-	Transform transform;
+	EulerTransform transform;
 	Vector3 velocity;
 	Vector4 color;
 	float lifeTime;
@@ -29,7 +29,7 @@ struct Particle
 
 struct Emitter
 {
-	Transform transform;	//エミッタのTransform
+	EulerTransform transform;	//エミッタのTransform
 	uint32_t count;			//発生数
 	float frequency;		//発生頻度
 	float frequencyTime;	//頻度用時刻
@@ -160,7 +160,7 @@ private://プライベート変数
 	uint32_t* indexData_ = nullptr;		//インデックスデータ
 	ParticleForGPU* instancingData = nullptr;
 
-	Transform uvTransform;
+	EulerTransform uvTransform;
 	Vector2 textureSize_;	//切り出しサイズ
 
 	bool isInvisible_ = false;	//非表示フラグ	true : 消える

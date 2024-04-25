@@ -110,7 +110,7 @@ private://プライベート変数
 	Material* materialData_ = nullptr;	//マテリアルデータ
 	uint32_t* indexData_ = nullptr;		//インデックスデータ
 
-	Transform uvTransform;
+	EulerTransform uvTransform;
 	Vector2 textureSize_;	//切り出しサイズ
 
 	bool isInvisible_ = false;	//非表示フラグ	true : 消える
