@@ -27,7 +27,10 @@ public:
 		isInvisible_ = isInvisible;
 	}
 
-
+	void UseAnimation(bool isUse)
+	{
+		animation.isValid = isUse;
+	}
 
 	/// <summary>
 	/// モデル生成
