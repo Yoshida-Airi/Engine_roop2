@@ -419,7 +419,7 @@ Matrix4x4 MakeAffinMatrix(const Vector3& scale, const Vector3& rotate, const Vec
 	//	resultMakeRotateXMatrix, Multiply(resultMakeRotateYMatrix, resultMakeRotateZMatrix));
 
 	resultMakeAffinMatrix =
-		Multiply(Multiply(resultMakeRotateMatrix, resultMakeTranselateMatrix),resultMakeScaleMatrix);
+		Multiply(Multiply(resultMakeScaleMatrix, resultMakeRotateMatrix), resultMakeTranselateMatrix);
 
 	return resultMakeAffinMatrix;
 }
@@ -432,9 +432,9 @@ Matrix4x4 MakeAffinMatrix(const Vector3& scale, const Quaternion& rotate, const 
 	Matrix4x4 rotateMatrix = MakeRotateMatrix(rotate);
 
 
-
+	
 	// アフィン変換行列を構築: S * R * T の順で合成
-	resultMakeAffinMatrix = Multiply(Multiply(rotateMatrix, resultMakeTranselateMatrix),resultMakeScaleMatrix);
+	resultMakeAffinMatrix = Multiply(Multiply(resultMakeScaleMatrix,rotateMatrix), resultMakeTranselateMatrix);
 
 	return resultMakeAffinMatrix;
 }
@@ -662,22 +662,19 @@ Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion)
 {
 	Matrix4x4 result;
 
-	result.m[0][0] = (quaternion.w * quaternion.w) + (quaternion.x * quaternion.x) -
-		(quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
-	result.m[0][1] = 2.0f * ((quaternion.x * quaternion.y) + (quaternion.w * quaternion.z));
-	result.m[0][2] = 2.0f * ((quaternion.x * quaternion.z) - (quaternion.w * quaternion.y));
+	result.m[0][0] = quaternion.w * quaternion.w + quaternion.x * quaternion.x - quaternion.y * quaternion.y - quaternion.z * quaternion.z;
+	result.m[0][1] = 2.0f * (quaternion.x * quaternion.y + quaternion.w * quaternion.z);
+	result.m[0][2] = 2.0f * (quaternion.x * quaternion.z - quaternion.w * quaternion.y);
 	result.m[0][3] = 0.0f;
 
-	result.m[1][0] = 2.0f * ((quaternion.x * quaternion.y) - (quaternion.w * quaternion.z));
-	result.m[1][1] = (quaternion.w * quaternion.w) - (quaternion.x * quaternion.x) +
-		(quaternion.y * quaternion.y) - (quaternion.z * quaternion.z);
-	result.m[1][2] = 2.0f * ((quaternion.y * quaternion.z) + (quaternion.w * quaternion.x));
+	result.m[1][0] = 2.0f * (quaternion.x * quaternion.y - quaternion.w * quaternion.z);
+	result.m[1][1] = quaternion.w * quaternion.w - quaternion.x * quaternion.x + quaternion.y * quaternion.y - quaternion.z * quaternion.z;
+	result.m[1][2] = 2.0f * (quaternion.y * quaternion.z + quaternion.w * quaternion.x);
 	result.m[1][3] = 0.0f;
 
-	result.m[2][0] = 2.0f * ((quaternion.x * quaternion.z) + (quaternion.w * quaternion.y));
-	result.m[2][1] = 2.0f * ((quaternion.y * quaternion.z) - (quaternion.w * quaternion.x));
-	result.m[2][2] = (quaternion.w * quaternion.w) - (quaternion.x * quaternion.x) -
-		(quaternion.y * quaternion.y) + (quaternion.z * quaternion.z);
+	result.m[2][0] = 2.0f * (quaternion.x * quaternion.z + quaternion.w * quaternion.y);
+	result.m[2][1] = 2.0f * (quaternion.y * quaternion.z - quaternion.w * quaternion.x);
+	result.m[2][2] = quaternion.w * quaternion.w - quaternion.x * quaternion.x - quaternion.y * quaternion.y + quaternion.z * quaternion.z;
 	result.m[2][3] = 0.0f;
 
 	result.m[3][0] = 0.0f;

@@ -84,7 +84,7 @@ void Model::Update()
 	Vector3 scale = CalculateValue(rootNodeAnimation.scale.Keyframes, animationTime);
 	Matrix4x4 localMatrix = MakeAffinMatrix(scale, rotate, translate);
 
-	worldTransform_->matWorld_ = Multiply(Multiply(modelData_.rootNode.localMatrix, localMatrix), worldTransform_->matWorld_);
+	worldTransform_->matWorld_ = Multiply(localMatrix, worldTransform_->matWorld_);
 	worldTransform_->TransferMatrix();
 
 }
@@ -239,7 +239,7 @@ Animation Model::LoadAnimationFile(const std::string& directoryPath, const std::
 			aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
 			KeyframeQuatanion keyframe;
 			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	//秒に変換
-			keyframe.value = { keyAssimp.mValue.x,-keyAssimp.mValue.y,-keyAssimp.mValue.z,keyAssimp.mValue.z };
+			keyframe.value = { keyAssimp.mValue.x,-keyAssimp.mValue.y,-keyAssimp.mValue.z,keyAssimp.mValue.w };
 			nodeAnimation.rotate.Keyframes.push_back(keyframe);
 		}
 
