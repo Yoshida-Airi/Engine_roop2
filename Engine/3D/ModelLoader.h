@@ -20,9 +20,6 @@
 #include<map>
 
 
-
-
-
 class ModelLoader
 {
 public:

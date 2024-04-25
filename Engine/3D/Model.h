@@ -92,9 +92,5 @@ private:
 	/// </summary>
 	void LightBuffer();
 
-	/*Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
-
-	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, float time);
-	Quaternion CalculateValue(const std::vector<KeyframeQuatanion>& keyframes, float time);*/
 };
 

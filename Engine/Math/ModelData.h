@@ -2,6 +2,7 @@
 #include<string>
 #include<vector>
 #include"Globals.h"
+#include"Transform.h"
 
 struct MaterialData
 {
@@ -10,6 +11,7 @@ struct MaterialData
 
 struct Node
 {
+	QuaternionTransform transform;
 	Matrix4x4 localMatrix;
 	std::string name;
 	std::vector<Node>children;
