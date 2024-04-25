@@ -9,14 +9,25 @@ Animation* Animation::GetInstance()
 	return instance;
 }
 
-AnimationData Animation::LoadAnimationFile(const std::string& directoryPath, const std::string& filename)
+//アニメーションファイル読み込み
+AnimationData Animation::LoadAnimationFile(const std::string& filename)
 {
 	AnimationData animation;	//今回作るアニメーション
 
 	Assimp::Importer importer;
-	std::string filePath = directoryPath + "/" + filename;
+	std::string filePath = filename;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
-	assert(scene->mNumAnimations != 0);	//アニメーションがない
+
+	if (scene->mNumAnimations == 0)//アニメーションがない
+	{
+		animation.isValid = false;
+		return animation;
+	}
+	else
+	{
+		animation.isValid = true;
+	}
+
 	aiAnimation* animationAssimp = scene->mAnimations[0];	//最初のアニメーションだけ採用
 	animation.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	//時間の単位を病に変換
 
@@ -64,6 +75,7 @@ AnimationData Animation::LoadAnimationFile(const std::string& directoryPath, con
 }
 
 
+//3次元ベクトルの線形補完
 Vector3 Animation::CalculateValue(const std::vector<KeyframeVector3>& keyframes, float time)
 {
 	assert(!keyframes.empty());	//キーがないものは返す値がわからないのでダメ
@@ -85,6 +97,7 @@ Vector3 Animation::CalculateValue(const std::vector<KeyframeVector3>& keyframes,
 	return (*keyframes.begin()).value;
 }
 
+//クォータニオンの線形補間
 Quaternion Animation::CalculateValue(const std::vector<KeyframeQuatanion>& keyframes, float time)
 {
 	assert(!keyframes.empty());	//キーがないものは返す値がわからないのでダメ

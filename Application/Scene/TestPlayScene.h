@@ -12,13 +12,14 @@ public:
 	void Update()override;
 	void Draw()override;
 
-	Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
+	//Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
 
 
 private:
 	Camera* camera;
 
 	std::unique_ptr<Model> model = nullptr;
+	std::unique_ptr<Model> model2 = nullptr;
 
 
 

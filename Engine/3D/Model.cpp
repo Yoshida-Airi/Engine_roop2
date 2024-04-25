@@ -25,7 +25,9 @@ void Model::Initialize(const std::string& filename)
 
 	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
 
-	animation = animation_->LoadAnimationFile("Resources/SampleAssets/AnimatedCube", "AnimatedCube.gltf");
+
+	animation = animation_->LoadAnimationFile(filename);
+
 
 	VertexBuffer();
 	MaterialBuffer();
@@ -77,17 +79,24 @@ void Model::Update()
 
 #endif // _DEBUG
 
+	if (animation.isValid == true)
+	{
+		animationTime += 1.0f / 60.0f;
+		animationTime = std::fmod(animationTime, animation.duration);
+		NodeAnimation& rootNodeAnimation = animation.nodeAnimations[modelData_.rootNode.name];
+		Vector3 translate = animation_->CalculateValue(rootNodeAnimation.translate.Keyframes, animationTime);
+		Quaternion rotate = animation_->CalculateValue(rootNodeAnimation.rotate.Keyframes, animationTime);
+		Vector3 scale = animation_->CalculateValue(rootNodeAnimation.scale.Keyframes, animationTime);
+		Matrix4x4 localMatrix = MakeAffinMatrix(scale, rotate, translate);
 
-	animationTime += 1.0f / 60.0f;
-	animationTime = std::fmod(animationTime, animation.duration);
-	NodeAnimation& rootNodeAnimation = animation.nodeAnimations[modelData_.rootNode.name];
-	Vector3 translate = animation_->CalculateValue(rootNodeAnimation.translate.Keyframes, animationTime);
-	Quaternion rotate = animation_->CalculateValue(rootNodeAnimation.rotate.Keyframes, animationTime);
-	Vector3 scale = animation_->CalculateValue(rootNodeAnimation.scale.Keyframes, animationTime);
-	Matrix4x4 localMatrix = MakeAffinMatrix(scale, rotate, translate);
-
-	worldTransform_->matWorld_ = Multiply(localMatrix, worldTransform_->matWorld_);
-	worldTransform_->TransferMatrix();
+		worldTransform_->matWorld_ = Multiply(localMatrix, worldTransform_->matWorld_);
+		worldTransform_->TransferMatrix();
+	}
+	else
+	{
+		worldTransform_->matWorld_ = Multiply(modelData_.rootNode.localMatrix, worldTransform_->matWorld_);
+		worldTransform_->TransferMatrix();
+	}
 
 }
 
@@ -205,101 +214,3 @@ void Model::LightBuffer()
 	lightResource_->Map(0, nullptr, reinterpret_cast<void**>(&lightData_));
 }
 
-
-
-//Animation Model::LoadAnimationFile(const std::string& directoryPath, const std::string& filename)
-//{
-//	Animation animation;	//今回作るアニメーション
-//
-//	Assimp::Importer importer;
-//	std::string filePath = directoryPath + "/" + filename;
-//	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
-//	assert(scene->mNumAnimations != 0);	//アニメーションがない
-//	aiAnimation* animationAssimp = scene->mAnimations[0];	//最初のアニメーションだけ採用
-//	animation.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	//時間の単位を病に変換
-//
-//	//NodeAnimationを解析
-//	for (uint32_t channelIndex = 0; channelIndex < animationAssimp->mNumChannels; ++channelIndex)
-//	{
-//		aiNodeAnim* nodeAnimationAssimp = animationAssimp->mChannels[channelIndex];
-//		NodeAnimation& nodeAnimation = animation.nodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
-//
-//		//translate
-//		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex)
-//		{
-//			aiVectorKey& keyAssimp = nodeAnimationAssimp->mPositionKeys[keyIndex];
-//			KeyframeVector3 keyframe;
-//			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	//秒に変換
-//			keyframe.value = { -keyAssimp.mValue.x,keyAssimp.mValue.y,keyAssimp.mValue.z };	//右手から左手
-//			nodeAnimation.translate.Keyframes.push_back(keyframe);
-//		}
-//
-//
-//		//rotate
-//		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumRotationKeys; ++keyIndex)
-//		{
-//			aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
-//			KeyframeQuatanion keyframe;
-//			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	//秒に変換
-//			keyframe.value = { keyAssimp.mValue.x,-keyAssimp.mValue.y,-keyAssimp.mValue.z,keyAssimp.mValue.w };
-//			nodeAnimation.rotate.Keyframes.push_back(keyframe);
-//		}
-//
-//		//scale
-//		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumScalingKeys; ++keyIndex)
-//		{
-//			aiVectorKey& keyAssimp = nodeAnimationAssimp->mScalingKeys[keyIndex];
-//			KeyframeVector3 keyframe;
-//			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	//秒に変換
-//			keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y,keyAssimp.mValue.z };	//右手から左手
-//			nodeAnimation.scale.Keyframes.push_back(keyframe);
-//		}
-//
-//
-//	}
-//
-//	return animation;
-//
-//}
-
-//Vector3 Model::CalculateValue(const std::vector<KeyframeVector3>& keyframes, float time)
-//{
-//	assert(!keyframes.empty());	//キーがないものは返す値がわからないのでダメ
-//	if (keyframes.size() == 1 || time <= keyframes[0].time)
-//	{
-//		return keyframes[0].value;
-//	}
-//	for (size_t index = 0; index < keyframes.size() - 1; ++index)
-//	{
-//		size_t nextIndex = index + 1;
-//		if (keyframes[index].time <= time && time <= keyframes[nextIndex].time)
-//		{
-//			//範囲内を補完する
-//			float t = (time - keyframes[index].time) / (keyframes[nextIndex].time - keyframes[index].time);
-//			return Lerp(keyframes[index].value, keyframes[nextIndex].value, t);
-//		}
-//	}
-//
-//	return (*keyframes.begin()).value;
-//}
-//
-//Quaternion Model::CalculateValue(const std::vector<KeyframeQuatanion>& keyframes, float time)
-//{
-//	assert(!keyframes.empty());	//キーがないものは返す値がわからないのでダメ
-//	if (keyframes.size() == 1 || time <= keyframes[0].time)
-//	{
-//		return keyframes[0].value;
-//	}
-//	for (size_t index = 0; index < keyframes.size() - 1; ++index)
-//	{
-//		size_t nextIndex = index + 1;
-//		if (keyframes[index].time <= time && time <= keyframes[nextIndex].time)
-//		{
-//			//範囲内を補完する
-//			float t = (time - keyframes[index].time) / (keyframes[nextIndex].time - keyframes[index].time);
-//			return Slerp(keyframes[index].value, keyframes[nextIndex].value, t);
-//		}
-//	}
-//
-//	return (*keyframes.begin()).value;
-//}

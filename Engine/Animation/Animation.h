@@ -36,9 +36,11 @@ struct NodeAnimation
 
 struct AnimationData
 {
+	bool isValid;	//アニメーションデータが存在しているかどうか
 	float duration;	//アニメーション全体の尺（秒
 	//NodeAnimationの集合。Node名でひけるように
 	std::map<std::string, NodeAnimation>nodeAnimations;
+
 };
 
 
@@ -47,8 +49,7 @@ class Animation
 public:
 	static Animation* GetInstance();
 
-
-	AnimationData LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
+	AnimationData LoadAnimationFile(const std::string& filename);
 
 	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, float time);
 	Quaternion CalculateValue(const std::vector<KeyframeQuatanion>& keyframes, float time);
