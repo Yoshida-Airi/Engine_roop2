@@ -7,6 +7,7 @@
 #include<wrl.h>
 #include<chrono>
 #include<thread>
+#include<VectorMath.h>
 
 
 class DirectXCommon
@@ -102,8 +103,8 @@ private:
 	/// </summary>
 	void UpdateFixFPS();
 
-
-	Microsoft::WRL::ComPtr< ID3D12Resource> CreateDepthStencilTextureResource(int32_t width, int32_t height);
+	Microsoft::WRL::ComPtr<ID3D12Resource>CreateRenderTextureResource(Microsoft::WRL::ComPtr<ID3D12Device>device, uint32_t width, uint32_t height, DXGI_FORMAT format, const Vector4& clearColor);
+	Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(int32_t width, int32_t height);
 
 
 private:
