@@ -87,9 +87,11 @@ void Framework::Update()
 
 void Framework::Draw()
 {
-	dxCommon->PreDraw();
+	dxCommon->RenderPreDraw();
 	srvManager->PreDraw();
 	sceneManager_->Draw();
+
+	dxCommon->SwapPreDraw();
 
 #ifdef _DEBUG
 	ImGui::ShowDemoWindow();

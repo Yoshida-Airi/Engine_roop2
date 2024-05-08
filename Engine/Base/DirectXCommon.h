@@ -19,7 +19,9 @@ public:
 	//更新処理
 	void Update();
 	//描画前処理
-	void PreDraw();
+	void RenderPreDraw();
+
+	void SwapPreDraw();
 	//描画後処理
 	void PostDraw();
 
@@ -125,8 +127,9 @@ private:
 	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> dsvDescriptorHeap = nullptr;		//DSV用のディスクリプタヒープ
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	Microsoft::WRL::ComPtr < ID3D12Resource> swapChainResources[2] = { nullptr };	//スワップチェーンリソース
-	Microsoft::WRL::ComPtr < ID3D12Resource> depthStencilResource = nullptr;	
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles[2];	//RTVを二つ作るのでディスクリプタを二つ用意
+	Microsoft::WRL::ComPtr < ID3D12Resource> depthStencilResource = nullptr;
+	Microsoft::WRL::ComPtr < ID3D12Resource> renderTextureResource = { nullptr };
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles[3];	//RTVを二つ作るのでディスクリプタを二つ用意
 	D3D12_RESOURCE_BARRIER barrier{};	//トランスフォームバリア
 	Microsoft::WRL::ComPtr< ID3D12Fence> fence = nullptr;	//フェンス
 	uint64_t fenceValue = 0;	//フェンスの値
@@ -135,9 +138,11 @@ private:
 	//記録時間(FPS固定)
 	std::chrono::steady_clock::time_point reference_;
 
+	const Vector4 kRenderTargetClearValue = { 1.0f,0.0f,0.0f,1.0f };
 	
 	D3D12_VIEWPORT viewport{};	//ビューポート
 	D3D12_RECT scissorRect{};	//シザー矩形
+
 
 	//静的メンバ変数の宣言と初期化
 	static DirectXCommon* instance;

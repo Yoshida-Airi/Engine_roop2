@@ -56,8 +56,9 @@ void DirectXCommon::Update()
 {
 }
 
-void DirectXCommon::PreDraw()
+void DirectXCommon::RenderPreDraw()
 {
+
 	UINT backBufferIndex = swapChain->GetCurrentBackBufferIndex();
 
 	//今回のバリアはTransition
@@ -73,18 +74,37 @@ void DirectXCommon::PreDraw()
 	//TransitionBarrierを張る
 	commandList->ResourceBarrier(1, &barrier);
 
-	//全画面クリア
-	ClearRenderTarget();
+
+	//描画用のRTVとDSVを設定する
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvhandle = dsvDescriptorHeap.Get()->GetCPUDescriptorHandleForHeapStart();
+
+	commandList->OMSetRenderTargets(1, &rtvHandles[2], false, &dsvhandle);
+	//指定した色で画面全体をクリアする
+	float clearValue[] = { 1.0f,0.0f,0.0f,1.0f };//赤色。RGBAの順
+	commandList->ClearRenderTargetView(rtvHandles[2], clearValue, 0, nullptr);
+	commandList->ClearDepthStencilView(dsvhandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	commandList->RSSetViewports(1, &viewport);
+	commandList->RSSetScissorRects(1, &scissorRect);
+
+	
+}
+
+void DirectXCommon::SwapPreDraw()
+{
+	UINT backBufferIndex = swapChain->GetCurrentBackBufferIndex();
 
 	//描画用のRTVとDSVを設定する
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvhandle = dsvDescriptorHeap.Get()->GetCPUDescriptorHandleForHeapStart();
 
 	//コマンドを積む
+	//全画面クリア
+	ClearRenderTarget();
 	commandList->RSSetViewports(1, &viewport);
 	commandList->RSSetScissorRects(1, &scissorRect);
 	//commandList->SetDescriptorHeaps(1, srvDescriptorHeap.GetAddressOf());
 	commandList->OMSetRenderTargets(1, &rtvHandles[backBufferIndex], false, &dsvhandle);
-	commandList->ClearDepthStencilView(dsvhandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	//commandList->ClearDepthStencilView(dsvhandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
 }
 
 void DirectXCommon::PostDraw()
@@ -305,7 +325,7 @@ void DirectXCommon::SetupRnderTargetView()
 	// RTV用のディスクリプタヒープの生成
 	//--------------------------------
 
-	rtvDescriptorHeap = CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 2, false);
+	rtvDescriptorHeap = CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 3, false);
 
 	//srvDescriptorHeap = CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, kMaxSRVCount, true);
 	
@@ -334,20 +354,21 @@ void DirectXCommon::SetupRnderTargetView()
 	//まずひとつ目を作る。１つ目は最初のところに作る。作る場所をこちらで指定してあげる必要がある
 
 	rtvHandles[0] = rtvStartHandle;
-
-	const Vector4 kRenderTargetClearValue{ 1.0f,0.0f,0.0f,1.0f };//赤色
-	auto renderTextureResource = CreateRenderTextureResource(device, WinApp::kCilentWidth, WinApp::kCilentHeight, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearValue);
-	device->CreateRenderTargetView(renderTextureResource.Get(), &rtvDesc, rtvHandles[0]);
-
-
 	device->CreateRenderTargetView(swapChainResources[0].Get(), &rtvDesc, rtvHandles[0]);
-	
+
 	//２つ目のディスクリプタハンドルを得る(自力で)
 	rtvHandles[1].ptr = rtvHandles[0].ptr + device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	//２つ目を作る
 	device->CreateRenderTargetView(swapChainResources[1].Get(), &rtvDesc, rtvHandles[1]);
 
 	depthStencilResource = CreateDepthStencilTextureResource(winApp_->kCilentWidth, winApp_->kCilentHeight);
+
+	//３つ目のディスクリプタハンドルを得る(自力で)
+	rtvHandles[2].ptr = rtvHandles[1].ptr + device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	renderTextureResource = CreateRenderTextureResource(device, WinApp::kCilentWidth, WinApp::kCilentHeight, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, kRenderTargetClearValue);
+	device->CreateRenderTargetView(renderTextureResource.Get(), &rtvDesc, rtvHandles[2]);
+
+
 	
 
 	//DSVの設定
@@ -447,7 +468,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateRenderTextureResourc
 	resourceDesc.Format = format;	//DepthStencilとして利用可能なフォーマット
 	resourceDesc.SampleDesc.Count = 1;		//サンプリングカウント　1固定
 	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;	//2次元
-	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;	//DepthStencilとして使う通知
+	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;	
 
 	//利用するHeapの設定
 	D3D12_HEAP_PROPERTIES heapProperties{};
@@ -467,7 +488,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> DirectXCommon::CreateRenderTextureResourc
 		&heapProperties,	//Heaoの設定
 		D3D12_HEAP_FLAG_NONE,	//heapの特殊な設定。
 		&resourceDesc,	//Resourceの設定
-		D3D12_RESOURCE_STATE_RENDER_TARGET,	//深度値を書き込む状態にしておく
+		D3D12_RESOURCE_STATE_RENDER_TARGET,	
 		&clearValue,	//Clear最適値
 		IID_PPV_ARGS(&resource)	//作成するResourceポインタへのポインタ
 	);
