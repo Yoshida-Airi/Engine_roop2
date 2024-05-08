@@ -2,7 +2,8 @@
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxguid.lib")
-
+#include"GraphicsPipelineManager.h"
+#include"SrvManager.h"
 
 //const uint32_t DirectXCommon::kMaxSRVCount = 512;
 
@@ -29,6 +30,9 @@ void DirectXCommon::Initialize()
 {
 
 	winApp_ = WinApp::GetInstance();
+	psoManager_ = GraphicsPipelineManager::GetInstance();
+	srvManager_ = SrvManager::GetInstance();
+
 	assert(winApp_);
 
 	//FPS固定初期化
@@ -59,6 +63,7 @@ void DirectXCommon::Update()
 void DirectXCommon::RenderPreDraw()
 {
 
+
 	UINT backBufferIndex = swapChain->GetCurrentBackBufferIndex();
 
 	//今回のバリアはTransition
@@ -86,12 +91,45 @@ void DirectXCommon::RenderPreDraw()
 	commandList->RSSetViewports(1, &viewport);
 	commandList->RSSetScissorRects(1, &scissorRect);
 
+	srvManager_->CreateSRVforTexture2D(100, renderTextureResource.Get(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, 1);
+
+
 	
 }
 
 void DirectXCommon::SwapPreDraw()
 {
 	UINT backBufferIndex = swapChain->GetCurrentBackBufferIndex();
+
+	//コピー前
+	//遷移前(現在)のResourceState
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	//遷移後のResourceState
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	//TransitionBarrierを張る
+	commandList->ResourceBarrier(1, &barrier);
+
+	
+
+	////コピー処理
+	//commandList->SetGraphicsRootSignature(psoManager_->GetPsoMember().copyImage.rootSignature.Get());
+	//commandList->SetPipelineState(psoManager_->GetPsoMember().copyImage.graphicPipelineState.Get());
+	//commandList->SetGraphicsRootDescriptorTable(0, srvManager_->GetGPUDescriptorHandle(100));
+	//////頂点３つ描画
+	//commandList->DrawInstanced(3, 1, 0, 0);
+	////
+
+
+	//コピー後
+	//遷移前(現在)のResourceState
+	//barrier.Transition.pResource = swapChainResources[backBufferIndex].Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	//遷移後のResourceState
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	//TransitionBarrierを張る
+	commandList->ResourceBarrier(1, &barrier);
+
+	
 
 	//描画用のRTVとDSVを設定する
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvhandle = dsvDescriptorHeap.Get()->GetCPUDescriptorHandleForHeapStart();

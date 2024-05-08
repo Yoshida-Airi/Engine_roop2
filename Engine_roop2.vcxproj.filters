@@ -19,6 +19,9 @@
     <FxCompile Include="Resources\Shaders\Particle.PS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\CopyImage.VS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\2D\Triangle.cpp">
@@ -274,6 +277,12 @@
       <Filter>リソース ファイル\Shader</Filter>
     </None>
     <None Include="Resources\Shaders\Particle.hlsli">
+      <Filter>リソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Resources\Shaders\CopyImage.hlsli">
+      <Filter>リソース ファイル\Shader</Filter>
+    </None>
+    <None Include="Resources\Shaders\CopyImage.PS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </None>
   </ItemGroup>

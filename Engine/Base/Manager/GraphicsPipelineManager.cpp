@@ -20,6 +20,7 @@ void GraphicsPipelineManager::Initialize()
 	psoMember.object3D = CreateObject3D(L"Object3D");
 	psoMember.sprite = CreateSprite(L"Sprite");
 	psoMember.particle = CreateParticle(L"Particle");
+	psoMember.copyImage = CreateCopyImage(L"CopyImage");
 
 }
 
@@ -253,6 +254,68 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateParticle(const s
 	SetupBlendState(kBlendModeAdd);
 
 	psoData = CreateCommonPSO(filePath, rootParameters, 5, depthStencilDesc,inputLayoutDesc);
+
+	return psoData;
+}
+
+GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateCopyImage(const std::wstring& filePath)
+{
+	PSOData psoData;
+
+	//ディスクリプタレンジ
+	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
+	descriptorRangeForInstancing[0].BaseShaderRegister = 0;	//0から始まる
+	descriptorRangeForInstancing[0].NumDescriptors = 1;
+	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+
+	D3D12_ROOT_PARAMETER rootParameters[1] = {};
+
+
+	//テクスチャ
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
+	rootParameters[0].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
+
+
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
+	//Depthの機能を有効化する
+	depthStencilDesc.DepthEnable = false;
+	////書き込みします
+	//depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	////比較関数はLessEqual。つまり、近ければ描画される
+	//depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+
+	//D3D12_INPUT_ELEMENT_DESC inputElementDescs[4] = {};
+	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
+	//inputElementDescs[0].SemanticName = "POSITION";
+	//inputElementDescs[0].SemanticIndex = 0;
+	//inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	//inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	//inputElementDescs[1].SemanticName = "TEXCOORD";
+	//inputElementDescs[1].SemanticIndex = 0;
+	//inputElementDescs[1].Format = DXGI_FORMAT_R32G32_FLOAT;
+	//inputElementDescs[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	//inputElementDescs[2].SemanticName = "NORMAL";
+	//inputElementDescs[2].SemanticIndex = 0;
+	//inputElementDescs[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	//inputElementDescs[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	//inputElementDescs[3].SemanticName = "COLOR";
+	//inputElementDescs[3].SemanticIndex = 0;
+	//inputElementDescs[3].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	//inputElementDescs[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputLayoutDesc.pInputElementDescs = nullptr;
+	inputLayoutDesc.NumElements = 0;
+
+	SetupBlendState(kBlendModeAdd);
+
+	psoData = CreateCommonPSO(filePath, rootParameters, 1, depthStencilDesc, inputLayoutDesc);
 
 	return psoData;
 }

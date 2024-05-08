@@ -40,6 +40,7 @@ public:
 		PSOData object3D;
 		PSOData sprite;
 		PSOData particle;
+		PSOData copyImage;
 	};
 
 
@@ -85,6 +86,7 @@ private:
 	PSOData CreateObject3D(const std::wstring& filePath);
 	PSOData CreateSprite(const std::wstring& filePath);
 	PSOData CreateParticle(const std::wstring& filePath);
+	PSOData CreateCopyImage(const std::wstring& filePath);
 
 	/// <summary>
 	/// 全体のPSO生成関数

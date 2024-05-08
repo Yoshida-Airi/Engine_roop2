@@ -10,6 +10,9 @@
 #include<VectorMath.h>
 
 
+
+class GraphicsPipelineManager;
+class SrvManager;
 class DirectXCommon
 {
 public:
@@ -112,6 +115,8 @@ private:
 private:
 	
 	WinApp* winApp_;
+	GraphicsPipelineManager* psoManager_;
+	SrvManager* srvManager_;
 
 	HRESULT hr;
 	Microsoft::WRL::ComPtr< IDXGIFactory7> dxgiFactory = nullptr;	//DXGIFactory
