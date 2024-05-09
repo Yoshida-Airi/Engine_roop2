@@ -3,6 +3,7 @@
 #include<vector>
 #include"Globals.h"
 #include"Transform.h"
+#include<map>
 
 struct MaterialData
 {
@@ -31,11 +32,13 @@ struct JointWeightData
 
 struct ModelData
 {
-	std::map<std::string, JointWeightData>skinClusterData;
 	std::vector<VertexData>vertices;
 	std::vector<uint32_t>indices;
 	MaterialData material;
 	std::string filename{};
 	Node rootNode;
+	std::map<std::string, JointWeightData> skinClusterData;
 };
+
+
 
