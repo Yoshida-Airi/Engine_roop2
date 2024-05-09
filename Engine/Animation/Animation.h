@@ -49,7 +49,7 @@ struct AnimationData
 struct Joint
 {
 	QuaternionTransform transform; //Transform情報
-	Matrix4x4 lacalMatrix;
+	Matrix4x4 localMatrix;
 	Matrix4x4 sleletonSpaceMatrix;	//sleltonSpaceでの変換行列
 	std::string name;	//名前
 	std::vector<int32_t>children;	//子JointのIndexのリスト。いなければ空
@@ -69,6 +69,8 @@ class Animation
 public:
 	static Animation* GetInstance();
 
+	void Update(Skeleton& skelton);
+
 	AnimationData LoadAnimationFile(const std::string& filename);
 
 	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, float time);
@@ -76,6 +78,14 @@ public:
 
 	Skeleton CreateSkelton(const Node& rootNode);
 	int32_t CreateJoint(const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joint);
+	
+	/// <summary>
+	/// スケルトンに対してアニメーションの適用をする
+	/// </summary>
+	/// <param name="skelton">スケルトン情報（骨）</param>
+	/// <param name="animationData">適用するアニメーションデータ</param>
+	/// <param name="animationTime">アニメーションの時間</param>
+	void ApplyAnimation(Skeleton& skelton, const AnimationData& animationData, float animationTime);
 
 private:
 	static Animation* instance;

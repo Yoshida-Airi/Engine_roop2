@@ -27,6 +27,7 @@ void Model::Initialize(const std::string& filename)
 
 
 	animation = animation_->LoadAnimationFile(filename);
+	skelton = animation_->CreateSkelton(modelData_.rootNode);
 
 
 	VertexBuffer();
@@ -82,6 +83,12 @@ void Model::Update()
 	if (animation.isValid == true)
 	{
 		animationTime += 1.0f / 60.0f;
+
+		//スケルトンに適用
+		animation_->ApplyAnimation(skelton, animation, animationTime);
+		animation_->Update(skelton);
+
+
 		animationTime = std::fmod(animationTime, animation.duration);
 		NodeAnimation& rootNodeAnimation = animation.nodeAnimations[modelData_.rootNode.name];
 		Vector3 translate = animation_->CalculateValue(rootNodeAnimation.translate.Keyframes, animationTime);
@@ -91,6 +98,8 @@ void Model::Update()
 
 		worldTransform_->matWorld_ = Multiply(localMatrix, worldTransform_->matWorld_);
 		worldTransform_->TransferMatrix();
+
+		
 	}
 	else
 	{

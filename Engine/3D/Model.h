@@ -76,6 +76,7 @@ private:
 
 
 	AnimationData animation;
+	Skeleton skelton;
 	float animationTime = 0.0f;
 	
 private:

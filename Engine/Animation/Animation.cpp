@@ -10,6 +10,26 @@ Animation* Animation::GetInstance()
 	return instance;
 }
 
+void Animation::Update(Skeleton& skelton)
+{
+	//すべてのJointを更新。親が若いので通常ループで処理可能になっている
+	for (Joint& joint : skelton.joints)
+	{
+		joint.localMatrix = MakeAffinMatrix(joint.transform.scale, joint.transform.rotate, joint.transform.translate);
+		if (joint.parent)
+		{
+			//親がいれば親の行列を掛ける
+			joint.sleletonSpaceMatrix = Multiply(joint.localMatrix, skelton.joints[*joint.parent].sleletonSpaceMatrix);
+		}
+		else
+		{
+			//親がいないのでlocalMatrixとskeltonSpaceMatrixは一致する
+			joint.sleletonSpaceMatrix = joint.localMatrix;
+		}
+	}
+}
+
+
 //アニメーションファイル読み込み
 AnimationData Animation::LoadAnimationFile(const std::string& filename)
 {
@@ -138,7 +158,7 @@ int32_t Animation::CreateJoint(const Node& node, const std::optional<int32_t>& p
 {
 	Joint joint;
 	joint.name = node.name;
-	joint.lacalMatrix = node.localMatrix;
+	joint.localMatrix = node.localMatrix;
 	joint.sleletonSpaceMatrix = MakeIdentity4x4();
 	joint.transform = node.transform;
 	joint.index = int32_t(joints.size());	//現在登録されている数をindexに
@@ -154,6 +174,21 @@ int32_t Animation::CreateJoint(const Node& node, const std::optional<int32_t>& p
 	//自身のIndexを返す
 	return joint.index;
 
+}
+
+void Animation::ApplyAnimation(Skeleton& skelton, const AnimationData& animationData, float animationTime)
+{
+	for (Joint& joint : skelton.joints)
+	{
+		//対象のJointのAnimationがあれば、値の運用を行う。
+		if (auto it = animationData.nodeAnimations.find(joint.name); it != animationData.nodeAnimations.end())
+		{
+			const NodeAnimation& rootNodeAnimation = (*it).second;
+			joint.transform.translate = CalculateValue(rootNodeAnimation.translate.Keyframes, animationTime);
+			joint.transform.rotate = CalculateValue(rootNodeAnimation.rotate.Keyframes, animationTime);
+			joint.transform.scale = CalculateValue(rootNodeAnimation.scale.Keyframes, animationTime);
+		}
+	}
 }
 
 Animation* Animation::instance = NULL;
