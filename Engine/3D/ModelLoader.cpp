@@ -21,10 +21,8 @@ ModelData ModelLoader::LoadModelFile(const std::string& filename)
 
 
 	std::filesystem::path path(filename);
-	std::string filename1 = path.parent_path().string();
+	std::string folderPath = path.parent_path().string();
 
-	std::filesystem::path path2(filename);
-	std::string filename2 = path2.parent_path().string();
 
 	for (int i = 0; i < kMaxModel; i++)
 	{
@@ -90,7 +88,7 @@ ModelData ModelLoader::LoadModelFile(const std::string& filename)
 		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
 			aiString textureFilePath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
-			model.at(index).material.textureFilePath = filename2 + "/" + textureFilePath.C_Str();
+			model.at(index).material.textureFilePath = folderPath + "/" + textureFilePath.C_Str();
 		}
 	}
 
