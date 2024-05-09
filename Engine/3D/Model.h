@@ -63,13 +63,16 @@ private:
 	Microsoft::WRL::ComPtr< ID3D12Resource> vertexResource_;	//頂点リソース
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
 	Microsoft::WRL::ComPtr < ID3D12Resource> lightResource_;
+	Microsoft::WRL::ComPtr < ID3D12Resource> indexResource_;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
+	D3D12_INDEX_BUFFER_VIEW indexBufferView_{};
 
 	VertexData* vertexData_ = nullptr;
 	Material* materialData_ = nullptr;	//マテリアルデータ
 	DirectionalLight* lightData_ = nullptr;
+	uint32_t* indexData_ = nullptr;
 
 	uint32_t textureHandle_;
 	bool isInvisible_ = false;
@@ -95,6 +98,8 @@ private:
 	/// ライトのバッファの取得
 	/// </summary>
 	void LightBuffer();
+
+	void IndexBuffer();
 
 };
 

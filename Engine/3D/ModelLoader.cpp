@@ -56,28 +56,32 @@ ModelData ModelLoader::LoadModelFile(const std::string& filename)
 		aiMesh* mesh = scene->mMeshes[meshIndex];
 		assert(mesh->HasNormals());
 		assert(mesh->HasTextureCoords(0));
+		model.at(index).vertices.resize(mesh->mNumVertices);//最初に頂点数分のメモリを確保しておく
 
+		//vertexの解析
+		for (uint32_t vertexIndex = 0; vertexIndex < mesh->mNumVertices; ++vertexIndex)
+		{
+			aiVector3D& position = mesh->mVertices[vertexIndex];
+			aiVector3D& normal = mesh->mNormals[vertexIndex];
+			aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
+
+			model.at(index).vertices[vertexIndex].position = { -position.x,position.y,position.z,1.0f };
+			model.at(index).vertices[vertexIndex].normal = { -normal.x,normal.y,normal.z };
+			model.at(index).vertices[vertexIndex].texcoord = { texcoord.x,texcoord.y };
+		}
+		
 		//faceの解析
 		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex) {
 			aiFace& face = mesh->mFaces[faceIndex];
 			assert(face.mNumIndices == 3);
 
-			//vertexの解析
-			for (uint32_t element = 0; element < face.mNumIndices; ++element) {
+			for (uint32_t element = 0; element < face.mNumIndices; ++element)
+			{
 				uint32_t vertexIndex = face.mIndices[element];
-				aiVector3D& position = mesh->mVertices[vertexIndex];
-				aiVector3D& normal = mesh->mNormals[vertexIndex];
-				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
-				VertexData vertex;
-				vertex.position = { position.x, position.y,position.z,1.0f };
-				vertex.normal = { normal.x,normal.y,normal.z };
-				vertex.texcoord = { texcoord.x, texcoord.y };
-				vertex.position.x *= -1.0f;
-				vertex.normal.x *= -1.0f;
-				//modelData.vertices.push_back(vertex);
-				model.at(index).vertices.push_back(vertex);
+				model.at(index).indices.push_back(vertexIndex);
 			}
 		}
+
 	}
 
 	//テクスチャの解析

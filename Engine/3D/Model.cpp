@@ -33,6 +33,7 @@ void Model::Initialize(const std::string& filename)
 	VertexBuffer();
 	MaterialBuffer();
 	LightBuffer();
+	IndexBuffer();
 
 
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
@@ -122,6 +123,8 @@ void Model::Draw(Camera* camera)
 
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
+	//index
+	dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferView_);
 	//形状を設定。PS0にせっていしているものとはまた別。同じものを設定する
 	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	//マテリアルCBufferの場所を設定
@@ -135,7 +138,8 @@ void Model::Draw(Camera* camera)
 	//ライト用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, lightResource_->GetGPUVirtualAddress());
 	//描画
-	dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData_.vertices.size()), 1, 0, 0);
+	//dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData_.vertices.size()), 1, 0, 0);
+	dxCommon_->GetCommandList()->DrawIndexedInstanced(UINT(modelData_.indices.size()), 1, 0, 0, 0);
 
 }
 
@@ -221,5 +225,19 @@ void Model::LightBuffer()
 {
 	lightResource_ = dxCommon_->CreateBufferResource(sizeof(DirectionalLight));
 	lightResource_->Map(0, nullptr, reinterpret_cast<void**>(&lightData_));
+}
+
+void Model::IndexBuffer()
+{
+	indexResource_ = dxCommon_->CreateBufferResource(sizeof(uint32_t) * modelData_.indices.size());
+	//リソースの先頭のアドレスから使う
+	indexBufferView_.BufferLocation = indexResource_->GetGPUVirtualAddress();
+	//使用するリソースのサイズはインデックス6つ分のサイズ
+	indexBufferView_.SizeInBytes = sizeof(uint32_t) * UINT(modelData_.indices.size());
+	//インデックスはuint32_tとする
+	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
+	//インデックスリソースにデータを書き込む
+	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
+	std::memcpy(indexData_, modelData_.indices.data(), sizeof(uint32_t) * modelData_.indices.size());
 }
 
