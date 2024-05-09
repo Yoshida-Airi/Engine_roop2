@@ -261,6 +261,19 @@ SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>&
 
 }
 
+void Model::ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeleton)
+{
+	for (size_t jointIndex = 0; jointIndex < skeleton.joints.size(); ++jointIndex)
+	{
+		assert(jointIndex < skinCluster.inverseBindPoseMatrices.size());
+		skinCluster.mappedPalette[jointIndex].skeltonSpaceMatrix =
+			Multiply(skinCluster.inverseBindPoseMatrices[jointIndex], skeleton.joints[jointIndex].sleletonSpaceMatrix);
+
+		skinCluster.mappedPalette[jointIndex].skeltonSpaceInverseTransposeMatrix =
+			Transpose(Inverse(skinCluster.mappedPalette[jointIndex].skeltonSpaceMatrix));
+	}
+}
+
 
 
 /*=====================================*/

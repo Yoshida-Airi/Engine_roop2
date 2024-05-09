@@ -86,6 +86,8 @@ public:
 	/// <returns></returns>
 	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData, const Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& descriptorHeap, uint32_t descriptorSize);
 
+	void ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeltion);
+
 private:
 	DirectXCommon* dxCommon_;
 	GraphicsPipelineManager* psoManager_;
