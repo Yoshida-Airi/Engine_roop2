@@ -114,6 +114,9 @@
     <ClCompile Include="Engine\Animation\Animation.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\PostEffect\PostEffect.cpp">
+      <Filter>Engine\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -221,6 +224,9 @@
     <ClInclude Include="Engine\Animation\Animation.h">
       <Filter>Engine\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\PostEffect\PostEffect.h">
+      <Filter>Engine\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -267,6 +273,9 @@
     </Filter>
     <Filter Include="Engine\Animation">
       <UniqueIdentifier>{eb0ea847-3ae9-4f7e-9205-c36a4e26d58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\PostEffect">
+      <UniqueIdentifier>{2d6a5f4f-4aef-41e1-932d-112beb36a74f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
