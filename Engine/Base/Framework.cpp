@@ -55,6 +55,9 @@ void Framework::Initialize()
 	srvManager = SrvManager::GetInstance();
 	srvManager->Initialize();
 
+	postEffect = new PostEffect();
+	postEffect->Initialize();
+
 	texture = TextureManager::GetInstance();
 	texture->Initialize();
 
@@ -87,19 +90,23 @@ void Framework::Update()
 
 void Framework::Draw()
 {
-	dxCommon->RenderPreDraw();
+	postEffect->PreDraw();
+	//dxCommon->RenderPreDraw();
 	srvManager->PreDraw();
 	sceneManager_->Draw();
 
-	dxCommon->RenderPostDraw();
+	postEffect->PostDraw();
+	//dxCommon->RenderPostDraw();
 	dxCommon->SwapPreDraw();
-
+	postEffect->Draw();
 #ifdef _DEBUG
 	ImGui::ShowDemoWindow();
 #endif // _DEBUG
 
 	imgui->End();
 	imgui->Draw();
+
+
 
 	dxCommon->PostDraw();
 }

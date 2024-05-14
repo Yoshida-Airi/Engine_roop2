@@ -10,6 +10,7 @@
 #include"ImGuiManager.h"
 #include"AbstractSceneFactory.h"
 #include"SrvManager.h"
+#include"PostEffect.h"
 
 class Framework
 {
@@ -35,6 +36,8 @@ protected:
 	TextureManager* texture = nullptr;
 	Input* input;
 	Audio* audio;
+	PostEffect* postEffect;
+
 	//IScene* scene_ = nullptr;	//シーン
 	SceneManager* sceneManager_ = nullptr;
 
