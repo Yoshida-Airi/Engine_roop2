@@ -23,6 +23,7 @@ public:
 	void Update();
 	//描画前処理
 	void RenderPreDraw();
+	void RenderPostDraw();
 
 	void SwapPreDraw();
 	//描画後処理
@@ -134,7 +135,7 @@ private:
 	Microsoft::WRL::ComPtr < ID3D12Resource> swapChainResources[2] = { nullptr };	//スワップチェーンリソース
 	Microsoft::WRL::ComPtr < ID3D12Resource> depthStencilResource = nullptr;
 	Microsoft::WRL::ComPtr < ID3D12Resource> renderTextureResource = { nullptr };
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles[3];	//RTVを二つ作るのでディスクリプタを二つ用意
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles[2];	//RTVを二つ作るのでディスクリプタを二つ用意
 	D3D12_RESOURCE_BARRIER barrier{};	//トランスフォームバリア
 	Microsoft::WRL::ComPtr< ID3D12Fence> fence = nullptr;	//フェンス
 	uint64_t fenceValue = 0;	//フェンスの値
@@ -144,10 +145,14 @@ private:
 	std::chrono::steady_clock::time_point reference_;
 
 	const Vector4 kRenderTargetClearValue = { 1.0f,0.0f,0.0f,1.0f };
-	
+	D3D12_CPU_DESCRIPTOR_HANDLE renderRtvHandle;	//RTVを二つ作るのでディスクリプタを二つ用意
+	D3D12_RESOURCE_BARRIER renderBarrier{};	//トランスフォームバリア
+
 	D3D12_VIEWPORT viewport{};	//ビューポート
 	D3D12_RECT scissorRect{};	//シザー矩形
 
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvhandle;
+	uint32_t srvHandle;
 
 	//静的メンバ変数の宣言と初期化
 	static DirectXCommon* instance;

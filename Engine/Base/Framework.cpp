@@ -91,6 +91,7 @@ void Framework::Draw()
 	srvManager->PreDraw();
 	sceneManager_->Draw();
 
+	dxCommon->RenderPostDraw();
 	dxCommon->SwapPreDraw();
 
 #ifdef _DEBUG
