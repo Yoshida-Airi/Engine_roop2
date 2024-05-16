@@ -22,6 +22,7 @@
     <FxCompile Include="Resources\Shaders\FullScreen.VS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\Grayscale.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\2D\Triangle.cpp">
