@@ -29,8 +29,6 @@ void PostEffect::Update()
 
 void PostEffect::PreDraw()
 {
-	// リソースの状態をログに記録
-	OutputDebugString(L"RenderPreDraw: Transitioning renderTextureResource to RENDER_TARGET\n");
 
 
 	//今回のバリアはTransition
@@ -66,8 +64,6 @@ void PostEffect::PreDraw()
 
 void PostEffect::PostDraw()
 {
-	OutputDebugString(L"RenderPostDraw: Transitioning renderTextureResource to PIXEL_SHADER_RESOURCE\n");
-
 
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;

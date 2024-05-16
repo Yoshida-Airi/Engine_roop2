@@ -20,7 +20,7 @@ void GraphicsPipelineManager::Initialize()
 	psoMember.object3D = CreateObject3D(L"Object3D");
 	psoMember.sprite = CreateSprite(L"Sprite");
 	psoMember.particle = CreateParticle(L"Particle");
-	psoMember.copyImage = CreateCopyImage(L"CopyImage");
+	psoMember.copyImage = CreateCopyImage(L"FullScreen");
 
 }
 

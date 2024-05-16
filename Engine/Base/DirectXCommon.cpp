@@ -79,11 +79,6 @@ void DirectXCommon::SwapPreDraw()
 	UINT backBufferIndex = swapChain->GetCurrentBackBufferIndex();
 
 
-
-	// リソースの状態をログに記録
-	OutputDebugString(L"SwapPreDraw: Transitioning swapChainResources to RENDER_TARGET\n");
-
-
 	//今回のバリアはTransition
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	//Noneにしておく
@@ -126,9 +121,6 @@ void DirectXCommon::SwapPreDraw()
 
 void DirectXCommon::PostDraw()
 {
-	// リソースの状態をログに記録
-	OutputDebugString(L"PostDraw: Transitioning swapChainResources to PRESENT\n");
-
 
 	//画面に描く処理はすべて終わり、画面に移すので、状態を遷移
 	//今回はRenderTargetからPresentにする

@@ -19,7 +19,7 @@
     <FxCompile Include="Resources\Shaders\Particle.PS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\CopyImage.VS.hlsl">
+    <FxCompile Include="Resources\Shaders\FullScreen.VS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
   </ItemGroup>
@@ -288,10 +288,10 @@
     <None Include="Resources\Shaders\Particle.hlsli">
       <Filter>リソース ファイル\Shader</Filter>
     </None>
-    <None Include="Resources\Shaders\CopyImage.hlsli">
+    <None Include="Resources\Shaders\FullScreen.hlsli">
       <Filter>リソース ファイル\Shader</Filter>
     </None>
-    <None Include="Resources\Shaders\CopyImage.PS.hlsl">
+    <None Include="Resources\Shaders\FullScreen.PS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </None>
   </ItemGroup>
