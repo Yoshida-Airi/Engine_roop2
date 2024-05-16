@@ -25,8 +25,8 @@ void SrvManager::Initialize()
 
 void SrvManager::PreDraw()
 {
-	ID3D12DescriptorHeap* descriptorHeaps[] = { descriptorHeap.Get() };
-	dxCommon->GetCommandList()->SetDescriptorHeaps(1, descriptorHeaps);
+	//ID3D12DescriptorHeap* descriptorHeaps[] = { descriptorHeap.Get() };
+	//dxCommon->GetCommandList()->SetDescriptorHeaps(1, descriptorHeaps);
 }
 
 uint32_t SrvManager::Allocate()

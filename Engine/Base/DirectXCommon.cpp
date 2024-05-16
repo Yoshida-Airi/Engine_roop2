@@ -2,7 +2,7 @@
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"dxguid.lib")
-
+#include"SrvManager.h"
 
 //const uint32_t DirectXCommon::kMaxSRVCount = 512;
 
@@ -29,6 +29,7 @@ void DirectXCommon::Initialize()
 {
 
 	winApp_ = WinApp::GetInstance();
+	srvManager_ = SrvManager::GetInstance();
 	
 
 	assert(winApp_);
@@ -89,7 +90,6 @@ void DirectXCommon::SwapPreDraw()
 	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 	//バリアを張る対象リソース。現在のバッグバッファに対して行う
 	barrier.Transition.pResource = swapChainResources[backBufferIndex].Get();
-	//コピー前
 	//遷移前(現在)のResourceState
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
 	//遷移後のResourceState
@@ -100,10 +100,10 @@ void DirectXCommon::SwapPreDraw()
 	
 
 	// 描画先のRTVとDSVを設定する
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
-	commandList->OMSetRenderTargets(1, &rtvHandles[backBufferIndex], false, &dsvHandle);
+	//D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
+	commandList->OMSetRenderTargets(1, &rtvHandles[backBufferIndex], false, nullptr);
 	// 指定した深度で画面全体をクリアする
-	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	//commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	//コマンドを積む
 	//全画面クリア
@@ -120,10 +120,8 @@ void DirectXCommon::SwapPreDraw()
 	commandList->RSSetScissorRects(1, &scissorRect);
 	//commandList->SetDescriptorHeaps(1, srvDescriptorHeap.GetAddressOf());
 
-	
-
-
-
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> heaps[] = { SrvManager::GetInstance()->GetDescriptorHeap().Get() };
+	commandList->SetDescriptorHeaps(1, heaps->GetAddressOf());
 }
 
 void DirectXCommon::PostDraw()

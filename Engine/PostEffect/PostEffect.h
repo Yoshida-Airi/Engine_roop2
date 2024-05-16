@@ -12,6 +12,7 @@ class PostEffect
 {
 public:
 
+	~PostEffect();
 	void Initialize();
 	void Update();
 	void PreDraw();
@@ -41,7 +42,7 @@ private:
 
 	const Vector4 kRenderTargetClearValue = { 1.0f,0.0f,0.0f,1.0f };
 	D3D12_CPU_DESCRIPTOR_HANDLE renderRtvHandle;	//RTVを二つ作るのでディスクリプタを二つ用意
-	D3D12_RESOURCE_BARRIER renderBarrier{};	//トランスフォームバリア
+	D3D12_RESOURCE_BARRIER barrier{};	//トランスフォームバリア
 	Microsoft::WRL::ComPtr < ID3D12Resource> renderTextureResource = { nullptr };
 
 	D3D12_VIEWPORT viewport{};	//ビューポート

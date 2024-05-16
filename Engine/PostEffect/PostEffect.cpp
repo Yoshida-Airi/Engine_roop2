@@ -1,5 +1,9 @@
 #include "PostEffect.h"
 
+PostEffect::~PostEffect()
+{
+}
+
 void PostEffect::Initialize()
 {
 	dxCommon = DirectXCommon::GetInstance();
@@ -30,22 +34,22 @@ void PostEffect::PreDraw()
 
 
 	//今回のバリアはTransition
-	renderBarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	
+
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	//Noneにしておく
-	renderBarrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 	//バリアを張る対象リソース。現在のバッグバッファに対して行う
-	renderBarrier.Transition.pResource = renderTextureResource.Get();
+	barrier.Transition.pResource = renderTextureResource.Get();
 	//遷移前(現在)のResourceState
-	renderBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 	//遷移後のResourceState
-	renderBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	//TransitionBarrierを張る
-	dxCommon->GetCommandList()->ResourceBarrier(1, &renderBarrier);
+	dxCommon->GetCommandList()->ResourceBarrier(1, &barrier);
 
 	//描画用のRTVとDSVを設定する
 	dsvhandle = dxCommon->GetDSV()->GetCPUDescriptorHandleForHeapStart();
-
-
 
 	dxCommon->GetCommandList()->OMSetRenderTargets(1, &renderRtvHandle, false, &dsvhandle);
 	//指定した色で画面全体をクリアする
@@ -55,7 +59,8 @@ void PostEffect::PreDraw()
 	dxCommon->GetCommandList()->RSSetViewports(1, &viewport);
 	dxCommon->GetCommandList()->RSSetScissorRects(1, &scissorRect);
 	
-
+	ID3D12DescriptorHeap* heaps[] = { SrvManager::GetInstance()->GetDescriptorHeap().Get()};
+	dxCommon->GetCommandList()->SetDescriptorHeaps(_countof(heaps), heaps);
 	
 }
 
@@ -64,9 +69,9 @@ void PostEffect::PostDraw()
 	OutputDebugString(L"RenderPostDraw: Transitioning renderTextureResource to PIXEL_SHADER_RESOURCE\n");
 
 
-	renderBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-	renderBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
-	dxCommon->GetCommandList()->ResourceBarrier(1, &renderBarrier);
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	dxCommon->GetCommandList()->ResourceBarrier(1, &barrier);
 }
 
 void PostEffect::Draw()
@@ -112,7 +117,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> PostEffect::CreateRenderTextureResource(M
 		&heapProperties,	//Heaoの設定
 		D3D12_HEAP_FLAG_NONE,	//heapの特殊な設定。
 		&resourceDesc,	//Resourceの設定
-		D3D12_RESOURCE_STATE_RENDER_TARGET,
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 		&clearValue,	//Clear最適値
 		IID_PPV_ARGS(&resource)	//作成するResourceポインタへのポインタ
 	);

@@ -24,7 +24,7 @@ Framework::~Framework()
 	delete winApp;
 	winApp = nullptr;
 
-	
+	delete postEffect;
 
 	delete imgui;
 
