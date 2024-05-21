@@ -20,7 +20,7 @@ void GraphicsPipelineManager::Initialize()
 	psoMember.object3D = CreateObject3D(L"Object3D");
 	psoMember.sprite = CreateSprite(L"Sprite");
 	psoMember.particle = CreateParticle(L"Particle");
-	psoMember.copyImage = CreateCopyImage(L"FullScreen");
+	psoMember.copyImage = CreateCopyImage(L"Grayscale");
 
 }
 
@@ -348,9 +348,9 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateCopyImage(const 
 	assert(SUCCEEDED(hr));
 
 
-	psoData.vertexShaderBlob = CompileShader(L"Resources/Shaders/" + filePath + L".VS.hlsl", L"vs_6_0", dxcUtils, dxcCompiler, includeHandler);
+	psoData.vertexShaderBlob = CompileShader(L"Resources/Shaders/FullScreen.VS.hlsl", L"vs_6_0", dxcUtils, dxcCompiler, includeHandler);
 	assert(psoData.vertexShaderBlob != nullptr);
-	psoData.pixelShaderBlob = CompileShader(L"Resources/Shaders/FullScreen.PS.hlsl", L"ps_6_0", dxcUtils, dxcCompiler, includeHandler);
+	psoData.pixelShaderBlob = CompileShader(L"Resources/Shaders/" + filePath + L".PS.hlsl", L"ps_6_0", dxcUtils, dxcCompiler, includeHandler);
 	assert(psoData.pixelShaderBlob != nullptr);
 
 
