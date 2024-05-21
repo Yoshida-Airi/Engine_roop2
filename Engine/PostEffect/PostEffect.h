@@ -24,7 +24,7 @@ public:
 
 private:
 
-	Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(int32_t width, int32_t height);
+	//Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(int32_t width, int32_t height);
 
 	void CreateRTV();
 	void CreateDSV();
@@ -49,7 +49,7 @@ private:
 	D3D12_RECT scissorRect{};	//シザー矩形
 
 	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> dsvDescriptorHeap = nullptr;		//DSV用のディスクリプタヒープ
-	Microsoft::WRL::ComPtr < ID3D12Resource> depthStencilResource = nullptr;
+	//Microsoft::WRL::ComPtr < ID3D12Resource> depthStencilResource = nullptr;
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvhandle;
 	uint32_t srvHandle;
 };

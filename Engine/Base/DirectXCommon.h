@@ -48,6 +48,9 @@ public:
 	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc()const { return rtvDesc; };
 	ID3D12DescriptorHeap* GetRTV()const { return rtvDescriptorHeap.Get(); };
 	ID3D12DescriptorHeap* GetDSV()const { return dsvDescriptorHeap.Get(); };
+	Microsoft::WRL::ComPtr < ID3D12Resource> GetDepthStencilResource()const { return depthStencilResource.Get(); };
+
+
 
 public:
 
@@ -111,7 +114,7 @@ private:
 	/// </summary>
 	void UpdateFixFPS();
 
-		//Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(int32_t width, int32_t height);
+	Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(int32_t width, int32_t height);
 
 
 private:
@@ -150,6 +153,7 @@ private:
 	D3D12_VIEWPORT viewport{};	//ビューポート
 	D3D12_RECT scissorRect{};	//シザー矩形
 
+	Microsoft::WRL::ComPtr < ID3D12Resource> depthStencilResource = nullptr;
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvhandle;
 	uint32_t srvHandle;
 
