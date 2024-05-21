@@ -41,6 +41,8 @@ public:
 		PSOData sprite;
 		PSOData particle;
 		PSOData copyImage;
+		PSOData grayscale;
+		PSOData vignette;
 	};
 
 
@@ -74,7 +76,7 @@ private:
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};	//DepthStensilStateの設定
 
 	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
-	
+
 	PsoMember psoMember;
 
 	//静的メンバ変数の宣言と初期化
@@ -82,11 +84,13 @@ private:
 
 private:
 
-	
+
 	PSOData CreateObject3D(const std::wstring& filePath);
 	PSOData CreateSprite(const std::wstring& filePath);
 	PSOData CreateParticle(const std::wstring& filePath);
 	PSOData CreateCopyImage(const std::wstring& filePath);
+	PSOData CreateGrayScale(const std::wstring& filePath);
+	PSOData CreateVignette(const std::wstring& filePath);
 
 	/// <summary>
 	/// 全体のPSO生成関数
@@ -97,8 +101,24 @@ private:
 	/// <returns>PSOData</returns>
 	GraphicsPipelineManager::PSOData CreateCommonPSO
 	(
-		const std::wstring& filePath, 
-		D3D12_ROOT_PARAMETER* rootParameters, 
+		const std::wstring& filePath,
+		D3D12_ROOT_PARAMETER* rootParameters,
+		int numRootParameters,
+		D3D12_DEPTH_STENCIL_DESC depthStencilDesc,
+		D3D12_INPUT_LAYOUT_DESC inputLayoutDesc
+	);
+
+	/// <summary>
+	/// ポストエフェクト用のPSO生成関数
+	/// </summary>
+	/// <param name="filePath">シェーダーファイル</param>
+	/// <param name="rootParameters">ルートパラメータ</param>
+	/// <param name="numRootParameters">ルートパラメーターの配列数</param>
+	/// <returns>PSOData</returns>
+	GraphicsPipelineManager::PSOData CreateCommonPostEffectPSO
+	(
+		const std::wstring& filePath,
+		D3D12_ROOT_PARAMETER* rootParameters,
 		int numRootParameters,
 		D3D12_DEPTH_STENCIL_DESC depthStencilDesc,
 		D3D12_INPUT_LAYOUT_DESC inputLayoutDesc

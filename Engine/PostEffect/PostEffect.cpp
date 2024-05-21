@@ -71,8 +71,8 @@ void PostEffect::Draw()
 {
 
 	//コピー処理
-	dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetPsoMember().copyImage.rootSignature.Get());
-	dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPsoMember().copyImage.graphicPipelineState.Get());
+	dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetPsoMember().vignette.rootSignature.Get());
+	dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPsoMember().vignette.graphicPipelineState.Get());
 	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, srvManager->GetGPUDescriptorHandle(srvHandle));
 	////頂点３つ描画
 	dxCommon->GetCommandList()->DrawInstanced(3, 1, 0, 0);
