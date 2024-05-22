@@ -44,6 +44,7 @@ public:
 		PSOData grayscale;
 		PSOData vignette;
 		PSOData boxFilter;
+		PSOData gaussianFilter;
 	};
 
 
@@ -93,6 +94,7 @@ private:
 	PSOData CreateGrayScale(const std::wstring& filePath);
 	PSOData CreateVignette(const std::wstring& filePath);
 	PSOData CreateBoxFilter(const std::wstring& filePath);
+	PSOData CreateGaussianFilter(const std::wstring& filePath);
 
 	/// <summary>
 	/// 全体のPSO生成関数
