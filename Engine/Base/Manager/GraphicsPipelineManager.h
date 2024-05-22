@@ -43,6 +43,7 @@ public:
 		PSOData copyImage;
 		PSOData grayscale;
 		PSOData vignette;
+		PSOData boxFilter;
 	};
 
 
@@ -91,6 +92,7 @@ private:
 	PSOData CreateCopyImage(const std::wstring& filePath);
 	PSOData CreateGrayScale(const std::wstring& filePath);
 	PSOData CreateVignette(const std::wstring& filePath);
+	PSOData CreateBoxFilter(const std::wstring& filePath);
 
 	/// <summary>
 	/// 全体のPSO生成関数

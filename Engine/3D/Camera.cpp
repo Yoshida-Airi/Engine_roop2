@@ -9,7 +9,7 @@ void Camera::Initialize()
 	{
 		{1.0f,1.0f,1.0f},
 		{0.0f,0.0f,0.0f},
-		{0.0f,0.0f,-10.0f}
+		{0.0f,0.0f,-50.0f}
 	};
 
 	CreateConstBuffer();

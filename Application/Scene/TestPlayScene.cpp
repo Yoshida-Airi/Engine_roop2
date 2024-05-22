@@ -14,8 +14,8 @@ void TestPlayScene::Initialize()
 
 
 	model.reset(Model::Create("Resources/SampleAssets/AnimatedCube/AnimatedCube.gltf"));
-	model2.reset(Model::Create("Resources/SampleAssets/cube.obj"));
-	model2->GetWorldTransform()->translation_.x = 5.0f;
+	model2.reset(Model::Create("Resources/SampleAssets/terrain.obj"));
+	model2->GetWorldTransform()->translation_.y = -5.0f;
 }
 
 void TestPlayScene::Update()

@@ -23,6 +23,7 @@ void GraphicsPipelineManager::Initialize()
 	psoMember.copyImage = CreateCopyImage(L"FullScreen");
 	psoMember.grayscale = CreateGrayScale(L"Grayscale");
 	psoMember.vignette = CreateGrayScale(L"Vignette");
+	psoMember.boxFilter = CreateGrayScale(L"BoxFilter");
 }
 
 
@@ -340,6 +341,46 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateGrayScale(const 
 }
 
 GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateVignette(const std::wstring& filePath)
+{
+	PSOData psoData;
+
+	//ディスクリプタレンジ
+	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
+	descriptorRangeForInstancing[0].BaseShaderRegister = 0;	//0から始まる
+	descriptorRangeForInstancing[0].NumDescriptors = 1;
+	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+
+	D3D12_ROOT_PARAMETER rootParameters[1] = {};
+
+
+	//テクスチャ
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
+	rootParameters[0].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
+
+
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
+	//Depthの機能を有効化する
+	depthStencilDesc.DepthEnable = false;
+
+	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
+
+
+	inputLayoutDesc.pInputElementDescs = nullptr;
+	inputLayoutDesc.NumElements = 0;
+
+	SetupBlendState(kBlendModeNone);
+
+	psoData = CreateCommonPostEffectPSO(filePath, rootParameters, 1, depthStencilDesc, inputLayoutDesc);
+
+
+	return psoData;
+}
+
+GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateBoxFilter(const std::wstring& filePath)
 {
 	PSOData psoData;
 
