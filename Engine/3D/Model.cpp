@@ -28,6 +28,7 @@ void Model::Initialize(const std::string& filename)
 
 	animation = animation_->LoadAnimationFile(filename);
 	skelton = animation_->CreateSkelton(modelData_.rootNode);
+	skinCluster = CreateSkinCluster(dxCommon_->GetDevice(), skelton, modelData_);
 
 
 	VertexBuffer();
@@ -89,6 +90,7 @@ void Model::Update()
 		animation_->ApplyAnimation(skelton, animation, animationTime);
 		animation_->Update(skelton);
 
+		UpdateSkinCluster(skinCluster, skelton);
 
 		animationTime = std::fmod(animationTime, animation.duration);
 		NodeAnimation& rootNodeAnimation = animation.nodeAnimations[modelData_.rootNode.name];
@@ -185,17 +187,19 @@ void Model::Parent(Model* model)
 	this->worldTransform_->parent_ = model->worldTransform_;
 }
 
-SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData, const Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& descriptorHeap, uint32_t descriptorSize)
+SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData)
 {
 	SkinCluster skinCluster;
+	uint32_t srvHandle;
+	srvHandle = srvManager_->GetInstance()->Allocate();
 
 	//palette用のresourceを確保
 	skinCluster.palatteResource = dxCommon_->CreateBufferResource(sizeof(WellForGPU) * skeleton.joints.size());
 	WellForGPU* mappedPalette = nullptr;
 	skinCluster.palatteResource->Map(0, nullptr, reinterpret_cast<void**>(&mappedPalette));
 	skinCluster.mappedPalette = { mappedPalette,skeleton.joints.size() };	//spanを使ってアクセス
-	skinCluster.paletteSrvHandle.first = texture_->GetCPUDescriptorHandle(descriptorHeap, descriptorSize, 100);
-	skinCluster.paletteSrvHandle.second = texture_->GetGPUDescriptorHandle(descriptorHeap, descriptorSize, 100);
+	skinCluster.paletteSrvHandle.first = srvManager_->GetInstance()->GetCPUDescriptorHandle(srvHandle);
+	skinCluster.paletteSrvHandle.second = srvManager_->GetInstance()->GetGPUDescriptorHandle(srvHandle);
 
 	//palette用のsrvを作成
 	D3D12_SHADER_RESOURCE_VIEW_DESC paletteSrvDesc{};
@@ -328,5 +332,15 @@ void Model::IndexBuffer()
 	//インデックスリソースにデータを書き込む
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 	std::memcpy(indexData_, modelData_.indices.data(), sizeof(uint32_t) * modelData_.indices.size());
+}
+
+void Model::UpdateSkinCluster(SkinCluster& skinCluster, const Skeleton& skeleton)
+{
+	for (size_t jointIndex = 0; jointIndex < skeleton.joints.size(); ++jointIndex)
+	{
+		assert(jointIndex < skinCluster.inverseBindPoseMatrices.size());
+		skinCluster.mappedPalette[jointIndex].skeltonSpaceMatrix = Multiply(skinCluster.inverseBindPoseMatrices[jointIndex], skeleton.joints[jointIndex].sleletonSpaceMatrix);
+		skinCluster.mappedPalette[jointIndex].skeltonSpaceInverseTransposeMatrix = Transpose(Inverse(skinCluster.mappedPalette[jointIndex].skeltonSpaceMatrix));
+	}
 }
 

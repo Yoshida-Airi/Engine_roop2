@@ -8,6 +8,7 @@
 #include"Camera.h"
 #include"ModelData.h"
 #include"Animation.h"
+#include"SrvManager.h"
 #include<span>
 
 const uint32_t kNumMaxInfluence = 4;
@@ -84,7 +85,7 @@ public:
 	/// <param name="descriptorHeap"></param>
 	/// <param name="descriptorSize"></param>
 	/// <returns></returns>
-	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData, const Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>& descriptorHeap, uint32_t descriptorSize);
+	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData);
 
 	void ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeltion);
 
@@ -94,6 +95,7 @@ private:
 	TextureManager* texture_;
 	ModelLoader* modelLoader_;
 	Animation* animation_;
+	SrvManager* srvManager_;
 
 	WorldTransform* worldTransform_;
 
@@ -119,6 +121,7 @@ private:
 
 	AnimationData animation;
 	Skeleton skelton;
+	SkinCluster skinCluster;
 	float animationTime = 0.0f;
 	
 private:
@@ -140,5 +143,7 @@ private:
 
 	void IndexBuffer();
 
+
+	void UpdateSkinCluster(SkinCluster& skinCluster, const Skeleton& skeleton);
 };
 
