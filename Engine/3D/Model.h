@@ -107,6 +107,8 @@ private:
 	Microsoft::WRL::ComPtr < ID3D12Resource> indexResource_;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
+
+
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_{};
 

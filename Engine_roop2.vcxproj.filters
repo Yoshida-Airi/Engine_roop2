@@ -19,10 +19,10 @@
     <FxCompile Include="Resources\Shaders\Particle.PS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="SkinningObject3d.PS.hlsl">
+    <FxCompile Include="Resources\Shaders\SkinningObject3d.PS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="SkinningObject3d.VS.hlsl">
+    <FxCompile Include="Resources\Shaders\SkinningObject3d.VS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
   </ItemGroup>
@@ -282,7 +282,7 @@
     <None Include="Resources\Shaders\Particle.hlsli">
       <Filter>リソース ファイル\Shader</Filter>
     </None>
-    <None Include="SkinningObject3d.hlsli">
+    <None Include="Resources\Shaders\SkinningObject3d.hlsli">
       <Filter>リソース ファイル\Shader</Filter>
     </None>
   </ItemGroup>

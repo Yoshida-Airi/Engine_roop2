@@ -16,6 +16,7 @@ void Model::Initialize(const std::string& filename)
 	texture_ = TextureManager::GetInstance();
 	modelLoader_ = ModelLoader::GetInstance();
 	animation_ = Animation::GetInstance();
+	srvManager_ = SrvManager::GetInstance();
 
 	worldTransform_ = new WorldTransform();
 	worldTransform_->Initialize();
@@ -46,6 +47,7 @@ void Model::Initialize(const std::string& filename)
 	lightData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	lightData_->direction = { -1.0f,-1.0f,1.0f };
 	lightData_->intensity = 1.0f;
+
 
 }
 
@@ -90,7 +92,7 @@ void Model::Update()
 		animation_->ApplyAnimation(skelton, animation, animationTime);
 		animation_->Update(skelton);
 
-		UpdateSkinCluster(skinCluster, skelton);
+		ClasterUpdate(skinCluster, skelton);
 
 		animationTime = std::fmod(animationTime, animation.duration);
 		NodeAnimation& rootNodeAnimation = animation.nodeAnimations[modelData_.rootNode.name];
@@ -119,12 +121,18 @@ void Model::Draw(Camera* camera)
 		return;
 	}
 
+	D3D12_VERTEX_BUFFER_VIEW vbvs[2] =
+	{
+		vertexBufferView_,
+		skinCluster.influenceBufferView
+	};
 
-	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().object3D.rootSignature.Get());
-	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().object3D.graphicPipelineState.Get());
+
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().skinningObject3D.rootSignature.Get());
+	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().skinningObject3D.graphicPipelineState.Get());
 
 	//VBVを設定
-	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
+	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 2, vbvs);
 	//index
 	dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferView_);
 	//形状を設定。PS0にせっていしているものとはまた別。同じものを設定する
@@ -139,6 +147,11 @@ void Model::Draw(Camera* camera)
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetSrvGPUHandle(textureHandle_));
 	//ライト用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, lightResource_->GetGPUVirtualAddress());
+	
+	//weight用のCBufferの場所を設定
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(5, skinCluster.paletteSrvHandle.second);
+
+	
 	//描画
 	//dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData_.vertices.size()), 1, 0, 0);
 	dxCommon_->GetCommandList()->DrawIndexedInstanced(UINT(modelData_.indices.size()), 1, 0, 0, 0);
@@ -191,15 +204,19 @@ SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>&
 {
 	SkinCluster skinCluster;
 	uint32_t srvHandle;
-	srvHandle = srvManager_->GetInstance()->Allocate();
+	srvHandle = srvManager_->Allocate();
+	
 
 	//palette用のresourceを確保
 	skinCluster.palatteResource = dxCommon_->CreateBufferResource(sizeof(WellForGPU) * skeleton.joints.size());
 	WellForGPU* mappedPalette = nullptr;
 	skinCluster.palatteResource->Map(0, nullptr, reinterpret_cast<void**>(&mappedPalette));
 	skinCluster.mappedPalette = { mappedPalette,skeleton.joints.size() };	//spanを使ってアクセス
-	skinCluster.paletteSrvHandle.first = srvManager_->GetInstance()->GetCPUDescriptorHandle(srvHandle);
-	skinCluster.paletteSrvHandle.second = srvManager_->GetInstance()->GetGPUDescriptorHandle(srvHandle);
+	skinCluster.paletteSrvHandle.first = srvManager_->GetCPUDescriptorHandle(srvHandle);
+	skinCluster.paletteSrvHandle.second = srvManager_->GetGPUDescriptorHandle(srvHandle);
+
+	//srvManager_->CreateSRVforStructuredBuffer(srvHandle, skinCluster.palatteResource.Get(), UINT(skeleton.joints.size()), WellForGPU);
+
 
 	//palette用のsrvを作成
 	D3D12_SHADER_RESOURCE_VIEW_DESC paletteSrvDesc{};
@@ -261,6 +278,7 @@ SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>&
 	}
 
 
+
 	return skinCluster;
 
 }
@@ -276,6 +294,8 @@ void Model::ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeleton)
 		skinCluster.mappedPalette[jointIndex].skeltonSpaceInverseTransposeMatrix =
 			Transpose(Inverse(skinCluster.mappedPalette[jointIndex].skeltonSpaceMatrix));
 	}
+
+
 }
 
 
@@ -287,6 +307,7 @@ void Model::ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeleton)
 
 void Model::VertexBuffer()
 {
+
 	//頂点用リソースを作る
 	vertexResource_ = dxCommon_->CreateBufferResource(sizeof(VertexData) * modelData_.vertices.size());
 	//リソースの先頭のアドレスから使う

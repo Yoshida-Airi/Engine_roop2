@@ -18,6 +18,7 @@ void GraphicsPipelineManager::Initialize()
 	SetupRasterrizerState();
 
 	psoMember.object3D = CreateObject3D(L"Object3D");
+	psoMember.skinningObject3D = CreateSkinningObject3D(L"SkinningObject3d");
 	psoMember.sprite = CreateSprite(L"Sprite");
 	psoMember.particle = CreateParticle(L"Particle");
 
@@ -98,15 +99,115 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateObject3D(const s
 	inputLayoutDesc.NumElements = _countof(inputElementDescs);
 
 	SetupBlendState(kBlendModeNormal);
-	
+
 	psoData = CreateCommonPSO(filePath, rootParameters, 5, depthStencilDesc, inputLayoutDesc);
+
+	return psoData;
+}
+
+GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateSkinningObject3D(const std::wstring& filePath)
+{
+	PSOData psoData;
+
+	//ディスクリプタレンジ
+	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
+	descriptorRange[0].BaseShaderRegister = 0;	//0から始まる
+	descriptorRange[0].NumDescriptors = 1;
+	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	//ルートパラメータの利用数
+	const int numRootParameters = 6;
+
+	D3D12_ROOT_PARAMETER rootParameters[numRootParameters] = {};
+
+	//色
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[0].Descriptor.ShaderRegister = 0;
+
+	//WVP
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	rootParameters[1].Descriptor.ShaderRegister = 0;
+
+	//カメラ
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	rootParameters[2].Descriptor.ShaderRegister = 1;
+
+	//テクスチャ
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[3].DescriptorTable.pDescriptorRanges = descriptorRange;
+	rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);
+
+	//ライト
+	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[4].Descriptor.ShaderRegister = 1;
+
+	//Palette
+	rootParameters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	rootParameters[5].DescriptorTable.pDescriptorRanges = descriptorRange;
+	rootParameters[5].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);
+
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
+	//Depthの機能を有効化する
+	depthStencilDesc.DepthEnable = true;
+	//書き込みします
+	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	//比較関数はLessEqual。つまり、近ければ描画される
+	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+
+	D3D12_INPUT_ELEMENT_DESC inputElementDescs[6] = {};
+	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
+	inputElementDescs[0].SemanticName = "POSITION";
+	inputElementDescs[0].SemanticIndex = 0;
+	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[1].SemanticName = "TEXCOORD";
+	inputElementDescs[1].SemanticIndex = 0;
+	inputElementDescs[1].Format = DXGI_FORMAT_R32G32_FLOAT;
+	inputElementDescs[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[2].SemanticName = "NORMAL";
+	inputElementDescs[2].SemanticIndex = 0;
+	inputElementDescs[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	inputElementDescs[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[3].SemanticName = "WPOSITION";
+	inputElementDescs[3].SemanticIndex = 0;
+	inputElementDescs[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	inputElementDescs[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[4].SemanticName = "WEIGHT";
+	inputElementDescs[4].SemanticIndex = 0;
+	inputElementDescs[4].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	inputElementDescs[4].InputSlot = 1;	//1番目のslotのVBVのことだと伝える
+	inputElementDescs[4].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputElementDescs[5].SemanticName = "INDEX";
+	inputElementDescs[5].SemanticIndex = 0;
+	inputElementDescs[5].Format = DXGI_FORMAT_R32G32B32A32_SINT;
+	inputElementDescs[5].InputSlot = 1;	//1番目のslotのVBVのことだと伝える
+	inputElementDescs[5].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+	inputLayoutDesc.pInputElementDescs = inputElementDescs;
+	inputLayoutDesc.NumElements = _countof(inputElementDescs);
+
+	SetupBlendState(kBlendModeNormal);
+
+	psoData = CreateCommonPSO(filePath, rootParameters, numRootParameters, depthStencilDesc, inputLayoutDesc);
 
 	return psoData;
 }
 
 GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateSprite(const std::wstring& filePath)
 {
-	
+
 	PSOData psoData;
 
 	//ディスクリプタレンジ
@@ -171,7 +272,7 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateSprite(const std
 
 	SetupBlendState(kBlendModeNormal);
 
-	psoData = CreateCommonPSO(filePath, rootParameters, 4, depthStencilDesc,inputLayoutDesc);
+	psoData = CreateCommonPSO(filePath, rootParameters, 4, depthStencilDesc, inputLayoutDesc);
 
 	return psoData;
 }
@@ -252,7 +353,7 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateParticle(const s
 
 	SetupBlendState(kBlendModeAdd);
 
-	psoData = CreateCommonPSO(filePath, rootParameters, 5, depthStencilDesc,inputLayoutDesc);
+	psoData = CreateCommonPSO(filePath, rootParameters, 5, depthStencilDesc, inputLayoutDesc);
 
 	return psoData;
 }
@@ -317,7 +418,7 @@ void GraphicsPipelineManager::SetupBlendState(BlendMode blendMode)
 		blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
 		blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 		break;
-	
+
 	case kBlendModeMultily:	//乗算
 		blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 		blendDesc.RenderTarget[0].BlendEnable = TRUE;
@@ -400,6 +501,9 @@ IDxcBlob* GraphicsPipelineManager::CompileShader
 		filePath.c_str(),//コンパイル対象のhlslファイル名
 		L"-E",L"main",	 //エントリーポイントの指定。基本的にmain以外にはしない
 		L"-T",profile,	 //ShaderProfileの設定
+#ifdef _DEBUG
+		L"-Zi",L"-Qembed_debug",
+#endif // DEBUG
 		L"-Od",			 //最適化をはずしておく
 		L"-Zpr",		 //メモリアウトは行優先
 	};
