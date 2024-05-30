@@ -99,7 +99,7 @@ ModelData ModelLoader::LoadModelFile(const std::string& filename)
 			//Weight情報を取り出す
 			for (uint32_t weightIndex = 0; weightIndex < bone->mNumWeights; ++weightIndex)
 			{
-				jointWeigthData.vertexWeight.push_back({ bone->mWeights[weightIndex].mWeight,bone->mWeights[weightIndex].mVertexId });
+				jointWeigthData.vertexWeights.push_back({ bone->mWeights[weightIndex].mWeight,bone->mWeights[weightIndex].mVertexId });
 			}
 
 		}

@@ -151,6 +151,7 @@ Skeleton Animation::CreateSkelton(const Node& rootNode)
 		skeleton.jointmap.emplace(joint.name, joint.index);
 	}
 
+
 	return skeleton;
 }
 

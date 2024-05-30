@@ -94,15 +94,16 @@ void Model::Update()
 
 		ClasterUpdate(skinCluster, skelton);
 
-		animationTime = std::fmod(animationTime, animation.duration);
-		NodeAnimation& rootNodeAnimation = animation.nodeAnimations[modelData_.rootNode.name];
-		Vector3 translate = animation_->CalculateValue(rootNodeAnimation.translate.Keyframes, animationTime);
-		Quaternion rotate = animation_->CalculateValue(rootNodeAnimation.rotate.Keyframes, animationTime);
-		Vector3 scale = animation_->CalculateValue(rootNodeAnimation.scale.Keyframes, animationTime);
-		Matrix4x4 localMatrix = MakeAffinMatrix(scale, rotate, translate);
+		//animationTime = std::fmod(animationTime, animation.duration);
+		//NodeAnimation& rootNodeAnimation = animation.nodeAnimations[modelData_.rootNode.name];
+		//Vector3 translate = animation_->CalculateValue(rootNodeAnimation.translate.Keyframes, animationTime);
+		//Quaternion rotate = animation_->CalculateValue(rootNodeAnimation.rotate.Keyframes, animationTime);
+		//Vector3 scale = animation_->CalculateValue(rootNodeAnimation.scale.Keyframes, animationTime);
+		//Matrix4x4 localMatrix = MakeAffinMatrix(scale, rotate, translate);
 
-		worldTransform_->matWorld_ = Multiply(localMatrix, worldTransform_->matWorld_);
+		//worldTransform_->matWorld_ = Multiply(localMatrix, worldTransform_->matWorld_);
 		worldTransform_->TransferMatrix();
+		worldTransform_->UpdateWorldMatrix();
 
 		
 	}
@@ -204,7 +205,7 @@ SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>&
 {
 	SkinCluster skinCluster;
 	uint32_t srvHandle;
-	srvHandle = srvManager_->Allocate();
+	srvHandle = srvManager_->Allocate() + 1;
 	
 
 	//palette用のresourceを確保
@@ -261,7 +262,7 @@ SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>&
 
 		//該当のIndexのinverseBindPoseMatrixを代入
 		skinCluster.inverseBindPoseMatrices[(*it).second] = jointWeight.second.inverseBindPoseMatrix;
-		for (const auto& vertexWeight : jointWeight.second.vertexWeight)
+		for (const auto& vertexWeight : jointWeight.second.vertexWeights)
 		{
 			auto& currentInfluence = skinCluster.mappedInfluence[vertexWeight.vertexIndex];	//該当のvertexIndexのinfluence情報を参照
 			for (uint32_t index = 0; index < kNumMaxInfluence; ++index)
@@ -288,11 +289,33 @@ void Model::ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeleton)
 	for (size_t jointIndex = 0; jointIndex < skeleton.joints.size(); ++jointIndex)
 	{
 		assert(jointIndex < skinCluster.inverseBindPoseMatrices.size());
-		skinCluster.mappedPalette[jointIndex].skeltonSpaceMatrix =
-			Multiply(skinCluster.inverseBindPoseMatrices[jointIndex], skeleton.joints[jointIndex].sleletonSpaceMatrix);
 
-		skinCluster.mappedPalette[jointIndex].skeltonSpaceInverseTransposeMatrix =
-			Transpose(Inverse(skinCluster.mappedPalette[jointIndex].skeltonSpaceMatrix));
+		// 行列の乗算
+		Matrix4x4 skeletonSpaceMatrix = Multiply(skinCluster.inverseBindPoseMatrices[jointIndex], skeleton.joints[jointIndex].sleletonSpaceMatrix);
+		for (int i = 0; i < 4; ++i) {
+			for (int j = 0; j < 4; ++j) {
+				assert(!isnan(skeletonSpaceMatrix.m[i][j]) && !isinf(skeletonSpaceMatrix.m[i][j]));
+			}
+		}
+
+		// 逆行列と転置
+		Matrix4x4 inverseMatrix = Inverse(skeletonSpaceMatrix);
+		for (int i = 0; i < 4; ++i) {
+			for (int j = 0; j < 4; ++j) {
+				assert(!isnan(inverseMatrix.m[i][j]) && !isinf(inverseMatrix.m[i][j]));
+			}
+		}
+
+		Matrix4x4 transposeMatrix = Transpose(inverseMatrix);
+		for (int i = 0; i < 4; ++i) {
+			for (int j = 0; j < 4; ++j) {
+				assert(!isnan(transposeMatrix.m[i][j]) && !isinf(transposeMatrix.m[i][j]));
+			}
+		}
+
+		// パレットに設定
+		skinCluster.mappedPalette[jointIndex].skeletonSpaceMatrix = skeletonSpaceMatrix;
+		skinCluster.mappedPalette[jointIndex].skeletonSpaceInverseTransposeMatrix = transposeMatrix;
 	}
 
 
@@ -354,14 +377,3 @@ void Model::IndexBuffer()
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 	std::memcpy(indexData_, modelData_.indices.data(), sizeof(uint32_t) * modelData_.indices.size());
 }
-
-void Model::UpdateSkinCluster(SkinCluster& skinCluster, const Skeleton& skeleton)
-{
-	for (size_t jointIndex = 0; jointIndex < skeleton.joints.size(); ++jointIndex)
-	{
-		assert(jointIndex < skinCluster.inverseBindPoseMatrices.size());
-		skinCluster.mappedPalette[jointIndex].skeltonSpaceMatrix = Multiply(skinCluster.inverseBindPoseMatrices[jointIndex], skeleton.joints[jointIndex].sleletonSpaceMatrix);
-		skinCluster.mappedPalette[jointIndex].skeltonSpaceInverseTransposeMatrix = Transpose(Inverse(skinCluster.mappedPalette[jointIndex].skeltonSpaceMatrix));
-	}
-}
-
