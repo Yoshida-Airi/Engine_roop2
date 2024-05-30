@@ -13,7 +13,7 @@ void TestPlayScene::Initialize()
 	camera->Initialize();
 
 
-	model.reset(Model::Create("Resources/SampleAssets/simpleSkin.gltf"));
+	model.reset(Model::Create("Resources/SampleAssets/human/walk.gltf"));
 	//model->UseAnimation(false);
 	//model2.reset(Model::Create("Resources/SampleAssets/cube.obj"));
 	//model2->GetWorldTransform()->translation_.x = 5.0f;
