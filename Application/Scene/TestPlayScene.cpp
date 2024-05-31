@@ -15,15 +15,15 @@ void TestPlayScene::Initialize()
 
 	model.reset(Model::Create("Resources/SampleAssets/human/walk.gltf"));
 	//model->UseAnimation(false);
-	//model2.reset(Model::Create("Resources/SampleAssets/cube.obj"));
-	//model2->GetWorldTransform()->translation_.x = 5.0f;
+	model2.reset(Model::Create("Resources/SampleAssets/cube.obj"));
+	model2->GetWorldTransform()->translation_.x = 5.0f;
 }
 
 void TestPlayScene::Update()
 {
 	camera->CameraDebug();
 	model->Update();
-	//model2->Update();
+	model2->Update();
 
 	model->ModelDebug("model");
 
@@ -33,6 +33,6 @@ void TestPlayScene::Update()
 void TestPlayScene::Draw()
 {
 	model->Draw(camera);
-	//model2->Draw(camera);
+	model2->Draw(camera);
 }
 

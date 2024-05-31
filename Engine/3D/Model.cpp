@@ -28,9 +28,12 @@ void Model::Initialize(const std::string& filename)
 
 
 	animation = animation_->LoadAnimationFile(filename);
-	skelton = animation_->CreateSkelton(modelData_.rootNode);
-	skinCluster = CreateSkinCluster(dxCommon_->GetDevice(), skelton, modelData_);
 
+	if (animation.isValid == true)
+	{
+		skelton = animation_->CreateSkelton(modelData_.rootNode);
+		skinCluster = CreateSkinCluster(dxCommon_->GetDevice(), skelton, modelData_);
+	}
 
 	VertexBuffer();
 	MaterialBuffer();
@@ -122,18 +125,33 @@ void Model::Draw(Camera* camera)
 		return;
 	}
 
-	D3D12_VERTEX_BUFFER_VIEW vbvs[2] =
+	if (animation.isValid == true)
 	{
-		vertexBufferView_,
-		skinCluster.influenceBufferView
-	};
+		D3D12_VERTEX_BUFFER_VIEW vbvs[2] =
+		{
+			vertexBufferView_,
+			skinCluster.influenceBufferView
+		};
 
 
-	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().skinningObject3D.rootSignature.Get());
-	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().skinningObject3D.graphicPipelineState.Get());
+		dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().skinningObject3D.rootSignature.Get());
+		dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().skinningObject3D.graphicPipelineState.Get());
 
-	//VBVを設定
-	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 2, vbvs);
+		//VBVを設定
+		dxCommon_->GetCommandList()->IASetVertexBuffers(0, 2, vbvs);
+	}
+
+	if (animation.isValid == false)
+	{
+		dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().object3D.rootSignature.Get());
+		dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().object3D.graphicPipelineState.Get());
+
+		//VBVを設定
+		dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
+	}
+
+
+
 	//index
 	dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferView_);
 	//形状を設定。PS0にせっていしているものとはまた別。同じものを設定する
@@ -149,9 +167,11 @@ void Model::Draw(Camera* camera)
 	//ライト用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, lightResource_->GetGPUVirtualAddress());
 	
-	//weight用のCBufferの場所を設定
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(5, skinCluster.paletteSrvHandle.second);
-
+	if (animation.isValid == true)
+	{
+		//weight用のCBufferの場所を設定
+		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(5, skinCluster.paletteSrvHandle.second);
+	}
 	
 	//描画
 	//dxCommon_->GetCommandList()->DrawInstanced(UINT(modelData_.vertices.size()), 1, 0, 0);
@@ -205,7 +225,7 @@ SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>&
 {
 	SkinCluster skinCluster;
 	uint32_t srvHandle;
-	srvHandle = srvManager_->Allocate() + 1;
+	srvHandle = srvManager_->Allocate();
 	
 
 	//palette用のresourceを確保
