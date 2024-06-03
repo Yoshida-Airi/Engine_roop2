@@ -1,6 +1,7 @@
 #pragma once
 #include"BaseScene.h"
 
+#include"Animation.h"
 #include"Model.h"
 #include"Camera.h"
 
@@ -22,6 +23,8 @@ private:
 	std::unique_ptr<Model> model2 = nullptr;
 	std::unique_ptr<Model> model3 = nullptr;
 	std::unique_ptr<Model> model4 = nullptr;
+
+	AnimationData walkAnimation;
 
 
 

@@ -12,13 +12,16 @@ void TestPlayScene::Initialize()
 	camera = new Camera;
 	camera->Initialize();
 
+	walkAnimation = Animation::GetInstance()->LoadAnimationFile("Resources/SampleAssets/human/walk.gltf");
 
 	model.reset(Model::Create("Resources/SampleAssets/human/walk.gltf"));
+	//model->SetAnimation(walkAnimation);
 	//model->UseAnimation(false);
 	model2.reset(Model::Create("Resources/SampleAssets/cube.obj"));
 	model2->GetWorldTransform()->translation_.x = 5.0f;
 
 	model3.reset(Model::Create("Resources/SampleAssets/human/sneakWalk.gltf"));
+	model3->SetAnimation(walkAnimation);
 
 	model4.reset(Model::Create("Resources/SampleAssets/simpleSkin.gltf"));
 

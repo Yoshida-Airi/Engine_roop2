@@ -89,6 +89,11 @@ public:
 
 	void ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeltion);
 
+	void SetAnimation(AnimationData animationData)
+	{
+		animation = animationData;
+	}
+
 private:
 	DirectXCommon* dxCommon_;
 	GraphicsPipelineManager* psoManager_;
