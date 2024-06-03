@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include<map>
+#include<array>
 #include"VectorMath.h"
 #include"MathUtilty.h"
 #include<vector>
@@ -41,6 +42,7 @@ struct AnimationData
 {
 	bool isValid;	//アニメーションデータが存在しているかどうか
 	float duration;	//アニメーション全体の尺（秒
+	std::string filename{};
 	//NodeAnimationの集合。Node名でひけるように
 	std::map<std::string, NodeAnimation>nodeAnimations;
 
@@ -88,6 +90,11 @@ public:
 	void ApplyAnimation(Skeleton& skelton, const AnimationData& animationData, float animationTime);
 
 private:
+
+	static const size_t kMaxAnimation = 256;	//最大モデル数
+	std::array<AnimationData, kMaxAnimation> animationDatas;
+	bool isUsedAnimation[kMaxAnimation] = { false };
+
 	static Animation* instance;
 
 };

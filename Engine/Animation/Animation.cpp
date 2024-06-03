@@ -33,7 +33,25 @@ void Animation::Update(Skeleton& skelton)
 //アニメーションファイル読み込み
 AnimationData Animation::LoadAnimationFile(const std::string& filename)
 {
-	AnimationData animation;	//今回作るアニメーション
+	uint32_t index = 0;
+	//AnimationData animation;	//今回作るアニメーション
+
+	for (int i = 0; i < kMaxAnimation; i++)
+	{
+		//同じモデルがあった場合
+		if (animationDatas[i].filename == filename)
+		{
+			return animationDatas[i];
+		}
+
+		if (isUsedAnimation[i] == false) {
+			index = i;
+			isUsedAnimation[i] = true;
+			animationDatas.at(index).filename = filename;
+			break;
+		}
+	}
+
 
 	Assimp::Importer importer;
 	std::string filePath = filename;
@@ -41,22 +59,23 @@ AnimationData Animation::LoadAnimationFile(const std::string& filename)
 
 	if (scene->mNumAnimations == 0)//アニメーションがない
 	{
-		animation.isValid = false;
-		return animation;
+		animationDatas.at(index).isValid = false;
+		return animationDatas[index];
 	}
 	else
 	{
-		animation.isValid = true;
+		animationDatas.at(index).isValid = true;
 	}
 
 	aiAnimation* animationAssimp = scene->mAnimations[0];	//最初のアニメーションだけ採用
-	animation.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	//時間の単位を病に変換
+	animationDatas.at(index).duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	//時間の単位を病に変換
+
 
 	//NodeAnimationを解析
 	for (uint32_t channelIndex = 0; channelIndex < animationAssimp->mNumChannels; ++channelIndex)
 	{
 		aiNodeAnim* nodeAnimationAssimp = animationAssimp->mChannels[channelIndex];
-		NodeAnimation& nodeAnimation = animation.nodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
+		NodeAnimation& nodeAnimation = animationDatas.at(index).nodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
 
 		//translate
 		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex)
@@ -92,7 +111,7 @@ AnimationData Animation::LoadAnimationFile(const std::string& filename)
 
 	}
 
-	return animation;
+	return animationDatas[index];
 }
 
 
