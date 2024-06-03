@@ -20,7 +20,7 @@ void TestPlayScene::Initialize()
 	model2.reset(Model::Create("Resources/SampleAssets/cube.obj"));
 	model2->GetWorldTransform()->translation_.x = 5.0f;
 
-	model3.reset(Model::Create("Resources/SampleAssets/human/walk.gltf"));
+	model3.reset(Model::Create("Resources/SampleAssets/human/sneakWalk.gltf"));
 	//model3->SetAnimation(walkAnimation);
 
 	model4.reset(Model::Create("Resources/SampleAssets/simpleSkin.gltf"));
@@ -36,6 +36,8 @@ void TestPlayScene::Update()
 	model4->Update();
 
 	model->ModelDebug("model");
+	model2->ModelDebug("cube");
+	model3->ModelDebug("walk");
 	model4->ModelDebug("simpleSkin");
 
 	
