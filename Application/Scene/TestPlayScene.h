@@ -20,6 +20,8 @@ private:
 
 	std::unique_ptr<Model> model = nullptr;
 	std::unique_ptr<Model> model2 = nullptr;
+	std::unique_ptr<Model> model3 = nullptr;
+	std::unique_ptr<Model> model4 = nullptr;
 
 
 
