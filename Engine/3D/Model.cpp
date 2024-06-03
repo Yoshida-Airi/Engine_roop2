@@ -90,6 +90,7 @@ void Model::Update()
 	if (animation.isValid == true)
 	{
 		animationTime += 1.0f / 60.0f;
+		animationTime = std::fmod(animationTime, animation.duration);
 
 		//スケルトンに適用
 		animation_->ApplyAnimation(skelton, animation, animationTime);
