@@ -44,6 +44,7 @@ public:
 		PSOData grayscale;
 		PSOData vignette;
 		PSOData boxFilter;
+		PSOData boxFilter5x5;
 		PSOData gaussianFilter;
 	};
 

@@ -24,6 +24,7 @@ void GraphicsPipelineManager::Initialize()
 	psoMember.grayscale = CreateGrayScale(L"Grayscale");
 	psoMember.vignette = CreateVignette(L"Vignette");
 	psoMember.boxFilter = CreateBoxFilter(L"BoxFilter");
+	psoMember.boxFilter5x5 = CreateBoxFilter(L"BoxFilter5x5");
 	psoMember.gaussianFilter = CreateGaussianFilter(L"GaussianFilter");
 }
 
