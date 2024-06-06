@@ -76,19 +76,7 @@ public:
 
 	WorldTransform* GetWorldTransform()const { return worldTransform_; };
 
-	/// <summary>
-	/// スキンクラスターの生成
-	/// </summary>
-	/// <param name="device"></param>
-	/// <param name="skeleton"></param>
-	/// <param name="modelData"></param>
-	/// <param name="descriptorHeap"></param>
-	/// <param name="descriptorSize"></param>
-	/// <returns></returns>
-	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData);
-
-	void ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeltion);
-
+	
 	void SetAnimation(AnimationData animationData)
 	{
 		animation = animationData;
@@ -160,5 +148,19 @@ private:
 
 
 	void UpdateSkinCluster(SkinCluster& skinCluster, const Skeleton& skeleton);
+
+	/// <summary>
+	/// スキンクラスターの生成
+	/// </summary>
+	/// <param name="device"></param>
+	/// <param name="skeleton"></param>
+	/// <param name="modelData"></param>
+	/// <param name="descriptorHeap"></param>
+	/// <param name="descriptorSize"></param>
+	/// <returns></returns>
+	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData);
+
+	void ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeltion);
+
 };
 
