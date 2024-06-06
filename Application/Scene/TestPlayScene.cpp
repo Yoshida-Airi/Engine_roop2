@@ -35,6 +35,11 @@ void TestPlayScene::Update()
 	model3->Update();
 	model4->Update();
 
+	if (Input::GetInstance()->TriggerKey(DIK_0))
+	{
+		model->MoveAnimation(false);
+	}
+
 	model->ModelDebug("model");
 	model2->ModelDebug("cube");
 	model3->ModelDebug("walk");

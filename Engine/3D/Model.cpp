@@ -89,8 +89,11 @@ void Model::Update()
 
 	if (animation.isValid == true)
 	{
-		animationTime += 1.0f / 60.0f;
-		animationTime = std::fmod(animationTime, animation.duration);
+		if (isActiveAnimation == true)
+		{
+			animationTime += 1.0f / 60.0f;
+			animationTime = std::fmod(animationTime, animation.duration);
+		}
 
 		//スケルトンに適用
 		animation_->ApplyAnimation(skelton, animation, animationTime);
@@ -98,14 +101,7 @@ void Model::Update()
 
 		ClasterUpdate(skinCluster, skelton);
 
-		//animationTime = std::fmod(animationTime, animation.duration);
-		//NodeAnimation& rootNodeAnimation = animation.nodeAnimations[modelData_.rootNode.name];
-		//Vector3 translate = animation_->CalculateValue(rootNodeAnimation.translate.Keyframes, animationTime);
-		//Quaternion rotate = animation_->CalculateValue(rootNodeAnimation.rotate.Keyframes, animationTime);
-		//Vector3 scale = animation_->CalculateValue(rootNodeAnimation.scale.Keyframes, animationTime);
-		//Matrix4x4 localMatrix = MakeAffinMatrix(scale, rotate, translate);
 
-		//worldTransform_->matWorld_ = Multiply(localMatrix, worldTransform_->matWorld_);
 		worldTransform_->TransferMatrix();
 		worldTransform_->UpdateWorldMatrix();
 
@@ -341,7 +337,6 @@ void Model::ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeleton)
 
 
 }
-
 
 
 /*=====================================*/

@@ -94,6 +94,11 @@ public:
 		animation = animationData;
 	}
 
+	void MoveAnimation(bool isActive)
+	{
+		isActiveAnimation = isActive;
+	}
+
 private:
 	DirectXCommon* dxCommon_;
 	GraphicsPipelineManager* psoManager_;
@@ -130,6 +135,9 @@ private:
 	Skeleton skelton;
 	SkinCluster skinCluster;
 	float animationTime = 0.0f;
+
+	bool isActiveAnimation = true;
+
 	
 private:
 
