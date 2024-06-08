@@ -12,6 +12,13 @@ float gauss(float x, float y, float sigma)
     return exp(exponent) * rcp(denominator);
 }
 
+float gauss(float x,float sigma)
+{
+    float exponent = -(x * x) * rcp(2.0f * sigma * sigma);
+    float denominator = sqrt(2.0f * PI) * sigma;
+    return exp(exponent) * rcp(denominator);
+}
+
 static const float32_t2 kIndex3x3[3][3] =
 {
     { { -1.0f, -1.0f }, { 0.0f, -1.0f }, { 1.0f, -1.0f } },
@@ -54,13 +61,13 @@ PixelShaderOutput main(VertexShaderOutput input)
     //2.3x3ループ
     for (int32_t i = 0; i < 3; ++i)
     {
-        for (int32_t y = 0; y < 3; ++y)
+        for (int32_t j = 0; j < 3; ++j)
         {
             //3.現在のtexcoordを算出
-            float32_t2 texcoord = input.texcoord + kIndex3x3[x][y] * uvStepSize;
+            float32_t2 texcoord = input.texcoord + kIndex3x3[i][j] * uvStepSize;
             //4.色に1/9掛けて足す
             float32_t3 fetchColor = gTexture.Sample(gSampler, texcoord).rgb;
-            output.color.rgb += fetchColor * kernel3x3[x][y];
+            output.color.rgb += fetchColor * kernel3x3[i][j];
         }
 
     }
