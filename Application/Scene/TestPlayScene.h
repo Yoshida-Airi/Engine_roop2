@@ -1,8 +1,11 @@
 #pragma once
 #include"BaseScene.h"
 
+#include"Animation.h"
 #include"Model.h"
 #include"Camera.h"
+
+#include"Input.h"
 
 class TestPlayScene:public BaseScene
 {
@@ -17,9 +20,13 @@ public:
 
 private:
 	Camera* camera;
-
+	
 	std::unique_ptr<Model> model = nullptr;
 	std::unique_ptr<Model> model2 = nullptr;
+	std::unique_ptr<Model> model3 = nullptr;
+	std::unique_ptr<Model> model4 = nullptr;
+
+	AnimationData walkAnimation;
 
 
 

@@ -79,7 +79,7 @@ private://プライベート変数
 	//Matrix4x4* wvpData_ = nullptr;	//wvpデータ
 	DirectionalLight* lightData_ = nullptr;
 
-	Transform cameraTransform_;
+	EulerTransform cameraTransform_;
 	
 	uint32_t textureHandle_;
 

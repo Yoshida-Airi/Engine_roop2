@@ -37,7 +37,7 @@ public:
 	// 定数バッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffer_;
 
-	Transform transform;
+	EulerTransform transform;
 	Matrix4x4 matView;
 	Matrix4x4 matProjection;
 

@@ -1,5 +1,6 @@
 #include "Animation.h"
 
+
 Animation* Animation::GetInstance()
 {
 	if (instance == nullptr)
@@ -9,10 +10,48 @@ Animation* Animation::GetInstance()
 	return instance;
 }
 
+void Animation::Update(Skeleton& skelton)
+{
+	//すべてのJointを更新。親が若いので通常ループで処理可能になっている
+	for (Joint& joint : skelton.joints)
+	{
+		joint.localMatrix = MakeAffinMatrix(joint.transform.scale, joint.transform.rotate, joint.transform.translate);
+		if (joint.parent)
+		{
+			//親がいれば親の行列を掛ける
+			joint.sleletonSpaceMatrix = Multiply(joint.localMatrix, skelton.joints[*joint.parent].sleletonSpaceMatrix);
+		}
+		else
+		{
+			//親がいないのでlocalMatrixとskeltonSpaceMatrixは一致する
+			joint.sleletonSpaceMatrix = joint.localMatrix;
+		}
+	}
+}
+
+
 //アニメーションファイル読み込み
 AnimationData Animation::LoadAnimationFile(const std::string& filename)
 {
-	AnimationData animation;	//今回作るアニメーション
+	uint32_t index = 0;
+	//AnimationData animation;	//今回作るアニメーション
+
+	for (int i = 0; i < kMaxAnimation; i++)
+	{
+		//同じモデルがあった場合
+		if (animationDatas[i].filename == filename)
+		{
+			return animationDatas[i];
+		}
+
+		if (isUsedAnimation[i] == false) {
+			index = i;
+			isUsedAnimation[i] = true;
+			animationDatas.at(index).filename = filename;
+			break;
+		}
+	}
+
 
 	Assimp::Importer importer;
 	std::string filePath = filename;
@@ -20,22 +59,23 @@ AnimationData Animation::LoadAnimationFile(const std::string& filename)
 
 	if (scene->mNumAnimations == 0)//アニメーションがない
 	{
-		animation.isValid = false;
-		return animation;
+		animationDatas.at(index).isValid = false;
+		return animationDatas[index];
 	}
 	else
 	{
-		animation.isValid = true;
+		animationDatas.at(index).isValid = true;
 	}
 
 	aiAnimation* animationAssimp = scene->mAnimations[0];	//最初のアニメーションだけ採用
-	animation.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	//時間の単位を病に変換
+	animationDatas.at(index).duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	//時間の単位を病に変換
+
 
 	//NodeAnimationを解析
 	for (uint32_t channelIndex = 0; channelIndex < animationAssimp->mNumChannels; ++channelIndex)
 	{
 		aiNodeAnim* nodeAnimationAssimp = animationAssimp->mChannels[channelIndex];
-		NodeAnimation& nodeAnimation = animation.nodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
+		NodeAnimation& nodeAnimation = animationDatas.at(index).nodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
 
 		//translate
 		for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex)
@@ -71,7 +111,7 @@ AnimationData Animation::LoadAnimationFile(const std::string& filename)
 
 	}
 
-	return animation;
+	return animationDatas[index];
 }
 
 
@@ -117,6 +157,58 @@ Quaternion Animation::CalculateValue(const std::vector<KeyframeQuatanion>& keyfr
 	}
 
 	return (*keyframes.begin()).value;
+}
+
+Skeleton Animation::CreateSkelton(const Node& rootNode)
+{
+	Skeleton skeleton;
+	skeleton.root = CreateJoint(rootNode, {}, skeleton.joints);
+
+	//名前とindexのマッピングを行いアクセスしやすくする
+	for (const Joint& joint : skeleton.joints)
+	{
+		skeleton.jointmap.emplace(joint.name, joint.index);
+	}
+
+
+	return skeleton;
+}
+
+int32_t Animation::CreateJoint(const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints)
+{
+	Joint joint;
+	joint.name = node.name;
+	joint.localMatrix = node.localMatrix;
+	joint.sleletonSpaceMatrix = MakeIdentity4x4();
+	joint.transform = node.transform;
+	joint.index = int32_t(joints.size());	//現在登録されている数をindexに
+	joint.parent = parent;
+	joints.push_back(joint);	//skeletonのJoint列に追加
+	
+	for (const Node& child : node.children)
+	{
+		//子Jointを作成し、そのIndexを登録
+		int32_t childIndex = CreateJoint(child, joint.index, joints);
+		joints[joint.index].children.push_back(childIndex);
+	}
+	//自身のIndexを返す
+	return joint.index;
+
+}
+
+void Animation::ApplyAnimation(Skeleton& skelton, const AnimationData& animationData, float animationTime)
+{
+	for (Joint& joint : skelton.joints)
+	{
+		//対象のJointのAnimationがあれば、値の運用を行う。
+		if (auto it = animationData.nodeAnimations.find(joint.name); it != animationData.nodeAnimations.end())
+		{
+			const NodeAnimation& rootNodeAnimation = (*it).second;
+			joint.transform.translate = CalculateValue(rootNodeAnimation.translate.Keyframes, animationTime);
+			joint.transform.rotate = CalculateValue(rootNodeAnimation.rotate.Keyframes, animationTime);
+			joint.transform.scale = CalculateValue(rootNodeAnimation.scale.Keyframes, animationTime);
+		}
+	}
 }
 
 Animation* Animation::instance = NULL;
