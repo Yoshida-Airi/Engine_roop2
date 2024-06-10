@@ -24,6 +24,7 @@ void TestPlayScene::Initialize()
 	//model3->SetAnimation(walkAnimation);
 
 	model4.reset(Model::Create("Resources/SampleAssets/simpleSkin.gltf"));
+	model4->GetWorldTransform()->rotation_.y = 3.14f;
 
 }
 
