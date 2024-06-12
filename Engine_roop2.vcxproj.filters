@@ -34,7 +34,12 @@
     <FxCompile Include="Resources\Shaders\GaussianFilter.PS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\BoxFilter5x5.PS.hlsl" />
+    <FxCompile Include="Resources\Shaders\BoxFilter5x5.PS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\LuminanceBasedOutline.PS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\2D\Triangle.cpp">

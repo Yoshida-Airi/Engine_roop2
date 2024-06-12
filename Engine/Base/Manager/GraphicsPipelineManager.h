@@ -46,6 +46,7 @@ public:
 		PSOData boxFilter;
 		PSOData boxFilter5x5;
 		PSOData gaussianFilter;
+		PSOData outline;
 	};
 
 
