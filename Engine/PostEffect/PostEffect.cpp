@@ -16,7 +16,7 @@ void PostEffect::Initialize()
 	SetupViewport();
 	SetupScissor();
 
-	srvHandle = 100;
+	srvHandle = srvManager->Allocate() + 1;
 	srvManager->CreateSRVforTexture2D(srvHandle, renderTextureResource.Get(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, 1);
 
 
