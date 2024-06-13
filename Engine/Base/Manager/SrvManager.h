@@ -1,5 +1,6 @@
 #pragma once
 #include"DirectXCommon.h"
+#include"DirectXTex.h"
 
 class SrvManager
 {
@@ -25,7 +26,7 @@ public:
 	void SetGraphicsRootDescriptorTable(UINT RootParameterIndex, uint32_t srvIndex);
 
 	//SRV生成関数
-	void CreateSRVforTexture2D(uint32_t srvIndex, ID3D12Resource* pResource, DXGI_FORMAT format, UINT MipLevels);
+	void CreateSRVforTexture2D(uint32_t srvIndex, ID3D12Resource* pResource, DirectX::TexMetadata metadata, UINT MipLevels);
 	void CreateSRVforStructuredBuffer(uint32_t srvIndex, ID3D12Resource* pResource, UINT numElements, UINT structureByteStride);
 
 	static const uint32_t kMaxSRVCount;	//最大SRV数
