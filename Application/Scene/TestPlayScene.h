@@ -28,8 +28,14 @@ private:
 
 	AnimationData walkAnimation;
 
+	void Move();
 
+	float Lerp(const float& a, const float& b, float t);
 
+	float LerpShortAngle(float a, float b, float t);
 
+	float angle;
+	float speed = 0.05f;
+	bool isMoving = false;
 };
 
