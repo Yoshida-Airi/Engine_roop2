@@ -15,16 +15,21 @@ void TestPlayScene::Initialize()
 	walkAnimation = Animation::GetInstance()->LoadAnimationFile("Resources/SampleAssets/human/walk.gltf");
 
 	model.reset(Model::Create("Resources/SampleAssets/human/walk.gltf"));
+	model->GetWorldTransform()->translation_.y = -0.7f;
 	//model->SetAnimation(walkAnimation);
 	//model->UseAnimation(false);
 	model2.reset(Model::Create("Resources/SampleAssets/cube.obj"));
-	model2->GetWorldTransform()->translation_.x = 5.0f;
+	model2->GetWorldTransform()->translation_.y = -1.8f;
+	model2->GetWorldTransform()->scale_ = { 6.2f,1.0f,4.2f };
+	
 
 	model3.reset(Model::Create("Resources/SampleAssets/human/sneakWalk.gltf"));
 	//model3->SetAnimation(walkAnimation);
+	model3->SetisInvisible(true);
 
 	model4.reset(Model::Create("Resources/SampleAssets/simpleSkin.gltf"));
 	model4->GetWorldTransform()->rotation_.y = 3.14f;
+	model4->SetisInvisible(true);
 
 	model->MoveAnimation(false);
 
