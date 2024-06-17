@@ -92,9 +92,6 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath)
 
 	textureData.filename = filePath;
 	textureData.textureResource = CreateTextureResource(dxCommon_->GetDevice(), metadata);
-
-
-	textureData.textureResource = CreateTextureResource(dxCommon_->GetDevice(), metadata);
 	intermediateResource.at(index) = UploadTextureData(textureData.textureResource.Get(), mipImages);
 
 
@@ -151,13 +148,10 @@ DirectX::ScratchImage TextureManager::ImageFileOpen(const std::string& filePath)
 	std::wstring filePathW = ConvertString(filePath);
 
 	HRESULT hr;
-	if (filePathW.ends_with(L".dds"))
-	{
+	if (filePathW.ends_with(L".dds")) {
 		hr = DirectX::LoadFromDDSFile(filePathW.c_str(), DirectX::DDS_FLAGS_NONE, nullptr, image);
-
 	}
-	else
-	{
+	else {
 		hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
 	}
 
@@ -176,7 +170,7 @@ DirectX::ScratchImage TextureManager::ImageFileOpen(const std::string& filePath)
 		hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 4, mipImage);
 
 	}
-
+	assert(SUCCEEDED(hr));
 	
 	return mipImage;
 }

@@ -12,6 +12,10 @@ void TestPlayScene::Initialize()
 	camera = new Camera;
 	camera->Initialize();
 
+	textureManager_ = TextureManager::GetInstance();
+
+	textureManager_->LoadTexture("rostock_laage_airport_4k.dds");
+
 	walkAnimation = Animation::GetInstance()->LoadAnimationFile("Resources/SampleAssets/human/walk.gltf");
 
 	model.reset(Model::Create("Resources/SampleAssets/human/walk.gltf"));
@@ -25,6 +29,8 @@ void TestPlayScene::Initialize()
 
 	model4.reset(Model::Create("Resources/SampleAssets/simpleSkin.gltf"));
 	model4->GetWorldTransform()->rotation_.y = 3.14f;
+
+	
 
 }
 

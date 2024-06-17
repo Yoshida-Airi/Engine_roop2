@@ -11,6 +11,7 @@
 #include<array>
 #include<unordered_map>
 
+#include<vector>
 
 #pragma comment(lib,"d3d12.lib")
 

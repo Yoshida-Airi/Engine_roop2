@@ -4,7 +4,7 @@
 #include"Animation.h"
 #include"Model.h"
 #include"Camera.h"
-
+#include"TextureManager.h"
 #include"Input.h"
 
 class TestPlayScene:public BaseScene
@@ -20,7 +20,8 @@ public:
 
 private:
 	Camera* camera;
-	
+	TextureManager* textureManager_;
+
 	std::unique_ptr<Model> model = nullptr;
 	std::unique_ptr<Model> model2 = nullptr;
 	std::unique_ptr<Model> model3 = nullptr;
@@ -28,7 +29,7 @@ private:
 
 	AnimationData walkAnimation;
 
-
+	
 
 
 };
