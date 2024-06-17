@@ -132,7 +132,7 @@ Node ModelLoader::ReadNode(aiNode* node)
 	node->mTransformation.Decompose(scale, rotate, translate);	//assimpの行列からSRTを抽出する関数を利用
 	result.transform.scale = { scale.x,scale.y,scale.z };	//scaleはそのまま
 	result.transform.rotate = { rotate.x,-rotate.y,-rotate.z,rotate.w };	//x軸を反転、さらに回転方向が逆なので軸を反転させる
-	result.transform.translate = { --translate.x,translate.y,translate.z };	//x軸を反転
+	result.transform.translate = { -translate.x,translate.y,translate.z };	//x軸を反転
 	result.localMatrix = MakeAffinMatrix(result.transform.scale, result.transform.rotate, result.transform.translate);
 
 	//aiMatrix4x4 aiLocalMatrix = node->mTransformation;
