@@ -117,6 +117,9 @@
     <ClCompile Include="Engine\Animation\Animation.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Base\JsonLoader.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Animation\Animation.h">
       <Filter>Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\JsonLoader.h">
+      <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,8 @@
 
 #include"Input.h"
 
+#include"JsonLoader.h"
+
 class TestPlayScene:public BaseScene
 {
 public:
@@ -28,7 +30,7 @@ private:
 
 	AnimationData walkAnimation;
 
-
+	JsonLoader* jsonLoder;
 
 
 };
