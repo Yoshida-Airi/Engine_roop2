@@ -139,6 +139,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Effect\ParticleSystem.cpp" />
     <ClCompile Include="Engine\Base\Manager\SrvManager.cpp" />
     <ClCompile Include="Application\Scene\TestPlayScene.cpp" />
+    <ClCompile Include="Application\Object\Player\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Animation\Animation.h" />
@@ -176,6 +177,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Effect\ParticleSystem.h" />
     <ClInclude Include="Engine\Base\Manager\SrvManager.h" />
     <ClInclude Include="Application\Scene\TestPlayScene.h" />
+    <ClInclude Include="Application\Object\Player\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Particle.PS.hlsl">

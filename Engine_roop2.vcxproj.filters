@@ -117,6 +117,9 @@
     <ClCompile Include="Engine\Animation\Animation.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Player\Player.cpp">
+      <Filter>Application\Object\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -224,6 +227,9 @@
     <ClInclude Include="Engine\Animation\Animation.h">
       <Filter>Engine\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Object\Player\Player.h">
+      <Filter>Application\Object\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -270,6 +276,12 @@
     </Filter>
     <Filter Include="Engine\Animation">
       <UniqueIdentifier>{eb0ea847-3ae9-4f7e-9205-c36a4e26d58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object">
+      <UniqueIdentifier>{b0e079f8-abe5-41c4-b826-7267afd41e9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Player">
+      <UniqueIdentifier>{756f3c02-9f45-4f0f-be8e-aa87b7a5207b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
