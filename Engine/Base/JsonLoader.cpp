@@ -4,6 +4,11 @@
 JsonLoader::~JsonLoader()
 {
 	delete levelData;
+
+
+	models.clear();
+	objects.clear();
+
 }
 
 void JsonLoader::LoaderJsonFile()
@@ -119,6 +124,11 @@ void JsonLoader::Update()
 	for (WorldTransform* object : objects)
 	{
 		object->TransferMatrix();
+
+		model->GetWorldTransform()->translation_ = object->translation_;
+		model->GetWorldTransform()->rotation_ = object->rotation_;
+		model->GetWorldTransform()->scale_ = object->scale_;
+
 	}
 
 
