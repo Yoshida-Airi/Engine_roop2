@@ -1,6 +1,11 @@
 #include "JsonLoader.h"
 
 
+JsonLoader::~JsonLoader()
+{
+	delete levelData;
+}
+
 void JsonLoader::LoaderJsonFile()
 {
 	const std::string fullpath = "Resources/levelEditor.json";
@@ -92,10 +97,10 @@ void JsonLoader::LoaderJsonFile()
 	for (auto& objectData : levelData->objects)
 	{
 		//ファイル名から登録済みモデルを検索
-		Model* model = Model::Create("Resources/SampleAssets/cube.obj");
+		model.reset(Model::Create("Resources/SampleAssets/cube.obj"));
 		
 		decltype(models)::iterator it = models.find(objectData.filename);
-		if (it != models.end()) { model = it->second; }
+		if (it != models.end()) { model.reset(it->second); }
 		//モデルを指定して3Dオブジェクトを生成
 		WorldTransform* newObject = new WorldTransform();
 		newObject->translation_ = objectData.translation;
@@ -125,9 +130,8 @@ void JsonLoader::Draw(Camera* camera)
 	for (auto& objectData : levelData->objects)
 	{
 		//ファイル名から登録済みモデルを検索
-		Model* model = nullptr;
 		decltype(models)::iterator it = models.find(objectData.filename);
-		if (it != models.end()) { model = it->second; }
+		if (it != models.end()) { model.reset(it->second); }
 
 
 		model->Draw(camera);

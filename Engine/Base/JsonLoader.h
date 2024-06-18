@@ -18,6 +18,7 @@ struct LevelData
 		Vector3 translation;
 		Vector3 rotation;
 		Vector3 scaling;
+
 	};
 	std::vector<ObjectData>objects;
 };
@@ -26,6 +27,7 @@ class JsonLoader
 {
 public:
 
+	~JsonLoader();
 	void LoaderJsonFile();
 
 	void Update();
@@ -35,6 +37,9 @@ private:
 
 	std::map<std::string, Model*>models;
 	std::vector<WorldTransform*>objects;
+
+
+	std::unique_ptr<Model> model;
 
 	LevelData* levelData;
 };

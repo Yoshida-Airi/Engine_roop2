@@ -12,6 +12,7 @@ ModelLoader* ModelLoader::GetInstance()
 
 ModelLoader::~ModelLoader()
 {
+
 }
 
 ModelData ModelLoader::LoadModelFile(const std::string& filename)
