@@ -53,10 +53,10 @@ void GamePlayScene::Initialize()
 	////sphere->SetisInvisible(true);
 
 	//model.reset(Model::Create("Resources/SampleAssets/plane.gltf"));
-	//model2.reset(Model::Create("Resources/SampleAssets/terrain.obj"));
+	model2.reset(Model::Create("Resources/SampleAssets/terrain.obj"));
 
 	//model->GetWorldTransform()->rotation_.y = 3.14f;
-	//model2->GetWorldTransform()->rotation_.y = 3.14f;
+	model2->GetWorldTransform()->rotation_.y = 3.14f;
 
 	//model2->GetWorldTransform()->translation_ =
 	//{
@@ -116,10 +116,10 @@ void GamePlayScene::Update()
 	//sphere->GetWorldTransform()->rotation_.y += 0.01f;
 
 	//model->ModelDebug("plane");
-	//model2->ModelDebug("plane2");
+	model2->ModelDebug("plane2");
 
 	//model->Update();
-	//model2->Update();
+	model2->Update();
 	//model->GetWorldTransform()->translation_.x = 3.0f;
 
 	//particle->Debug("circleParticle");
@@ -145,7 +145,7 @@ void GamePlayScene::Draw()
 
 
 	//model->Draw(camera);
-	//model2->Draw(camera);
+	model2->Draw(camera);
 
 
 	//sprite->Draw(camera);
