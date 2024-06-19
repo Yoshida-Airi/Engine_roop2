@@ -5,6 +5,11 @@ JsonLoader::~JsonLoader()
 {
 	delete levelData;
 
+	// `WorldTransform` オブジェクトを解放
+	for (auto& object : objects) 
+	{
+		delete object;
+	}
 
 	models.clear();
 	objects.clear();
@@ -98,12 +103,18 @@ void JsonLoader::LoaderJsonFile()
 
 	}
 
+}
+
+void JsonLoader::Update()
+{
+
+
 	//レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects)
 	{
 		//ファイル名から登録済みモデルを検索
 		model.reset(Model::Create("Resources/SampleAssets/cube.obj"));
-		
+
 		decltype(models)::iterator it = models.find(objectData.filename);
 		if (it != models.end()) { model.reset(it->second); }
 		//モデルを指定して3Dオブジェクトを生成
@@ -116,10 +127,6 @@ void JsonLoader::LoaderJsonFile()
 		objects.push_back(newObject);
 	}
 
-}
-
-void JsonLoader::Update()
-{
 
 	for (WorldTransform* object : objects)
 	{
