@@ -2,7 +2,7 @@
 
 void Player::Initialize()
 {
-	playerModel.reset(Model::Create("Resources/SampleAssets/cube.obj"));
+	playerModel.reset(Model::Create("Resources/Object/Player/player.obj"));
 }
 
 void Player::Update()
