@@ -163,12 +163,12 @@ DirectX::ScratchImage TextureManager::ImageFileOpen(const std::string& filePath)
 	//圧縮フォーマットかどうかを調べる
 	if (DirectX::IsCompressed(image.GetMetadata().format))
 	{
-		mipImages_ = std::move(image);//圧縮フォーマットならそのまま使うのでmoveする
+		mipImage = std::move(image);//圧縮フォーマットならそのまま使うのでmoveする
 	}
 	else
 	{
 		hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 4, mipImage);
-
+		
 	}
 	assert(SUCCEEDED(hr));
 	
@@ -178,15 +178,17 @@ DirectX::ScratchImage TextureManager::ImageFileOpen(const std::string& filePath)
 //ダイレクト12のテクスチャリソースを作る
 Microsoft::WRL::ComPtr< ID3D12Resource> TextureManager::CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata)
 {
+	const DirectX::TexMetadata& metadata_ = metadata;
+
 	//1.metadataを基にリソースの設定
 	D3D12_RESOURCE_DESC resourceDesc{};
-	resourceDesc.Width = UINT(metadata.width);		//Textureの幅
-	resourceDesc.Height = UINT(metadata.height);	//Textureの高さ
-	resourceDesc.MipLevels = UINT16(metadata.mipLevels);	//mipmapの数
-	resourceDesc.DepthOrArraySize = UINT16(metadata.arraySize);	//奥行きor配列Textureの配列数
-	resourceDesc.Format = metadata.format;	//TextureのFormat
+	resourceDesc.Width = UINT(metadata_.width);		//Textureの幅
+	resourceDesc.Height = UINT(metadata_.height);	//Textureの高さ
+	resourceDesc.MipLevels = UINT16(metadata_.mipLevels);	//mipmapの数
+	resourceDesc.DepthOrArraySize = UINT16(metadata_.arraySize);	//奥行きor配列Textureの配列数
+	resourceDesc.Format = metadata_.format;	//TextureのFormat
 	resourceDesc.SampleDesc.Count = 1;	//サンプリングカウント。1固定。
-	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION(metadata.dimension);	//Textureの次元数。普段使っているのは二次元
+	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION(metadata_.dimension);	//Textureの次元数。普段使っているのは二次元
 
 
 	//2.利用するヒープの設定

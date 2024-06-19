@@ -14,9 +14,9 @@ void TestPlayScene::Initialize()
 
 	textureManager_ = TextureManager::GetInstance();
 
-	textureManager_->LoadTexture("rostock_laage_airport_4k.dds");
+	textureManager_->LoadTexture("Resources/SampleAssets/rostock_laage_airport_4k.dds");
 
-	walkAnimation = Animation::GetInstance()->LoadAnimationFile("Resources/SampleAssets/human/walk.gltf");
+	//walkAnimation = Animation::GetInstance()->LoadAnimationFile("Resources/SampleAssets/human/sneakWalk.gltf");
 
 	model.reset(Model::Create("Resources/SampleAssets/human/walk.gltf"));
 	//model->SetAnimation(walkAnimation);
