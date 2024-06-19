@@ -17,7 +17,7 @@
 #include"Input.h"
 
 #include"Object/Player/Player.h"
-#include"Object/Camera/CameraController.h"
+
 
 /// <summary>
 /// ゲームプレイシーン
@@ -57,6 +57,6 @@ private:
 	std::unique_ptr<ParticleSystem> particle2 = nullptr;
 
 	Player* player;
-	CameraController* cameracontoller = nullptr;
+	
 };
 
