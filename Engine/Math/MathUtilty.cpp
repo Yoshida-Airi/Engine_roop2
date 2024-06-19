@@ -654,6 +654,8 @@ Quaternion Normalize(const Quaternion& quaternion) {
 	return result;
 }
 
+
+
 Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion)
 {
 	Matrix4x4 result;
@@ -726,4 +728,9 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 
 	return result;
 
+}
+
+float LerpShortTranslate(float a, float b, float t)
+{
+	return a + t * (b - a);
 }

@@ -109,3 +109,5 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);
 float Norm(const Quaternion& quaternion);
 //正規化したQuaternionを返す
 Quaternion Normalize(const Quaternion& quaternion);
+
+float LerpShortTranslate(float a, float b, float t);
