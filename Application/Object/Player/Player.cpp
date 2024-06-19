@@ -3,6 +3,10 @@
 void Player::Initialize()
 {
 	playerModel.reset(Model::Create("Resources/Object/Player/player.obj"));
+
+	//モデルの初期設定
+	playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
+	playerModel->GetWorldTransform()->translation_.y += 1.0f;
 }
 
 void Player::Update()
@@ -24,11 +28,12 @@ void Player::Update()
 void Player::Draw(Camera* camera)
 {
 	playerModel->Draw(camera);
-
 }
 
 void Player::Move()
 {
+	/* --プレイヤーの移動処理-- */
+
 	if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT))
 	{
 		//左右加速
@@ -87,6 +92,8 @@ void Player::Move()
 
 void Player::Turn()
 {
+	/* --プレイヤーの旋回処理-- */
+
 	if (turnTimer > 0.0f)
 	{
 		turnTimer = 1.0f / 60.0f;
