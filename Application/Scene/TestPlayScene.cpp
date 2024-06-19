@@ -20,6 +20,7 @@ void TestPlayScene::Initialize()
 	//model->UseAnimation(false);
 	model2.reset(Model::Create("Resources/SampleAssets/cube.obj"));
 	model2->GetWorldTransform()->translation_.x = 5.0f;
+	model2->SetisInvisible(true);
 
 	model3.reset(Model::Create("Resources/SampleAssets/human/sneakWalk.gltf"));
 	//model3->SetAnimation(walkAnimation);

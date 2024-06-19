@@ -54,7 +54,7 @@ void JsonLoader::LoaderJsonFile()
 		assert(object.contains("type"));
 
 		//種別を取得
-		std::string type = object["type"].get < std::string>();
+		std::string type = object["type"].get<std::string>();
 
 		//種類ごとの処理
 		//MESH
@@ -103,20 +103,15 @@ void JsonLoader::LoaderJsonFile()
 
 	}
 
-}
-
-void JsonLoader::Update()
-{
-
-
 	//レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects)
 	{
 		//ファイル名から登録済みモデルを検索
-		model.reset(Model::Create("Resources/SampleAssets/cube.obj"));
+		model.reset(Model::Create(objectData.filename));
 
 		decltype(models)::iterator it = models.find(objectData.filename);
 		if (it != models.end()) { model.reset(it->second); }
+
 		//モデルを指定して3Dオブジェクトを生成
 		WorldTransform* newObject = new WorldTransform();
 		newObject->translation_ = objectData.translation;
@@ -128,14 +123,32 @@ void JsonLoader::Update()
 	}
 
 
+}
+
+void JsonLoader::Update()
+{
+
+
 	for (WorldTransform* object : objects)
 	{
-		object->TransferMatrix();
+		//レベルデータからオブジェクトを生成、配置
+		for (auto& objectData : levelData->objects)
+		{
 
-		model->GetWorldTransform()->translation_ = object->translation_;
-		model->GetWorldTransform()->rotation_ = object->rotation_;
-		model->GetWorldTransform()->scale_ = object->scale_;
 
+			model->GetWorldTransform()->translation_ = object->translation_;
+			model->GetWorldTransform()->rotation_ = object->rotation_;
+			model->GetWorldTransform()->scale_ = object->scale_;
+		
+
+
+			object->UpdateWorldMatrix();
+			model->Update();
+		}
+
+		
+
+		//models.at(0)->GetWorldTransform()->
 	}
 
 
@@ -146,10 +159,7 @@ void JsonLoader::Draw(Camera* camera)
 	//レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects)
 	{
-		//ファイル名から登録済みモデルを検索
-		decltype(models)::iterator it = models.find(objectData.filename);
-		if (it != models.end()) { model.reset(it->second); }
-
+		
 
 		model->Draw(camera);
 
