@@ -100,8 +100,8 @@ void Skybox::Draw(Camera* camera)
 		return;
 	}
 
-	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().object3D.rootSignature.Get());
-	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().object3D.graphicPipelineState.Get());
+	dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().skybox.rootSignature.Get());
+	dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().skybox.graphicPipelineState.Get());
 
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);

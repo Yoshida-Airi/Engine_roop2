@@ -14,7 +14,9 @@ void TestPlayScene::Initialize()
 
 	textureManager_ = TextureManager::GetInstance();
 
-	textureManager_->LoadTexture("Resources/SampleAssets/rostock_laage_airport_4k.dds");
+	uint32_t airport = textureManager_->LoadTexture("Resources/SampleAssets/rostock_laage_airport_4k.dds");
+
+	skybox.reset(Skybox::Create(airport));
 
 	//walkAnimation = Animation::GetInstance()->LoadAnimationFile("Resources/SampleAssets/human/sneakWalk.gltf");
 
@@ -52,6 +54,7 @@ void TestPlayScene::Update()
 	model3->ModelDebug("walk");
 	model4->ModelDebug("simpleSkin");
 
+	skybox->Update();
 	
 }
 
@@ -61,5 +64,7 @@ void TestPlayScene::Draw()
 	model2->Draw(camera);
 	model3->Draw(camera);
 	model4->Draw(camera);
+
+	skybox->Draw(camera);
 }
 

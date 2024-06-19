@@ -6,6 +6,7 @@
 #include"Camera.h"
 #include"TextureManager.h"
 #include"Input.h"
+#include"Skybox.h"
 
 class TestPlayScene:public BaseScene
 {
@@ -26,6 +27,8 @@ private:
 	std::unique_ptr<Model> model2 = nullptr;
 	std::unique_ptr<Model> model3 = nullptr;
 	std::unique_ptr<Model> model4 = nullptr;
+
+	std::unique_ptr<Skybox> skybox = nullptr;
 
 	AnimationData walkAnimation;
 

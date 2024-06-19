@@ -1,0 +1,42 @@
+#include"Skybox.hlsli"
+
+struct TransformationMatrix
+{
+    float32_t4x4 WorldMatrix;
+};
+
+struct Camera
+{
+    float32_t4x4 view;
+    float32_t4x4 projection;
+    
+    float32_t4x4 sview;
+    float32_t4x4 sprojection;
+    
+    float32_t3 worldPosition;
+};
+
+ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
+ConstantBuffer<Camera> gCamera : register(b1);
+
+
+struct VertexShaderInput
+{
+    float32_t4 position : POSITION0;
+    float32_t2 texcoord : TEXCOORD0;
+    float32_t3 normal : NORMAL0;
+};
+
+VertexShaderOutput main(VertexShaderInput input)
+{
+    VertexShaderOutput output;
+    
+   
+
+    // 通常カメラ
+    float32_t4x4 ViewProjectionMatrix = mul(gCamera.view, gCamera.projection);
+    float32_t4x4 WorldViewProjectionMatrix = mul(gTransformationMatrix.WorldMatrix, ViewProjectionMatrix);
+    output.position = mul(input.position, WorldViewProjectionMatrix).xyww;
+    output.texcoord = input.position.xyz;
+    return output;
+}
