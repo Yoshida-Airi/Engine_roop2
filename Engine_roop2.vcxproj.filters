@@ -120,6 +120,9 @@
     <ClCompile Include="Application\Object\Player\Player.cpp">
       <Filter>Application\Object\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Camera\CameraController.cpp">
+      <Filter>Application\Object\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -230,6 +233,9 @@
     <ClInclude Include="Application\Object\Player\Player.h">
       <Filter>Application\Object\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Object\Camera\CameraController.h">
+      <Filter>Application\Object\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -282,6 +288,9 @@
     </Filter>
     <Filter Include="Application\Object\Player">
       <UniqueIdentifier>{756f3c02-9f45-4f0f-be8e-aa87b7a5207b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Camera">
+      <UniqueIdentifier>{e73bb2fa-08e9-45dc-b756-f771a82633c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

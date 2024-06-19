@@ -25,6 +25,9 @@ void GamePlayScene::Initialize()
 
 	
 	player = new Player();
+	player->Initialize();
+
+	
 
 	//triangle.reset(Triangle::Create(uvTexture));
 	//triangle2.reset(Triangle::Create(monsterBall));
@@ -76,7 +79,7 @@ void GamePlayScene::Initialize()
 	//particle2->SetLifeTime(0.1f, 0.5f);
 	////particle2->SetisInvisible(true);
 
-	player->Initialize();
+
 }
 
 void GamePlayScene::Update()
@@ -126,6 +129,8 @@ void GamePlayScene::Update()
 	//particle2->Update();
 
 	player->Update();
+	camera->transform.translate.x = LerpShortTranslate(camera->transform.translate.x, player->GetWorldTransform()->translation_.x, 0.04f);
+
 }
 
 void GamePlayScene::Draw()

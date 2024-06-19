@@ -18,6 +18,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw(Camera* camera);
+	WorldTransform* GetWorldTransform() { return playerModel->GetWorldTransform(); }
 
 private:
 	std::unique_ptr<Model>playerModel;
