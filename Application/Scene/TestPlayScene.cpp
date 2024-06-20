@@ -17,6 +17,7 @@ void TestPlayScene::Initialize()
 	uint32_t airport = textureManager_->LoadTexture("Resources/SampleAssets/rostock_laage_airport_4k.dds");
 
 	skybox.reset(Skybox::Create(airport));
+	skybox->GetWorldTransform()->scale_ = { 3.0f,3.0f,3.0f };
 
 	//walkAnimation = Animation::GetInstance()->LoadAnimationFile("Resources/SampleAssets/human/sneakWalk.gltf");
 

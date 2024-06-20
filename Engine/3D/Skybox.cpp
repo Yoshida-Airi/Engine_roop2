@@ -14,6 +14,7 @@ void Skybox::Initialize(uint32_t textureHandle)
 	VertexBuffer();
 	MaterialBuffer();
 	LightBuffer();
+	IndexBuffer();
 
 	worldTransform_ = new WorldTransform();
 	worldTransform_->Initialize();
@@ -29,7 +30,7 @@ void Skybox::Initialize(uint32_t textureHandle)
 	vertexData_[5].position = { -1.0f,1.0f,1.0f,1.0f };
 	vertexData_[6].position = { -1.0f,-1.0f,-1.0f,1.0f };
 	vertexData_[7].position = { -1.0f,-1.0f,1.0f,1.0f };
-	//全面
+	//前面
 	vertexData_[8].position = { -1.0f,1.0f,1.0f,1.0f };
 	vertexData_[9].position = { 1.0f,1.0f,1.0f,1.0f };
 	vertexData_[10].position = { -1.0f,-1.0f,1.0f,1.0f };
@@ -50,6 +51,11 @@ void Skybox::Initialize(uint32_t textureHandle)
 	vertexData_[22].position = { -1.0f,-1.0f,1.0f,1.0f };
 	vertexData_[23].position = { 1.0f,-1.0f,1.0f,1.0f };
 
+	vertexData_->normal.x = 0.0f;
+	vertexData_->normal.y = 0.0f;
+	vertexData_->normal.z = 0.0f;
+
+	vertexData_->texcoord = { 0.0f,0.0f };
 
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData_->uvTransform = MakeIdentity4x4();
@@ -63,6 +69,10 @@ void Skybox::Initialize(uint32_t textureHandle)
 	lightData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	lightData_->direction = { -1.0f,-1.0f,1.0f };
 	lightData_->intensity = 1.0f;
+
+	IndexData();
+
+	
 }
 
 void Skybox::Update()
@@ -105,6 +115,8 @@ void Skybox::Draw(Camera* camera)
 
 	//VBVを設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
+	//ind
+	dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferView_);
 	//形状を設定。PS0にせっていしているものとはまた別。同じものを設定する
 	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	//マテリアルCBufferの場所を設定
@@ -118,7 +130,8 @@ void Skybox::Draw(Camera* camera)
 	//ライト用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, lightResource_->GetGPUVirtualAddress());
 	//描画
-	dxCommon_->GetCommandList()->DrawInstanced(totalVertex, 1, 0, 0);
+	//dxCommon_->GetCommandList()->DrawInstanced(totalVertex, 1, 0, 0);
+	dxCommon_->GetCommandList()->DrawIndexedInstanced(36, 1, 0, 0, 0);
 }
 
 Skybox* Skybox::Create(uint32_t textureHandle)
@@ -152,4 +165,40 @@ void Skybox::LightBuffer()
 {
 	lightResource_ = dxCommon_->CreateBufferResource(sizeof(DirectionalLight));
 	lightResource_->Map(0, nullptr, reinterpret_cast<void**>(&lightData_));
+}
+
+void Skybox::IndexBuffer()
+{
+	indexResource_ = dxCommon_->CreateBufferResource(sizeof(uint32_t) * 36);
+	//リソースの先頭のアドレスから使う
+	indexBufferView_.BufferLocation = indexResource_->GetGPUVirtualAddress();
+	//使用するリソースのサイズはインデックス6つ分のサイズ
+	indexBufferView_.SizeInBytes = sizeof(uint32_t) * 36;
+	//インデックスはuint32_tとする
+	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
+	//インデックスリソースにデータを書き込む
+	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
+}
+
+void Skybox::IndexData()
+{
+	//インデックスデータ
+	//右面
+	indexData_[0] = 0; indexData_[1] = 1; indexData_[2] = 2;
+	indexData_[3] = 2; indexData_[4] = 1; indexData_[5] = 3;
+	//左面
+	indexData_[6] = 4; indexData_[7] = 5; indexData_[8] = 6;
+	indexData_[9] = 6; indexData_[10] = 5; indexData_[11] = 7;
+	//前面
+	indexData_[12] = 8; indexData_[13] = 9; indexData_[14] = 10;
+	indexData_[15] = 10; indexData_[16] = 9; indexData_[17] = 11;
+	//後面
+	indexData_[18] = 12; indexData_[19] = 14; indexData_[20] = 13;
+	indexData_[21] = 14; indexData_[22] = 15; indexData_[23] = 13;
+	//上面
+	indexData_[24] = 16; indexData_[25] = 17; indexData_[26] = 18;
+	indexData_[27] = 18; indexData_[28] = 17; indexData_[29] = 19;
+	//下面
+	indexData_[30] = 20; indexData_[31] = 22; indexData_[32] = 21;
+	indexData_[33] = 22; indexData_[34] = 23; indexData_[35] = 21;
 }

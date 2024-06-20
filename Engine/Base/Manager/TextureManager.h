@@ -73,7 +73,6 @@ private:
 	DirectXCommon* dxCommon_;
 	SrvManager* srvManager_;
 
-	DirectX::ScratchImage mipImages_;
 	Microsoft::WRL::ComPtr< ID3D12Resource> textureResource_;
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc_{};
 	Microsoft::WRL::ComPtr< ID3D12DescriptorHeap> srvDescriptoHeap_;
