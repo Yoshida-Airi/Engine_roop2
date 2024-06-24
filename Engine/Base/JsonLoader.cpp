@@ -3,12 +3,8 @@
 
 JsonLoader::~JsonLoader()
 {
-	delete levelData;
 
-	
-	objects.clear();
-	models.clear();
-	
+
 }
 
 void JsonLoader::LoaderJsonFile()
@@ -41,7 +37,7 @@ void JsonLoader::LoaderJsonFile()
 	assert(name.compare("scene") == 0);
 
 	//レベルデータ格納用インスタンスを生成
-	levelData = new LevelData();
+	levelData.reset(new LevelData());
 
 	//"objects"の全オブジェクトを走査
 	for (nlohmann::json& object : deserialized["objects"])
@@ -102,8 +98,6 @@ void JsonLoader::LoaderJsonFile()
 	for (auto& objectData : levelData->objects)
 	{
 		//ファイル名から登録済みモデルを検索
-		//model.reset(Model::Create(objectData.filename));
-
 		decltype(models)::iterator it = models.find(objectData.filename);
 		if (it == models.end())
 		{
@@ -115,14 +109,15 @@ void JsonLoader::LoaderJsonFile()
 	for (auto& objectData : levelData->objects)
 	{
 		//モデルを指定して3Dオブジェクトを生成
-		std::unique_ptr<WorldTransform>newObject;
-		newObject.reset(new WorldTransform());
+		std::unique_ptr<WorldTransform> newObject = std::make_unique<WorldTransform>();
 		newObject->Initialize();
 		newObject->translation_ = objectData.translation;
 		newObject->rotation_ = objectData.rotation;
 		newObject->scale_ = objectData.scaling;
+		newObject->UpdateWorldMatrix();
 		//配列に登録
 		objects.push_back(std::move(newObject));
+		
 	}
 
 
@@ -149,11 +144,14 @@ void JsonLoader::Draw(Camera* camera)
 		{
 			model = (it->second.get());
 		}
+		if (model)
+		{
+			model->SetWorldTransform(objects[i].get());
+			model->Update();
 
-		model->SetWorldTransform(objects[i].get());
-		model->Update();
-		
-		model->Draw(camera);
+			model->Draw(camera);
+		}
+
 		i++;
 
 	}

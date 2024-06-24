@@ -3,7 +3,7 @@
     "objects": [
         {
             "type": "MESH",
-            "name": "Cube.001",
+            "name": "Cube",
             "transform": {
                 "translation": [
                     0.0,
@@ -11,9 +11,9 @@
                     0.0
                 ],
                 "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
+                    28.22110939025879,
+                    4.443593978881836,
+                    -60.23551940917969
                 ],
                 "scaling": [
                     1.0,
@@ -67,17 +67,17 @@
         },
         {
             "type": "MESH",
-            "name": "Cube.002",
+            "name": "立方体",
             "transform": {
                 "translation": [
+                    -5.817646503448486,
                     0.0,
-                    -3.6579346656799316,
                     0.0
                 ],
                 "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
+                    39.125423431396484,
+                    40.1555061340332,
+                    -159.7391357421875
                 ],
                 "scaling": [
                     1.0,
@@ -85,29 +85,7 @@
                     1.0
                 ]
             },
-            "file_name": "Resources/SampleAssets/cube.obj"
-        },
-        {
-            "type": "MESH",
-            "name": "Cube",
-            "transform": {
-                "translation": [
-                    0.0,
-                    0.0,
-                    3.4463160037994385
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "Resources/SampleAssets/cube.obj"
+            "file_name": "Resources/SampleAssets/human/walk.gltf"
         }
     ]
 }

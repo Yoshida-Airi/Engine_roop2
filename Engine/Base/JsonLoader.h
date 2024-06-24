@@ -36,7 +36,7 @@ public:
 private:
 
 	std::map<std::string, std::unique_ptr<Model>> models;
-	std::vector< std::unique_ptr<WorldTransform>>objects;
-	LevelData* levelData;
+	std::vector<std::unique_ptr<WorldTransform>> objects;
+	std::unique_ptr<LevelData> levelData;
 };
 
