@@ -5,15 +5,10 @@ JsonLoader::~JsonLoader()
 {
 	delete levelData;
 
-	// `WorldTransform` オブジェクトを解放
-	for (auto& object : objects) 
-	{
-		delete object;
-	}
-
-	models.clear();
+	
 	objects.clear();
-
+	models.clear();
+	
 }
 
 void JsonLoader::LoaderJsonFile()
@@ -107,20 +102,29 @@ void JsonLoader::LoaderJsonFile()
 	for (auto& objectData : levelData->objects)
 	{
 		//ファイル名から登録済みモデルを検索
-		model.reset(Model::Create(objectData.filename));
+		//model.reset(Model::Create(objectData.filename));
 
 		decltype(models)::iterator it = models.find(objectData.filename);
-		if (it != models.end()) { model.reset(it->second); }
+		if (it == models.end())
+		{
+			Model* model = Model::Create(objectData.filename);
+			models[objectData.filename].reset(model);
+		}
+	}
 
+	for (auto& objectData : levelData->objects)
+	{
 		//モデルを指定して3Dオブジェクトを生成
-		WorldTransform* newObject = new WorldTransform();
+		std::unique_ptr<WorldTransform>newObject;
+		newObject.reset(new WorldTransform());
+		newObject->Initialize();
 		newObject->translation_ = objectData.translation;
 		newObject->rotation_ = objectData.rotation;
 		newObject->scale_ = objectData.scaling;
-		newObject->Initialize();
 		//配列に登録
-		objects.push_back(newObject);
+		objects.push_back(std::move(newObject));
 	}
+
 
 
 }
@@ -128,40 +132,29 @@ void JsonLoader::LoaderJsonFile()
 void JsonLoader::Update()
 {
 
-
-	for (WorldTransform* object : objects)
-	{
-		//レベルデータからオブジェクトを生成、配置
-		for (auto& objectData : levelData->objects)
-		{
-
-
-			model->GetWorldTransform()->translation_ = object->translation_;
-			model->GetWorldTransform()->rotation_ = object->rotation_;
-			model->GetWorldTransform()->scale_ = object->scale_;
-		
-
-
-			object->UpdateWorldMatrix();
-			model->Update();
-		}
-
-		
-
-		//models.at(0)->GetWorldTransform()->
-	}
+	
 
 
 }
 
 void JsonLoader::Draw(Camera* camera)
 {
+	int i = 0;
 	//レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects)
 	{
-		
+		Model* model = nullptr;
+		decltype(models)::iterator it = models.find(objectData.filename);
+		if (it != models.end())
+		{
+			model = (it->second.get());
+		}
 
+		model->SetWorldTransform(objects[i].get());
+		model->Update();
+		
 		model->Draw(camera);
+		i++;
 
 	}
 }
