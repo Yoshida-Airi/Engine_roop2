@@ -23,6 +23,9 @@ void Player::Update()
 
 	playerModel->ModelDebug("player");
 
+	ImGui::Text("%d", onGround_);
+	ImGui::Text("%d", landing);
+
 }
 
 void Player::Draw(Camera* camera)
@@ -34,58 +37,103 @@ void Player::Move()
 {
 	/* --プレイヤーの移動処理-- */
 
-	if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT))
+	if (onGround_)
 	{
-		//左右加速
-		Vector3 acceleration = {};
-		if (Input::GetInstance()->PushKey(DIK_RIGHT))
+		if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT))
 		{
-			if (velocity_.x < 0.0f)
+			//左右加速
+			Vector3 acceleration = {};
+			if (Input::GetInstance()->PushKey(DIK_RIGHT))
 			{
-				//速度と逆方向に入力中は急ブレーキ
-				velocity_.x *= (1.0f - kAttenuation);
-			}
-			acceleration.x += kAcceleration;
+				if (velocity_.x < 0.0f)
+				{
+					//速度と逆方向に入力中は急ブレーキ
+					velocity_.x *= (1.0f - kAttenuation);
+				}
+				acceleration.x += kAcceleration;
 
-			//モデルの視線を動きに合わせる
-			if (lrDirection != LRDirection::kRight)
-			{
-				lrDirection = LRDirection::kRight;
-				turnFirstRotationY = playerModel->GetWorldTransform()->rotation_.y;
-				turnTimer = kTimeTrun;
+				//モデルの視線を動きに合わせる
+				if (lrDirection != LRDirection::kRight)
+				{
+					lrDirection = LRDirection::kRight;
+					turnFirstRotationY = playerModel->GetWorldTransform()->rotation_.y;
+					turnTimer = kTimeTrun;
+				}
+
 			}
+			else if (Input::GetInstance()->PushKey(DIK_LEFT))
+			{
+				if (velocity_.x > 0.0f)
+				{
+					//速度と逆方向に入力中は急ブレーキ
+					velocity_.x *= (1.0f - kAttenuation);
+				}
+				acceleration.x -= kAcceleration;
+
+				//モデルの視線を動きに合わせる
+				if (lrDirection != LRDirection::kLeft)
+				{
+					lrDirection = LRDirection::kLeft;
+					turnFirstRotationY = playerModel->GetWorldTransform()->rotation_.y;
+					turnTimer = kTimeTrun;
+				}
+			}
+
+			velocity_ = Add(velocity_, acceleration);
+
+			//速度制限
+			velocity_.x = std::clamp(velocity_.x, -kLimitRunSpeed, kLimitRunSpeed);
 
 		}
-		else if (Input::GetInstance()->PushKey(DIK_LEFT))
+		else
 		{
-			if (velocity_.x > 0.0f)
-			{
-				//速度と逆方向に入力中は急ブレーキ
-				velocity_.x *= (1.0f - kAttenuation);
-			}
-			acceleration.x -= kAcceleration;
+			//非入力時は移動減衰をかける
+			velocity_.x *= (1.0f - kAttenuation);
+		}
 
-			//モデルの視線を動きに合わせる
-			if (lrDirection != LRDirection::kLeft)
+		if (Input::GetInstance()->PushKey(DIK_UP))
+		{
+			//ジャンプ初速
+			velocity_ = Add(velocity_, Vector3(0, kJumpAcceleration, 0));
+
+			if (velocity_.y > 0.0f)
 			{
-				lrDirection = LRDirection::kLeft;
-				turnFirstRotationY = playerModel->GetWorldTransform()->rotation_.y;
-				turnTimer = kTimeTrun;
+				onGround_ = false;
 			}
 		}
-		
-		velocity_ = Add(velocity_, acceleration);
 
-		//速度制限
-		velocity_.x = std::clamp(velocity_.x, -kLimitRunSpeed, kLimitRunSpeed);
 
 	}
 	else
 	{
-		//非入力時は移動減衰をかける
-		velocity_.x *= (1.0f - kAttenuation);
-	}
+		//落下速度
+		velocity_ = Add(velocity_, Vector3(0, -kGravityAcceleration, 0));
+		//落下速度制限
+		velocity_.y = std::max(velocity_.y, -kLimitFallSpead);
 
+		landing = false;
+
+		//地面の当たり判定
+		if (velocity_.y < 0)
+		{
+			//y座標が地面以下になったら着地
+			if (playerModel->GetWorldTransform()->translation_.y <= 1.0f)
+			{
+				landing = true;
+			}
+		}
+
+		//着地
+		if (landing)
+		{
+			playerModel->GetWorldTransform()->translation_.y = 1.0f;
+			velocity_.x *= (1.0f - kAttenuation);
+			velocity_.y = 0.0f;
+			onGround_ = true;
+		}
+
+	}
+	
 
 
 }
@@ -108,4 +156,9 @@ void Player::Turn()
 		//角度を変更する
 		playerModel->GetWorldTransform()->rotation_.y = LerpShortTranslate(playerModel->GetWorldTransform()->rotation_.y, destinationRotationY, turnTimer);
 	}
+}
+
+void Player::Jump()
+{
+
 }

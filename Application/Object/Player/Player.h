@@ -1,4 +1,6 @@
 #pragma once
+#define NOMINMAX
+
 #include"Input.h"
 
 #include"Camera.h"
@@ -42,6 +44,13 @@ private:
 	float turnTimer = 0.0f;				//旋回タイマー
 	static inline const float kTimeTrun = 1.0f;	//旋回時間<秒>
 
+	bool onGround_ = true;	//接地状態フラグ
+	bool landing = false;	//接地フラグ
+	static inline const float kGravityAcceleration = 9.8f;	//重力加速度（下方向
+	static inline const float kLimitFallSpead = 0.2f;		//最大落下速度（下方向
+	static inline const float kJumpAcceleration = 3.0f;	//ジャンプ初速（上方向
+	
+
 private:
 
 	/// <summary>
@@ -53,6 +62,12 @@ private:
 	/// 振り向き
 	/// </summary>
 	void Turn();
+
+	/// <summary>
+	/// ジャンプ
+	/// </summary>
+	void Jump();
+
 
 
 
