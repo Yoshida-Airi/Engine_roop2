@@ -6,9 +6,9 @@
             "name": "Light",
             "transform": {
                 "translation": [
-                    148.25320434570312,
+                    21.806659698486328,
                     1.0054539442062378,
-                    5.903861999511719
+                    4.887955665588379
                 ],
                 "rotation": [
                     37.26104736328125,
@@ -27,9 +27,9 @@
             "name": "Camera",
             "transform": {
                 "translation": [
-                    151.5358428955078,
+                    25.089305877685547,
                     -6.925790786743164,
-                    4.958309173583984
+                    3.9424028396606445
                 ],
                 "rotation": [
                     63.559295654296875,
@@ -48,9 +48,9 @@
             "name": "立方体",
             "transform": {
                 "translation": [
-                    81.12908935546875,
+                    2.1087093353271484,
                     0.0,
-                    -1.058235764503479
+                    2.492812156677246
                 ],
                 "rotation": [
                     0.0,
@@ -58,21 +58,21 @@
                     0.0
                 ],
                 "scaling": [
-                    93.51742553710938,
+                    1.767340064048767,
                     1.0,
                     1.0
                 ]
             },
-            "file_name": "Resources/SampleAssets/cube.obj"
+            "file_name": "Resources/Object/map.obj"
         },
         {
             "type": "MESH",
             "name": "立方体.001",
             "transform": {
                 "translation": [
-                    8.791244506835938,
+                    6.781879425048828,
                     0.0,
-                    4.034884929656982
+                    4.253716468811035
                 ],
                 "rotation": [
                     0.0,
@@ -80,21 +80,21 @@
                     0.0
                 ],
                 "scaling": [
-                    2.3683483600616455,
+                    1.767340064048767,
                     1.0,
                     1.0
                 ]
             },
-            "file_name": "Resources/SampleAssets/cube.obj"
+            "file_name": "Resources/Object/map.obj"
         },
         {
             "type": "MESH",
             "name": "立方体.002",
             "transform": {
                 "translation": [
-                    16.997087478637695,
+                    17.73041534423828,
                     0.0,
-                    7.017495632171631
+                    -1.0939801931381226
                 ],
                 "rotation": [
                     0.0,
@@ -102,43 +102,21 @@
                     0.0
                 ],
                 "scaling": [
-                    3.145538568496704,
+                    24.23445701599121,
                     1.0,
                     1.0
                 ]
             },
-            "file_name": "Resources/SampleAssets/cube.obj"
-        },
-        {
-            "type": "MESH",
-            "name": "立方体.005",
-            "transform": {
-                "translation": [
-                    81.12908935546875,
-                    0.0,
-                    73.94142150878906
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    93.51742553710938,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "Resources/SampleAssets/cube.obj"
+            "file_name": "Resources/Object/map.obj"
         },
         {
             "type": "MESH",
             "name": "立方体.003",
             "transform": {
                 "translation": [
-                    -11.228503227233887,
+                    17.73041534423828,
                     0.0,
-                    36.28699493408203
+                    13.183977127075195
                 ],
                 "rotation": [
                     0.0,
@@ -146,21 +124,21 @@
                     0.0
                 ],
                 "scaling": [
+                    24.23445701599121,
                     1.0,
-                    1.0,
-                    38.26447296142578
+                    1.0
                 ]
             },
-            "file_name": "Resources/SampleAssets/cube.obj"
+            "file_name": "Resources/Object/map.obj"
         },
         {
             "type": "MESH",
             "name": "立方体.004",
             "transform": {
                 "translation": [
-                    173.77040100097656,
+                    -5.5125579833984375,
                     0.0,
-                    36.12896728515625
+                    6.137767791748047
                 ],
                 "rotation": [
                     0.0,
@@ -170,10 +148,76 @@
                 "scaling": [
                     1.0,
                     1.0,
-                    38.26447296142578
+                    6.251661777496338
                 ]
             },
-            "file_name": "Resources/SampleAssets/cube.obj"
+            "file_name": "Resources/Object/map.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.005",
+            "transform": {
+                "translation": [
+                    40.93838882446289,
+                    0.0,
+                    6.137767791748047
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    6.251661777496338
+                ]
+            },
+            "file_name": "Resources/Object/map.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.006",
+            "transform": {
+                "translation": [
+                    16.500717163085938,
+                    0.0,
+                    6.928936958312988
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.249567031860352,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "Resources/Object/map.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.007",
+            "transform": {
+                "translation": [
+                    29.291969299316406,
+                    0.0,
+                    2.6413567066192627
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    2.5760509967803955,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "Resources/Object/map.obj"
         }
     ]
 }

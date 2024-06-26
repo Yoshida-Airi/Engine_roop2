@@ -23,8 +23,22 @@ void Player::Update()
 
 	playerModel->ModelDebug("player");
 
-	ImGui::Text("%d", onGround_);
-	ImGui::Text("%d", landing);
+	//ImGui::Text("%d", onGround_);
+	//ImGui::Text("%d", landing);
+
+	//float kGravityAcceleration_[1] = { kGravityAcceleration };
+	//ImGui::DragFloat("kGravityAcceleration", kGravityAcceleration_, 0.1f);
+	//kGravityAcceleration = kGravityAcceleration_[0];
+
+	//float kLimitFallSpead_[1] = { kLimitFallSpead };
+	//ImGui::DragFloat("kLimitFallSpead", kLimitFallSpead_, 0.1f);
+	//kLimitFallSpead = kLimitFallSpead_[0];
+
+
+	//float kJumpAcceleration_[1] = { kJumpAcceleration };
+	//ImGui::DragFloat("kJumpAcceleration", kJumpAcceleration_, 0.1f);
+	//kJumpAcceleration = kJumpAcceleration_[0];
+
 
 }
 
