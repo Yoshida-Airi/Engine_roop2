@@ -17,6 +17,7 @@
 #include"Input.h"
 
 #include"Object/Player/Player.h"
+#include"LevelEditor.h"
 
 
 /// <summary>
@@ -55,6 +56,8 @@ private:
 
 	std::unique_ptr<ParticleSystem> particle = nullptr;
 	std::unique_ptr<ParticleSystem> particle2 = nullptr;
+
+	LevelEditor* levelEditor = nullptr;
 
 	Player* player;
 	
