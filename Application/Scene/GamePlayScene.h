@@ -16,6 +16,8 @@
 
 #include"Input.h"
 
+#include"Object/Player/Player.h"
+
 
 /// <summary>
 /// ゲームプレイシーン
@@ -54,6 +56,7 @@ private:
 	std::unique_ptr<ParticleSystem> particle = nullptr;
 	std::unique_ptr<ParticleSystem> particle2 = nullptr;
 
-
+	Player* player;
+	
 };
 

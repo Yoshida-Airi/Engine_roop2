@@ -119,6 +119,8 @@
     </ClCompile>
     <ClCompile Include="Engine\Base\LevelEditor.cpp">
       <Filter>Engine\Base</Filter>
+    <ClCompile Include="Application\Object\Player\Player.cpp">
+      <Filter>Application\Object\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +231,8 @@
     </ClInclude>
     <ClInclude Include="Engine\Base\LevelEditor.h">
       <Filter>Engine\Base</Filter>
+    <ClInclude Include="Application\Object\Player\Player.h">
+      <Filter>Application\Object\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -276,6 +280,12 @@
     </Filter>
     <Filter Include="Engine\Animation">
       <UniqueIdentifier>{eb0ea847-3ae9-4f7e-9205-c36a4e26d58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object">
+      <UniqueIdentifier>{b0e079f8-abe5-41c4-b826-7267afd41e9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Object\Player">
+      <UniqueIdentifier>{756f3c02-9f45-4f0f-be8e-aa87b7a5207b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
