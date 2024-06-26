@@ -119,6 +119,7 @@
     </ClCompile>
     <ClCompile Include="Engine\Base\LevelEditor.cpp">
       <Filter>Engine\Base</Filter>
+    </ClCompile>
     <ClCompile Include="Application\Object\Player\Player.cpp">
       <Filter>Application\Object\Player</Filter>
     </ClCompile>
@@ -231,6 +232,7 @@
     </ClInclude>
     <ClInclude Include="Engine\Base\LevelEditor.h">
       <Filter>Engine\Base</Filter>
+    </ClInclude>
     <ClInclude Include="Application\Object\Player\Player.h">
       <Filter>Application\Object\Player</Filter>
     </ClInclude>
