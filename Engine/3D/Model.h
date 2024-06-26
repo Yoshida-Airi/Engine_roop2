@@ -76,6 +76,10 @@ public:
 
 	WorldTransform* GetWorldTransform()const { return worldTransform_; };
 
+	void SetWorldTransform(WorldTransform* worldTransform)
+	{
+		worldTransform_ = worldTransform;
+	}
 	
 	void SetAnimation(AnimationData animationData)
 	{

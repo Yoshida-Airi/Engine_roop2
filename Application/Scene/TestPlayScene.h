@@ -7,6 +7,8 @@
 
 #include"Input.h"
 
+#include"LevelEditor.h"
+
 class TestPlayScene:public BaseScene
 {
 public:
@@ -28,7 +30,7 @@ private:
 
 	AnimationData walkAnimation;
 
-
+	LevelEditor* levelEditor;
 
 
 };

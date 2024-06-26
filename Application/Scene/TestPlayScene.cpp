@@ -5,6 +5,7 @@
 TestPlayScene::~TestPlayScene()
 {
 	delete camera;
+	delete levelEditor;
 }
 
 void TestPlayScene::Initialize()
@@ -19,6 +20,7 @@ void TestPlayScene::Initialize()
 	//model->UseAnimation(false);
 	model2.reset(Model::Create("Resources/SampleAssets/cube.obj"));
 	model2->GetWorldTransform()->translation_.x = 5.0f;
+	model2->SetisInvisible(true);
 
 	model3.reset(Model::Create("Resources/SampleAssets/human/sneakWalk.gltf"));
 	//model3->SetAnimation(walkAnimation);
@@ -26,6 +28,8 @@ void TestPlayScene::Initialize()
 	model4.reset(Model::Create("Resources/SampleAssets/simpleSkin.gltf"));
 	model4->GetWorldTransform()->rotation_.y = 3.14f;
 
+	levelEditor = new LevelEditor();
+	levelEditor->LoaderJsonFile();
 }
 
 void TestPlayScene::Update()
@@ -46,11 +50,13 @@ void TestPlayScene::Update()
 	model3->ModelDebug("walk");
 	model4->ModelDebug("simpleSkin");
 
-	
+	levelEditor->Update();
 }
 
 void TestPlayScene::Draw()
 {
+	levelEditor->Draw(camera);
+
 	model->Draw(camera);
 	model2->Draw(camera);
 	model3->Draw(camera);
