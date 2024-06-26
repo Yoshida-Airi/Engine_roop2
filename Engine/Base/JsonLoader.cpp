@@ -147,7 +147,9 @@ void JsonLoader::Draw(Camera* camera)
 		}
 		if (model)
 		{
-			model->SetWorldTransform(objects[i].get());
+			model->GetWorldTransform()->translation_ = (objects[i].get()->translation_);
+			model->GetWorldTransform()->rotation_ = (objects[i].get()->rotation_);
+			model->GetWorldTransform()->scale_ = (objects[i].get()->scale_);
 			model->Update();
 
 			model->Draw(camera);
