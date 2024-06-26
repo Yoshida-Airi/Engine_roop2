@@ -123,7 +123,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Logger\Logger.cpp" />
     <ClCompile Include="Application\Scene\GamePlayScene.cpp" />
     <ClCompile Include="Engine\Base\Manager\GraphicsPipelineManager.cpp" />
-    <ClCompile Include="Engine\Base\JsonLoader.cpp" />
+    <ClCompile Include="Engine\Base\LevelEditor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Math\MathUtilty.cpp" />
     <ClCompile Include="Engine\3D\Model.cpp" />
@@ -177,7 +177,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Effect\ParticleSystem.h" />
     <ClInclude Include="Engine\Base\Manager\SrvManager.h" />
     <ClInclude Include="Application\Scene\TestPlayScene.h" />
-    <ClInclude Include="Engine\Base\JsonLoader.h" />
+    <ClInclude Include="Engine\Base\LevelEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Particle.PS.hlsl">

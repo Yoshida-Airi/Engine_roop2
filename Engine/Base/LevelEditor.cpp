@@ -1,13 +1,13 @@
-#include "JsonLoader.h"
+#include "LevelEditor.h"
 
 
-JsonLoader::~JsonLoader()
+LevelEditor::~LevelEditor()
 {
 
 
 }
 
-void JsonLoader::LoaderJsonFile()
+void LevelEditor::LoaderJsonFile()
 {
 	const std::string fullpath = "Resources/levelEditor.json";
 	std::ifstream file;
@@ -125,7 +125,7 @@ void JsonLoader::LoaderJsonFile()
 
 }
 
-void JsonLoader::Update()
+void LevelEditor::Update()
 {
 
 	
@@ -133,7 +133,7 @@ void JsonLoader::Update()
 
 }
 
-void JsonLoader::Draw(Camera* camera)
+void LevelEditor::Draw(Camera* camera)
 {
 	int i = 0;
 	//レベルデータからオブジェクトを生成、配置

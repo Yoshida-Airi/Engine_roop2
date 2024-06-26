@@ -117,7 +117,7 @@
     <ClCompile Include="Engine\Animation\Animation.cpp">
       <Filter>Engine\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\JsonLoader.cpp">
+    <ClCompile Include="Engine\Base\LevelEditor.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,7 +227,7 @@
     <ClInclude Include="Engine\Animation\Animation.h">
       <Filter>Engine\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\JsonLoader.h">
+    <ClInclude Include="Engine\Base\LevelEditor.h">
       <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>

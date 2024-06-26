@@ -23,11 +23,11 @@ struct LevelData
 	std::vector<ObjectData>objects;
 };
 
-class JsonLoader
+class LevelEditor
 {
 public:
 
-	~JsonLoader();
+	~LevelEditor();
 	void LoaderJsonFile();
 
 	void Update();

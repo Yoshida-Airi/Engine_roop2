@@ -5,7 +5,7 @@
 TestPlayScene::~TestPlayScene()
 {
 	delete camera;
-	delete jsonLoder;
+	delete levelEditor;
 }
 
 void TestPlayScene::Initialize()
@@ -28,8 +28,8 @@ void TestPlayScene::Initialize()
 	model4.reset(Model::Create("Resources/SampleAssets/simpleSkin.gltf"));
 	model4->GetWorldTransform()->rotation_.y = 3.14f;
 
-	jsonLoder = new JsonLoader();
-	jsonLoder->LoaderJsonFile();
+	levelEditor = new LevelEditor();
+	levelEditor->LoaderJsonFile();
 }
 
 void TestPlayScene::Update()
@@ -50,12 +50,12 @@ void TestPlayScene::Update()
 	model3->ModelDebug("walk");
 	model4->ModelDebug("simpleSkin");
 
-	jsonLoder->Update();
+	levelEditor->Update();
 }
 
 void TestPlayScene::Draw()
 {
-	jsonLoder->Draw(camera);
+	levelEditor->Draw(camera);
 
 	model->Draw(camera);
 	model2->Draw(camera);
