@@ -101,22 +101,23 @@ void JsonLoader::LoaderJsonFile()
 		decltype(models)::iterator it = models.find(objectData.filename);
 		if (it == models.end())
 		{
-			Model* model = Model::Create(objectData.filename);
-			models[objectData.filename].reset(model);
+			//Model* model = Model::Create(objectData.filename);
+			models[objectData.filename].reset(Model::Create(objectData.filename));
+		
 		}
 	}
 
 	for (auto& objectData : levelData->objects)
 	{
 		//モデルを指定して3Dオブジェクトを生成
-		auto newObject = std::make_unique<WorldTransform>();
+		std::unique_ptr<WorldTransform> newObject = std::make_unique<WorldTransform>();
 		newObject->Initialize();
 		newObject->translation_ = objectData.translation;
 		newObject->rotation_ = objectData.rotation;
 		newObject->scale_ = objectData.scaling;
 		newObject->UpdateWorldMatrix();
 		//配列に登録
-		objects.push_back(newObject.get());
+		objects.push_back(std::move(newObject));
 		
 	}
 
@@ -146,7 +147,7 @@ void JsonLoader::Draw(Camera* camera)
 		}
 		if (model)
 		{
-			model->SetWorldTransform(objects[i]);
+			model->SetWorldTransform(objects[i].get());
 			model->Update();
 
 			model->Draw(camera);
