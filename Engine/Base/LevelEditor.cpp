@@ -153,10 +153,17 @@ void LevelEditor::Draw(Camera* camera)
 			model->GetWorldTransform()->translation_ = (objects[i].get()->translation_);
 			model->GetWorldTransform()->rotation_ = (objects[i].get()->rotation_);
 			model->GetWorldTransform()->scale_ = (objects[i].get()->scale_);
-			model->GetWorldTransform()->UpdateWorldMatrix();
+			//model->GetWorldTransform()->UpdateWorldMatrix();
 			model->Update();
 
 			model->Draw(camera);
+
+			// iを含むデバッグ名を作成
+			std::ostringstream debugName;
+			debugName << "mapData _" << i;
+
+			model->ModelDebug(debugName.str().c_str());
+
 		}
 
 		i++;
