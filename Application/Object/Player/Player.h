@@ -12,15 +12,19 @@
 #include<algorithm>
 #include<numbers>
 
+#include"Collider.h"
 
-
-class Player
+class Player : public Collider
 {
 public:
 	void Initialize();
 	void Update();
 	void Draw(Camera* camera);
 	WorldTransform* GetWorldTransform() { return playerModel->GetWorldTransform(); }
+
+	Vector3 GetWorldPosition()override;
+	void OnCollision([[maybe_unused]] Collider* other)override;
+
 
 private:
 	std::unique_ptr<Model>playerModel;

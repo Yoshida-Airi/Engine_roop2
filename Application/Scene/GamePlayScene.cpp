@@ -15,7 +15,12 @@ void GamePlayScene::Initialize()
 	input = Input::GetInstance();
 	sceneManager_ = SceneManager::GetInstance();
 
+	//当たり判定処理の設定
+	colliderManager_ = std::make_unique<CollisionManager>();
+	colliderManager_->Initialize();
 
+
+	//テクスチャの読み込み
 	uvTexture = texture->LoadTexture("Resources/SampleAssets/uvChecker.png");
 	monsterBall = texture->LoadTexture("Resources/SampleAssets/monsterBall.png");
 	Doll = texture->LoadTexture("Resources/SampleAssets/Doll.png");
@@ -30,7 +35,7 @@ void GamePlayScene::Initialize()
 	player = new Player();
 	player->Initialize();
 
-	
+	colliderManager_->UpdateWorldTransform();
 
 	//triangle.reset(Triangle::Create(uvTexture));
 	//triangle2.reset(Triangle::Create(monsterBall));
@@ -131,6 +136,8 @@ void GamePlayScene::Update()
 	//particle->Update();
 	//particle2->Update();
 
+
+
 	levelEditor->Update();
 
 	player->Update();
@@ -162,4 +169,6 @@ void GamePlayScene::Draw()
 
 
 	player->Draw(camera);
+
+	colliderManager_->Draw(camera);
 }

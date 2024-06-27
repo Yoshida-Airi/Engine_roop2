@@ -1,8 +1,13 @@
 #include "Player.h"
+#include"Object/CollisionConfig.h"
 
 void Player::Initialize()
 {
 	playerModel.reset(Model::Create("Resources/Object/Player/player.obj"));
+
+	Collider::Initialize();
+	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kPlayer));
+	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::SPHERE));
 
 	//モデルの初期設定
 	playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
@@ -45,6 +50,23 @@ void Player::Update()
 void Player::Draw(Camera* camera)
 {
 	playerModel->Draw(camera);
+}
+
+Vector3 Player::GetWorldPosition()
+{
+	// ワールド座標を入れる変数
+	Vector3 worldpos;
+
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldpos.x = playerModel->GetWorldTransform()->matWorld_.m[3][0];
+	worldpos.y = playerModel->GetWorldTransform()->matWorld_.m[3][1];
+	worldpos.z = playerModel->GetWorldTransform()->matWorld_.m[3][2];
+
+	return worldpos;
+}
+
+void Player::OnCollision(Collider* other)
+{
 }
 
 void Player::Move()

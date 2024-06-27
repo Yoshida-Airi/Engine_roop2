@@ -24,8 +24,15 @@ void Model::Initialize(const std::string& filename)
 
 	modelData_ = modelLoader_->LoadModelFile(filename);
 
-	textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
-
+	if (modelData_.material.textureFilePath.empty())
+	{
+		//モデルデータにテクスチャ情報がなかったら
+		textureHandle_ = texture_->LoadTexture("Resources/SampleAssets/uvChecker.png");
+	}
+	else
+	{
+		textureHandle_ = texture_->LoadTexture(modelData_.material.textureFilePath);
+	}
 
 	animation = animation_->LoadAnimationFile(filename);
 
