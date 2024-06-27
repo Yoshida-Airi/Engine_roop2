@@ -81,8 +81,17 @@ void LevelEditor::LoaderJsonFile()
 
 			//コライダーのパラメータ読み込み
 			nlohmann::json& collider = object["collider"];
+	
+			std::string type = collider["type"].get<std::string>();
+			objectData.collisionType = type;
 
+			objectData.center.x = (float)collider["center"][0];
+			objectData.center.y = (float)collider["center"][1];
+			objectData.center.z = (float)collider["center"][2];
 
+			objectData.size.x = (float)collider["size"][0];
+			objectData.size.y = (float)collider["size"][1];
+			objectData.size.z = (float)collider["size"][2];
 
 		}
 

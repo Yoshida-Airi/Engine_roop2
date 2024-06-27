@@ -19,6 +19,11 @@ struct LevelData
 		Vector3 rotation;
 		Vector3 scaling;
 
+		// colliderの情報
+		std::string collisionType;	//コライダーのタイプ
+		Vector3 center;  // コライダーの中心
+		Vector3 size;    // コライダーのサイズ
+
 	};
 	std::vector<ObjectData>objects;
 };
