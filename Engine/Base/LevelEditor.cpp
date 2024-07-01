@@ -159,6 +159,8 @@ void LevelEditor::Draw(Camera* camera)
 			//model->SetWorldTransform(objects[i].get());
 			model->GetWorldTransform()->constMap = (objects[i].get()->constMap);
 			model->GetWorldTransform()->constBuffer_ = (objects[i].get()->constBuffer_);
+			model->GetWorldTransform()->matWorld_ = objects[i].get()->matWorld_;
+			model->GetWorldTransform()->parent_ = objects[i].get()->parent_;
 			model->GetWorldTransform()->translation_ = (objects[i].get()->translation_);
 			model->GetWorldTransform()->rotation_ = (objects[i].get()->rotation_);
 			model->GetWorldTransform()->scale_ = (objects[i].get()->scale_);
