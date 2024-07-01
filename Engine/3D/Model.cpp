@@ -45,6 +45,7 @@ void Model::Initialize(const std::string& filename)
 	materialData_->uvTransform = MakeIdentity4x4();
 	materialData_->shininess = 10.0f;
 	materialData_->enableLighting = true;
+	materialData_->environmentCoefficient = 1.0f;
 
 	//ライトのデフォルト値
 	lightData_->color = { 1.0f,1.0f,1.0f,1.0f };
@@ -72,13 +73,7 @@ void Model::Update()
 		lightData_->direction.y = direction[1];
 		lightData_->direction.z = direction[2];
 
-		float color[] = { materialData_->color.x,materialData_->color.y,materialData_->color.z,materialData_->color.w };
-		ImGui::ColorEdit4("Pick A Color", color);
-
-		materialData_->color.x = color[0];
-		materialData_->color.y = color[1];
-		materialData_->color.z = color[2];
-		materialData_->color.w = color[3];
+		
 
 
 		ImGui::TreePop();
@@ -163,11 +158,13 @@ void Model::Draw(Camera* camera)
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetSrvGPUHandle(textureHandle_));
 	//ライト用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, lightResource_->GetGPUVirtualAddress());
+	//環境マップ用のCBufferの場所を設定
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(5, texture_->GetSrvGPUHandle(environmentMapTexture));
 	
 	if (animation.isValid == true)
 	{
 		//weight用のCBufferの場所を設定
-		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(5, skinCluster.paletteSrvHandle.second);
+		dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(6, skinCluster.paletteSrvHandle.second);
 	}
 	
 	//描画
@@ -191,21 +188,40 @@ void Model::ModelDebug(const char* name)
 
 	if (ImGui::TreeNode(name))
 	{
-		float translate[3] = { worldTransform_->translation_.x, worldTransform_->translation_.y, worldTransform_->translation_.z };
-		ImGui::DragFloat3("transform", translate, 0.01f);
-		worldTransform_->translation_ = { translate[0],translate[1],translate[2] };
+		if (ImGui::TreeNode("transform"))
+		{
+			float translate[3] = { worldTransform_->translation_.x, worldTransform_->translation_.y, worldTransform_->translation_.z };
+			ImGui::DragFloat3("transform", translate, 0.01f);
+			worldTransform_->translation_ = { translate[0],translate[1],translate[2] };
 
-		float rotate[3] = { worldTransform_->rotation_.x, worldTransform_->rotation_.y, worldTransform_->rotation_.z };
-		ImGui::DragFloat3("rotate", rotate, 0.01f);
-		worldTransform_->rotation_ = { rotate[0],rotate[1],rotate[2] };
+			float rotate[3] = { worldTransform_->rotation_.x, worldTransform_->rotation_.y, worldTransform_->rotation_.z };
+			ImGui::DragFloat3("rotate", rotate, 0.01f);
+			worldTransform_->rotation_ = { rotate[0],rotate[1],rotate[2] };
 
-		float scale[3] = { worldTransform_->scale_.x, worldTransform_->scale_.y, worldTransform_->scale_.z };
-		ImGui::DragFloat3("scale", scale, 0.01f);
-		worldTransform_->scale_ = { scale[0],scale[1],scale[2] };
-		ImGui::TreePop();
+			float scale[3] = { worldTransform_->scale_.x, worldTransform_->scale_.y, worldTransform_->scale_.z };
+			ImGui::DragFloat3("scale", scale, 0.01f);
+			worldTransform_->scale_ = { scale[0],scale[1],scale[2] };
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("material"))
+		{
+			float color[] = { materialData_->color.x,materialData_->color.y,materialData_->color.z,materialData_->color.w };
+			ImGui::ColorEdit4("Pick A Color", color);
+
+			materialData_->color.x = color[0];
+			materialData_->color.y = color[1];
+			materialData_->color.z = color[2];
+			materialData_->color.w = color[3];
+
+			float environmentCoefficient[]{ materialData_->environmentCoefficient };
+			ImGui::SliderFloat("environmentCoefficient", environmentCoefficient, 0.0f, 1.0f);
+			materialData_->environmentCoefficient = environmentCoefficient[0];
+
+			ImGui::TreePop();
+		}
 
 		//worldTransform_->UpdateWorldMatrix();
-
+		ImGui::TreePop();
 	}
 
 	ImGui::End();

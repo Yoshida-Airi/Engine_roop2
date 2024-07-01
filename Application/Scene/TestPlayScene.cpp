@@ -15,24 +15,32 @@ void TestPlayScene::Initialize()
 	textureManager_ = TextureManager::GetInstance();
 
 	uint32_t airport = textureManager_->LoadTexture("Resources/SampleAssets/rostock_laage_airport_4k.dds");
+	uint32_t white = textureManager_->LoadTexture("Resources/SampleAssets/white.png");
 
 	skybox.reset(Skybox::Create(airport));
-	skybox->GetWorldTransform()->scale_ = { 3.0f,3.0f,3.0f };
+	skybox->GetWorldTransform()->scale_ = { 10.0f,10.0f,10.0f };
 
 	//walkAnimation = Animation::GetInstance()->LoadAnimationFile("Resources/SampleAssets/human/sneakWalk.gltf");
 
 	model.reset(Model::Create("Resources/SampleAssets/human/walk.gltf"));
+	model->SetEnvironmentMap(airport);
+	model->SetisInvisible(true);
 	//model->SetAnimation(walkAnimation);
 	//model->UseAnimation(false);
-	model2.reset(Model::Create("Resources/SampleAssets/cube.obj"));
+	model2.reset(Model::Create("Resources/SampleAssets/axis.obj"));
+	model2->SetTexture(white);
+	
+	model2->SetEnvironmentMap(airport);
 	model2->GetWorldTransform()->translation_.x = 5.0f;
 
 	model3.reset(Model::Create("Resources/SampleAssets/human/sneakWalk.gltf"));
+	model3->SetEnvironmentMap(airport);
 	//model3->SetAnimation(walkAnimation);
 
 	model4.reset(Model::Create("Resources/SampleAssets/simpleSkin.gltf"));
 	model4->GetWorldTransform()->rotation_.y = 3.14f;
-
+	model4->SetisInvisible(true);
+	model4->SetEnvironmentMap(airport);
 	
 
 }
@@ -49,6 +57,9 @@ void TestPlayScene::Update()
 	{
 		model->MoveAnimation(false);
 	}
+
+	model2->GetWorldTransform()->rotation_.y += 0.01f;
+	model3->GetWorldTransform()->rotation_.y += 0.01f;
 
 	model->ModelDebug("model");
 	model2->ModelDebug("cube");

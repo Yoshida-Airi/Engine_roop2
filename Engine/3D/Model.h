@@ -87,6 +87,16 @@ public:
 		isActiveAnimation = isActive;
 	}
 
+	void SetEnvironmentMap(uint32_t texture)
+	{
+		environmentMapTexture = texture;
+	}
+
+	void SetTexture(uint32_t texture)
+	{
+		textureHandle_ = texture;
+	}
+
 private:
 	DirectXCommon* dxCommon_;
 	GraphicsPipelineManager* psoManager_;
@@ -103,6 +113,7 @@ private:
 	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
 	Microsoft::WRL::ComPtr < ID3D12Resource> lightResource_;
 	Microsoft::WRL::ComPtr < ID3D12Resource> indexResource_;
+	
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 
@@ -126,6 +137,7 @@ private:
 
 	bool isActiveAnimation = true;
 
+	uint32_t environmentMapTexture;
 	
 private:
 

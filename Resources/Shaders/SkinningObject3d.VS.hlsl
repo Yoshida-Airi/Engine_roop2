@@ -5,16 +5,6 @@ struct TransformationMatrix
     float32_t4x4 WorldMatrix;
 };
 
-struct Camera
-{
-    float32_t4x4 view;
-    float32_t4x4 projection;
-    
-    float32_t4x4 sview;
-    float32_t4x4 sprojection;
-    
-    float32_t3 worldPosition;
-};
 
 struct Well
 {
@@ -23,7 +13,6 @@ struct Well
 };
 
 ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
-ConstantBuffer<Camera> gCamera : register(b1);
 StructuredBuffer<Well> gMatrixPalette : register(t0);
 
 

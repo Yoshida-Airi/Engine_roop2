@@ -6,6 +6,7 @@ struct Material
     float32_t4x4 uvTransform;
     float32_t shininess;
     int32_t enableLighting;
+    float32_t environmentCoefficient;
 };
 
 struct DirectionalLight
@@ -16,8 +17,9 @@ struct DirectionalLight
 };
 
 ConstantBuffer<Material> gMaterial : register(b0);
-ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
+ConstantBuffer<DirectionalLight> gDirectionalLight : register(b2);
 Texture2D<float32_t4> gTexture : register(t0);
+TextureCube<float32_t4> gEnvironmentTexture : register(t1);
 SamplerState gSampler : register(s0);
 
 struct PixcelShaderOutput
@@ -39,7 +41,13 @@ PixcelShaderOutput main(VertexShaderOutput input)
     float RdotE = dot(reflectLight, toEye);
     float specularPow = pow(saturate(NDotH), gMaterial.shininess);
     
-  
+    //環境マップ
+    float32_t3 cameraToPosition = normalize(input.worldPosition - gCamera.worldPosition);
+    float32_t3 reflectedVector = reflect(cameraToPosition, normalize(input.normal));
+    float32_t4 environmentColor = gEnvironmentTexture.Sample(gSampler, reflectedVector);
+    
+   
+    
     if (gMaterial.enableLighting != 0)
     {
         
@@ -47,10 +55,12 @@ PixcelShaderOutput main(VertexShaderOutput input)
         float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
         float32_t3 diffuse = gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.color.rgb * cos * gDirectionalLight.intensity;
      
-             // 鏡面反射
+        // 鏡面反射
         float32_t3 specular = gDirectionalLight.color.rgb * gDirectionalLight.intensity * specularPow * float32_t3(1.0f, 1.0f, 1.0f);
-             // すべて加算
+        // すべて加算
         output.color.rgb = diffuse + specular;
+        output.color.rgb += environmentColor.rgb * gMaterial.environmentCoefficient;
+        
         
         output.color.a = gMaterial.color.a * textureColor.a;
         

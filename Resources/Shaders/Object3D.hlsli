@@ -6,3 +6,15 @@ struct VertexShaderOutput
     float32_t3 worldPosition : POSITION0;
 };
 
+struct Camera
+{
+    float32_t4x4 view;
+    float32_t4x4 projection;
+    
+    float32_t4x4 sview;
+    float32_t4x4 sprojection;
+    
+    float32_t3 worldPosition;
+};
+
+ConstantBuffer<Camera> gCamera : register(b1);
