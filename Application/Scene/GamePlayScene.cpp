@@ -4,9 +4,8 @@ GamePlayScene::~GamePlayScene()
 {
 
 	delete camera;
-	delete player;
 	delete levelEditor;
-	
+
 }
 
 void GamePlayScene::Initialize()
@@ -31,9 +30,12 @@ void GamePlayScene::Initialize()
 
 	levelEditor = new LevelEditor();
 	levelEditor->LoaderJsonFile();
-	
-	player = new Player();
+
+	player = std::make_unique<Player>();
 	player->Initialize();
+
+	enemy = std::make_unique<Enemy>();
+	enemy->Initialize();
 
 	colliderManager_->UpdateWorldTransform();
 
@@ -95,7 +97,7 @@ void GamePlayScene::Update()
 	input->TriggerKey(DIK_0);
 
 #ifdef _DEBUG
-	
+
 	camera->CameraDebug();
 
 #endif // _DEBUG
@@ -141,6 +143,10 @@ void GamePlayScene::Update()
 	levelEditor->Update();
 
 	player->Update();
+	enemy->Update();
+
+	CheckAllCollisions();
+
 	camera->transform.translate.x = LerpShortTranslate(camera->transform.translate.x, player->GetWorldTransform()->translation_.x, 0.04f);
 
 }
@@ -169,6 +175,24 @@ void GamePlayScene::Draw()
 
 
 	player->Draw(camera);
+	enemy->Draw(camera);
 
 	colliderManager_->Draw(camera);
+}
+
+void GamePlayScene::CheckAllCollisions()
+{
+
+
+	//コライダーのリストをクリア
+	colliderManager_->ListClear();
+
+	//コライダーにオブジェクトを登録
+	colliderManager_->AddColliders(player.get());
+	colliderManager_->AddColliders(enemy.get());
+
+	//当たり判定
+	colliderManager_->ChackAllCollisions();
+
+
 }

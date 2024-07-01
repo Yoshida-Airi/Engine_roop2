@@ -18,6 +18,8 @@
 #include"Input.h"
 
 #include"Object/Player/Player.h"
+#include"Object/Enemy/Enemy.h"
+
 #include"LevelEditor.h"
 
 
@@ -31,6 +33,8 @@ public:
 	void Initialize()override;
 	void Update()override;
 	void Draw()override;
+
+	void CheckAllCollisions();
 
 private:
 	TextureManager* texture;
@@ -64,7 +68,7 @@ private:
 
 	LevelEditor* levelEditor = nullptr;
 
-	Player* player;
-	
+	std::unique_ptr <Player> player;
+	std::unique_ptr <Enemy>enemy;
 };
 
