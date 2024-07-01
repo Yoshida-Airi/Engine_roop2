@@ -37,6 +37,8 @@ private:
 	/// <param name="colliderB">コライダーB</param>
 	void CheakCollisionPair(Collider* colliderA, Collider* colliderB);
 
+	void CheackSphereCollision();
+
 	// コライダーリスト
 	std::list<Collider*> colliders_;
 

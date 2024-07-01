@@ -26,22 +26,22 @@ public:
 	//半径を設定
 	void SetRadius(Vector3 radius) { radius_ = radius; };
 
-	//衝突属性(自分)を取得
-	uint32_t GetCollisionAttribute() const { return collisionAttribute_; };
-	//衝突属性(自分)を指定
-	void SetCollisionAttribute(uint32_t attribute)
-	{
-		collisionAttribute_ = attribute;
-	}
+	////衝突属性(自分)を取得
+	//uint32_t GetCollisionAttribute() const { return collisionAttribute_; };
+	////衝突属性(自分)を指定
+	//void SetCollisionAttribute(uint32_t attribute)
+	//{
+	//	collisionAttribute_ = attribute;
+	//}
 
-	//衝突マスク(相手)を取得
-	uint32_t GetCollisionMask() const { return CollisionMask_; };
+	////衝突マスク(相手)を取得
+	//uint32_t GetCollisionMask() const { return CollisionMask_; };
 
-	//衝突マスク(相手)を設定
-	void SetCollisionMask(uint32_t mask)
-	{
-		CollisionMask_ = mask;
-	}
+	////衝突マスク(相手)を設定
+	//void SetCollisionMask(uint32_t mask)
+	//{
+	//	CollisionMask_ = mask;
+	//}
 
 	//種別IDを取得
 	uint32_t GetTypeID()const { return typeID_; };
@@ -61,10 +61,10 @@ private:
 	uint32_t collisionType_ = 0u;
 
 
-	//衝突属性(自分)
-	uint32_t collisionAttribute_ = 0xffffffff;
-	//衝突マスク(相手)
-	uint32_t CollisionMask_ = 0xffffffff;
+	////衝突属性(自分)
+	//uint32_t collisionAttribute_ = 0xffffffff;
+	////衝突マスク(相手)
+	//uint32_t CollisionMask_ = 0xffffffff;
 	WorldTransform* worldTransform;
 
 	std::unique_ptr<Model>model_;

@@ -1,4 +1,5 @@
 #include "CollisionManager.h"
+#include"Object/CollisionConfig.h"
 
 void CollisionManager::Initialize()
 {
@@ -57,42 +58,56 @@ void CollisionManager::ChackAllCollisions() {
 void CollisionManager::CheakCollisionPair(Collider* colliderA, Collider* colliderB) {
 
 	// 衝突フィルタリング
-	if (colliderA->GetCollisionAttribute() != colliderB->GetCollisionMask() ||
+	/*if (colliderA->GetCollisionAttribute() != colliderB->GetCollisionMask() ||
 		colliderB->GetCollisionAttribute() != colliderA->GetCollisionMask()) {
 		return;
-	}
-	// コライダーAのワールド座標を取得
-	Vector3 posA = colliderA->GetWorldPosition();
-	// コライダーBのワールド座標を取得
-	Vector3 posB = colliderB->GetWorldPosition();
+	}*/
 
-	// 座標AとBの距離を求める
-	Vector3 distance = { posB.x - posA.x, posB.y - posA.y, posB.z - posA.z };
+	
 
-	// 各軸方向の距離の二乗を計算
-	float distanceSquaredX = distance.x * distance.x;
-	float distanceSquaredY = distance.y * distance.y;
-	float distanceSquaredZ = distance.z * distance.z;
 
-	// 各軸方向の半径を取得
-	Vector3 radiusA = colliderA->GetRadius();
-	Vector3 radiusB = colliderB->GetRadius();
-
-	// 各軸方向の半径の和を計算
-	float radiusSumX = radiusA.x + radiusB.x;
-	float radiusSumY = radiusA.y + radiusB.y;
-	float radiusSumZ = radiusA.z + radiusB.z;
-
-	// 球と球の交差判定
-	if (distanceSquaredX / (radiusSumX * radiusSumX) +
-		distanceSquaredY / (radiusSumY * radiusSumY) +
-		distanceSquaredZ / (radiusSumZ * radiusSumZ) <= 1.0f)
+	if (colliderA->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::SPHERE) &&
+		colliderA->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::SPHERE))
 	{
-		// コライダーAの衝突時コールバックを呼び出す
-		colliderA->OnCollision(colliderB);
-		// コライダーBの衝突時コールバックを呼び出す
-		colliderB->OnCollision(colliderA);
+		// コライダーAのワールド座標を取得
+		Vector3 posA = colliderA->GetWorldPosition();
+		// コライダーBのワールド座標を取得
+		Vector3 posB = colliderB->GetWorldPosition();
+
+		// 座標AとBの距離を求める
+		Vector3 distance = { posB.x - posA.x, posB.y - posA.y, posB.z - posA.z };
+
+		// 各軸方向の距離の二乗を計算
+		float distanceSquaredX = distance.x * distance.x;
+		float distanceSquaredY = distance.y * distance.y;
+		float distanceSquaredZ = distance.z * distance.z;
+
+		// 各軸方向の半径を取得
+		Vector3 radiusA = colliderA->GetRadius();
+		Vector3 radiusB = colliderB->GetRadius();
+
+
+		// 各軸方向の半径の和を計算
+		float radiusSumX = radiusA.x + radiusB.x;
+		float radiusSumY = radiusA.y + radiusB.y;
+		float radiusSumZ = radiusA.z + radiusB.z;
+
+		// 球と球の交差判定
+		if (distanceSquaredX / (radiusSumX * radiusSumX) +
+			distanceSquaredY / (radiusSumY * radiusSumY) +
+			distanceSquaredZ / (radiusSumZ * radiusSumZ) <= 1.0f)
+		{
+			// コライダーAの衝突時コールバックを呼び出す
+			colliderA->OnCollision(colliderB);
+			// コライダーBの衝突時コールバックを呼び出す
+			colliderB->OnCollision(colliderA);
+		}
 	}
+}
+
+void CollisionManager::CheackSphereCollision()
+{
+
 }
 
 void CollisionManager::AddColliders(Collider* collider)
