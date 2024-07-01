@@ -129,6 +129,7 @@
     <ClCompile Include="Engine\Collider\CollisionManager.cpp">
       <Filter>Engine\Collider</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Enemy\Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -251,6 +252,7 @@
     <ClInclude Include="Application\Object\CollisionConfig.h">
       <Filter>Application\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Object\Enemy\Enemy.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
