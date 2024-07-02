@@ -1,10 +1,11 @@
 #pragma once
 #include"MatrixMath.h"
 #include"VectorMath.h"
+#include"CollisionTypeData.h"
 #include <assert.h>
 #include <cmath>
 #include <math.h>
-
+#include<algorithm>
 
 // 加算
 Vector3 Add(const Vector3& v1, const Vector3& v2);
@@ -111,3 +112,5 @@ float Norm(const Quaternion& quaternion);
 Quaternion Normalize(const Quaternion& quaternion);
 
 float LerpShortTranslate(float a, float b, float t);
+
+bool IsCollision(const AABB& aabb, const SphereData& sphere);

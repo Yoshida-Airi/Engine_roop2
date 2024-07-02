@@ -253,6 +253,7 @@
       <Filter>Application\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Enemy\Enemy.h" />
+    <ClInclude Include="Engine\Math\CollisionTypeData.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

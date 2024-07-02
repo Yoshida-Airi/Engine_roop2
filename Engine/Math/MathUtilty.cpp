@@ -734,3 +734,22 @@ float LerpShortTranslate(float a, float b, float t)
 {
 	return a + t * (b - a);
 }
+
+bool IsCollision(const AABB& aabb, const SphereData& sphere)
+{
+	//最近接点を求める
+	Vector3 clossestPoint{
+		std::clamp(sphere.center.x, aabb.min.x, aabb.max.x),
+		std::clamp(sphere.center.y, aabb.min.y, aabb.max.y),
+		std::clamp(sphere.center.z, aabb.min.z, aabb.max.z)
+	};
+	//最近接点と球の中心との距離を求める
+	float distance = Length(Subtract(clossestPoint, sphere.center));
+
+	//距離が半径よりも小さければ衝突
+	if (distance <= sphere.radius.x && distance <= sphere.radius.y && distance <= sphere.radius.z)
+	{
+		return true;
+	}
+	return false;
+}

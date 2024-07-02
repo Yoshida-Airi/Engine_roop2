@@ -5,7 +5,7 @@ void Enemy::Initialize()
 {
 	Collider::Initialize();
 	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kEnemy));
-	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::SPHERE));
+	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::AABB));
 
 	enemyModel.reset(Model::Create("Resources/SampleAssets/cube.obj"));
 	enemyModel->GetWorldTransform()->translation_.x = 3.0f;
@@ -34,6 +34,17 @@ Vector3 Enemy::GetWorldPosition()
 	worldpos.z = enemyModel->GetWorldTransform()->matWorld_.m[3][2];
 
 	return worldpos;
+}
+
+AABB Enemy::GetAABB()
+{
+	Vector3 worldPos = GetWorldPosition();
+	AABB aabb;
+
+	aabb.min = { worldPos.x - enemyModel->GetWorldTransform()->scale_.x / 2.0f,worldPos.y - enemyModel->GetWorldTransform()->scale_.y / 2.0f,worldPos.z - enemyModel->GetWorldTransform()->scale_.z / 2.0f };
+	aabb.max = { worldPos.x + enemyModel->GetWorldTransform()->scale_.x / 2.0f,worldPos.y + enemyModel->GetWorldTransform()->scale_.y / 2.0f,worldPos.z + enemyModel->GetWorldTransform()->scale_.z / 2.0f };
+
+	return aabb;
 }
 
 void Enemy::OnCollision(Collider* other)

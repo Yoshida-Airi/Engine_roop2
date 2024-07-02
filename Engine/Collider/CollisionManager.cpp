@@ -63,11 +63,9 @@ void CollisionManager::CheakCollisionPair(Collider* colliderA, Collider* collide
 		return;
 	}*/
 
-	
-
-
+	//球どうしの当たり判定
 	if (colliderA->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::SPHERE) &&
-		colliderA->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::SPHERE))
+		colliderB->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::SPHERE))
 	{
 		// コライダーAのワールド座標を取得
 		Vector3 posA = colliderA->GetWorldPosition();
@@ -103,6 +101,48 @@ void CollisionManager::CheakCollisionPair(Collider* colliderA, Collider* collide
 			colliderB->OnCollision(colliderA);
 		}
 	}
+
+
+	//球と四角の当たり判定
+	if (colliderA->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::AABB) &&
+		colliderB->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::SPHERE) ||
+		colliderA->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::SPHERE) &&
+		colliderB->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::AABB))
+	{
+
+		SphereData sphere;
+		AABB aabb;
+
+		if (colliderA->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::SPHERE))
+		{
+			sphere.center = colliderA->GetWorldPosition();
+			sphere.radius = colliderA->GetRadius();
+		}
+		else if (colliderB->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::SPHERE))
+		{
+			sphere.center = colliderB->GetWorldPosition();
+			sphere.radius = colliderB->GetRadius();
+		}
+
+		if (colliderA->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::AABB))
+		{
+			aabb = colliderA->GetAABB();
+		}
+		else if (colliderB->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::AABB))
+		{
+			aabb = colliderB->GetAABB();
+		}
+
+		if (IsCollision(aabb, sphere))
+		{
+			// コライダーAの衝突時コールバックを呼び出す
+			colliderA->OnCollision(colliderB);
+			// コライダーBの衝突時コールバックを呼び出す
+			colliderB->OnCollision(colliderA);
+		}
+	}
+
+
 }
 
 void CollisionManager::CheackSphereCollision()

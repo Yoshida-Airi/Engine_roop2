@@ -159,6 +159,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Scene\SceneFactory.h" />
     <ClInclude Include="Engine\Logger\DebugHelper.h" />
     <ClInclude Include="Engine\Base\DirectXCommon.h" />
+    <ClInclude Include="Engine\Math\CollisionTypeData.h" />
     <ClInclude Include="Engine\Math\Globals.h" />
     <ClInclude Include="Engine\Base\Manager\ImGuiManager.h" />
     <ClInclude Include="Engine\Base\Input.h" />

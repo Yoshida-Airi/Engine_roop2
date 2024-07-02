@@ -7,7 +7,7 @@ void Player::Initialize()
 
 	Collider::Initialize();
 	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kPlayer));
-	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::SPHERE));
+	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::AABB));
 
 	//モデルの初期設定
 	playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
@@ -63,6 +63,17 @@ Vector3 Player::GetWorldPosition()
 	worldpos.z = playerModel->GetWorldTransform()->matWorld_.m[3][2];
 
 	return worldpos;
+}
+
+AABB Player::GetAABB()
+{
+	Vector3 worldPos = GetWorldPosition();
+	AABB aabb;
+
+	aabb.min = { worldPos.x - playerModel->GetWorldTransform()->scale_.x / 2.0f,worldPos.y - playerModel->GetWorldTransform()->scale_.y / 2.0f,worldPos.z - playerModel->GetWorldTransform()->scale_.z / 2.0f };
+	aabb.max = { worldPos.x + playerModel->GetWorldTransform()->scale_.x / 2.0f,worldPos.y + playerModel->GetWorldTransform()->scale_.y / 2.0f,worldPos.z + playerModel->GetWorldTransform()->scale_.z / 2.0f };
+
+	return aabb;
 }
 
 void Player::OnCollision(Collider* other)

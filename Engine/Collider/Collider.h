@@ -17,6 +17,9 @@ public:
 	//ワールド座標を取得
 	virtual Vector3 GetWorldPosition() = 0;
 
+	//AABB取得
+	virtual AABB GetAABB() = 0;
+
 	//衝突時に呼ばれる関数
 	virtual void OnCollision([[maybe_unused]] Collider* other) {};
 
