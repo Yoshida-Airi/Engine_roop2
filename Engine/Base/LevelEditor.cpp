@@ -1,5 +1,5 @@
 #include "LevelEditor.h"
-
+#include"Object/CollisionConfig.h"
 
 LevelEditor::~LevelEditor()
 {
@@ -9,6 +9,10 @@ LevelEditor::~LevelEditor()
 
 void LevelEditor::LoaderJsonFile()
 {
+	Collider::Initialize();
+	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kMap));
+	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::AABB));
+
 	const std::string fullpath = "Resources/levelEditor.json";
 	std::ifstream file;
 
@@ -82,6 +86,17 @@ void LevelEditor::LoaderJsonFile()
 			//コライダーのパラメータ読み込み
 			nlohmann::json& collider = object["collider"];
 
+			std::string type = collider["type"].get<std::string>();
+			objectData.collisionType = type;
+
+			objectData.center.x = (float)collider["center"][0];
+			objectData.center.y = (float)collider["center"][1];
+			objectData.center.z = (float)collider["center"][2];
+
+			objectData.size.x = (float)collider["size"][0];
+			objectData.size.y = (float)collider["size"][1];
+			objectData.size.z = (float)collider["size"][2];
+
 
 
 		}
@@ -103,7 +118,7 @@ void LevelEditor::LoaderJsonFile()
 		{
 			//Model* model = Model::Create(objectData.filename);
 			models[objectData.filename].reset(Model::Create(objectData.filename));
-		
+
 		}
 	}
 
@@ -118,7 +133,7 @@ void LevelEditor::LoaderJsonFile()
 		newObject->UpdateWorldMatrix();
 		//配列に登録
 		objects.push_back(std::move(newObject));
-		
+
 	}
 
 
@@ -128,7 +143,7 @@ void LevelEditor::LoaderJsonFile()
 void LevelEditor::Update()
 {
 
-	
+
 
 
 }
@@ -197,23 +212,19 @@ AABB LevelEditor::GetAABB()
 {
 	int i = 0;
 	AABB aabb;
+
 	//レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects)
 	{
-		Model* model = nullptr;
-		decltype(models)::iterator it = models.find(objectData.filename);
-		if (it != models.end())
-		{
-			model = (it->second.get());
-		}
-		if (model)
-		{
-			
-		}
-
+		aabb.min = { objectData.center.x - objectData.size.x / 2.0f, objectData.center.y - objectData.size.y / 2.0f, objectData.center.z - objectData.size.z / 2.0f};
+		aabb.max = { objectData.center.x + objectData.size.x / 2.0f, objectData.center.y + objectData.size.y / 2.0f, objectData.center.z + objectData.size.z / 2.0f };
+	
 		i++;
-
 	}
+	return aabb;
+
+
+}
 
 void LevelEditor::OnCollision(Collider* other)
 {

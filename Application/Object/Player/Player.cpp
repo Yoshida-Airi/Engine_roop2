@@ -78,6 +78,15 @@ AABB Player::GetAABB()
 
 void Player::OnCollision(Collider* other)
 {
+	uint32_t typeID = other->GetTypeID();
+	if (typeID == static_cast<uint32_t>(CollisionTypeDef::kMap))
+	{
+		playerModel->SetisInvisible(true);
+	}
+	else
+	{
+		playerModel->SetisInvisible(false);
+	}
 }
 
 void Player::Move()

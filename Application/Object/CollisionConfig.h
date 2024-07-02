@@ -7,6 +7,7 @@ enum class CollisionTypeDef : uint32_t
 	kDefault,
 	kPlayer,
 	kEnemy,
+	kMap,
 	
 };
 

@@ -20,6 +20,10 @@ struct LevelData
 		Vector3 rotation;
 		Vector3 scaling;
 
+		std::string collisionType;
+		Vector3 center;
+		Vector3 size;
+
 	};
 	std::vector<ObjectData>objects;
 };
