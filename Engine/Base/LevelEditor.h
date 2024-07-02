@@ -7,9 +7,10 @@
 #include<vector>
 #include"WorldTransform.h"
 #include"Camera.h"
+#include"Collider.h"
 
 //レベルデータ
-struct LevelData
+struct LevelData 
 {
 	//オブジェクト1個分のデータ
 	struct ObjectData
@@ -23,7 +24,7 @@ struct LevelData
 	std::vector<ObjectData>objects;
 };
 
-class LevelEditor
+class LevelEditor : public Collider
 {
 public:
 
@@ -32,6 +33,10 @@ public:
 
 	void Update();
 	void Draw(Camera* camera);
+
+	Vector3 GetWorldPosition()override;
+	AABB GetAABB()override;
+	void OnCollision([[maybe_unused]] Collider* other)override;
 
 private:
 
