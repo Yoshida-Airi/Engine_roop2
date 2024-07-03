@@ -87,6 +87,8 @@ void Player::OnCollision(Collider* other)
 	{
 		playerModel->SetisInvisible(false);
 	}
+
+
 }
 
 void Player::Move()
@@ -151,6 +153,7 @@ void Player::Move()
 		{
 			//ジャンプ初速
 			velocity_ = Add(velocity_, Vector3(0, kJumpAcceleration, 0));
+			velocity_.y = std::min(velocity_.y, kLimitJumpSpead);
 
 			if (velocity_.y > 0.0f)
 			{

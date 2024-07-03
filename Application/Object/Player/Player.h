@@ -52,9 +52,13 @@ private:
 	bool onGround_ = true;	//接地状態フラグ
 	bool landing = false;	//接地フラグ
 	static inline const float kGravityAcceleration = 9.8f;	//重力加速度（下方向
-	static inline const float kLimitFallSpead = 0.3f;		//最大落下速度（下方向
+	static inline const float kLimitFallSpead = 0.1f;		//最大落下速度（下方向
 	static inline const float kJumpAcceleration = 7.0f;	//ジャンプ初速（上方向
+	static inline const float kLimitJumpSpead = 5.1f;		//最大落下速度（下方向
 	
+
+	static inline const float kDeltaTime = 1.0f / 60.0f;      // 1フレームの時間（60FPSと仮定）
+
 
 private:
 

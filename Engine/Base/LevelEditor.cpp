@@ -211,7 +211,7 @@ Vector3 LevelEditor::GetWorldPosition()
 AABB LevelEditor::GetAABB()
 {
 	int i = 0;
-	AABB aabb;
+	AABB aabb = {};
 
 	//レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects)
@@ -228,4 +228,28 @@ AABB LevelEditor::GetAABB()
 
 void LevelEditor::OnCollision(Collider* other)
 {
+	uint32_t typeID = other->GetTypeID();
+	if (typeID == static_cast<uint32_t>(CollisionTypeDef::kPlayer))
+	{
+		////レベルデータからオブジェクトを生成、配置
+		//for (auto& objectData : levelData->objects)
+		//{
+		//	Model* model = nullptr;
+		//	// ワールド座標を入れる変数
+		//	decltype(models)::iterator it = models.find(objectData.filename);
+		//	if (it != models.end())
+		//	{
+		//		model = (it->second.get());
+		//	}
+		//	if (model)
+		//	{
+		//		model->SetisInvisible(true);
+		//	}
+
+		//}
+	}
+	else
+	{
+		
+	}
 }
