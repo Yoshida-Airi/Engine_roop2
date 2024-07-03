@@ -37,6 +37,9 @@ void GamePlayScene::Initialize()
 	enemy = std::make_unique<Enemy>();
 	enemy->Initialize();
 
+	skydome = std::make_unique<Skydome>();
+	skydome->Initialize();
+
 	colliderManager_->UpdateWorldTransform();
 
 	//triangle.reset(Triangle::Create(uvTexture));
@@ -144,6 +147,7 @@ void GamePlayScene::Update()
 
 	player->Update();
 	enemy->Update();
+	skydome->Update();
 
 	CheckAllCollisions();
 
@@ -173,7 +177,7 @@ void GamePlayScene::Draw()
 	//particle->Draw();
 	//particle2->Draw();
 
-
+	skydome->Draw(camera);
 	player->Draw(camera);
 	enemy->Draw(camera);
 
