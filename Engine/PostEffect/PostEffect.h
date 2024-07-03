@@ -52,5 +52,12 @@ private:
 	//Microsoft::WRL::ComPtr < ID3D12Resource> depthStencilResource = nullptr;
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvhandle;
 	uint32_t srvHandle;
+
+	bool grayscale = true;
+	bool vignetting = false;
+	bool luminanceBasedOutline = false;
+	bool boxFilter = false;
+	bool GaussianFilter = false;
+
 };
 

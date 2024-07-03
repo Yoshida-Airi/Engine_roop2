@@ -69,10 +69,86 @@ void PostEffect::PostDraw()
 
 void PostEffect::Draw()
 {
+	ImGui::Begin("postEffect");
+	if (ImGui::Button("grayscale"))
+	{
+		vignetting = false;
+		grayscale = true;
+		luminanceBasedOutline = false;
+		boxFilter = false;
+		GaussianFilter = false;
+	}
+	if (ImGui::Button("vignette"))
+	{
+		grayscale = false;
+		vignetting = true;
+		luminanceBasedOutline = false;
+		boxFilter = false;
+		GaussianFilter = false;
+	}
+	if (ImGui::Button("luminanceOutline"))
+	{
+		grayscale = false;
+		vignetting = false;
+		luminanceBasedOutline = true;
+		boxFilter = false;
+		GaussianFilter = false;
+	}
+	if (ImGui::Button("boxFilter"))
+	{
+		grayscale = false;
+		vignetting = false;
+		luminanceBasedOutline = false;
+		boxFilter = true;
+		GaussianFilter = false;
+	}
+	if (ImGui::Button("gaussianFilter"))
+	{
+		grayscale = false;
+		vignetting = false;
+		luminanceBasedOutline = false;
+		boxFilter = false;
+		GaussianFilter = true;
+	}
+
+	ImGui::End();
 
 	//コピー処理
-	dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetPsoMember().outline.rootSignature.Get());
-	dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPsoMember().outline.graphicPipelineState.Get());
+
+	if (grayscale == true)
+	{
+		dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetPsoMember().grayscale.rootSignature.Get());
+		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPsoMember().grayscale.graphicPipelineState.Get());
+	}
+
+	if (vignetting == true)
+	{
+		dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetPsoMember().vignette.rootSignature.Get());
+		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPsoMember().vignette.graphicPipelineState.Get());
+	}
+
+	if (luminanceBasedOutline == true)
+	{
+		dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetPsoMember().outline.rootSignature.Get());
+		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPsoMember().outline.graphicPipelineState.Get());
+	}
+
+	if (boxFilter == true)
+	{
+		dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetPsoMember().boxFilter.rootSignature.Get());
+		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPsoMember().boxFilter.graphicPipelineState.Get());
+	}
+
+	if (GaussianFilter == true)
+	{
+		dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetPsoMember().gaussianFilter.rootSignature.Get());
+		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPsoMember().gaussianFilter.graphicPipelineState.Get());
+	}
+
+
+
+	//dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetPsoMember().outline.rootSignature.Get());
+	//dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPsoMember().outline.graphicPipelineState.Get());
 	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, srvManager->GetGPUDescriptorHandle(srvHandle));
 	////頂点３つ描画
 	dxCommon->GetCommandList()->DrawInstanced(3, 1, 0, 0);
