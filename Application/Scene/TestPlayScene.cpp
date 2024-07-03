@@ -20,11 +20,11 @@ void TestPlayScene::Initialize()
 
 void TestPlayScene::Update()
 {
-	camera->CameraDebug();
+	//camera->CameraDebug();
 	model->Update();
 	model2->Update();
 
-	model->ModelDebug("model");
+	//model->ModelDebug("model");
 
 	
 }
