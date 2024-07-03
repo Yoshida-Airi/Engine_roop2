@@ -129,7 +129,12 @@
     <ClCompile Include="Engine\Collider\CollisionManager.cpp">
       <Filter>Engine\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Enemy\Enemy.cpp" />
+    <ClCompile Include="Application\Object\Enemy\Enemy.cpp">
+      <Filter>Application\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Skydome\Skydome.cpp">
+      <Filter>Application\Objects\Skydome</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -252,8 +257,15 @@
     <ClInclude Include="Application\Object\CollisionConfig.h">
       <Filter>Application\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\Enemy\Enemy.h" />
-    <ClInclude Include="Engine\Math\CollisionTypeData.h" />
+    <ClInclude Include="Application\Object\Enemy\Enemy.h">
+      <Filter>Application\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Skydome\Skydome.h">
+      <Filter>Application\Objects\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\CollisionTypeData.h">
+      <Filter>Application\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -309,6 +321,12 @@
     </Filter>
     <Filter Include="Engine\Collider">
       <UniqueIdentifier>{2cf76b5a-02d2-4b94-9673-33ca9491d5fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Objects\Enemy">
+      <UniqueIdentifier>{1ef3886d-7ca8-44f2-ac1f-029e944a3b69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Objects\Skydome">
+      <UniqueIdentifier>{addf59d4-61ef-40bf-8d98-cac2e1160274}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
