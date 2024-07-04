@@ -13,7 +13,7 @@ void Player::Initialize(const std::vector<Model*>& models)
 
 	//モデルの初期設定
 	playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
-	playerModel->GetWorldTransform()->translation_.y += 1.0f;
+	playerModel->GetWorldTransform()->translation_.y += 5.0f;
 }
 
 void Player::Update()
@@ -83,6 +83,10 @@ void Player::OnCollision(Collider* other)
 	if (typeID == static_cast<uint32_t>(CollisionTypeDef::kMap))
 	{
 		playerModel->SetisInvisible(true);
+	}
+	else
+	{
+		playerModel->SetisInvisible(false);
 	}
 }
 

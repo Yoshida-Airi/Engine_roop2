@@ -31,7 +31,8 @@ void CollisionManager::ListClear()
 }
 
 /// 衝突判定と応答
-void CollisionManager::ChackAllCollisions() {
+void CollisionManager::ChackAllCollisions() 
+{
 
 	// リスト内のペアを総当たり
 	std::list<Collider*>::iterator itrA = colliders_.begin();
@@ -55,13 +56,8 @@ void CollisionManager::ChackAllCollisions() {
 	}
 }
 
-void CollisionManager::CheakCollisionPair(Collider* colliderA, Collider* colliderB) {
-
-	// 衝突フィルタリング
-	/*if (colliderA->GetCollisionAttribute() != colliderB->GetCollisionMask() ||
-		colliderB->GetCollisionAttribute() != colliderA->GetCollisionMask()) {
-		return;
-	}*/
+void CollisionManager::CheakCollisionPair(Collider* colliderA, Collider* colliderB)
+{
 
 	//球どうしの当たり判定
 	if (colliderA->GetColliderTypeID() == static_cast<uint32_t>(ColliderType::SPHERE) &&

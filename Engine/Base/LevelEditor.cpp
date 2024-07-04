@@ -139,6 +139,9 @@ void LevelEditor::LoaderJsonFile()
 
 void LevelEditor::Initialize(const std::vector<Model*>& models)
 {
+	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kMap));
+	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::AABB));
+
 	models_.reserve(this->models.size());
 
 	for (auto& pair : this->models) {
@@ -192,31 +195,23 @@ void LevelEditor::Draw(Camera* camera)
 
 Vector3 LevelEditor::GetWorldPosition()
 {
-	int i = 0;
-	Vector3 worldpos;
-	//レベルデータからオブジェクトを生成、配置
-	for (auto& objectData : levelData->objects)
-	{
-		Model* model = nullptr;
-		// ワールド座標を入れる変数
-		decltype(models)::iterator it = models.find(objectData.filename);
-		if (it != models.end())
-		{
-			model = (it->second.get());
+	Vector3 worldPosition;
+	for (auto& pair : models) {
+		std::string modelName = pair.first; // モデル名
+		Model* modelPtr = pair.second.get(); // ユニークポインタからモデルを取得
+		//Vector3 worldPosition;
+		// Collider クラスの GetWorldPosition() を呼び出す例
+		if (modelPtr) {
+			
+			worldPosition.x = modelPtr->GetWorldTransform()->matWorld_.m[3][0];
+			worldPosition.y = modelPtr->GetWorldTransform()->matWorld_.m[3][1];
+			worldPosition.z = modelPtr->GetWorldTransform()->matWorld_.m[3][2];
+			// worldPosition を使って何かをする
+			return worldPosition;
 		}
-		if (model)
-		{
-			// ワールド行列の平行移動成分を取得(ワールド座標)
-			worldpos.x = model->GetWorldTransform()->matWorld_.m[3][0];
-			worldpos.y = model->GetWorldTransform()->matWorld_.m[3][1];
-			worldpos.z = model->GetWorldTransform()->matWorld_.m[3][2];
-		}
-
-		i++;
-
+		return worldPosition;
 	}
-
-	return worldpos;
+	return worldPosition;
 }
 
 AABB LevelEditor::GetAABB()
@@ -237,9 +232,26 @@ AABB LevelEditor::GetAABB()
 
 void LevelEditor::OnCollision(Collider* other)
 {
-	/*uint32_t typeID = other->GetTypeID();
+	uint32_t typeID = other->GetTypeID();
 	if (typeID == static_cast<uint32_t>(CollisionTypeDef::kPlayer))
 	{
-		playerModel->SetisInvisible(true);
-	}*/
+		int i = 0;
+		//レベルデータからオブジェクトを生成、配置
+		for (auto& objectData : levelData->objects)
+		{
+			Model* model = nullptr;
+			decltype(models)::iterator it = models.find(objectData.filename);
+			if (it != models.end())
+			{
+				model = (it->second.get());
+			}
+			if (model)
+			{
+				model->SetisInvisible(true);
+			}
+
+			i++;
+
+		}
+	}
 }

@@ -4,6 +4,17 @@ void GameObject::Initialize(const std::vector<Model*>& models)
 {
 	Collider::Initialize();
 	models_ = models;
+
+#ifdef _DEBUG
+	for (Model* model : models_)
+	{
+		//model->SetMaterial({ 1.0f,1.0f,1.0f,0.5f });
+
+	}
+#endif // _DEBUG
+
+	
+
 }
 
 void GameObject::Update()

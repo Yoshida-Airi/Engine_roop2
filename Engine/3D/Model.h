@@ -91,6 +91,11 @@ public:
 		isActiveAnimation = isActive;
 	}
 
+	void SetMaterial(Vector4 material)
+	{
+		materialData_->color = material;
+	}
+
 private:
 	DirectXCommon* dxCommon_;
 	GraphicsPipelineManager* psoManager_;

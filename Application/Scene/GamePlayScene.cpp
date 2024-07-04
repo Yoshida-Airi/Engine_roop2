@@ -47,7 +47,7 @@ void GamePlayScene::Initialize()
 	skydome = std::make_unique<Skydome>();
 	skydome->Initialize();
 
-	colliderManager_->UpdateWorldTransform();
+
 
 	//triangle.reset(Triangle::Create(uvTexture));
 	//triangle2.reset(Triangle::Create(monsterBall));
@@ -111,6 +111,8 @@ void GamePlayScene::Update()
 	camera->CameraDebug();
 
 #endif // _DEBUG
+
+	colliderManager_->UpdateWorldTransform();
 
 	//if (input->TriggerKey(DIK_RETURN))
 	//{
@@ -201,7 +203,7 @@ void GamePlayScene::CheckAllCollisions()
 	//コライダーにオブジェクトを登録
 	colliderManager_->AddColliders(player.get());
 	colliderManager_->AddColliders(enemy.get());
-
+	colliderManager_->AddColliders(levelEditor);
 	//当たり判定
 	colliderManager_->ChackAllCollisions();
 
