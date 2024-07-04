@@ -12,23 +12,19 @@
 #include<algorithm>
 #include<numbers>
 
-#include"Collider.h"
+#include"GameObject.h"
 
-class Player : public Collider
+class Player :public GameObject
 {
 public:
-	void Initialize();
-	void Update();
-	void Draw(Camera* camera);
+	void Initialize(const std::vector<Model*>& models)override;
+	void Update()override;
+	void Draw(Camera* camera)override;
 	WorldTransform* GetWorldTransform() { return playerModel->GetWorldTransform(); }
 
-	Vector3 GetWorldPosition()override;
-	AABB GetAABB()override;
-	void OnCollision([[maybe_unused]] Collider* other)override;
-
-
 private:
-	std::unique_ptr<Model>playerModel;
+	
+	Model*playerModel;
 	Vector3 velocity_ = {  };
 
 	static inline const float kAcceleration = 0.01f;	//加速度

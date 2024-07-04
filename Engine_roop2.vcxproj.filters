@@ -135,6 +135,7 @@
     <ClCompile Include="Application\Object\Skydome\Skydome.cpp">
       <Filter>Application\Objects\Skydome</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\3D\GameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -266,6 +267,7 @@
     <ClInclude Include="Engine\Math\CollisionTypeData.h">
       <Filter>Application\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\3D\GameObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

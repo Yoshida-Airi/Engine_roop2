@@ -50,6 +50,9 @@ private:
 	uint32_t Doll;
 	uint32_t circle;
 
+	std::unique_ptr<Model>playerModel;
+	std::vector<Model*>playerModels;
+
 	Camera* camera;
 	
 
