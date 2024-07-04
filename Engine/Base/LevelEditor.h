@@ -7,7 +7,8 @@
 #include<vector>
 #include"WorldTransform.h"
 #include"Camera.h"
-#include"Collider.h"
+
+#include"GameObject.h"
 
 //レベルデータ
 struct LevelData 
@@ -28,24 +29,29 @@ struct LevelData
 	std::vector<ObjectData>objects;
 };
 
-class LevelEditor : public Collider
+class LevelEditor :public GameObject
 {
 public:
 
 	~LevelEditor();
 	void LoaderJsonFile();
 
-	void Update();
-	void Draw(Camera* camera);
+	void Initialize(const std::vector<Model*>& models)override;
+	void Update()override;
+	void Draw(Camera* camera)override;
 
 	Vector3 GetWorldPosition()override;
 	AABB GetAABB()override;
 	void OnCollision([[maybe_unused]] Collider* other)override;
+	
 
 private:
 
 	std::map<std::string, std::unique_ptr<Model>> models;
 	std::vector<std::unique_ptr<WorldTransform>> objects;
 	std::unique_ptr<LevelData> levelData;
+
+	std::vector<Model*>models_;
+
 };
 

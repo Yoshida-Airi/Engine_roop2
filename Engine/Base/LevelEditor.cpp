@@ -9,9 +9,6 @@ LevelEditor::~LevelEditor()
 
 void LevelEditor::LoaderJsonFile()
 {
-	Collider::Initialize();
-	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kMap));
-	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::AABB));
 
 	const std::string fullpath = "Resources/levelEditor.json";
 	std::ifstream file;
@@ -140,10 +137,23 @@ void LevelEditor::LoaderJsonFile()
 
 }
 
+void LevelEditor::Initialize(const std::vector<Model*>& models)
+{
+	models_.reserve(this->models.size());
+
+	for (auto& pair : this->models) {
+		models_.push_back(std::move(pair.second.get()));
+	}
+
+
+	GameObject::Initialize(models_);
+
+}
+
 void LevelEditor::Update()
 {
 
-
+	GameObject::Update();
 
 
 }
@@ -178,6 +188,7 @@ void LevelEditor::Draw(Camera* camera)
 
 	}
 }
+
 
 Vector3 LevelEditor::GetWorldPosition()
 {
@@ -216,40 +227,19 @@ AABB LevelEditor::GetAABB()
 	//レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects)
 	{
-		aabb.min = { objectData.center.x - objectData.size.x / 2.0f, objectData.center.y - objectData.size.y / 2.0f, objectData.center.z - objectData.size.z / 2.0f};
+		aabb.min = { objectData.center.x - objectData.size.x / 2.0f, objectData.center.y - objectData.size.y / 2.0f, objectData.center.z - objectData.size.z / 2.0f };
 		aabb.max = { objectData.center.x + objectData.size.x / 2.0f, objectData.center.y + objectData.size.y / 2.0f, objectData.center.z + objectData.size.z / 2.0f };
-	
+
 		i++;
 	}
 	return aabb;
-
-
 }
 
 void LevelEditor::OnCollision(Collider* other)
 {
-	uint32_t typeID = other->GetTypeID();
+	/*uint32_t typeID = other->GetTypeID();
 	if (typeID == static_cast<uint32_t>(CollisionTypeDef::kPlayer))
 	{
-		////レベルデータからオブジェクトを生成、配置
-		//for (auto& objectData : levelData->objects)
-		//{
-		//	Model* model = nullptr;
-		//	// ワールド座標を入れる変数
-		//	decltype(models)::iterator it = models.find(objectData.filename);
-		//	if (it != models.end())
-		//	{
-		//		model = (it->second.get());
-		//	}
-		//	if (model)
-		//	{
-		//		model->SetisInvisible(true);
-		//	}
-
-		//}
-	}
-	else
-	{
-		
-	}
+		playerModel->SetisInvisible(true);
+	}*/
 }

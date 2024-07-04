@@ -22,6 +22,10 @@ public:
 	void Draw(Camera* camera)override;
 	WorldTransform* GetWorldTransform() { return playerModel->GetWorldTransform(); }
 
+	Vector3 GetWorldPosition()override;
+	AABB GetAABB()override;
+	void OnCollision([[maybe_unused]] Collider* other)override;
+
 private:
 	
 	Model*playerModel;

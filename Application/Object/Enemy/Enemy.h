@@ -1,14 +1,14 @@
 #pragma once
 #include"Model.h"
 #include"Collider.h"
+#include"GameObject.h"
 
-
-class Enemy : public Collider
+class Enemy : public GameObject
 {
 public:
-	void Initialize();
-	void Update();
-	void Draw(Camera* camera);
+	void Initialize(const std::vector<Model*>& models)override;
+	void Update()override;
+	void Draw(Camera* camera)override;
 
 	Vector3 GetWorldPosition()override;
 	AABB GetAABB()override;
@@ -16,7 +16,7 @@ public:
 
 private:
 
-	std::unique_ptr<Model>enemyModel;
+	Model* enemyModel;
 
 	
 

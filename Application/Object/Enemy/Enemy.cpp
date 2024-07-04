@@ -1,20 +1,22 @@
 #include "Enemy.h"
 #include"Object/CollisionConfig.h"
 
-void Enemy::Initialize()
+void Enemy::Initialize(const std::vector<Model*>& models)
 {
-	Collider::Initialize();
 	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kEnemy));
 	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::SPHERE));
 
-	enemyModel.reset(Model::Create("Resources/SampleAssets/cube.obj"));
+	GameObject::Initialize(models);
+
+	enemyModel = models[0];
 	enemyModel->GetWorldTransform()->translation_.x = 10.0f;
 	enemyModel->GetWorldTransform()->translation_.y = 1.0f;
 }
 
 void Enemy::Update()
 {
-	enemyModel->Update();
+	GameObject::Update();
+
 	enemyModel->ModelDebug("enemy");
 	enemyModel->GetWorldTransform()->translation_.x += 0.03f;
 
@@ -24,6 +26,7 @@ void Enemy::Draw(Camera* camera)
 {
 	enemyModel->Draw(camera);
 }
+
 
 Vector3 Enemy::GetWorldPosition()
 {

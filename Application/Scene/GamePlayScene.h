@@ -51,7 +51,10 @@ private:
 	uint32_t circle;
 
 	std::unique_ptr<Model>playerModel;
+	std::unique_ptr<Model>enemyModel;
+
 	std::vector<Model*>playerModels;
+	std::vector<Model*>enemyModels;
 
 	Camera* camera;
 	

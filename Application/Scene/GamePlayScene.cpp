@@ -28,17 +28,21 @@ void GamePlayScene::Initialize()
 	playerModel.reset(Model::Create("Resources/Object/Player/player.obj"));
 	playerModels = { playerModel.get() };
 
+	enemyModel.reset(Model::Create("Resources/SampleAssets/cube.obj"));
+	enemyModels = { enemyModel.get() };
+
 	camera = new Camera;
 	camera->Initialize();
 
 	levelEditor = new LevelEditor();
 	levelEditor->LoaderJsonFile();
+	levelEditor->Initialize(playerModels);
 
 	player = std::make_unique<Player>();
 	player->Initialize(playerModels);
 
 	enemy = std::make_unique<Enemy>();
-	enemy->Initialize();
+	enemy->Initialize(enemyModels);
 
 	skydome = std::make_unique<Skydome>();
 	skydome->Initialize();
@@ -191,15 +195,15 @@ void GamePlayScene::CheckAllCollisions()
 {
 
 
-	////コライダーのリストをクリア
-	//colliderManager_->ListClear();
+	//コライダーのリストをクリア
+	colliderManager_->ListClear();
 
-	////コライダーにオブジェクトを登録
-	//colliderManager_->AddColliders(player.get());
-	//colliderManager_->AddColliders(enemy.get());
+	//コライダーにオブジェクトを登録
+	colliderManager_->AddColliders(player.get());
+	colliderManager_->AddColliders(enemy.get());
 
-	////当たり判定
-	//colliderManager_->ChackAllCollisions();
+	//当たり判定
+	colliderManager_->ChackAllCollisions();
 
 
 }
