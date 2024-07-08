@@ -1,18 +1,21 @@
 #pragma once
 #define NOMINMAX
 
-#include"Input.h"
 
 #include"Camera.h"
 #include"Model.h"
-#include"VectorMath.h"
 
+#include"Input.h"
+#include"VectorMath.h"
 #include"MathUtilty.h"
+#include"GlobalVariables.h"
+#include"GameObject.h"
+
 
 #include<algorithm>
 #include<numbers>
 
-#include"GameObject.h"
+
 
 class Player :public GameObject
 {
@@ -28,7 +31,7 @@ public:
 
 private:
 	
-	Model*playerModel;
+	Model* playerModel;
 	Vector3 velocity_ = {  };
 
 	static inline const float kAcceleration = 0.01f;	//加速度
@@ -54,11 +57,6 @@ private:
 	static inline const float kGravityAcceleration = 0.05f;	//重力加速度（下方向
 	static inline const float kLimitFallSpead = 0.5f;		//最大落下速度（下方向
 	static inline const float kJumpAcceleration = 1.0f;	//ジャンプ初速（上方向
-	static inline const float kLimitJumpSpead = 0.1f;		//最大上昇速度（下方向
-	
-
-	static inline const float kDeltaTime = 1.0f / 60.0f;      // 1フレームの時間（60FPSと仮定）
-
 
 private:
 
@@ -76,9 +74,6 @@ private:
 	/// ジャンプ
 	/// </summary>
 	void Jump();
-
-
-
 
 };
 

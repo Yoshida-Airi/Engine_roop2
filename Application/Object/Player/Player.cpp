@@ -14,6 +14,15 @@ void Player::Initialize(const std::vector<Model*>& models)
 	//モデルの初期設定
 	playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
 	playerModel->GetWorldTransform()->translation_.y += 5.0f;
+
+
+	GlobalVariables* grobalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "Player";
+	//Vector3 num = { 1.0f,2.0f,4.0f };
+	grobalVariables->CreateGroup(groupName);
+	grobalVariables->SetValue(groupName, "Test", 90);
+	grobalVariables->SetValue(groupName, "Test2", 90.0f);
+	grobalVariables->SetValue(groupName, "Test3", { 1.0f,2.0f,4.0f });
 }
 
 void Player::Update()
@@ -119,7 +128,6 @@ void Player::Move()
 					turnFirstRotationY = playerModel->GetWorldTransform()->rotation_.y;
 					turnTimer = kTimeTrun;
 				}
-
 			}
 			else if (Input::GetInstance()->PushKey(DIK_LEFT))
 			{
@@ -182,9 +190,7 @@ void Player::Jump()
 		{
 			//ジャンプ初速
 			velocity_ = Add(velocity_, Vector3(0, kJumpAcceleration, 0));
-
 		}
-
 
 		if (velocity_.y > 0.0f)
 		{

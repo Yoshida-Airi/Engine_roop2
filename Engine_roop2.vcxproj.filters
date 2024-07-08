@@ -66,9 +66,6 @@
     <ClCompile Include="Engine\3D\ModelLoader.cpp">
       <Filter>Engine\3D</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Scene\GamePlayScene.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
@@ -135,7 +132,13 @@
     <ClCompile Include="Application\Object\Skydome\Skydome.cpp">
       <Filter>Application\Objects\Skydome</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\3D\GameObject.cpp" />
+    <ClCompile Include="Engine\3D\GameObject.cpp">
+      <Filter>Application\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GlobalVariable\GlobalVariables.cpp">
+      <Filter>Engine\GlobalVariable</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -267,7 +270,12 @@
     <ClInclude Include="Engine\Math\CollisionTypeData.h">
       <Filter>Application\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\3D\GameObject.h" />
+    <ClInclude Include="Engine\3D\GameObject.h">
+      <Filter>Application\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GlobalVariable\GlobalVariables.h">
+      <Filter>Engine\GlobalVariable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -329,6 +337,9 @@
     </Filter>
     <Filter Include="Application\Objects\Skydome">
       <UniqueIdentifier>{addf59d4-61ef-40bf-8d98-cac2e1160274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GlobalVariable">
+      <UniqueIdentifier>{a5cae6bd-f26c-41c8-b5b6-c50bd1b59ef4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
