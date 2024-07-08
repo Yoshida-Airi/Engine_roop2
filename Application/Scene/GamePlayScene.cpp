@@ -161,7 +161,7 @@ void GamePlayScene::Update()
 	CheckAllCollisions();
 
 	camera->transform.translate.x = LerpShortTranslate(camera->transform.translate.x, player->GetWorldTransform()->translation_.x, 0.04f);
-
+	camera->transform.translate.y = LerpShortTranslate(camera->transform.translate.y, player->GetWorldTransform()->translation_.y, 0.04f);
 }
 
 void GamePlayScene::Draw()

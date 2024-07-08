@@ -26,6 +26,8 @@ void Player::Update()
 	Move();
 	//旋回処理
 	Turn();
+	//ジャンプ処理
+	Jump();
 
 	playerModel->ModelDebug("player");
 
@@ -94,6 +96,7 @@ void Player::Move()
 {
 	/* --プレイヤーの移動処理-- */
 
+	//接地状態
 	if (onGround_)
 	{
 		if (Input::GetInstance()->PushKey(DIK_RIGHT) || Input::GetInstance()->PushKey(DIK_LEFT))
@@ -147,22 +150,49 @@ void Player::Move()
 			//非入力時は移動減衰をかける
 			velocity_.x *= (1.0f - kAttenuation);
 		}
+	}
+}
 
+void Player::Turn()
+{
+	/* --プレイヤーの旋回処理-- */
+
+	if (turnTimer > 0.0f)
+	{
+		turnTimer = 1.0f / 60.0f;
+
+		float destinationRotationYTable[] =
+		{
+			std::numbers::pi_v<float> / 2.0f,
+			std::numbers::pi_v<float>*3.0f / 2.0f
+		};
+		//角度の取得
+		float destinationRotationY = destinationRotationYTable[static_cast<uint32_t>(lrDirection)];
+		//角度を変更する
+		playerModel->GetWorldTransform()->rotation_.y = LerpShortTranslate(playerModel->GetWorldTransform()->rotation_.y, destinationRotationY, turnTimer);
+	}
+}
+
+void Player::Jump()
+{
+	//接地状態
+	if (onGround_)
+	{
 		if (Input::GetInstance()->PushKey(DIK_UP))
 		{
 			//ジャンプ初速
 			velocity_ = Add(velocity_, Vector3(0, kJumpAcceleration, 0));
-			velocity_.y = std::min(velocity_.y, kLimitJumpSpead);
 
-			if (velocity_.y > 0.0f)
-			{
-				onGround_ = false;
-			}
 		}
 
 
+		if (velocity_.y > 0.0f)
+		{
+			onGround_ = false;
+		}
+
 	}
-	else
+	else//空中
 	{
 		//落下速度
 		velocity_ = Add(velocity_, Vector3(0, -kGravityAcceleration, 0));
@@ -189,34 +219,5 @@ void Player::Move()
 			velocity_.y = 0.0f;
 			onGround_ = true;
 		}
-
 	}
-	
-
-
-}
-
-void Player::Turn()
-{
-	/* --プレイヤーの旋回処理-- */
-
-	if (turnTimer > 0.0f)
-	{
-		turnTimer = 1.0f / 60.0f;
-
-		float destinationRotationYTable[] =
-		{
-			std::numbers::pi_v<float> / 2.0f,
-			std::numbers::pi_v<float>*3.0f / 2.0f
-		};
-		//角度の取得
-		float destinationRotationY = destinationRotationYTable[static_cast<uint32_t>(lrDirection)];
-		//角度を変更する
-		playerModel->GetWorldTransform()->rotation_.y = LerpShortTranslate(playerModel->GetWorldTransform()->rotation_.y, destinationRotationY, turnTimer);
-	}
-}
-
-void Player::Jump()
-{
-
 }
