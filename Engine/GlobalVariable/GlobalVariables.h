@@ -36,6 +36,17 @@ public:
 	/// <param name="groupName">グループ</param>
 	void SaveFile(const std::string& groupName);
 
+	/// <summary>
+	/// ディレクトリの全ファイル読み込み
+	/// </summary>
+	void LoadFiles();
+
+	/// <summary>
+	/// ファイルから読み込む
+	/// </summary>
+	/// <param name="groupName">グループ</param>
+	void LoadFile(const std::string& groupName);
+
 	//値のセット
 	//int
 	void SetValue(const std::string& groupName, const std::string& key, int32_t value);

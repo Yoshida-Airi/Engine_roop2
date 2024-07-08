@@ -151,6 +151,63 @@ void GlobalVariables::SaveFile(const std::string& groupName)
 	ofs.close();
 }
 
+void GlobalVariables::LoadFiles()
+{
+	std::filesystem::path dir(kDirectoryPath);
+	if (!std::filesystem::exists(dir))
+	{
+		//ディレクトリが無い
+		return;
+	}
+
+	std::filesystem::directory_iterator dir_it(dir);
+	for (const std::filesystem::directory_entry& entry : dir_it)
+	{
+		//ファイルパスを取得
+		const std::filesystem::path& filePath = entry.path();
+		//ファイル拡張子を取得
+		std::string extension = filePath.extension().string();
+		//.jsonファイル以外はスキップ
+		if (extension.compare(".json") != 0)
+		{
+			continue;
+		}
+		//ファイル読み込み
+		LoadFile(filePath.stem().string());
+	}
+
+}
+
+void GlobalVariables::LoadFile(const std::string& groupName)
+{
+	std::string filePath = kDirectoryPath + groupName + ".json";
+	//読み込み用ファイルストリーム
+	std::ifstream ifs;
+	//ファイルを読み込みように開く
+	ifs.open(filePath);
+
+	//ファイルオープン失敗？
+	if (ifs.fail())
+	{
+		std::string message = "Failed open data file for write";
+		MessageBoxA(nullptr, message.c_str(), "GlobalValiables", 0);
+		assert(0);
+		return;
+	}
+
+	nlohmann::json root;
+
+	//json文字列からjsonのデータ構造に展開
+	ifs >> root;
+	//ファイルを閉じる
+	ifs.close();
+
+	//グループを検索
+	nlohmann::json::iterator itGroup = root.find(groupName);
+	//未登録チェック
+	assert(itGroup != root.end());
+}
+
 void GlobalVariables::SetValue(const std::string& groupName, const std::string& key, int32_t value)
 {
 	//グループの参照を取得
