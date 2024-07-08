@@ -206,6 +206,116 @@ void GlobalVariables::LoadFile(const std::string& groupName)
 	nlohmann::json::iterator itGroup = root.find(groupName);
 	//未登録チェック
 	assert(itGroup != root.end());
+
+	//各アイテムについて
+	for (nlohmann::json::iterator itItem = itGroup->begin(); itItem != itGroup->end(); ++itItem)
+	{
+		//アイテム名を取得
+		const std::string& itemName = itItem.key();
+
+		//int32_t型の値を保持して入れば
+		if (itItem->is_number_integer())
+		{
+			//int型の値を登録
+			int32_t value = itItem->get<int32_t>();
+			SetValue(groupName, itemName, value);
+		}
+		//float型の値を保持していれば
+		else if (itItem->is_number_float())
+		{
+			//flaot型の値を登録
+			double value = itItem->get<double>();
+			SetValue(groupName, itemName, static_cast<float>(value));
+		}
+		//要素数3の配列であれば
+		else if (itItem->is_array() && itItem->size() == 3)
+		{
+			//float型のjson配列登録
+			Vector3 value = { itItem->at(0),itItem->at(1),itItem->at(2) };
+			SetValue(groupName, itemName, value);
+		}
+	}
+}
+
+void GlobalVariables::AddItem(const std::string& groupName, const std::string& key, int32_t value)
+{
+	std::string filePath = kDirectoryPath + groupName + ".json";
+	//読み込み用ファイルストリーム
+	std::ifstream ifs;
+	//ファイルを読み込みように開く
+	ifs.open(filePath);
+
+	nlohmann::json root;
+
+	//json文字列からjsonのデータ構造に展開
+	ifs >> root;
+	//ファイルを閉じる
+	ifs.close();
+
+	//グループを検索
+	nlohmann::json::iterator itGroup = root.find(groupName);
+	//未登録チェック
+	assert(itGroup != root.end());
+
+	if (itGroup->find(key) == itGroup->end())
+	{
+		SetValue(groupName, key, value);
+	}
+
+}
+
+void GlobalVariables::AddItem(const std::string& groupName, const std::string& key, float value)
+{
+	std::string filePath = kDirectoryPath + groupName + ".json";
+	//読み込み用ファイルストリーム
+	std::ifstream ifs;
+	//ファイルを読み込みように開く
+	ifs.open(filePath);
+
+	nlohmann::json root;
+
+	//json文字列からjsonのデータ構造に展開
+	ifs >> root;
+	//ファイルを閉じる
+	ifs.close();
+
+	//グループを検索
+	nlohmann::json::iterator itGroup = root.find(groupName);
+	//未登録チェック
+	assert(itGroup != root.end());
+
+	if (itGroup->find(key) == itGroup->end())
+	{
+		SetValue(groupName, key, value);
+	}
+
+}
+
+void GlobalVariables::AddItem(const std::string& groupName, const std::string& key, const Vector3& value)
+{
+	std::string filePath = kDirectoryPath + groupName + ".json";
+	//読み込み用ファイルストリーム
+	std::ifstream ifs;
+	//ファイルを読み込みように開く
+	ifs.open(filePath);
+
+	nlohmann::json root;
+
+	//json文字列からjsonのデータ構造に展開
+	ifs >> root;
+	//ファイルを閉じる
+	ifs.close();
+
+	//グループを検索
+	nlohmann::json::iterator itGroup = root.find(groupName);
+	//未登録チェック
+	assert(itGroup != root.end());
+
+	if (itGroup->find(key) == itGroup->end())
+	{
+		SetValue(groupName, key, value);
+	}
+
 }
 
 void GlobalVariables::SetValue(const std::string& groupName, const std::string& key, int32_t value)

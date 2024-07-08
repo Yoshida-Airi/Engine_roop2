@@ -20,9 +20,9 @@ void Player::Initialize(const std::vector<Model*>& models)
 	const char* groupName = "Player";
 	//Vector3 num = { 1.0f,2.0f,4.0f };
 	grobalVariables->CreateGroup(groupName);
-	grobalVariables->SetValue(groupName, "Test", 90);
-	grobalVariables->SetValue(groupName, "Test2", 90.0f);
-	grobalVariables->SetValue(groupName, "Test3", { 1.0f,2.0f,4.0f });
+	grobalVariables->AddItem(groupName, "Test", 90);
+	grobalVariables->AddItem(groupName, "Test2", 90.0f);
+	grobalVariables->AddItem(groupName, "Test3", { 1.0f,2.0f,4.0f });
 }
 
 void Player::Update()

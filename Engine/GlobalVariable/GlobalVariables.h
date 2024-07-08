@@ -47,6 +47,14 @@ public:
 	/// <param name="groupName">グループ</param>
 	void LoadFile(const std::string& groupName);
 
+	//項目の追加
+	//int
+	void AddItem(const std::string& groupName, const std::string& key, int32_t value);
+	//float
+	void AddItem(const std::string& groupName, const std::string& key, float value);
+	//Vector3
+	void AddItem(const std::string& groupName, const std::string& key, const Vector3& value);
+
 	//値のセット
 	//int
 	void SetValue(const std::string& groupName, const std::string& key, int32_t value);
@@ -54,6 +62,8 @@ public:
 	void SetValue(const std::string& groupName, const std::string& key, float value);
 	//Vector3
 	void SetValue(const std::string& groupName, const std::string& key, const Vector3& value);
+
+
 
 private:
 	GlobalVariables() = default;

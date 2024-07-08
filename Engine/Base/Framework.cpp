@@ -67,6 +67,8 @@ void Framework::Initialize()
 	imgui->Initialize();
 
 	glovalVariable = GlobalVariables::GetInstance();
+	glovalVariable->LoadFiles();
+
 
 	sceneManager_ = SceneManager::GetInstance();
 	delete sceneFactory_;
