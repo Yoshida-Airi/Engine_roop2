@@ -7,6 +7,8 @@
 
 #include"VectorMath.h"
 
+
+
 class GlobalVariables
 {
 public:
@@ -63,7 +65,10 @@ public:
 	//Vector3
 	void SetValue(const std::string& groupName, const std::string& key, const Vector3& value);
 
-
+	//値の取得
+	int32_t GetIntValue(const std::string& groupName, const std::string& key)const;
+	float GetFloatValue(const std::string& groupName, const std::string& key)const;
+	Vector3 GetVector3Value(const std::string& groupName, const std::string& key)const;
 
 private:
 	GlobalVariables() = default;

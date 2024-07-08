@@ -1,11 +1,10 @@
 {
     "Player": {
-        "Test": 88,
-        "Test2": 11.458000183105469,
-        "Test3": [
-            1.0,
-            -10.0,
-            -2.9230000972747803
-        ]
+        "Acceleration": 0.009999999776482582,
+        "Attenuation": 0.029999999329447746,
+        "GravityAcceleration": 0.05000000074505806,
+        "JumpAcceleration": 0.800000011920929,
+        "LimitFallSpead": 0.9900000095367432,
+        "LimitRunSpeed": 0.10000000149011612
     }
 }

@@ -30,13 +30,16 @@ public:
 	void OnCollision([[maybe_unused]] Collider* other)override;
 
 private:
-	
+
+	GlobalVariables* grobalVariables;
+	const char* groupName;
+
 	Model* playerModel;
 	Vector3 velocity_ = {  };
 
-	static inline const float kAcceleration = 0.01f;	//加速度
-	static inline const float kAttenuation = 0.03f;	//速度減衰率
-	static inline const float kLimitRunSpeed = 0.1f;	//最大速度
+	float kAcceleration = 0.01f;	//加速度
+	float kAttenuation = 0.03f;	//速度減衰率
+	float kLimitRunSpeed = 0.1f;	//最大速度
 
 	//左右
 	enum class LRDirection
@@ -54,9 +57,11 @@ private:
 
 	bool onGround_ = true;	//接地状態フラグ
 	bool landing = false;	//接地フラグ
-	static inline const float kGravityAcceleration = 0.05f;	//重力加速度（下方向
-	static inline const float kLimitFallSpead = 0.5f;		//最大落下速度（下方向
-	static inline const float kJumpAcceleration = 1.0f;	//ジャンプ初速（上方向
+	float kGravityAcceleration = 0.05f;	//重力加速度（下方向
+	float kLimitFallSpead = 0.5f;		//最大落下速度（下方向
+	float kJumpAcceleration = 1.0f;	//ジャンプ初速（上方向
+
+
 
 private:
 
@@ -74,6 +79,11 @@ private:
 	/// ジャンプ
 	/// </summary>
 	void Jump();
+
+	/// <summary>
+	/// 調整項目の適用
+	/// </summary>
+	void ApplyGlobalVariables();
 
 };
 

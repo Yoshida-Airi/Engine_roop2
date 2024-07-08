@@ -4,6 +4,9 @@
 
 void Player::Initialize(const std::vector<Model*>& models)
 {
+	grobalVariables = GlobalVariables::GetInstance();
+	groupName = "Player";
+
 	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kPlayer));
 	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::SPHERE));
 
@@ -16,20 +19,22 @@ void Player::Initialize(const std::vector<Model*>& models)
 	playerModel->GetWorldTransform()->translation_.y += 5.0f;
 
 
-	GlobalVariables* grobalVariables = GlobalVariables::GetInstance();
-	const char* groupName = "Player";
-	//Vector3 num = { 1.0f,2.0f,4.0f };
-	grobalVariables->CreateGroup(groupName);
-	grobalVariables->AddItem(groupName, "Test", 90);
-	grobalVariables->AddItem(groupName, "Test2", 90.0f);
-	grobalVariables->AddItem(groupName, "Test3", { 1.0f,2.0f,4.0f });
+	grobalVariables->AddItem(groupName, "Acceleration", kAcceleration);
+	grobalVariables->AddItem(groupName, "Attenuation", kAttenuation);
+	grobalVariables->AddItem(groupName, "LimitRunSpeed", kLimitRunSpeed);
+	grobalVariables->AddItem(groupName, "GravityAcceleration", kGravityAcceleration);
+	grobalVariables->AddItem(groupName, "LimitFallSpead", kLimitFallSpead);
+	grobalVariables->AddItem(groupName, "JumpAcceleration", kJumpAcceleration);
+
+
+	
 }
 
 void Player::Update()
 {
 	GameObject::Update();
 
-	
+	ApplyGlobalVariables();
 
 	playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, velocity_);
 
@@ -228,4 +233,18 @@ void Player::Jump()
 			onGround_ = true;
 		}
 	}
+}
+
+void Player::ApplyGlobalVariables()
+{
+	kAcceleration = grobalVariables->GetFloatValue(groupName, "Acceleration");
+	kAttenuation = grobalVariables->GetFloatValue(groupName, "Attenuation");
+	kLimitRunSpeed = grobalVariables->GetFloatValue(groupName, "LimitRunSpeed");
+	kGravityAcceleration = grobalVariables->GetFloatValue(groupName, "GravityAcceleration");
+	kLimitFallSpead = grobalVariables->GetFloatValue(groupName, "LimitFallSpead");
+	kJumpAcceleration = grobalVariables->GetFloatValue(groupName, "JumpAcceleration");
+	
+
+
+
 }

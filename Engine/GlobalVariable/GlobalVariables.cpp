@@ -44,19 +44,19 @@ void GlobalVariables::Update()
 			if (std::holds_alternative<int32_t>(item.value))
 			{
 				int32_t* ptr = std::get_if<int32_t>(&item.value);
-				ImGui::SliderInt(itemName.c_str(), ptr, 0, 100);
+				ImGui::DragInt(itemName.c_str(), ptr,1);
 			}
 			//floatの値を保持していれば
 			else if (std::holds_alternative<float>(item.value))
 			{
 				float* ptr = std::get_if<float>(&item.value);
-				ImGui::SliderFloat(itemName.c_str(), ptr, 0, 100);
+				ImGui::DragFloat(itemName.c_str(), ptr, 0.01f);
 			}
 			//Vector3型の値を保持していれば
 			else if (std::holds_alternative<Vector3>(item.value))
 			{
 				Vector3* ptr = std::get_if<Vector3>(&item.value);
-				ImGui::SliderFloat3(itemName.c_str(), reinterpret_cast<float*>(ptr), -10.0f, 10.0f);
+				ImGui::DragFloat3(itemName.c_str(), reinterpret_cast<float*>(ptr), 0.01f);
 			}
 
 		}
@@ -239,83 +239,32 @@ void GlobalVariables::LoadFile(const std::string& groupName)
 
 void GlobalVariables::AddItem(const std::string& groupName, const std::string& key, int32_t value)
 {
-	std::string filePath = kDirectoryPath + groupName + ".json";
-	//読み込み用ファイルストリーム
-	std::ifstream ifs;
-	//ファイルを読み込みように開く
-	ifs.open(filePath);
-
-	nlohmann::json root;
-
-	//json文字列からjsonのデータ構造に展開
-	ifs >> root;
-	//ファイルを閉じる
-	ifs.close();
-
-	//グループを検索
-	nlohmann::json::iterator itGroup = root.find(groupName);
-	//未登録チェック
-	assert(itGroup != root.end());
-
-	if (itGroup->find(key) == itGroup->end())
-	{
+	// 指定したグループの参照を取得
+	Group& group = datas_[groupName];
+	// 項目が未登録なら
+	if (group.items.find(key) == group.items.end()) {
 		SetValue(groupName, key, value);
 	}
-
 }
 
 void GlobalVariables::AddItem(const std::string& groupName, const std::string& key, float value)
 {
-	std::string filePath = kDirectoryPath + groupName + ".json";
-	//読み込み用ファイルストリーム
-	std::ifstream ifs;
-	//ファイルを読み込みように開く
-	ifs.open(filePath);
-
-	nlohmann::json root;
-
-	//json文字列からjsonのデータ構造に展開
-	ifs >> root;
-	//ファイルを閉じる
-	ifs.close();
-
-	//グループを検索
-	nlohmann::json::iterator itGroup = root.find(groupName);
-	//未登録チェック
-	assert(itGroup != root.end());
-
-	if (itGroup->find(key) == itGroup->end())
-	{
+	// 指定したグループの参照を取得
+	Group& group = datas_[groupName];
+	// 項目が未登録なら
+	if (group.items.find(key) == group.items.end()) {
 		SetValue(groupName, key, value);
 	}
-
 }
 
 void GlobalVariables::AddItem(const std::string& groupName, const std::string& key, const Vector3& value)
 {
-	std::string filePath = kDirectoryPath + groupName + ".json";
-	//読み込み用ファイルストリーム
-	std::ifstream ifs;
-	//ファイルを読み込みように開く
-	ifs.open(filePath);
-
-	nlohmann::json root;
-
-	//json文字列からjsonのデータ構造に展開
-	ifs >> root;
-	//ファイルを閉じる
-	ifs.close();
-
-	//グループを検索
-	nlohmann::json::iterator itGroup = root.find(groupName);
-	//未登録チェック
-	assert(itGroup != root.end());
-
-	if (itGroup->find(key) == itGroup->end())
-	{
+	// 指定したグループの参照を取得
+	Group& group = datas_[groupName];
+	// 項目が未登録なら
+	if (group.items.find(key) == group.items.end()) {
 		SetValue(groupName, key, value);
 	}
-
 }
 
 void GlobalVariables::SetValue(const std::string& groupName, const std::string& key, int32_t value)
@@ -349,6 +298,50 @@ void GlobalVariables::SetValue(const std::string& groupName, const std::string& 
 	newItem.value = value;
 	//設定した項目をstd::mapに追加
 	group.items[key] = newItem;
+}
+
+int32_t GlobalVariables::GetIntValue(const std::string& groupName, const std::string& key) const
+{
+	// 指定したグループが存在するかをassertで確認
+	assert(datas_.find(groupName) != datas_.end());
+
+	// 指定したグループの参照を取得
+	const Group& group = datas_.at(groupName);
+
+	// 指定したキーが存在するかをassertで確認
+	assert(group.items.find(key) != group.items.end());
+
+	// 指定したグループから指定したキーの値を取得して返す
+	return  std::get<int32_t>(group.items.at(key).value);
+}
+
+float GlobalVariables::GetFloatValue(const std::string& groupName, const std::string& key) const
+{
+	// 指定したグループが存在するかをassertで確認
+	assert(datas_.find(groupName) != datas_.end());
+
+	// 指定したグループの参照を取得
+	const Group& group = datas_.at(groupName);
+
+	// 指定したキーが存在するかをassertで確認
+	assert(group.items.find(key) != group.items.end());
+
+	return  std::get<float>(group.items.at(key).value);
+}
+
+Vector3 GlobalVariables::GetVector3Value(const std::string& groupName, const std::string& key) const
+{
+	// 指定したグループが存在するかをassertで確認
+	assert(datas_.find(groupName) != datas_.end());
+
+	// 指定したグループの参照を取得
+	const Group& group = datas_.at(groupName);
+
+	// 指定したキーが存在するかをassertで確認
+	assert(group.items.find(key) != group.items.end());
+
+	return  std::get<Vector3>(group.items.at(key).value);
+
 }
 
 
