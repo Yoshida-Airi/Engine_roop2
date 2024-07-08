@@ -79,6 +79,8 @@ void Framework::Update()
 
 	input->Update();
 	glovalVariable->Update();
+
+
 	sceneManager_->Update();
 
 }

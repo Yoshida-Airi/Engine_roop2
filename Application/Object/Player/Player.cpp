@@ -29,6 +29,8 @@ void Player::Update()
 {
 	GameObject::Update();
 
+	
+
 	playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, velocity_);
 
 	//移動処理
