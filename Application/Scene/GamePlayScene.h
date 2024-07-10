@@ -20,6 +20,7 @@
 #include"Object/Player/Player.h"
 #include"Object/Enemy/Enemy.h"
 #include"Object/Skydome/Skydome.h"
+#include"Object/CameraController/CameraController.h"
 
 #include"LevelEditor.h"
 
@@ -78,5 +79,6 @@ private:
 	std::unique_ptr <Player> player;
 	std::unique_ptr <Enemy>enemy;
 	std::unique_ptr <Skydome>skydome;
+	CameraController* cameraController;
 };
 

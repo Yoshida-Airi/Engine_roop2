@@ -5,6 +5,7 @@ GamePlayScene::~GamePlayScene()
 
 	delete camera;
 	delete levelEditor;
+	delete cameraController;
 
 }
 
@@ -34,6 +35,7 @@ void GamePlayScene::Initialize()
 	camera = new Camera;
 	camera->Initialize();
 
+	
 	levelEditor = new LevelEditor();
 	levelEditor->LoaderJsonFile();
 	levelEditor->Initialize(playerModels);
@@ -47,6 +49,10 @@ void GamePlayScene::Initialize()
 	skydome = std::make_unique<Skydome>();
 	skydome->Initialize();
 
+	cameraController = new CameraController;
+	cameraController->Initialize(camera);
+	cameraController->SetTarget(player.get());
+	cameraController->Reset();
 
 
 	//triangle.reset(Triangle::Create(uvTexture));
@@ -112,6 +118,8 @@ void GamePlayScene::Update()
 
 #endif // _DEBUG
 
+	cameraController->Update();
+
 	colliderManager_->UpdateWorldTransform();
 
 	//if (input->TriggerKey(DIK_RETURN))
@@ -160,8 +168,8 @@ void GamePlayScene::Update()
 
 	CheckAllCollisions();
 
-	camera->transform.translate.x = LerpShortTranslate(camera->transform.translate.x, player->GetWorldTransform()->translation_.x, 0.04f);
-	camera->transform.translate.y = LerpShortTranslate(camera->transform.translate.y, player->GetWorldTransform()->translation_.y, 0.04f);
+	//camera->transform.translate.x = LerpShortTranslate(camera->transform.translate.x, player->GetWorldTransform()->translation_.x, 0.04f);
+	//camera->transform.translate.y = LerpShortTranslate(camera->transform.translate.y, player->GetWorldTransform()->translation_.y, 0.04f);
 }
 
 void GamePlayScene::Draw()

@@ -1,0 +1,10 @@
+{
+    "Camera": {
+        "imterpolationRate": 0.03999999910593033,
+        "targetOffset": [
+            0.0,
+            0.0,
+            -30.0
+        ]
+    }
+}

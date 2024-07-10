@@ -139,6 +139,9 @@
       <Filter>Engine\GlobalVariable</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Application\Object\CameraController\CameraController.cpp">
+      <Filter>Application\CameraController</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -276,6 +279,9 @@
     <ClInclude Include="Engine\GlobalVariable\GlobalVariables.h">
       <Filter>Engine\GlobalVariable</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Object\CameraController\CameraController.h">
+      <Filter>Application\CameraController</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -340,6 +346,9 @@
     </Filter>
     <Filter Include="Engine\GlobalVariable">
       <UniqueIdentifier>{a5cae6bd-f26c-41c8-b5b6-c50bd1b59ef4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\CameraController">
+      <UniqueIdentifier>{db0cb2c4-a860-47c6-a724-cbf31628e592}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
