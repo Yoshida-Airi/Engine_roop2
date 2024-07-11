@@ -1,21 +1,20 @@
 #include "Enemy.h"
 #include"Object/CollisionConfig.h"
 
-void Enemy::Initialize(const std::vector<Model*>& models)
+void Enemy::Initialize(Vector3 position)
 {
+	Collider::Initialize();
 	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kEnemy));
 	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::SPHERE));
 
-	GameObject::Initialize(models);
+	enemyModel.reset(Model::Create("Resources/SampleAssets/cube.obj"));
 
-	enemyModel = models[0];
-	enemyModel->GetWorldTransform()->translation_.x = 10.0f;
-	enemyModel->GetWorldTransform()->translation_.y = 1.0f;
+	enemyModel->GetWorldTransform()->translation_ = position;
 }
 
 void Enemy::Update()
 {
-	GameObject::Update();
+	enemyModel->Update();
 
 	enemyModel->ModelDebug("enemy");
 	enemyModel->GetWorldTransform()->translation_.x += 0.03f;

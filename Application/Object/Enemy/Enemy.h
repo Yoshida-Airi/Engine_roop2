@@ -3,12 +3,12 @@
 #include"Collider.h"
 #include"GameObject.h"
 
-class Enemy : public GameObject
+class Enemy :public Collider
 {
 public:
-	void Initialize(const std::vector<Model*>& models)override;
-	void Update()override;
-	void Draw(Camera* camera)override;
+	void Initialize(Vector3 position);
+	void Update();
+	void Draw(Camera* camera);
 
 	Vector3 GetWorldPosition()override;
 	AABB GetAABB()override;
@@ -16,7 +16,8 @@ public:
 
 private:
 
-	Model* enemyModel;
+	std::unique_ptr<Model>  enemyModel = nullptr;
+
 
 	
 

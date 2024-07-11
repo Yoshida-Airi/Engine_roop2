@@ -7,12 +7,13 @@ void Player::Initialize(const std::vector<Model*>& models)
 	grobalVariables = GlobalVariables::GetInstance();
 	groupName = "Player";
 
+	Collider::Initialize();
 	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kPlayer));
 	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::SPHERE));
-
-	GameObject::Initialize(models);
+	
 
 	playerModel = (models[0]);
+
 
 	//モデルの初期設定
 	playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
@@ -32,10 +33,11 @@ void Player::Initialize(const std::vector<Model*>& models)
 
 void Player::Update()
 {
-	GameObject::Update();
+	
 
 	ApplyGlobalVariables();
 
+	playerModel->Update();
 	playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, velocity_);
 
 	//移動処理

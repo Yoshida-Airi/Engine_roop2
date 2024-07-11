@@ -17,12 +17,12 @@
 
 
 
-class Player :public GameObject
+class Player :public Collider
 {
 public:
-	void Initialize(const std::vector<Model*>& models)override;
-	void Update()override;
-	void Draw(Camera* camera)override;
+	void Initialize(const std::vector<Model*>& models);
+	void Update();
+	void Draw(Camera* camera);
 	WorldTransform* GetWorldTransform() { return playerModel->GetWorldTransform(); }
 
 	Vector3 GetWorldPosition()override;
