@@ -29,12 +29,14 @@ void TestPlayScene::Initialize()
 	//model->UseAnimation(false);
 	model2.reset(Model::Create("Resources/SampleAssets/axis.obj"));
 	model2->SetTexture(white);
-	
 	model2->SetEnvironmentMap(airport);
 	model2->GetWorldTransform()->translation_.x = 5.0f;
+	model2->SetMaterialData({ 0.0f,0.0f,0.0f,1.0f });
 
 	model3.reset(Model::Create("Resources/SampleAssets/human/sneakWalk.gltf"));
 	model3->SetEnvironmentMap(airport);
+	model3->SetMaterialData({ 0.0f,0.0f,0.0f,1.0f });
+	
 	//model3->SetAnimation(walkAnimation);
 
 	model4.reset(Model::Create("Resources/SampleAssets/simpleSkin.gltf"));

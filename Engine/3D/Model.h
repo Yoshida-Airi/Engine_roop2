@@ -96,6 +96,11 @@ public:
 	{
 		textureHandle_ = texture;
 	}
+	
+	void SetMaterialData(Vector4 color)
+	{
+		materialData_->color = color;
+	}
 
 private:
 	DirectXCommon* dxCommon_;
