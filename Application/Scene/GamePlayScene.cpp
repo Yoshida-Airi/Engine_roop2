@@ -7,6 +7,8 @@ GamePlayScene::~GamePlayScene()
 	delete levelEditor;
 	delete cameraController;
 
+
+
 }
 
 void GamePlayScene::Initialize()
@@ -38,13 +40,8 @@ void GamePlayScene::Initialize()
 	player = std::make_unique<Player>();
 	player->Initialize();
 
-	enemy = std::make_unique<Enemy>();
-	enemy->Initialize();
-	enemy->SetPosition({ 10.0f,1.0f,0.0f });
-
-	enemy2 = std::make_unique<Enemy>();
-	enemy2->Initialize();
-	enemy2->SetPosition({ 10.0f,5.0f,0.0f });
+	SpawnEnemy({ 10.0f,5.0f,0.0f });
+	SpawnEnemy({ 10.0f,1.0f,0.0f });
 
 	skydome = std::make_unique<Skydome>();
 	skydome->Initialize();
@@ -163,8 +160,12 @@ void GamePlayScene::Update()
 	levelEditor->Update();
 
 	player->Update();
-	enemy->Update();
-	enemy2->Update();
+
+	for (Enemy* enemy : enemys) 
+	{
+		enemy->Update();
+	}
+
 	skydome->Update();
 
 	CheckAllCollisions();
@@ -197,9 +198,11 @@ void GamePlayScene::Draw()
 
 	skydome->Draw(camera);
 	player->Draw(camera);
-	enemy->Draw(camera);
-	enemy2->Draw(camera);
 
+	for (Enemy* enemy : enemys) 
+	{
+		enemy->Draw(camera);
+	}
 	colliderManager_->Draw(camera);
 }
 
@@ -212,11 +215,25 @@ void GamePlayScene::CheckAllCollisions()
 
 	//コライダーにオブジェクトを登録
 	colliderManager_->AddColliders(player.get());
-	colliderManager_->AddColliders(enemy.get());
-	colliderManager_->AddColliders(enemy2.get());
+	for (Enemy* enemy : enemys) 
+	{
+		colliderManager_->AddColliders(enemy);
+	}
 	colliderManager_->AddColliders(levelEditor);
 	//当たり判定
 	colliderManager_->ChackAllCollisions();
 
 
+}
+
+void GamePlayScene::SpawnEnemy(const Vector3& position)
+{
+	// 敵を発生させる
+	Enemy* enemy = new Enemy();
+	// 敵の初期化
+	enemy->Initialize();
+	enemy->SetPosition(position);
+
+	// リストに登録
+	enemys.push_back(enemy);
 }

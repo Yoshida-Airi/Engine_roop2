@@ -38,6 +38,8 @@ public:
 
 	void CheckAllCollisions();
 
+	void SpawnEnemy(const Vector3& position);
+
 private:
 	TextureManager* texture;
 	SceneManager* sceneManager_ = nullptr;
@@ -73,8 +75,7 @@ private:
 	LevelEditor* levelEditor = nullptr;
 
 	std::unique_ptr <Player> player;
-	std::unique_ptr <Enemy>enemy;
-	std::unique_ptr <Enemy>enemy2;
+	std::list<Enemy*> enemys;
 	std::unique_ptr <Skydome>skydome;
 	CameraController* cameraController;
 };
