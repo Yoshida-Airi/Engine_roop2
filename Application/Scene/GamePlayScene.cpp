@@ -26,11 +26,6 @@ void GamePlayScene::Initialize()
 	Doll = texture->LoadTexture("Resources/SampleAssets/Doll.png");
 	circle = texture->LoadTexture("Resources/SampleAssets/circle.png");
 
-	playerModel.reset(Model::Create("Resources/Object/Player/player.obj"));
-	playerModels = { playerModel.get() };
-
-	enemyModel.reset(Model::Create("Resources/SampleAssets/cube.obj"));
-	enemyModels = { enemyModel.get() };
 
 	camera = new Camera;
 	camera->Initialize();
@@ -38,13 +33,18 @@ void GamePlayScene::Initialize()
 	
 	levelEditor = new LevelEditor();
 	levelEditor->LoaderJsonFile();
-	levelEditor->Initialize(playerModels);
+	levelEditor->Initialize();
 
 	player = std::make_unique<Player>();
-	player->Initialize(playerModels);
+	player->Initialize();
 
 	enemy = std::make_unique<Enemy>();
-	enemy->Initialize(enemyModels);
+	enemy->Initialize();
+	enemy->SetPosition({ 10.0f,1.0f,0.0f });
+
+	enemy2 = std::make_unique<Enemy>();
+	enemy2->Initialize();
+	enemy2->SetPosition({ 10.0f,5.0f,0.0f });
 
 	skydome = std::make_unique<Skydome>();
 	skydome->Initialize();
@@ -164,6 +164,7 @@ void GamePlayScene::Update()
 
 	player->Update();
 	enemy->Update();
+	enemy2->Update();
 	skydome->Update();
 
 	CheckAllCollisions();
@@ -197,6 +198,7 @@ void GamePlayScene::Draw()
 	skydome->Draw(camera);
 	player->Draw(camera);
 	enemy->Draw(camera);
+	enemy2->Draw(camera);
 
 	colliderManager_->Draw(camera);
 }
@@ -211,6 +213,7 @@ void GamePlayScene::CheckAllCollisions()
 	//コライダーにオブジェクトを登録
 	colliderManager_->AddColliders(player.get());
 	colliderManager_->AddColliders(enemy.get());
+	colliderManager_->AddColliders(enemy2.get());
 	colliderManager_->AddColliders(levelEditor);
 	//当たり判定
 	colliderManager_->ChackAllCollisions();

@@ -6,9 +6,13 @@
 class Enemy : public GameObject
 {
 public:
-	void Initialize(const std::vector<Model*>& models)override;
+	void Initialize()override;
 	void Update()override;
 	void Draw(Camera* camera)override;
+	void SetPosition(Vector3 position)
+	{
+		enemyModel->GetWorldTransform()->translation_ = position;
+	}
 
 	Vector3 GetWorldPosition()override;
 	AABB GetAABB()override;
@@ -16,7 +20,8 @@ public:
 
 private:
 
-	Model* enemyModel;
+	std::unique_ptr<Model>enemyModel;
+	std::vector<Model*>enemyModels;
 
 	
 

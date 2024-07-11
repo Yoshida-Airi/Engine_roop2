@@ -20,7 +20,7 @@
 class Player :public GameObject
 {
 public:
-	void Initialize(const std::vector<Model*>& models)override;
+	void Initialize()override;
 	void Update()override;
 	void Draw(Camera* camera)override;
 	WorldTransform* GetWorldTransform() { return playerModel->GetWorldTransform(); }
@@ -34,7 +34,9 @@ private:
 	GlobalVariables* grobalVariables;
 	const char* groupName;
 
-	Model* playerModel;
+	std::unique_ptr<Model>playerModel;
+	std::vector<Model*>playerModels;
+
 	Vector3 velocity_ = {  };
 
 	float kAcceleration = 0.01f;	//加速度

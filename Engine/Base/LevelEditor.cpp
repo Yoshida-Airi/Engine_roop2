@@ -137,7 +137,7 @@ void LevelEditor::LoaderJsonFile()
 
 }
 
-void LevelEditor::Initialize(const std::vector<Model*>& models)
+void LevelEditor::Initialize()
 {
 	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kMap));
 	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::AABB));
@@ -149,7 +149,8 @@ void LevelEditor::Initialize(const std::vector<Model*>& models)
 	}
 
 
-	GameObject::Initialize(models_);
+	GameObject::Initialize();
+	GameObject::SetModel(models_);
 
 }
 

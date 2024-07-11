@@ -51,11 +51,7 @@ private:
 	uint32_t Doll;
 	uint32_t circle;
 
-	std::unique_ptr<Model>playerModel;
-	std::unique_ptr<Model>enemyModel;
-
-	std::vector<Model*>playerModels;
-	std::vector<Model*>enemyModels;
+	
 
 	Camera* camera;
 	
@@ -78,6 +74,7 @@ private:
 
 	std::unique_ptr <Player> player;
 	std::unique_ptr <Enemy>enemy;
+	std::unique_ptr <Enemy>enemy2;
 	std::unique_ptr <Skydome>skydome;
 	CameraController* cameraController;
 };

@@ -36,7 +36,7 @@ public:
 	~LevelEditor();
 	void LoaderJsonFile();
 
-	void Initialize(const std::vector<Model*>& models)override;
+	void Initialize()override;
 	void Update()override;
 	void Draw(Camera* camera)override;
 

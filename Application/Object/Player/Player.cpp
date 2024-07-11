@@ -2,17 +2,20 @@
 #include"Object/CollisionConfig.h"
 
 
-void Player::Initialize(const std::vector<Model*>& models)
+void Player::Initialize()
 {
 	grobalVariables = GlobalVariables::GetInstance();
 	groupName = "Player";
 
+	playerModel.reset(Model::Create("Resources/Object/Player/player.obj"));
+	playerModels = { playerModel.get() };
+
 	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kPlayer));
 	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::SPHERE));
 
-	GameObject::Initialize(models);
+	GameObject::Initialize();
+	GameObject::SetModel(playerModels);
 
-	playerModel = (models[0]);
 
 	//モデルの初期設定
 	playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
