@@ -10,6 +10,7 @@ void Enemy::Initialize()
 	enemyModels = { enemyModel.get() };
 	GameObject::Initialize();
 	GameObject::SetModel(enemyModels);
+	enemyModel->SetMaterial({ 1.0f,0.0,0.0f,1.0f });
 }
 
 void Enemy::Update()
@@ -23,6 +24,12 @@ void Enemy::Update()
 
 void Enemy::Draw(Camera* camera)
 {
+	if (isAlive == false)
+	{
+		//死んでいたら描画しない
+		enemyModel->SetisInvisible(true);
+	}
+
 	enemyModel->Draw(camera);
 }
 
@@ -54,8 +61,8 @@ AABB Enemy::GetAABB()
 void Enemy::OnCollision(Collider* other)
 {
 	uint32_t typeID = other->GetTypeID();
-	if (typeID == static_cast<uint32_t>(CollisionTypeDef::kPlayer))
+	if (typeID == static_cast<uint32_t>(CollisionTypeDef::kWeapon))
 	{
-		enemyModel->SetisInvisible(true);
+		isAlive = false;
 	}
 }

@@ -18,11 +18,19 @@ public:
 	AABB GetAABB()override;
 	void OnCollision([[maybe_unused]] Collider* other)override;
 
+	//ゲッター
+	
+	bool GetIsAlive()
+	{
+		return isAlive;
+	}
+
 private:
 
 	std::unique_ptr<Model>enemyModel;
 	std::vector<Model*>enemyModels;
 
+	bool isAlive = true;	//生きているか: true 生きている
 	
 
 };

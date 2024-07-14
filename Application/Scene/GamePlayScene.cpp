@@ -7,7 +7,10 @@ GamePlayScene::~GamePlayScene()
 	delete levelEditor;
 	delete cameraController;
 
-
+	for (Enemy* enemy : enemys)
+	{
+		delete enemy;
+	}
 
 }
 
@@ -37,8 +40,14 @@ void GamePlayScene::Initialize()
 	levelEditor->LoaderJsonFile();
 	levelEditor->Initialize();
 
+	weapon = std::make_unique<Weapon>();
+	weapon->Initialize();
+
+
 	player = std::make_unique<Player>();
+	player->SetWeapon(weapon.get());
 	player->Initialize();
+	
 
 	SpawnEnemy({ 10.0f,5.0f,0.0f });
 	SpawnEnemy({ 10.0f,1.0f,0.0f });
@@ -51,6 +60,7 @@ void GamePlayScene::Initialize()
 	cameraController->SetTarget(player.get());
 	cameraController->Reset();
 
+	
 
 	//triangle.reset(Triangle::Create(uvTexture));
 	//triangle2.reset(Triangle::Create(monsterBall));
@@ -160,6 +170,8 @@ void GamePlayScene::Update()
 	levelEditor->Update();
 
 	player->Update();
+	//武器の更新
+	weapon->Update();
 
 	for (Enemy* enemy : enemys) 
 	{
@@ -198,11 +210,13 @@ void GamePlayScene::Draw()
 
 	skydome->Draw(camera);
 	player->Draw(camera);
-
+	weapon->Draw(camera);
 	for (Enemy* enemy : enemys) 
 	{
 		enemy->Draw(camera);
 	}
+
+
 	colliderManager_->Draw(camera);
 }
 
@@ -215,9 +229,19 @@ void GamePlayScene::CheckAllCollisions()
 
 	//コライダーにオブジェクトを登録
 	colliderManager_->AddColliders(player.get());
+
+	if (weapon->GetIsAttack() == true)
+	{
+		//攻撃中のみ
+		colliderManager_->AddColliders(weapon.get());
+	}
 	for (Enemy* enemy : enemys) 
 	{
-		colliderManager_->AddColliders(enemy);
+		if(enemy->GetIsAlive() == true)
+		{
+			//生きているときのみ
+			colliderManager_->AddColliders(enemy);
+		}
 	}
 	colliderManager_->AddColliders(levelEditor);
 	//当たり判定

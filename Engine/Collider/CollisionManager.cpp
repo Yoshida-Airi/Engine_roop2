@@ -3,26 +3,38 @@
 
 void CollisionManager::Initialize()
 {
+#ifdef _DEBUG
+
 	for (Collider* collider : colliders_)
 	{
 		collider->Initialize();
 	}
+#endif // _DEBUG
+
 }
 
 void CollisionManager::UpdateWorldTransform()
 {
+#ifdef _DEBUG
+
 	for (Collider* collider : colliders_)
 	{
 		collider->UpdateWorldTransform();
 	}
+#endif // _DEBUG
+
 }
 
 void CollisionManager::Draw(Camera* camera)
 {
+#ifdef _DEBUG
 	for (Collider* collider : colliders_)
 	{
 		collider->Draw(camera);
 	}
+#endif // _DEBUG
+
+	
 }
 
 void CollisionManager::ListClear()

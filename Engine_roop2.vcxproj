@@ -148,6 +148,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Scene\TestPlayScene.cpp" />
     <ClCompile Include="Application\Object\Player\Player.cpp" />
     <ClCompile Include="Application\Object\Skydome\Skydome.cpp" />
+    <ClCompile Include="Application\Object\Player\Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Object\CollisionConfig.h" />
@@ -196,6 +197,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Skydome\Skydome.h" />
     <ClInclude Include="Engine\3D\GameObject.h" />
     <ClInclude Include="Engine\GlobalVariable\GlobalVariables.h" />
+    <ClInclude Include="Application\Object\Player\Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Particle.PS.hlsl">

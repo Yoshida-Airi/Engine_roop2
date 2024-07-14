@@ -12,6 +12,7 @@ void CameraController::Initialize(Camera* camera)
 	camera_ = camera;
 	camera_->Initialize();
 
+
 	globalVariables->AddItem(groupName, "targetOffset", targetOffset_);
 	globalVariables->AddItem(groupName, "imterpolationRate", interpolationRate);
 }

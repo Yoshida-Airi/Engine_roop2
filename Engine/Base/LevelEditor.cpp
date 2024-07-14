@@ -248,7 +248,7 @@ void LevelEditor::OnCollision(Collider* other)
 			}
 			if (model)
 			{
-				model->SetisInvisible(true);
+				//model->SetisInvisible(true);
 			}
 
 			i++;

@@ -1,6 +1,6 @@
 #include "Player.h"
 #include"Object/CollisionConfig.h"
-
+#include"Object/Player/Weapon.h"
 
 void Player::Initialize()
 {
@@ -16,10 +16,11 @@ void Player::Initialize()
 	GameObject::Initialize();
 	GameObject::SetModel(playerModels);
 
+	weapon_->SetParent(playerModel.get());
 
 	//モデルの初期設定
 	playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
-	playerModel->GetWorldTransform()->translation_.y += 5.0f;
+	playerModel->GetWorldTransform()->translation_.y += 1.0f;
 
 
 	grobalVariables->AddItem(groupName, "Acceleration", kAcceleration);
@@ -36,19 +37,17 @@ void Player::Initialize()
 void Player::Update()
 {
 	GameObject::Update();
-
 	ApplyGlobalVariables();
+	//デバッグ
+	playerModel->ModelDebug("player");
 
+	//速度加算
 	playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, velocity_);
 
-	//移動処理
-	Move();
-	//旋回処理
-	Turn();
-	//ジャンプ処理
-	Jump();
 
-	playerModel->ModelDebug("player");
+	BehaviorRootUpdate();
+	BehaviorAttackUpdate();
+	
 
 	//ImGui::Text("%d", onGround_);
 	//ImGui::Text("%d", landing);
@@ -72,6 +71,7 @@ void Player::Update()
 void Player::Draw(Camera* camera)
 {
 	playerModel->Draw(camera);
+
 }
 
 Vector3 Player::GetWorldPosition()
@@ -103,11 +103,11 @@ void Player::OnCollision(Collider* other)
 	uint32_t typeID = other->GetTypeID();
 	if (typeID == static_cast<uint32_t>(CollisionTypeDef::kMap))
 	{
-		playerModel->SetisInvisible(true);
+		//playerModel->SetisInvisible(true);
 	}
 	else
 	{
-		playerModel->SetisInvisible(false);
+		//playerModel->SetisInvisible(false);
 	}
 }
 
@@ -250,4 +250,33 @@ void Player::ApplyGlobalVariables()
 
 
 
+}
+
+
+void Player::BehaviorRootUpdate()
+{
+	
+
+	
+	//移動処理
+	Move();
+	//旋回処理
+	Turn();
+	//ジャンプ処理
+	Jump();
+
+
+
+}
+
+void Player::BehaviorAttackUpdate()
+{
+	if (Input::GetInstance()->PushKey(DIK_SPACE))
+	{
+		weapon_->SetIsAttack(true);
+	}
+	else
+	{
+		weapon_->SetIsAttack(false);
+	}
 }

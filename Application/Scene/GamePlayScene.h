@@ -21,6 +21,7 @@
 #include"Object/Enemy/Enemy.h"
 #include"Object/Skydome/Skydome.h"
 #include"Object/CameraController/CameraController.h"
+#include"Object/Player/Weapon.h"
 
 #include"LevelEditor.h"
 
@@ -78,5 +79,6 @@ private:
 	std::list<Enemy*> enemys;
 	std::unique_ptr <Skydome>skydome;
 	CameraController* cameraController;
+	std::unique_ptr<Weapon>weapon;
 };
 

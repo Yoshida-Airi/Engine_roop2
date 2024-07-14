@@ -16,7 +16,7 @@
 #include<numbers>
 
 
-
+class Weapon;
 class Player :public GameObject
 {
 public:
@@ -29,6 +29,11 @@ public:
 	AABB GetAABB()override;
 	void OnCollision([[maybe_unused]] Collider* other)override;
 
+	void SetWeapon(Weapon* weapon)
+	{
+		weapon_ = weapon;
+	}
+
 private:
 
 	GlobalVariables* grobalVariables;
@@ -36,6 +41,7 @@ private:
 
 	std::unique_ptr<Model>playerModel;
 	std::vector<Model*>playerModels;
+
 
 	Vector3 velocity_ = {  };
 
@@ -63,7 +69,7 @@ private:
 	float kLimitFallSpead = 0.5f;		//最大落下速度（下方向
 	float kJumpAcceleration = 1.0f;	//ジャンプ初速（上方向
 
-
+	Weapon* weapon_;
 
 private:
 
@@ -87,6 +93,15 @@ private:
 	/// </summary>
 	void ApplyGlobalVariables();
 
+	/// <summary>
+	/// 通常行動更新
+	/// </summary>
+	void BehaviorRootUpdate();
+
+	/// <summary>
+	/// 攻撃行動更新
+	/// </summary>
+	void BehaviorAttackUpdate();
 };
 
 

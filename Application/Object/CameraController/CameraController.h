@@ -29,7 +29,7 @@ private:
 	GlobalVariables* globalVariables = nullptr;
 
 	//追従対象とカメラの座標の差
-	Vector3 targetOffset_ = { 0,0,-30.0f };
+	Vector3 targetOffset_ = { 0,3.0f,-30.0f };
 	//カメラの目標座標
 	Vector3 targetPosition = {};
 	//座標補間割合
