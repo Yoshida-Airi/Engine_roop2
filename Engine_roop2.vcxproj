@@ -130,6 +130,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Base\LevelEditor.cpp" />
     <ClCompile Include="Engine\3D\GameObject.cpp" />
     <ClCompile Include="Engine\GlobalVariable\GlobalVariables.cpp" />
+    <ClCompile Include="Application\Object\Ground\Ground.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Math\MathUtilty.cpp" />
     <ClCompile Include="Engine\3D\Model.cpp" />
@@ -198,6 +199,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\3D\GameObject.h" />
     <ClInclude Include="Engine\GlobalVariable\GlobalVariables.h" />
     <ClInclude Include="Application\Object\Player\Weapon.h" />
+    <ClInclude Include="Application\Object\Ground\Ground.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Particle.PS.hlsl">

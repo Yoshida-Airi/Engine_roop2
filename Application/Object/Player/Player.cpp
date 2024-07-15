@@ -248,8 +248,6 @@ void Player::ApplyGlobalVariables()
 	kJumpAcceleration = grobalVariables->GetFloatValue(groupName, "JumpAcceleration");
 	
 
-
-
 }
 
 

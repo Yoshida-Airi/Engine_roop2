@@ -22,6 +22,7 @@
 #include"Object/Skydome/Skydome.h"
 #include"Object/CameraController/CameraController.h"
 #include"Object/Player/Weapon.h"
+#include"Object/Ground/Ground.h"
 
 #include"LevelEditor.h"
 
@@ -80,5 +81,6 @@ private:
 	std::unique_ptr <Skydome>skydome;
 	CameraController* cameraController;
 	std::unique_ptr<Weapon>weapon;
+	std::unique_ptr<Ground>ground;
 };
 

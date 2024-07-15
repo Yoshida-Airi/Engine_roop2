@@ -60,7 +60,8 @@ void GamePlayScene::Initialize()
 	cameraController->SetTarget(player.get());
 	cameraController->Reset();
 
-	
+	ground = std::make_unique<Ground>();
+	ground->Initialize();
 
 	//triangle.reset(Triangle::Create(uvTexture));
 	//triangle2.reset(Triangle::Create(monsterBall));
@@ -168,6 +169,7 @@ void GamePlayScene::Update()
 
 
 	levelEditor->Update();
+	ground->Update();
 
 	player->Update();
 	//武器の更新
@@ -197,6 +199,7 @@ void GamePlayScene::Draw()
 	//sphere->Draw(camera);
 
 	levelEditor->Draw(camera);
+	ground->Draw(camera);
 
 	//model->Draw(camera);
 	//model2->Draw(camera);

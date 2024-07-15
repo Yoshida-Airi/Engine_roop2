@@ -145,6 +145,7 @@
     <ClCompile Include="Application\Object\Player\Weapon.cpp">
       <Filter>Application\Objects\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Ground\Ground.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -288,6 +289,7 @@
     <ClInclude Include="Application\Object\Player\Weapon.h">
       <Filter>Application\Objects\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Object\Ground\Ground.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
