@@ -1,4 +1,5 @@
 #include "LevelEditor.h"
+#include<numbers>
 #include"Object/CollisionConfig.h"
 
 LevelEditor::~LevelEditor()
@@ -9,8 +10,7 @@ LevelEditor::~LevelEditor()
 
 void LevelEditor::LoaderJsonFile()
 {
-
-	const std::string fullpath = "Resources/levelEditor.json";
+	const std::string fullpath = "Resources/Level/levelEditor.json";
 	std::ifstream file;
 
 	//ファイルを開く
@@ -59,8 +59,10 @@ void LevelEditor::LoaderJsonFile()
 
 			if (object.contains("file_name"))
 			{
+				const std::string path = "Resources/Level/";
 				//ファイル名
 				objectData.filename = object["file_name"];
+				objectData.filename = path + objectData.filename;
 			}
 
 			//トランスフォームのパラメータ読み込み
@@ -71,9 +73,9 @@ void LevelEditor::LoaderJsonFile()
 			objectData.translation.z = (float)transform["translation"][1];
 
 			//回転角
-			objectData.rotation.x = -(float)transform["rotation"][0];
-			objectData.rotation.y = -(float)transform["rotation"][2];
-			objectData.rotation.z = -(float)transform["rotation"][1];
+			objectData.rotation.x = -(float)transform["rotation"][0] * (float)std::numbers::pi / 180.0f;
+			objectData.rotation.y = -(float)transform["rotation"][2] * (float)std::numbers::pi / 180.0f;
+			objectData.rotation.z = -(float)transform["rotation"][1] * (float)std::numbers::pi / 180.0f;
 
 			//スケーリング
 			objectData.scaling.x = (float)transform["scaling"][0];
@@ -82,20 +84,21 @@ void LevelEditor::LoaderJsonFile()
 
 			//コライダーのパラメータ読み込み
 			nlohmann::json& collider = object["collider"];
+	
+			if (collider.contains("type"))
+			{
+				//コライダー情報があったら取得
+				std::string type = collider["type"].get<std::string>();
+				objectData.collisionType = type;
 
-			std::string type = collider["type"].get<std::string>();
-			objectData.collisionType = type;
+				objectData.center.x = (float)collider["center"][0];
+				objectData.center.y = (float)collider["center"][2];
+				objectData.center.z = (float)collider["center"][1];
 
-			objectData.center.x = (float)collider["center"][0];
-			objectData.center.y = (float)collider["center"][1];
-			objectData.center.z = (float)collider["center"][2];
-
-			objectData.size.x = (float)collider["size"][0];
-			objectData.size.y = (float)collider["size"][1];
-			objectData.size.z = (float)collider["size"][2];
-
-
-
+				objectData.size.x = (float)collider["size"][0];
+				objectData.size.y = (float)collider["size"][2];
+				objectData.size.z = (float)collider["size"][1];
+			}
 		}
 
 		//オブジェクト走査を再帰関数にまとめ、再起呼出で枝を走査する
@@ -114,6 +117,7 @@ void LevelEditor::LoaderJsonFile()
 		if (it == models.end())
 		{
 			//Model* model = Model::Create(objectData.filename);
+		
 			models[objectData.filename].reset(Model::Create(objectData.filename));
 
 		}
@@ -179,13 +183,22 @@ void LevelEditor::Draw(Camera* camera)
 			//model->SetWorldTransform(objects[i].get());
 			model->GetWorldTransform()->constMap = (objects[i].get()->constMap);
 			model->GetWorldTransform()->constBuffer_ = (objects[i].get()->constBuffer_);
+			model->GetWorldTransform()->matWorld_ = objects[i].get()->matWorld_;
+			model->GetWorldTransform()->parent_ = objects[i].get()->parent_;
 			model->GetWorldTransform()->translation_ = (objects[i].get()->translation_);
 			model->GetWorldTransform()->rotation_ = (objects[i].get()->rotation_);
 			model->GetWorldTransform()->scale_ = (objects[i].get()->scale_);
-			model->GetWorldTransform()->UpdateWorldMatrix();
+			//model->GetWorldTransform()->UpdateWorldMatrix();
 			model->Update();
 
 			model->Draw(camera);
+
+			// iを含むデバッグ名を作成
+			std::ostringstream debugName;
+			debugName << "mapData _" << i;
+
+			model->ModelDebug(debugName.str().c_str());
+
 		}
 
 		i++;
