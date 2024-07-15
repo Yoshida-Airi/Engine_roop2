@@ -58,8 +58,10 @@ void LevelEditor::LoaderJsonFile()
 
 			if (object.contains("file_name"))
 			{
+				const std::string path = "Resources/Level/";
 				//ファイル名
 				objectData.filename = object["file_name"];
+				objectData.filename = path + objectData.filename;
 			}
 
 			//トランスフォームのパラメータ読み込み
@@ -111,6 +113,7 @@ void LevelEditor::LoaderJsonFile()
 		if (it == models.end())
 		{
 			//Model* model = Model::Create(objectData.filename);
+		
 			models[objectData.filename].reset(Model::Create(objectData.filename));
 		
 		}

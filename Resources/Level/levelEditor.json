@@ -8,12 +8,12 @@
                 "translation": [
                     0.0,
                     0.0,
-                    0.6227211356163025
+                    1.0179857015609741
                 ],
                 "rotation": [
                     0.0,
-                    0.0,
-                    -36.57929992675781
+                    45.19999694824219,
+                    0.0
                 ],
                 "scaling": [
                     1.0,
@@ -21,7 +21,7 @@
                     1.0
                 ]
             },
-            "file_name": "Resources/SampleAssets/cube.obj",
+            "file_name": "cube.obj",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -80,17 +80,17 @@
         },
         {
             "type": "MESH",
-            "name": "立方体",
+            "name": "Cube.001",
             "transform": {
                 "translation": [
-                    4.977940559387207,
+                    3.0538597106933594,
                     0.0,
-                    0.0
+                    1.0179857015609741
                 ],
                 "rotation": [
-                    -23.717824935913086,
-                    7.467018127441406,
-                    34.52614974975586
+                    0.0,
+                    -0.0,
+                    42.89999771118164
                 ],
                 "scaling": [
                     1.0,
@@ -98,7 +98,7 @@
                     1.0
                 ]
             },
-            "file_name": "Resources/SampleAssets/cube.obj",
+            "file_name": "cube.obj",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -115,25 +115,95 @@
         },
         {
             "type": "MESH",
-            "name": "立方体.001",
+            "name": "Cube.002",
             "transform": {
                 "translation": [
-                    -4.80862283706665,
+                    -3.315152645111084,
+                    0.0,
+                    1.0179857015609741
+                ],
+                "rotation": [
+                    -44.79999923706055,
                     0.0,
                     0.0
                 ],
-                "rotation": [
-                    57.733821868896484,
-                    -16.166690826416016,
-                    28.893756866455078
-                ],
                 "scaling": [
-                    0.9999999403953552,
+                    1.0,
                     1.0,
                     1.0
                 ]
             },
-            "file_name": "Resources/SampleAssets/cube.obj",
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.003",
+            "transform": {
+                "translation": [
+                    5.977072715759277,
+                    0.0,
+                    1.0179857015609741
+                ],
+                "rotation": [
+                    0.0,
+                    1.0999999046325684,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "cube.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.004",
+            "transform": {
+                "translation": [
+                    -6.995390892028809,
+                    0.0,
+                    1.0179857015609741
+                ],
+                "rotation": [
+                    29.20000457763672,
+                    14.600000381469727,
+                    54.100006103515625
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "cube.obj",
             "collider": {
                 "type": "BOX",
                 "center": [
