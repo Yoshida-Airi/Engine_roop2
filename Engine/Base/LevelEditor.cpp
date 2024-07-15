@@ -84,17 +84,20 @@ void LevelEditor::LoaderJsonFile()
 			//コライダーのパラメータ読み込み
 			nlohmann::json& collider = object["collider"];
 	
-			std::string type = collider["type"].get<std::string>();
-			objectData.collisionType = type;
+			if (collider.contains("type"))
+			{
+				//コライダー情報があったら取得
+				std::string type = collider["type"].get<std::string>();
+				objectData.collisionType = type;
 
-			objectData.center.x = (float)collider["center"][0];
-			objectData.center.y = (float)collider["center"][2];
-			objectData.center.z = (float)collider["center"][1];
+				objectData.center.x = (float)collider["center"][0];
+				objectData.center.y = (float)collider["center"][2];
+				objectData.center.z = (float)collider["center"][1];
 
-			objectData.size.x = (float)collider["size"][0];
-			objectData.size.y = (float)collider["size"][2];
-			objectData.size.z = (float)collider["size"][1];
-
+				objectData.size.x = (float)collider["size"][0];
+				objectData.size.y = (float)collider["size"][2];
+				objectData.size.z = (float)collider["size"][1];
+			}
 		}
 
 		//オブジェクト走査を再帰関数にまとめ、再起呼出で枝を走査する
