@@ -15,7 +15,7 @@
 #include<algorithm>
 #include<numbers>
 
-
+class Ground;
 class Weapon;
 class Player :public GameObject
 {
@@ -33,6 +33,25 @@ public:
 	{
 		weapon_ = weapon;
 	}
+
+	struct CollisionMapInfo
+	{
+		bool isTop = false;
+		bool isGround = false;
+		bool isWall = false;
+		Vector3 move;
+	};
+
+	//角
+	enum Corner
+	{
+		kRightBottom,	//右下
+		kLeftBottom,	//左下
+		kRightTop,		//右上
+		kLeftTop,		//左上
+
+		kNumCorner		//要素数
+	};
 
 private:
 
@@ -71,6 +90,11 @@ private:
 
 	Weapon* weapon_;
 
+	CollisionMapInfo collisionMapInfo;
+
+	float kWidth = 0.8f;
+	float kHeight = 0.8f;
+
 private:
 
 	/// <summary>
@@ -102,6 +126,21 @@ private:
 	/// 攻撃行動更新
 	/// </summary>
 	void BehaviorAttackUpdate();
+
+	/// <summary>
+	/// マップ衝突判定
+	/// </summary>
+	/// <param name="info"></param>
+	void CollisionMap(CollisionMapInfo& info);
+
+	//各方向のマップ衝突判定
+	void CollisionMapTop(CollisionMapInfo& info);
+	void CollisionMapBottom(CollisionMapInfo& info);
+	void CollisionMapLeft(CollisionMapInfo& info);
+	void CollisionMapRight(CollisionMapInfo& info);
+
+	Vector3 CornerPosition(const Vector3& center, Corner corner);
+
 };
 
 

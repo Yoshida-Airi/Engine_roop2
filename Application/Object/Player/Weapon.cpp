@@ -3,8 +3,8 @@
 
 void Weapon::Initialize()
 {
-	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kWeapon));
-	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::SPHERE));
+	Collider::SetTypeID(CollisionTypeDef::kWeapon);
+	Collider::SetColliderTypeID(ColliderType::SPHERE);
 
 	weaponModel.reset(Model::Create("Resources/SampleAssets/cube.obj"));
 	weaponModels = { weaponModel.get() };

@@ -3,8 +3,8 @@
 
 void Enemy::Initialize()
 {
-	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kEnemy));
-	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::SPHERE));
+	Collider::SetTypeID(CollisionTypeDef::kEnemy);
+	Collider::SetColliderTypeID(ColliderType::SPHERE);
 
 	enemyModel.reset(Model::Create("Resources/SampleAssets/cube.obj"));
 	enemyModels = { enemyModel.get() };

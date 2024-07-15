@@ -143,8 +143,8 @@ void LevelEditor::LoaderJsonFile()
 
 void LevelEditor::Initialize()
 {
-	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kMap));
-	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::AABB));
+	Collider::SetTypeID(CollisionTypeDef::kMap);
+	Collider::SetColliderTypeID(ColliderType::AABB);
 
 	models_.reserve(this->models.size());
 

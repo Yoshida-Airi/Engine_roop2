@@ -10,8 +10,8 @@ void Player::Initialize()
 	playerModel.reset(Model::Create("Resources/Object/Player/player.obj"));
 	playerModels = { playerModel.get() };
 
-	Collider::SetTypeID(static_cast<uint32_t>(CollisionTypeDef::kPlayer));
-	Collider::SetColliderTypeID(static_cast<uint32_t>(ColliderType::SPHERE));
+	Collider::SetTypeID(CollisionTypeDef::kPlayer);
+	Collider::SetColliderTypeID(ColliderType::SPHERE);
 
 	GameObject::Initialize();
 	GameObject::SetModel(playerModels);
@@ -44,6 +44,8 @@ void Player::Update()
 	//速度加算
 	playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, velocity_);
 
+	//マップ衝突チェック
+	CollisionMap(collisionMapInfo);
 
 	BehaviorRootUpdate();
 	BehaviorAttackUpdate();
@@ -277,4 +279,58 @@ void Player::BehaviorAttackUpdate()
 	{
 		weapon_->SetIsAttack(false);
 	}
+}
+
+void Player::CollisionMap(CollisionMapInfo& info)
+{
+	CollisionMapTop(info);
+	CollisionMapBottom(info);
+	CollisionMapLeft(info);
+	CollisionMapRight(info);
+}
+
+void Player::CollisionMapTop(CollisionMapInfo& info)
+{
+
+	//上昇ありかどうか
+	if (info.move.y <= 0)
+	{
+		return;
+	}
+
+	//移動後の4つの角の座標
+	std::array<Vector3, kNumCorner>positionsNew;
+	for (uint32_t i = 0; i < positionsNew.size(); ++i)
+	{
+		positionsNew[i] = CornerPosition(Add(playerModel->GetWorldTransform()->translation_, info.move), static_cast<Corner>(i));
+	}
+
+	
+
+}
+
+void Player::CollisionMapBottom(CollisionMapInfo& info)
+{
+}
+
+void Player::CollisionMapLeft(CollisionMapInfo& info)
+{
+}
+
+void Player::CollisionMapRight(CollisionMapInfo& info)
+{
+}
+
+Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
+{
+
+	Vector3 offsetTable[kNumCorner] =
+	{
+		{+kWidth / 2.0f,-kHeight / 2.0f,0},
+		{-kWidth / 2.0f,-kHeight / 2.0f,0},
+		{+kWidth / 2.0f,+kHeight / 2.0f,0},
+		{-kWidth / 2.0f,+kHeight / 2.0f,0},
+	};
+
+	return Add(center, offsetTable[static_cast<uint32_t>(corner)]);
 }

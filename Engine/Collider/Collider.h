@@ -2,6 +2,7 @@
 #include"VectorMath.h"
 #include"WorldTransform.h"
 #include"Model.h"
+#include"Object/CollisionConfig.h"
 
 /// <summary>
 /// 衝突判定オブジェクト
@@ -49,12 +50,12 @@ public:
 	//種別IDを取得
 	uint32_t GetTypeID()const { return typeID_; };
 	//種別IDを設定
-	void SetTypeID(uint32_t typeID) { typeID_ = typeID; };
+	void SetTypeID(CollisionTypeDef typeID) { typeID_ = static_cast<uint32_t>(typeID); };
 
 	//コライダータイプIDを取得
 	uint32_t GetColliderTypeID()const { return collisionType_; };
 	//コライダータイプIDを設定
-	void SetColliderTypeID(uint32_t collisionType) { collisionType_ = collisionType; };
+	void SetColliderTypeID(ColliderType collisionType) { collisionType_ = static_cast<uint32_t>(collisionType); };
 
 
 private:
