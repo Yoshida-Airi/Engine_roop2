@@ -1,5 +1,5 @@
 #include "LevelEditor.h"
-
+#include<numbers>
 
 LevelEditor::~LevelEditor()
 {
@@ -70,9 +70,9 @@ void LevelEditor::LoaderJsonFile()
 			objectData.translation.z = (float)transform["translation"][1];
 
 			//回転角
-			objectData.rotation.x = -(float)transform["rotation"][0];
-			objectData.rotation.y = -(float)transform["rotation"][2];
-			objectData.rotation.z = -(float)transform["rotation"][1];
+			objectData.rotation.x = -(float)transform["rotation"][0] * (float)std::numbers::pi / 180.0f;
+			objectData.rotation.y = -(float)transform["rotation"][2] * (float)std::numbers::pi / 180.0f;
+			objectData.rotation.z = -(float)transform["rotation"][1] * (float)std::numbers::pi / 180.0f;
 
 			//スケーリング
 			objectData.scaling.x = (float)transform["scaling"][0];
@@ -86,12 +86,12 @@ void LevelEditor::LoaderJsonFile()
 			objectData.collisionType = type;
 
 			objectData.center.x = (float)collider["center"][0];
-			objectData.center.y = (float)collider["center"][1];
-			objectData.center.z = (float)collider["center"][2];
+			objectData.center.y = (float)collider["center"][2];
+			objectData.center.z = (float)collider["center"][1];
 
 			objectData.size.x = (float)collider["size"][0];
-			objectData.size.y = (float)collider["size"][1];
-			objectData.size.z = (float)collider["size"][2];
+			objectData.size.y = (float)collider["size"][2];
+			objectData.size.z = (float)collider["size"][1];
 
 		}
 
