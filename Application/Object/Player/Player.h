@@ -34,6 +34,11 @@ public:
 		weapon_ = weapon;
 	}
 
+	void SetGround(Ground* ground)
+	{
+		ground_ = ground;
+	}
+
 	struct CollisionMapInfo
 	{
 		bool isTop = false;
@@ -51,6 +56,15 @@ public:
 		kLeftTop,		//左上
 
 		kNumCorner		//要素数
+	};
+
+	//範囲矩形
+	struct Rect
+	{
+		float left;
+		float right;
+		float bottom;
+		float top;
 	};
 
 private:
@@ -89,11 +103,14 @@ private:
 	float kJumpAcceleration = 1.0f;	//ジャンプ初速（上方向
 
 	Weapon* weapon_;
+	Ground* ground_;
 
 	CollisionMapInfo collisionMapInfo;
 
 	float kWidth = 0.8f;
 	float kHeight = 0.8f;
+
+	float kBlank = 3.0f;
 
 private:
 
@@ -140,7 +157,10 @@ private:
 	void CollisionMapRight(CollisionMapInfo& info);
 
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
+	void CollisionMove(const CollisionMapInfo& info);
 
+	Rect GetRect();
+	void HitTop(const CollisionMapInfo& info);
 };
 
 

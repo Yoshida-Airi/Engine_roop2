@@ -44,8 +44,12 @@ void GamePlayScene::Initialize()
 	weapon->Initialize();
 
 
+	ground = std::make_unique<Ground>();
+	ground->Initialize();
+
 	player = std::make_unique<Player>();
 	player->SetWeapon(weapon.get());
+	player->SetGround(ground.get());
 	player->Initialize();
 	
 
@@ -60,8 +64,6 @@ void GamePlayScene::Initialize()
 	cameraController->SetTarget(player.get());
 	cameraController->Reset();
 
-	ground = std::make_unique<Ground>();
-	ground->Initialize();
 
 	//triangle.reset(Triangle::Create(uvTexture));
 	//triangle2.reset(Triangle::Create(monsterBall));

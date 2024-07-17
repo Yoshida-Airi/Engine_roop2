@@ -5,6 +5,8 @@ void Ground::Initialize()
 	groundModel.reset(Model::Create("Resources/Level/Map.obj"));
 
 	groundModel->GetWorldTransform()->translation_.x = -10;
+	groundModel->GetWorldTransform()->translation_.y = 5;
+
 }
 
 void Ground::Update()
@@ -44,3 +46,4 @@ AABB Ground::GetAABB()
 void Ground::OnCollision(Collider* other)
 {
 }
+

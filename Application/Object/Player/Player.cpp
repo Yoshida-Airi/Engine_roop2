@@ -1,6 +1,7 @@
 #include "Player.h"
 #include"Object/CollisionConfig.h"
 #include"Object/Player/Weapon.h"
+#include"Object/Ground/Ground.h"
 
 void Player::Initialize()
 {
@@ -31,7 +32,7 @@ void Player::Initialize()
 	grobalVariables->AddItem(groupName, "JumpAcceleration", kJumpAcceleration);
 
 
-	
+
 }
 
 void Player::Update()
@@ -41,15 +42,25 @@ void Player::Update()
 	//デバッグ
 	playerModel->ModelDebug("player");
 
-	//速度加算
-	playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, velocity_);
-
-	//マップ衝突チェック
-	CollisionMap(collisionMapInfo);
 
 	BehaviorRootUpdate();
 	BehaviorAttackUpdate();
-	
+
+	//速度加算
+	playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, velocity_);
+
+	collisionMapInfo.move = velocity_;
+	//マップ衝突チェック
+	CollisionMap(collisionMapInfo);
+
+	CollisionMove(collisionMapInfo);
+	HitTop(collisionMapInfo);
+
+
+	ImGui::Text("%d", collisionMapInfo.move.x);
+	ImGui::Text("%d", collisionMapInfo.move.y);
+	ImGui::Text("%d", collisionMapInfo.move.z);
+	ImGui::Text("%d", collisionMapInfo.isTop);
 
 	//ImGui::Text("%d", onGround_);
 	//ImGui::Text("%d", landing);
@@ -248,16 +259,16 @@ void Player::ApplyGlobalVariables()
 	kGravityAcceleration = grobalVariables->GetFloatValue(groupName, "GravityAcceleration");
 	kLimitFallSpead = grobalVariables->GetFloatValue(groupName, "LimitFallSpead");
 	kJumpAcceleration = grobalVariables->GetFloatValue(groupName, "JumpAcceleration");
-	
+
 
 }
 
 
 void Player::BehaviorRootUpdate()
 {
-	
 
-	
+
+
 	//移動処理
 	Move();
 	//旋回処理
@@ -292,6 +303,10 @@ void Player::CollisionMap(CollisionMapInfo& info)
 void Player::CollisionMapTop(CollisionMapInfo& info)
 {
 
+	bool hit = false;
+
+	ImGui::Text("%d", hit);
+
 	//上昇ありかどうか
 	if (info.move.y <= 0)
 	{
@@ -305,7 +320,34 @@ void Player::CollisionMapTop(CollisionMapInfo& info)
 		positionsNew[i] = CornerPosition(Add(playerModel->GetWorldTransform()->translation_, info.move), static_cast<Corner>(i));
 	}
 
-	
+
+	//左上点の判定
+	if (IsCollision(positionsNew[kLeftTop], ground_->GetAABB()))
+	{
+		hit = true;
+	}
+
+
+	//右上点の判定
+	if (IsCollision(positionsNew[kRightTop], ground_->GetAABB()))
+	{
+		hit = true;
+	}
+
+
+	if (hit)
+	{
+		Rect rect = GetRect();
+		float move = (rect.bottom - playerModel->GetWorldTransform()->translation_.y) - (playerModel->GetWorldTransform()->scale_.y/2 + kBlank);
+		info.move.y = std::max(0.0f, move);
+		info.isTop = true;
+	}
+	else
+	{
+		info.isTop = false;
+	}
+
+
 
 }
 
@@ -333,4 +375,34 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
 	};
 
 	return Add(center, offsetTable[static_cast<uint32_t>(corner)]);
+}
+
+void Player::CollisionMove(const CollisionMapInfo& info)
+{
+	if (collisionMapInfo.isTop)
+	{
+		playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, info.move);
+	}
+}
+
+Player::Rect Player::GetRect()
+{
+	Vector3 center = ground_->GetWorldPosition();
+
+	Rect rect;
+	rect.left = center.x - playerModel->GetWorldTransform()->scale_.x / 2.0f;
+	rect.right = center.x + playerModel->GetWorldTransform()->scale_.x / 2.0f;
+	rect.bottom = center.y - playerModel->GetWorldTransform()->scale_.y / 2.0f;
+	rect.top = center.y + playerModel->GetWorldTransform()->scale_.y / 2.0f;
+
+	return rect;
+
+}
+
+void Player::HitTop(const CollisionMapInfo& info)
+{
+	if (collisionMapInfo.isTop)
+	{
+		velocity_.y = 0;
+	}
 }
