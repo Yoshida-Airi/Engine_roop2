@@ -40,6 +40,8 @@
     <FxCompile Include="Resources\Shaders\LuminanceBasedOutline.PS.hlsl">
       <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\HSVFilter.VS.hlsl" />
+    <FxCompile Include="Resources\Shaders\HSVFilter.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\2D\Triangle.cpp">

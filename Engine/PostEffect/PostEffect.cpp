@@ -9,12 +9,17 @@ void PostEffect::Initialize()
 	dxCommon = DirectXCommon::GetInstance();
 	srvManager = SrvManager::GetInstance();
 	psoManager = GraphicsPipelineManager::GetInstance();
-
+	
+	MaterialBuffer();
 
 	CreateRTV();
 	CreateDSV();
 	SetupViewport();
 	SetupScissor();
+
+	materialData_->hue = 0.0f;
+	materialData_->saturation = 0.0f;
+	materialData_->value = 0.0f;
 
 	srvHandle = srvManager->Allocate() + 1;
 	srvManager->CreateSRVforTexture2D(srvHandle, renderTextureResource.Get(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, 1);
@@ -24,11 +29,20 @@ void PostEffect::Initialize()
 
 void PostEffect::Update()
 {
+
+
 }
 
 void PostEffect::PreDraw()
 {
 
+	ImGui::Begin("hsv");
+
+	ImGui::DragFloat("hue", &materialData_->hue, 0.001f, -1.0f, 1.0f);
+	ImGui::DragFloat("saturation", &materialData_->saturation, 0.001f, -1.0f, 1.0f);
+	ImGui::DragFloat("value", &materialData_->value, 0.001f, -1.0f, 1.0f);
+
+	ImGui::End();
 
 	//今回のバリアはTransition
 	
@@ -77,6 +91,7 @@ void PostEffect::Draw()
 		luminanceBasedOutline = false;
 		boxFilter = false;
 		GaussianFilter = false;
+		hsvFilter = false;
 	}
 	if (ImGui::Button("vignette"))
 	{
@@ -85,6 +100,7 @@ void PostEffect::Draw()
 		luminanceBasedOutline = false;
 		boxFilter = false;
 		GaussianFilter = false;
+		hsvFilter = false;
 	}
 	if (ImGui::Button("luminanceOutline"))
 	{
@@ -93,6 +109,7 @@ void PostEffect::Draw()
 		luminanceBasedOutline = true;
 		boxFilter = false;
 		GaussianFilter = false;
+		hsvFilter = false;
 	}
 	if (ImGui::Button("boxFilter"))
 	{
@@ -101,6 +118,7 @@ void PostEffect::Draw()
 		luminanceBasedOutline = false;
 		boxFilter = true;
 		GaussianFilter = false;
+		hsvFilter = false;
 	}
 	if (ImGui::Button("gaussianFilter"))
 	{
@@ -109,6 +127,16 @@ void PostEffect::Draw()
 		luminanceBasedOutline = false;
 		boxFilter = false;
 		GaussianFilter = true;
+		hsvFilter = false;
+	}
+	if (ImGui::Button("hsvFilter"))
+	{
+		grayscale = false;
+		vignetting = false;
+		luminanceBasedOutline = false;
+		boxFilter = false;
+		GaussianFilter = false;
+		hsvFilter = true;
 	}
 
 	ImGui::End();
@@ -145,6 +173,14 @@ void PostEffect::Draw()
 		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPsoMember().gaussianFilter.graphicPipelineState.Get());
 	}
 
+	if (hsvFilter == true)
+	{
+		dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetPsoMember().hsvFilter.rootSignature.Get());
+		dxCommon->GetCommandList()->SetPipelineState(psoManager->GetPsoMember().hsvFilter.graphicPipelineState.Get());
+		//マテリアルCBufferの場所を設定
+		dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, materialResource_->GetGPUVirtualAddress());
+
+	}
 
 
 	//dxCommon->GetCommandList()->SetGraphicsRootSignature(psoManager->GetPsoMember().outline.rootSignature.Get());
@@ -251,4 +287,16 @@ void PostEffect::SetupScissor()
 	scissorRect.right = WinApp::kCilentWidth;
 	scissorRect.top = 0;
 	scissorRect.bottom = WinApp::kCilentHeight;
+}
+
+/// <summary>
+/// マテリアルのバッファの取得
+/// </summary>
+void PostEffect::MaterialBuffer()
+{
+
+	materialResource_ = dxCommon->CreateBufferResource(sizeof(Material));	//マテリアル用のデータ
+	//書き込むためのアドレスを取得
+	materialResource_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
+
 }

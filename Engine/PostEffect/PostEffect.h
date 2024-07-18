@@ -24,6 +24,13 @@ public:
 
 private:
 
+	struct Material
+	{
+		float hue;
+		float saturation;
+		float value;
+	};
+	
 	//Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(int32_t width, int32_t height);
 
 	void CreateRTV();
@@ -32,6 +39,8 @@ private:
 	void SetupViewport();
 
 	void SetupScissor();
+
+	void MaterialBuffer();
 
 
 private:
@@ -44,6 +53,7 @@ private:
 	D3D12_CPU_DESCRIPTOR_HANDLE renderRtvHandle;	//RTVを二つ作るのでディスクリプタを二つ用意
 	D3D12_RESOURCE_BARRIER barrier{};	//トランスフォームバリア
 	Microsoft::WRL::ComPtr < ID3D12Resource> renderTextureResource = { nullptr };
+	Microsoft::WRL::ComPtr< ID3D12Resource> materialResource_;	//マテリアルリソース
 
 	D3D12_VIEWPORT viewport{};	//ビューポート
 	D3D12_RECT scissorRect{};	//シザー矩形
@@ -53,11 +63,14 @@ private:
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvhandle;
 	uint32_t srvHandle;
 
+	Material* materialData_ = nullptr;	//マテリアルデータ
+
 	bool grayscale = true;
 	bool vignetting = false;
 	bool luminanceBasedOutline = false;
 	bool boxFilter = false;
 	bool GaussianFilter = false;
+	bool hsvFilter = false;
 
 };
 

@@ -47,6 +47,7 @@ public:
 		PSOData boxFilter5x5;
 		PSOData gaussianFilter;
 		PSOData outline;
+		PSOData hsvFilter;
 	};
 
 
@@ -97,6 +98,7 @@ private:
 	PSOData CreateVignette(const std::wstring& filePath);
 	PSOData CreateBoxFilter(const std::wstring& filePath);
 	PSOData CreateGaussianFilter(const std::wstring& filePath);
+	PSOData CreateHSVFilter(const std::wstring& filePath);
 
 	/// <summary>
 	/// 全体のPSO生成関数

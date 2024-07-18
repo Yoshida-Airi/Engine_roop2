@@ -27,6 +27,7 @@ void GraphicsPipelineManager::Initialize()
 	psoMember.boxFilter5x5 = CreateBoxFilter(L"BoxFilter5x5");
 	psoMember.gaussianFilter = CreateGaussianFilter(L"GaussianFilter");
 	psoMember.outline = CreateBoxFilter(L"LuminanceBasedOutline");
+	psoMember.hsvFilter = CreateHSVFilter(L"HSVFilter");
 }
 
 
@@ -458,6 +459,50 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateGaussianFilter(c
 	SetupBlendState(kBlendModeNone);
 
 	psoData = CreateCommonPostEffectPSO(filePath, rootParameters, 1, depthStencilDesc, inputLayoutDesc);
+
+
+	return psoData;
+}
+
+GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateHSVFilter(const std::wstring& filePath)
+{
+	PSOData psoData;
+
+	//ディスクリプタレンジ
+	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
+	descriptorRangeForInstancing[0].BaseShaderRegister = 0;	//0から始まる
+	descriptorRangeForInstancing[0].NumDescriptors = 1;
+	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+
+	D3D12_ROOT_PARAMETER rootParameters[2] = {};
+
+
+	//テクスチャ
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
+	rootParameters[0].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
+
+	//色
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[1].Descriptor.ShaderRegister = 0;
+
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};
+	//Depthの機能を有効化する
+	depthStencilDesc.DepthEnable = false;
+
+	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
+
+
+	inputLayoutDesc.pInputElementDescs = nullptr;
+	inputLayoutDesc.NumElements = 0;
+
+	SetupBlendState(kBlendModeNone);
+
+	psoData = CreateCommonPostEffectPSO(filePath, rootParameters, 2, depthStencilDesc, inputLayoutDesc);
 
 
 	return psoData;
