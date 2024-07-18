@@ -1,3 +1,5 @@
+#define NOMINMAX
+
 #include "Player.h"
 #include"Object/CollisionConfig.h"
 #include"Object/Player/Weapon.h"
@@ -57,10 +59,13 @@ void Player::Update()
 	HitTop(collisionMapInfo);
 	SwitchGround(collisionMapInfo);
 
-	ImGui::Text("%d", collisionMapInfo.move.x);
-	ImGui::Text("%d", collisionMapInfo.move.y);
-	ImGui::Text("%d", collisionMapInfo.move.z);
-	ImGui::Text("%d", collisionMapInfo.isTop);
+	ImGui::Text("x %d", collisionMapInfo.move.x);
+	ImGui::Text("y %d", collisionMapInfo.move.y);
+	ImGui::Text("z %d", collisionMapInfo.move.z);
+	ImGui::Text("isTop %d", collisionMapInfo.isTop);
+	ImGui::Text("isGround %d", collisionMapInfo.isGround);
+	ImGui::Text("isWall %d", collisionMapInfo.isWall);
+	ImGui::Text("grand %d", onGround_);
 
 	//ImGui::Text("%d", onGround_);
 	//ImGui::Text("%d", landing);
@@ -302,6 +307,7 @@ void Player::CollisionMap(CollisionMapInfo& info)
 
 void Player::CollisionMapTop(CollisionMapInfo& info)
 {
+	//天井の当たり判定
 
 	bool hit = false;
 
@@ -338,16 +344,14 @@ void Player::CollisionMapTop(CollisionMapInfo& info)
 	if (hit)
 	{
 		Rect rect = GetRect();
-		float move = (rect.bottom - playerModel->GetWorldTransform()->translation_.y) - (playerModel->GetWorldTransform()->scale_.y / 2 + kBlank);
-		info.move.y = std::max(0.0f, move);
+		float move = (rect.bottom - playerModel->GetWorldTransform()->translation_.y) - (playerModel->GetWorldTransform()->scale_.y  + kBlank);
+		info.move.y = move;
 		info.isTop = true;
 	}
 	else
 	{
 		info.isTop = false;
 	}
-
-
 
 }
 
@@ -385,13 +389,17 @@ void Player::CollisionMapBottom(CollisionMapInfo& info)
 	if (hit)
 	{
 		Rect rect = GetRect();
-		float move = (rect.top - playerModel->GetWorldTransform()->translation_.y) + (playerModel->GetWorldTransform()->scale_.y + kBlank);
-		info.move.y = std::min(0.0f, move);
+		float move = -(rect.top - playerModel->GetWorldTransform()->translation_.y) + (playerModel->GetWorldTransform()->scale_.y + kBlank);
+		info.move.y = move;
 		info.isGround = true;
+		landing = true;
+		
 	}
 	else
 	{
 		info.isGround = false;
+		landing = false;
+		onGround_ = false;
 	}
 
 }
@@ -420,7 +428,7 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
 
 void Player::CollisionMove(const CollisionMapInfo& info)
 {
-	if (collisionMapInfo.isTop)
+	if (info.isTop)
 	{
 		playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, info.move);
 	}
@@ -436,10 +444,10 @@ Player::Rect Player::GetRect()
 
 	// 矩形領域を計算
 	Rect rect;
-	rect.left = center.x - ground_->GetRadius().x * 2.0f;
-	rect.right = center.x + ground_->GetRadius().x * 2.0f;
-	rect.bottom = center.y - ground_->GetRadius().y * 2.0f;
-	rect.top = center.y + ground_->GetRadius().y * 2.0f;
+	rect.left = center.x - ground_->GetRadius().x ;
+	rect.right = center.x + ground_->GetRadius().x ;
+	rect.bottom = center.y - ground_->GetRadius().y ;
+	rect.top = center.y + ground_->GetRadius().y;
 
 	return rect;
 
@@ -447,8 +455,9 @@ Player::Rect Player::GetRect()
 
 void Player::HitTop(const CollisionMapInfo& info)
 {
-	if (collisionMapInfo.isTop)
+	if (info.isTop)
 	{
+		ImGui::Text("hit");
 		velocity_.y = 0;
 	}
 }
@@ -479,11 +488,13 @@ void Player::SwitchGround(const CollisionMapInfo& info)
 				if (IsCollision(Add(positionsNew[kLeftBottom], Vector3(0, -0.01f, 0)), ground_->GetAABB()))
 				{
 					hit = true;
+					landing = true;
 				}
 				//右下点の判定
 				if (IsCollision(Add(positionsNew[kRightBottom], Vector3(0, -0.01f, 0)), ground_->GetAABB()))
 				{
 					hit = true;
+					landing = true;
 				}
 
 				//落下開始
@@ -506,7 +517,7 @@ void Player::SwitchGround(const CollisionMapInfo& info)
 			velocity_.x *= (1.0f, kAttenuationLanding);
 			//y座標をゼロにする
 			velocity_.y = 0.0f;
-
+			landing = false;
 
 		}
 	}

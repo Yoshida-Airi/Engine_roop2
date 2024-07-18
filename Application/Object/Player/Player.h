@@ -1,5 +1,5 @@
 #pragma once
-#define NOMINMAX
+
 
 
 #include"Camera.h"
@@ -12,7 +12,8 @@
 #include"GameObject.h"
 
 
-#include<algorithm>
+#include <algorithm>
+#include <functional>
 #include<numbers>
 
 class Ground;
@@ -112,7 +113,7 @@ private:
 	float kHeight = 0.8f;
 	float kDepth = 0.8f;
 
-	float kBlank = 3.0f;
+	float kBlank = 0.1f;
 
 private:
 
