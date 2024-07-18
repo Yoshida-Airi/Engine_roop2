@@ -83,63 +83,65 @@ void PostEffect::PostDraw()
 
 void PostEffect::Draw()
 {
-	ImGui::Begin("postEffect");
-	if (ImGui::Button("grayscale"))
-	{
-		vignetting = false;
-		grayscale = true;
-		luminanceBasedOutline = false;
-		boxFilter = false;
-		GaussianFilter = false;
-		hsvFilter = false;
-	}
-	if (ImGui::Button("vignette"))
-	{
-		grayscale = false;
-		vignetting = true;
-		luminanceBasedOutline = false;
-		boxFilter = false;
-		GaussianFilter = false;
-		hsvFilter = false;
-	}
-	if (ImGui::Button("luminanceOutline"))
-	{
-		grayscale = false;
-		vignetting = false;
-		luminanceBasedOutline = true;
-		boxFilter = false;
-		GaussianFilter = false;
-		hsvFilter = false;
-	}
-	if (ImGui::Button("boxFilter"))
-	{
-		grayscale = false;
-		vignetting = false;
-		luminanceBasedOutline = false;
-		boxFilter = true;
-		GaussianFilter = false;
-		hsvFilter = false;
-	}
-	if (ImGui::Button("gaussianFilter"))
-	{
-		grayscale = false;
-		vignetting = false;
-		luminanceBasedOutline = false;
-		boxFilter = false;
-		GaussianFilter = true;
-		hsvFilter = false;
-	}
-	if (ImGui::Button("hsvFilter"))
-	{
-		grayscale = false;
-		vignetting = false;
-		luminanceBasedOutline = false;
-		boxFilter = false;
-		GaussianFilter = false;
-		hsvFilter = true;
-	}
+	hsvFilter = true;
 
-	ImGui::End();
+	//ImGui::Begin("postEffect");
+	//if (ImGui::Button("grayscale"))
+	//{
+	//	vignetting = false;
+	//	grayscale = true;
+	//	luminanceBasedOutline = false;
+	//	boxFilter = false;
+	//	GaussianFilter = false;
+	//	hsvFilter = false;
+	//}
+	//if (ImGui::Button("vignette"))
+	//{
+	//	grayscale = false;
+	//	vignetting = true;
+	//	luminanceBasedOutline = false;
+	//	boxFilter = false;
+	//	GaussianFilter = false;
+	//	hsvFilter = false;
+	//}
+	//if (ImGui::Button("luminanceOutline"))
+	//{
+	//	grayscale = false;
+	//	vignetting = false;
+	//	luminanceBasedOutline = true;
+	//	boxFilter = false;
+	//	GaussianFilter = false;
+	//	hsvFilter = false;
+	//}
+	//if (ImGui::Button("boxFilter"))
+	//{
+	//	grayscale = false;
+	//	vignetting = false;
+	//	luminanceBasedOutline = false;
+	//	boxFilter = true;
+	//	GaussianFilter = false;
+	//	hsvFilter = false;
+	//}
+	//if (ImGui::Button("gaussianFilter"))
+	//{
+	//	grayscale = false;
+	//	vignetting = false;
+	//	luminanceBasedOutline = false;
+	//	boxFilter = false;
+	//	GaussianFilter = true;
+	//	hsvFilter = false;
+	//}
+	//if (ImGui::Button("hsvFilter"))
+	//{
+	//	grayscale = false;
+	//	vignetting = false;
+	//	luminanceBasedOutline = false;
+	//	boxFilter = false;
+	//	GaussianFilter = false;
+	//	hsvFilter = true;
+	//}
+
+	//ImGui::End();
 
 	//コピー処理
 
