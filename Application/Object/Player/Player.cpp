@@ -20,7 +20,7 @@ void Player::Initialize()
 	weapon_->SetParent(playerModel.get());
 
 	//モデルの初期設定
-	playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
+	//playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
 	playerModel->GetWorldTransform()->translation_.y += 1.0f;
 
 
@@ -55,7 +55,7 @@ void Player::Update()
 
 	CollisionMove(collisionMapInfo);
 	HitTop(collisionMapInfo);
-
+	SwitchGround(collisionMapInfo);
 
 	ImGui::Text("%d", collisionMapInfo.move.x);
 	ImGui::Text("%d", collisionMapInfo.move.y);
@@ -272,7 +272,7 @@ void Player::BehaviorRootUpdate()
 	//移動処理
 	Move();
 	//旋回処理
-	Turn();
+	//Turn();
 	//ジャンプ処理
 	Jump();
 
@@ -338,7 +338,7 @@ void Player::CollisionMapTop(CollisionMapInfo& info)
 	if (hit)
 	{
 		Rect rect = GetRect();
-		float move = (rect.bottom - playerModel->GetWorldTransform()->translation_.y) - (playerModel->GetWorldTransform()->scale_.y/2 + kBlank);
+		float move = (rect.bottom - playerModel->GetWorldTransform()->translation_.y) - (playerModel->GetWorldTransform()->scale_.y / 2 + kBlank);
 		info.move.y = std::max(0.0f, move);
 		info.isTop = true;
 	}
@@ -353,6 +353,47 @@ void Player::CollisionMapTop(CollisionMapInfo& info)
 
 void Player::CollisionMapBottom(CollisionMapInfo& info)
 {
+	bool hit = false;
+
+	ImGui::Text("%d", hit);
+
+	//上昇ありかどうか
+	if (info.move.y >= 0)
+	{
+		return;
+	}
+
+	//移動後の4つの角の座標
+	std::array<Vector3, kNumCorner>positionsNew;
+	for (uint32_t i = 0; i < positionsNew.size(); ++i)
+	{
+		positionsNew[i] = CornerPosition(Add(playerModel->GetWorldTransform()->translation_, info.move), static_cast<Corner>(i));
+	}
+
+
+	//左下点の判定
+	if (IsCollision(positionsNew[kLeftBottom], ground_->GetAABB()))
+	{
+		hit = true;
+	}
+	//右下点の判定
+	if (IsCollision(positionsNew[kRightBottom], ground_->GetAABB()))
+	{
+		hit = true;
+	}
+
+	if (hit)
+	{
+		Rect rect = GetRect();
+		float move = (rect.top - playerModel->GetWorldTransform()->translation_.y) + (playerModel->GetWorldTransform()->scale_.y + kBlank);
+		info.move.y = std::min(0.0f, move);
+		info.isGround = true;
+	}
+	else
+	{
+		info.isGround = false;
+	}
+
 }
 
 void Player::CollisionMapLeft(CollisionMapInfo& info)
@@ -387,13 +428,18 @@ void Player::CollisionMove(const CollisionMapInfo& info)
 
 Player::Rect Player::GetRect()
 {
+	//ブロックの中心座標を取得
 	Vector3 center = ground_->GetWorldPosition();
 
+	// ブロックのスケールを取得
+
+
+	// 矩形領域を計算
 	Rect rect;
-	rect.left = center.x - playerModel->GetWorldTransform()->scale_.x / 2.0f;
-	rect.right = center.x + playerModel->GetWorldTransform()->scale_.x / 2.0f;
-	rect.bottom = center.y - playerModel->GetWorldTransform()->scale_.y / 2.0f;
-	rect.top = center.y + playerModel->GetWorldTransform()->scale_.y / 2.0f;
+	rect.left = center.x - ground_->GetRadius().x * 2.0f;
+	rect.right = center.x + ground_->GetRadius().x * 2.0f;
+	rect.bottom = center.y - ground_->GetRadius().y * 2.0f;
+	rect.top = center.y + ground_->GetRadius().y * 2.0f;
 
 	return rect;
 
@@ -404,5 +450,64 @@ void Player::HitTop(const CollisionMapInfo& info)
 	if (collisionMapInfo.isTop)
 	{
 		velocity_.y = 0;
+	}
+}
+
+void Player::SwitchGround(const CollisionMapInfo& info)
+{
+	if (info.isGround)
+	{
+		if (onGround_)
+		{
+			//接地状態の処理
+			if (velocity_.y > 0.0f)
+			{
+				onGround_ = false;
+			}
+			else
+			{
+				bool hit = false;
+				//移動後の4つの角の座標
+				std::array<Vector3, kNumCorner>positionsNew;
+				for (uint32_t i = 0; i < positionsNew.size(); ++i)
+				{
+					positionsNew[i] = CornerPosition(Add(playerModel->GetWorldTransform()->translation_, info.move), static_cast<Corner>(i));
+				}
+
+
+				//左下点の判定
+				if (IsCollision(Add(positionsNew[kLeftBottom], Vector3(0, -0.01f, 0)), ground_->GetAABB()))
+				{
+					hit = true;
+				}
+				//右下点の判定
+				if (IsCollision(Add(positionsNew[kRightBottom], Vector3(0, -0.01f, 0)), ground_->GetAABB()))
+				{
+					hit = true;
+				}
+
+				//落下開始
+				if (!hit)
+				{
+					//空中状態に切り替える
+					onGround_ = false;
+				}
+
+
+			}
+		}
+		else
+		{
+			//空中状態の処理
+
+			//着地状態に切り替える
+			onGround_ = true;
+			//着地時にX速度を減衰
+			velocity_.x *= (1.0f, kAttenuationLanding);
+			//y座標をゼロにする
+			velocity_.y = 0.0f;
+
+
+		}
 	}
 }

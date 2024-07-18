@@ -50,7 +50,7 @@ public:
 	//角
 	enum Corner
 	{
-		kRightBottom,	//右下
+		kRightBottom,	//右下前
 		kLeftBottom,	//左下
 		kRightTop,		//右上
 		kLeftTop,		//左上
@@ -101,6 +101,7 @@ private:
 	float kGravityAcceleration = 0.05f;	//重力加速度（下方向
 	float kLimitFallSpead = 0.5f;		//最大落下速度（下方向
 	float kJumpAcceleration = 1.0f;	//ジャンプ初速（上方向
+	float kAttenuationLanding = 0.3f;
 
 	Weapon* weapon_;
 	Ground* ground_;
@@ -109,6 +110,7 @@ private:
 
 	float kWidth = 0.8f;
 	float kHeight = 0.8f;
+	float kDepth = 0.8f;
 
 	float kBlank = 3.0f;
 
@@ -161,6 +163,11 @@ private:
 
 	Rect GetRect();
 	void HitTop(const CollisionMapInfo& info);
+
+	/// <summary>
+	/// 設置状態の切り替え処理
+	/// </summary>
+	void SwitchGround(const CollisionMapInfo& info);
 };
 
 
