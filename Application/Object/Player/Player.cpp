@@ -32,6 +32,8 @@ void Player::Initialize()
 	grobalVariables->AddItem(groupName, "GravityAcceleration", kGravityAcceleration);
 	grobalVariables->AddItem(groupName, "LimitFallSpead", kLimitFallSpead);
 	grobalVariables->AddItem(groupName, "JumpAcceleration", kJumpAcceleration);
+	grobalVariables->AddItem(groupName, "playerWidth", kWidth);
+	grobalVariables->AddItem(groupName, "playerHeight", kHeight);
 
 
 
@@ -264,7 +266,8 @@ void Player::ApplyGlobalVariables()
 	kGravityAcceleration = grobalVariables->GetFloatValue(groupName, "GravityAcceleration");
 	kLimitFallSpead = grobalVariables->GetFloatValue(groupName, "LimitFallSpead");
 	kJumpAcceleration = grobalVariables->GetFloatValue(groupName, "JumpAcceleration");
-
+	kWidth = grobalVariables->GetFloatValue(groupName, "playerWidth");
+	kHeight = grobalVariables->GetFloatValue(groupName, "playerHeight");
 
 }
 
@@ -344,7 +347,7 @@ void Player::CollisionMapTop(CollisionMapInfo& info)
 	if (hit)
 	{
 		Rect rect = GetRect();
-		float move = (rect.bottom - playerModel->GetWorldTransform()->translation_.y) - (playerModel->GetWorldTransform()->scale_.y  + kBlank);
+		float move = (rect.bottom - playerModel->GetWorldTransform()->translation_.y) - (playerModel->GetWorldTransform()->scale_.y + kBlank);
 		info.move.y = move;
 		info.isTop = true;
 	}
@@ -361,7 +364,7 @@ void Player::CollisionMapBottom(CollisionMapInfo& info)
 
 	ImGui::Text("%d", hit);
 
-	//上昇ありかどうか
+	//下降ありかどうか
 	if (info.move.y >= 0)
 	{
 		return;
@@ -392,15 +395,14 @@ void Player::CollisionMapBottom(CollisionMapInfo& info)
 		float move = -(rect.top - playerModel->GetWorldTransform()->translation_.y) + (playerModel->GetWorldTransform()->scale_.y + kBlank);
 		info.move.y = move;
 		info.isGround = true;
-		landing = true;
-		
+		//landing = true;
+
 	}
 	else
 	{
-		info.isGround = false;
-		landing = false;
-		onGround_ = false;
+		info.isGround=false;
 	}
+
 
 }
 
@@ -444,9 +446,9 @@ Player::Rect Player::GetRect()
 
 	// 矩形領域を計算
 	Rect rect;
-	rect.left = center.x - ground_->GetRadius().x ;
-	rect.right = center.x + ground_->GetRadius().x ;
-	rect.bottom = center.y - ground_->GetRadius().y ;
+	rect.left = center.x - ground_->GetRadius().x;
+	rect.right = center.x + ground_->GetRadius().x;
+	rect.bottom = center.y - ground_->GetRadius().y;
 	rect.top = center.y + ground_->GetRadius().y;
 
 	return rect;
@@ -488,13 +490,13 @@ void Player::SwitchGround(const CollisionMapInfo& info)
 				if (IsCollision(Add(positionsNew[kLeftBottom], Vector3(0, -0.01f, 0)), ground_->GetAABB()))
 				{
 					hit = true;
-					landing = true;
+					//landing = true;
 				}
 				//右下点の判定
 				if (IsCollision(Add(positionsNew[kRightBottom], Vector3(0, -0.01f, 0)), ground_->GetAABB()))
 				{
 					hit = true;
-					landing = true;
+					//landing = true;
 				}
 
 				//落下開始
@@ -502,6 +504,7 @@ void Player::SwitchGround(const CollisionMapInfo& info)
 				{
 					//空中状態に切り替える
 					onGround_ = false;
+
 				}
 
 
@@ -510,6 +513,7 @@ void Player::SwitchGround(const CollisionMapInfo& info)
 		else
 		{
 			//空中状態の処理
+
 
 			//着地状態に切り替える
 			onGround_ = true;
@@ -521,4 +525,7 @@ void Player::SwitchGround(const CollisionMapInfo& info)
 
 		}
 	}
+
+
+
 }

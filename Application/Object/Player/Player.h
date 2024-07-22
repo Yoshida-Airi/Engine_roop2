@@ -109,8 +109,8 @@ private:
 
 	CollisionMapInfo collisionMapInfo;
 
-	float kWidth = 0.8f;
-	float kHeight = 0.8f;
+	float kWidth = 1.8f;
+	float kHeight = 1.8f;
 	float kDepth = 0.8f;
 
 	float kBlank = 0.1f;
