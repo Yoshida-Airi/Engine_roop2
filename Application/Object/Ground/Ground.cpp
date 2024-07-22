@@ -4,10 +4,10 @@ void Ground::Initialize()
 {
 	groundModel.reset(Model::Create("Resources/Level/Map.obj"));
 
-	groundModel->GetWorldTransform()->translation_.x = 0.0f;
-	groundModel->GetWorldTransform()->translation_.y = -0.3f;
+	groundModel->GetWorldTransform()->translation_.x = -10.0f;
+	groundModel->GetWorldTransform()->translation_.y = 1.0f;
 
-	groundModel->GetWorldTransform()->scale_ = { 7.0f,1.0f,1.0f };
+	groundModel->GetWorldTransform()->scale_ = { 1.0f,2.0f,1.0f };
 
 	SetRadius({ groundModel->GetWorldTransform()->scale_.x / 2.0f,groundModel->GetWorldTransform()->scale_.y / 2.0f,groundModel->GetWorldTransform()->scale_.z / 2.0f });
 

@@ -103,6 +103,7 @@ private:
 	float kLimitFallSpead = 0.5f;		//最大落下速度（下方向
 	float kJumpAcceleration = 1.0f;	//ジャンプ初速（上方向
 	float kAttenuationLanding = 0.3f;
+	float kAttenuationWall = 0.1f;	//着地時の速度減衰率
 
 	Weapon* weapon_;
 	Ground* ground_;
@@ -169,6 +170,8 @@ private:
 	/// 設置状態の切り替え処理
 	/// </summary>
 	void SwitchGround(const CollisionMapInfo& info);
+
+	void CollisionWall(const CollisionMapInfo& info);
 };
 
 
