@@ -103,7 +103,7 @@ private:
 	float kLimitFallSpead = 0.5f;		//最大落下速度（下方向
 	float kJumpAcceleration = 1.0f;	//ジャンプ初速（上方向
 	float kAttenuationLanding = 0.3f;
-	float kAttenuationWall = 0.1f;	//着地時の速度減衰率
+	float kAttenuationWall = 0.01f;	//着地時の速度減衰率
 
 	Weapon* weapon_;
 	Ground* ground_;
@@ -114,7 +114,7 @@ private:
 	float kHeight = 1.8f;
 	float kDepth = 0.8f;
 
-	float kBlank = 0.1f;
+	float kBlank = 5.0f;
 
 private:
 

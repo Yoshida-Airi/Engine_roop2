@@ -281,7 +281,7 @@ void Player::BehaviorRootUpdate()
 	//移動処理
 	Move();
 	//旋回処理
-	Turn();
+	//Turn();
 	//ジャンプ処理
 	Jump();
 
@@ -445,6 +445,10 @@ void Player::CollisionMapRight(CollisionMapInfo& info)
 		info.isWall = true;
 		//landing = true;
 	}
+	else
+	{
+		info.isWall = false;
+	}
 
 }
 
@@ -465,6 +469,10 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
 void Player::CollisionMove(const CollisionMapInfo& info)
 {
 	if (info.isTop)
+	{
+		playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, info.move);
+	}
+	else if (info.isWall)
 	{
 		playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, info.move);
 	}
