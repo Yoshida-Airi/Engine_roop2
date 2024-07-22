@@ -405,6 +405,46 @@ void Player::CollisionMapBottom(CollisionMapInfo& info)
 
 void Player::CollisionMapLeft(CollisionMapInfo& info)
 {
+	bool hit = false;
+
+	//右移動あり
+	if (velocity_.x >= 0)
+	{
+		return;
+	}
+
+
+	//移動後の4つの角の座標
+	std::array<Vector3, kNumCorner>positionsNew;
+	for (uint32_t i = 0; i < positionsNew.size(); ++i)
+	{
+		positionsNew[i] = CornerPosition(Add(playerModel->GetWorldTransform()->translation_, info.move), static_cast<Corner>(i));
+	}
+
+	//左上点の判定
+	if (IsCollision(positionsNew[kLeftTop], ground_->GetAABB()))
+	{
+		hit = true;
+	}
+
+	//左下点の判定
+	if (IsCollision(positionsNew[kLeftBottom], ground_->GetAABB()))
+	{
+		hit = true;
+	}
+
+	if (hit)
+	{
+		Rect rect = GetRect();
+		float move = (rect.right - playerModel->GetWorldTransform()->translation_.x) - (playerModel->GetWorldTransform()->scale_.x + kBlank);
+		info.move.x = move;
+		info.isWall = true;
+		//landing = true;
+	}
+	else
+	{
+		info.isWall = false;
+	}
 }
 
 void Player::CollisionMapRight(CollisionMapInfo& info)
@@ -469,10 +509,6 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
 void Player::CollisionMove(const CollisionMapInfo& info)
 {
 	if (info.isTop)
-	{
-		playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, info.move);
-	}
-	else if (info.isWall)
 	{
 		playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, info.move);
 	}
