@@ -11,13 +11,17 @@ void TitleScene::Initialize()
 {
 	input = Input::GetInstance();
 	sceneManager_ = SceneManager::GetInstance();
+	textureManager = TextureManager::GetInstance();
+
+	titleTexture = textureManager->LoadTexture("Resources/Scene/title.png");
 
 	soundData = Audio::GetInstance()->SoundLoadWave("Resources/SampleSound/Alarm01.wav");
-	Audio::GetInstance()->SoundPlayWave(soundData, false);
+	//Audio::GetInstance()->SoundPlayWave(soundData, false);
 
 	camera = new Camera;
 	camera->Initialize();
 
+	title.reset(Sprite::Create(titleTexture));
 
 
 	fence_.reset(Model::Create("Resources/SampleAssets/fence.obj"));
@@ -37,15 +41,17 @@ void TitleScene::Update()
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)
 		{
 			sceneManager_->ChangeScene("GAMEPLAY");
-			Audio::GetInstance()->SoundStopWave(soundData);
+			//Audio::GetInstance()->SoundStopWave(soundData);
 		}
 	}
 
-	if (input->TriggerKey(DIK_RETURN))
+	if (input->TriggerKey(DIK_SPACE))
 	{
 		sceneManager_->ChangeScene("GAMEPLAY");
-		Audio::GetInstance()->SoundStopWave(soundData);
+		//Audio::GetInstance()->SoundStopWave(soundData);
 	}
+
+	title->Update();
 
 	fence_->Update();
 	cube_->Update();
@@ -61,6 +67,8 @@ void TitleScene::Update()
 
 void TitleScene::Draw()
 {
+	title->Draw(camera);
+
 	fence_->Draw(camera);
 	cube_->Draw(camera);
 

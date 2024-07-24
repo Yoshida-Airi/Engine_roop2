@@ -3,6 +3,7 @@
 #include"BaseScene.h"
 #include"ImGuiManager.h"
 #include"SceneManager.h"
+#include"TextureManager.h"
 #include"Input.h"
 #include"Audio.h"
 
@@ -25,12 +26,17 @@ public:
 private:
 
 	EfectManager* efect = nullptr;
+	TextureManager* textureManager = nullptr;
 
 	Input* input;
 	SceneManager* sceneManager_ = nullptr;
 	Camera* camera;
 
+	uint32_t titleTexture;
+
 	uint32_t soundData;
+	
+	std::unique_ptr<Sprite> title = nullptr;
 
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;

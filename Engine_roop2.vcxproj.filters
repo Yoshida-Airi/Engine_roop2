@@ -145,7 +145,12 @@
     <ClCompile Include="Application\Object\Player\Weapon.cpp">
       <Filter>Application\Objects\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Ground\Ground.cpp" />
+    <ClCompile Include="Application\Scene\ClearScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Ground\Ground.cpp">
+      <Filter>Application\Objects\Ground</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -289,7 +294,12 @@
     <ClInclude Include="Application\Object\Player\Weapon.h">
       <Filter>Application\Objects\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\Ground\Ground.h" />
+    <ClInclude Include="Application\Scene\ClearScene.h">
+      <Filter>Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Ground\Ground.h">
+      <Filter>Application\Objects\Ground</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -357,6 +367,9 @@
     </Filter>
     <Filter Include="Application\CameraController">
       <UniqueIdentifier>{db0cb2c4-a860-47c6-a724-cbf31628e592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Objects\Ground">
+      <UniqueIdentifier>{acce9506-56a9-43cd-81bd-e881f8f1fa1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

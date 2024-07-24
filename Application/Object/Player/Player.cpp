@@ -408,7 +408,7 @@ void Player::CollisionMapLeft(CollisionMapInfo& info)
 	bool hit = false;
 
 	//右移動あり
-	if (velocity_.x >= 0)
+	if (velocity_.x > 0)
 	{
 		return;
 	}
@@ -480,7 +480,7 @@ void Player::CollisionMapRight(CollisionMapInfo& info)
 	if (hit)
 	{
 		Rect rect = GetRect();
-		float move = -(rect.left - playerModel->GetWorldTransform()->translation_.x) + (playerModel->GetWorldTransform()->scale_.x + kBlank);
+		float move = -(rect.left - playerModel->GetWorldTransform()->translation_.x) - (playerModel->GetWorldTransform()->scale_.x + kBlank);
 		info.move.x = move;
 		info.isWall = true;
 		//landing = true;
