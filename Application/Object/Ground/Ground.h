@@ -13,6 +13,16 @@ public:
 	AABB GetAABB()override;
 	void OnCollision([[maybe_unused]] Collider* other)override;
 
+	void SetPosition(Vector3 position)
+	{
+		groundModel->GetWorldTransform()->translation_ = position;
+	}
+
+	void SetScale(Vector3 scale)
+	{
+		groundModel->GetWorldTransform()->scale_ = scale;
+	}
+
 
 
 private:

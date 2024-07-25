@@ -329,33 +329,36 @@ void Player::CollisionMapTop(CollisionMapInfo& info)
 		positionsNew[i] = CornerPosition(Add(playerModel->GetWorldTransform()->translation_, info.move), static_cast<Corner>(i));
 	}
 
-
-	//左上点の判定
-	if (IsCollision(positionsNew[kLeftTop], ground_->GetAABB()))
+	for (const auto& ground : ground_)
 	{
-		hit = true;
+		//左上点の判定
+		if (IsCollision(positionsNew[kLeftTop], ground->GetAABB()))
+		{
+			hit = true;
+		}
+
+
+		//右上点の判定
+		if (IsCollision(positionsNew[kRightTop], ground->GetAABB()))
+		{
+			hit = true;
+		}
+
+
+
+		if (hit)
+		{
+			Rect rect = GetRect(ground);
+			float move = (rect.bottom - playerModel->GetWorldTransform()->translation_.y) - (playerModel->GetWorldTransform()->scale_.y/2.0f + kBlank);
+			info.move.y = std::max(0.0f, move);
+			//info.move.y = move;
+			info.isTop = true;
+		}
+		else
+		{
+			info.isTop = false;
+		}
 	}
-
-
-	//右上点の判定
-	if (IsCollision(positionsNew[kRightTop], ground_->GetAABB()))
-	{
-		hit = true;
-	}
-
-
-	if (hit)
-	{
-		Rect rect = GetRect();
-		float move = (rect.bottom - playerModel->GetWorldTransform()->translation_.y) - (playerModel->GetWorldTransform()->scale_.y + kBlank);
-		info.move.y = move;
-		info.isTop = true;
-	}
-	else
-	{
-		info.isTop = false;
-	}
-
 }
 
 void Player::CollisionMapBottom(CollisionMapInfo& info)
@@ -374,32 +377,35 @@ void Player::CollisionMapBottom(CollisionMapInfo& info)
 		positionsNew[i] = CornerPosition(Add(playerModel->GetWorldTransform()->translation_, info.move), static_cast<Corner>(i));
 	}
 
-
-	//左下点の判定
-	if (IsCollision(positionsNew[kLeftBottom], ground_->GetAABB()))
+	for (const auto& ground : ground_)
 	{
-		hit = true;
-	}
-	//右下点の判定
-	if (IsCollision(positionsNew[kRightBottom], ground_->GetAABB()))
-	{
-		hit = true;
-	}
+		//左下点の判定
+		if (IsCollision(positionsNew[kLeftBottom], ground->GetAABB()))
+		{
+			hit = true;
+		}
+		//右下点の判定
+		if (IsCollision(positionsNew[kRightBottom], ground->GetAABB()))
+		{
+			hit = true;
+		}
 
-	if (hit)
-	{
-		Rect rect = GetRect();
-		float move = (rect.top - playerModel->GetWorldTransform()->translation_.y) + (playerModel->GetWorldTransform()->scale_.y/2.0f + kBlank);
-		info.move.y = move;
-		info.isGround = true;
-		//landing = true;
 
-	}
-	else
-	{
-		info.isGround=false;
-	}
+		if (hit)
+		{
+			Rect rect = GetRect(ground);
+			float move = (rect.top - playerModel->GetWorldTransform()->translation_.y) + (playerModel->GetWorldTransform()->scale_.y / 2.0f + kBlank);
+			info.move.y = std::min(0.0f, move);
+			//info.move.y = move;
+			info.isGround = true;
+			//landing = true;
 
+		}
+		else
+		{
+			info.isGround = false;
+		}
+	}
 
 }
 
@@ -421,29 +427,33 @@ void Player::CollisionMapLeft(CollisionMapInfo& info)
 		positionsNew[i] = CornerPosition(Add(playerModel->GetWorldTransform()->translation_, info.move), static_cast<Corner>(i));
 	}
 
-	//左上点の判定
-	if (IsCollision(positionsNew[kLeftTop], ground_->GetAABB()))
+	for (const auto& ground : ground_)
 	{
-		hit = true;
-	}
+		//左上点の判定
+		if (IsCollision(positionsNew[kLeftTop], ground->GetAABB()))
+		{
+			hit = true;
+		}
 
-	//左下点の判定
-	if (IsCollision(positionsNew[kLeftBottom], ground_->GetAABB()))
-	{
-		hit = true;
-	}
+		//左下点の判定
+		if (IsCollision(positionsNew[kLeftBottom], ground->GetAABB()))
+		{
+			hit = true;
+		}
 
-	if (hit)
-	{
-		Rect rect = GetRect();
-		float move = (rect.right - playerModel->GetWorldTransform()->translation_.x) + (playerModel->GetWorldTransform()->scale_.x/2.0f + kBlank + 0.45f);
-		info.move.x = move;
-		info.isWall = true;
-		//landing = true;
-	}
-	else
-	{
-		info.isWall = false;
+		if (hit)
+		{
+			Rect rect = GetRect(ground);
+			float move = (rect.right - playerModel->GetWorldTransform()->translation_.x) + (playerModel->GetWorldTransform()->scale_.x / 2.0f + kBlank + 0.45f);
+			info.move.x = std::max(0.0f, move);
+			//info.move.x = move;
+			info.isWall = true;
+			//landing = true;
+		}
+		else
+		{
+			info.isWall = false;
+		}
 	}
 }
 
@@ -465,31 +475,35 @@ void Player::CollisionMapRight(CollisionMapInfo& info)
 		positionsNew[i] = CornerPosition(Add(playerModel->GetWorldTransform()->translation_, info.move), static_cast<Corner>(i));
 	}
 
-	//右上点の判定
-	if (IsCollision(positionsNew[kRightTop], ground_->GetAABB()))
+	for (const auto& ground : ground_)
 	{
-		hit = true;
-	}
+		//右上点の判定
+		if (IsCollision(positionsNew[kRightTop], ground->GetAABB()))
+		{
+			hit = true;
+		}
 
-	//右下点の判定
-	if (IsCollision(positionsNew[kRightBottom], ground_->GetAABB()))
-	{
-		hit = true;
-	}
+		//右下点の判定
+		if (IsCollision(positionsNew[kRightBottom], ground->GetAABB()))
+		{
+			hit = true;
+		}
 
-	if (hit)
-	{
-		Rect rect = GetRect();
-		float move = (rect.left - playerModel->GetWorldTransform()->translation_.x) - (playerModel->GetWorldTransform()->scale_.x/2.0f + kBlank+0.45f);
-		info.move.x = move;
-		info.isWall = true;
-		//landing = true;
-	}
-	else
-	{
-		info.isWall = false;
-	}
 
+		if (hit)
+		{
+			Rect rect = GetRect(ground);
+			float move = (rect.left - playerModel->GetWorldTransform()->translation_.x) - (playerModel->GetWorldTransform()->scale_.x / 2.0f + kBlank + 0.45f);
+			info.move.x = std::min(0.0f, move);
+			//info.move.x = move;
+			info.isWall = true;
+			//landing = true;
+		}
+		else
+		{
+			info.isWall = false;
+		}
+	}
 }
 
 Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
@@ -522,20 +536,20 @@ void Player::CollisionMove(const CollisionMapInfo& info)
 	}
 }
 
-Player::Rect Player::GetRect()
+Player::Rect Player::GetRect(Ground* ground)
 {
 	//ブロックの中心座標を取得
-	Vector3 center = ground_->GetWorldPosition();
+	Vector3 center = ground->GetWorldPosition();
 
 	// ブロックのスケールを取得
 
 
 	// 矩形領域を計算
 	Rect rect;
-	rect.left = center.x - ground_->GetRadius().x;
-	rect.right = center.x + ground_->GetRadius().x;
-	rect.bottom = center.y - ground_->GetRadius().y;
-	rect.top = center.y + ground_->GetRadius().y;
+	rect.left = center.x - ground->GetRadius().x;
+	rect.right = center.x + ground->GetRadius().x;
+	rect.bottom = center.y - ground->GetRadius().y;
+	rect.top = center.y + ground->GetRadius().y;
 
 	return rect;
 
@@ -571,18 +585,20 @@ void Player::SwitchGround(const CollisionMapInfo& info)
 					positionsNew[i] = CornerPosition(Add(playerModel->GetWorldTransform()->translation_, info.move), static_cast<Corner>(i));
 				}
 
-
-				//左下点の判定
-				if (IsCollision(Add(positionsNew[kLeftBottom], Vector3(0, -0.01f, 0)), ground_->GetAABB()))
+				for (const auto& ground : ground_)
 				{
-					hit = true;
-					//landing = true;
-				}
-				//右下点の判定
-				if (IsCollision(Add(positionsNew[kRightBottom], Vector3(0, -0.01f, 0)), ground_->GetAABB()))
-				{
-					hit = true;
-					//landing = true;
+					//左下点の判定
+					if (IsCollision(Add(positionsNew[kLeftBottom], Vector3(0, -0.01f, 0)), ground->GetAABB()))
+					{
+						hit = true;
+						//landing = true;
+					}
+					//右下点の判定
+					if (IsCollision(Add(positionsNew[kRightBottom], Vector3(0, -0.01f, 0)), ground->GetAABB()))
+					{
+						hit = true;
+						//landing = true;
+					}
 				}
 
 				//落下開始

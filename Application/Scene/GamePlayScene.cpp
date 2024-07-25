@@ -12,6 +12,11 @@ GamePlayScene::~GamePlayScene()
 		delete enemy;
 	}
 
+	for (Ground* ground : grounds)
+	{
+		delete ground;
+	}
+
 }
 
 void GamePlayScene::Initialize()
@@ -44,12 +49,12 @@ void GamePlayScene::Initialize()
 	weapon->Initialize();
 
 
-	ground = std::make_unique<Ground>();
-	ground->Initialize();
+	SpawnBlock({ -20.0f, 1.0f, 0 }, {2.0f, 1.0f, 1.0f});
+	SpawnBlock({ -10.0f, 3.0f, 0 }, { 2.0f, 1.0f, 1.0f });
 
 	player = std::make_unique<Player>();
 	player->SetWeapon(weapon.get());
-	player->SetGround(ground.get());
+	player->SetGround(grounds);
 	player->Initialize();
 	
 
@@ -176,7 +181,12 @@ void GamePlayScene::Update()
 
 
 	levelEditor->Update();
-	ground->Update();
+
+	for (Ground* ground : grounds)
+	{
+		ground->Update();
+	}
+
 
 	player->Update();
 	//武器の更新
@@ -206,7 +216,11 @@ void GamePlayScene::Draw()
 	//sphere->Draw(camera);
 
 	levelEditor->Draw(camera);
-	ground->Draw(camera);
+
+	for (Ground* ground : grounds)
+	{
+		ground->Draw(camera);
+	}
 
 	//model->Draw(camera);
 	//model2->Draw(camera);
@@ -270,4 +284,17 @@ void GamePlayScene::SpawnEnemy(const Vector3& position)
 
 	// リストに登録
 	enemys.push_back(enemy);
+}
+
+void GamePlayScene::SpawnBlock(const Vector3& position, const Vector3& scale)
+{
+	// 敵を発生させる
+	Ground* ground = new Ground();
+	// 敵の初期化
+	ground->Initialize();
+	ground->SetPosition(position);
+	ground->SetScale(scale);
+
+	// リストに登録
+	grounds.push_back(ground);
 }

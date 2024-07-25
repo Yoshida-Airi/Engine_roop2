@@ -41,6 +41,7 @@ public:
 	void CheckAllCollisions();
 
 	void SpawnEnemy(const Vector3& position);
+	void SpawnBlock(const Vector3& position, const Vector3& scale);
 
 private:
 	TextureManager* texture;
@@ -81,6 +82,6 @@ private:
 	std::unique_ptr <Skydome>skydome;
 	CameraController* cameraController;
 	std::unique_ptr<Weapon>weapon;
-	std::unique_ptr<Ground>ground;
+	std::list<Ground*>grounds;
 };
 

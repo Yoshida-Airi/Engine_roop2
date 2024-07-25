@@ -34,10 +34,10 @@ public:
 	{
 		weapon_ = weapon;
 	}
-
-	void SetGround(Ground* ground)
+		
+	void SetGround(std::list<Ground*>grounds)
 	{
-		ground_ = ground;
+		ground_ = grounds;
 	}
 
 	struct CollisionMapInfo
@@ -106,7 +106,7 @@ private:
 	float kAttenuationWall = 1.0f;	//着地時の速度減衰率
 
 	Weapon* weapon_;
-	Ground* ground_;
+	std::list<Ground*> ground_;
 
 	CollisionMapInfo collisionMapInfo;
 
@@ -163,7 +163,7 @@ private:
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 	void CollisionMove(const CollisionMapInfo& info);
 
-	Rect GetRect();
+	Rect GetRect(Ground* ground);
 	void HitTop(const CollisionMapInfo& info);
 
 	/// <summary>
