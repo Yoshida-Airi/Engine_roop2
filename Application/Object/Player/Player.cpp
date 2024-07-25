@@ -389,7 +389,7 @@ void Player::CollisionMapBottom(CollisionMapInfo& info)
 	if (hit)
 	{
 		Rect rect = GetRect();
-		float move = -(rect.top - playerModel->GetWorldTransform()->translation_.y) + (playerModel->GetWorldTransform()->scale_.y + kBlank);
+		float move = (rect.top - playerModel->GetWorldTransform()->translation_.y) + (playerModel->GetWorldTransform()->scale_.y/2.0f + kBlank);
 		info.move.y = move;
 		info.isGround = true;
 		//landing = true;
@@ -436,7 +436,7 @@ void Player::CollisionMapLeft(CollisionMapInfo& info)
 	if (hit)
 	{
 		Rect rect = GetRect();
-		float move = (rect.right - playerModel->GetWorldTransform()->translation_.x) - (playerModel->GetWorldTransform()->scale_.x + kBlank);
+		float move = (rect.right - playerModel->GetWorldTransform()->translation_.x) + (playerModel->GetWorldTransform()->scale_.x/2.0f + kBlank);
 		info.move.x = move;
 		info.isWall = true;
 		//landing = true;
@@ -480,7 +480,7 @@ void Player::CollisionMapRight(CollisionMapInfo& info)
 	if (hit)
 	{
 		Rect rect = GetRect();
-		float move = -(rect.left - playerModel->GetWorldTransform()->translation_.x) - (playerModel->GetWorldTransform()->scale_.x + kBlank);
+		float move = (rect.left - playerModel->GetWorldTransform()->translation_.x) - (playerModel->GetWorldTransform()->scale_.x/2.0f + kBlank);
 		info.move.x = move;
 		info.isWall = true;
 		//landing = true;
@@ -509,6 +509,14 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
 void Player::CollisionMove(const CollisionMapInfo& info)
 {
 	if (info.isTop)
+	{
+		playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, info.move);
+	}
+	if (info.isGround)
+	{
+		playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, info.move);
+	}
+	if (info.isWall)
 	{
 		playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, info.move);
 	}
