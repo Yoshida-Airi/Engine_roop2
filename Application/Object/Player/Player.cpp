@@ -452,7 +452,7 @@ void Player::CollisionMapRight(CollisionMapInfo& info)
 	bool hit = false;
 
 	//右移動あり
-	if (velocity_.x <= 0)
+	if (velocity_.x < 0)
 	{
 		return;
 	}

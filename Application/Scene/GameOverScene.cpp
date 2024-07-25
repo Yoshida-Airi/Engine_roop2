@@ -1,19 +1,19 @@
-#include "ClearScene.h"
+#include "GameOverScene.h"
 #include"SceneManager.h"
 
-ClearScene::~ClearScene()
+GameOverScene::~GameOverScene()
 {
 	delete camera;
 	delete efect;
 }
 
-void ClearScene::Initialize()
+void GameOverScene::Initialize()
 {
 	input = Input::GetInstance();
 	sceneManager_ = SceneManager::GetInstance();
 	textureManager = TextureManager::GetInstance();
 
-	titleTexture = textureManager->LoadTexture("Resources/Scene/clear.png");
+	titleTexture = textureManager->LoadTexture("Resources/Scene/gameOver.png");
 
 	soundData = Audio::GetInstance()->SoundLoadWave("Resources/SampleSound/Alarm01.wav");
 	//Audio::GetInstance()->SoundPlayWave(soundData, false);
@@ -29,7 +29,7 @@ void ClearScene::Initialize()
 	fence_->GetWorldTransform()->rotation_.y = 3.1f;
 }
 
-void ClearScene::Update()
+void GameOverScene::Update()
 {
 	camera->CameraDebug();
 
@@ -50,7 +50,7 @@ void ClearScene::Update()
 		sceneManager_->ChangeScene("TITLE");
 		//Audio::GetInstance()->SoundStopWave(soundData);
 	}
-	
+
 	title->Update();
 
 	fence_->Update();
@@ -65,7 +65,7 @@ void ClearScene::Update()
 
 }
 
-void ClearScene::Draw()
+void GameOverScene::Draw()
 {
 	title->Draw(camera);
 

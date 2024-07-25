@@ -15,10 +15,10 @@
 
 #include"EfectManager.h"
 
-class ClearScene :public BaseScene
+class GameOverScene :public BaseScene
 {
 public:
-	~ClearScene()override;
+	~GameOverScene()override;
 	void Initialize()override;
 	void Update()override;
 	void Draw()override;

@@ -132,10 +132,15 @@ void GamePlayScene::Update()
 
 	colliderManager_->UpdateWorldTransform();
 
-	/*if (input->TriggerKey(DIK_RETURN))
+	if (input->TriggerKey(DIK_RETURN))
 	{
 		sceneManager_->ChangeScene("CLEAR");
-	}*/
+	}
+	if (input->TriggerKey(DIK_0))
+	{
+		sceneManager_->ChangeScene("GAMEOVER");
+	}
+
 
 	//triangle->Update();
 	//triangle->GetWorldTransform()->rotation_.y += 0.03f;

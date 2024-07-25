@@ -151,6 +151,9 @@
     <ClCompile Include="Application\Object\Ground\Ground.cpp">
       <Filter>Application\Objects\Ground</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Scene\GameOverScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -299,6 +302,9 @@
     </ClInclude>
     <ClInclude Include="Application\Object\Ground\Ground.h">
       <Filter>Application\Objects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\GameOverScene.h">
+      <Filter>Application\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
