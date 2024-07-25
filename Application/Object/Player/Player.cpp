@@ -351,6 +351,7 @@ void Player::CollisionMapTop(CollisionMapInfo& info)
 			Rect rect = GetRect(ground);
 			float move = (rect.bottom - playerModel->GetWorldTransform()->translation_.y) - (playerModel->GetWorldTransform()->scale_.y/2.0f + kBlank);
 			info.move.y = std::max(0.0f, move);
+			info.move.x = 0;
 			//info.move.y = move;
 			info.isTop = true;
 		}
@@ -396,6 +397,7 @@ void Player::CollisionMapBottom(CollisionMapInfo& info)
 			Rect rect = GetRect(ground);
 			float move = (rect.top - playerModel->GetWorldTransform()->translation_.y) + (playerModel->GetWorldTransform()->scale_.y / 2.0f + kBlank);
 			info.move.y = std::min(0.0f, move);
+			info.move.x = 0;
 			//info.move.y = move;
 			info.isGround = true;
 			//landing = true;
@@ -444,13 +446,18 @@ void Player::CollisionMapLeft(CollisionMapInfo& info)
 		if (hit)
 		{
 			Rect rect = GetRect(ground);
-			float move = (rect.right - playerModel->GetWorldTransform()->translation_.x) + (playerModel->GetWorldTransform()->scale_.x / 2.0f + kBlank + 0.45f);
-			info.move.x = std::max(0.0f, move);
+			float move = (rect.right - playerModel->GetWorldTransform()->translation_.x) + (playerModel->GetWorldTransform()->scale_.x / 2.0f + kBlank);
+			//info.move.x = std::max(0.0f, move);
 			//info.move.x = move;
 			info.isWall = true;
 			//landing = true;
 		}
 		else
+		{
+			info.isWall = false;
+		}
+
+		if (info.isGround || info.isTop)
 		{
 			info.isWall = false;
 		}
@@ -500,6 +507,11 @@ void Player::CollisionMapRight(CollisionMapInfo& info)
 			//landing = true;
 		}
 		else
+		{
+			info.isWall = false;
+		}
+
+		if (info.isGround || info.isTop)
 		{
 			info.isWall = false;
 		}
