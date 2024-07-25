@@ -103,7 +103,7 @@ private:
 	float kLimitFallSpead = 0.5f;		//最大落下速度（下方向
 	float kJumpAcceleration = 1.0f;	//ジャンプ初速（上方向
 	float kAttenuationLanding = 0.3f;
-	float kAttenuationWall = 1.0f;	//着地時の速度減衰率
+	float kAttenuationWall = 1.5f;	//着地時の速度減衰率
 
 	Weapon* weapon_;
 	std::list<Ground*> ground_;
