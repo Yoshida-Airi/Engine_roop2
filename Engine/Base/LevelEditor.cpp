@@ -42,75 +42,7 @@ void LevelEditor::LoaderJsonFile()
 	//"objects"の全オブジェクトを走査
 	for (nlohmann::json& object : deserialized["objects"])
 	{
-		assert(object.contains("type"));
-
-		//種別を取得
-		std::string type = object["type"].get<std::string>();
-
-		//種類ごとの処理
-		//MESH
-		if (type.compare("MESH") == 0)
-		{
-			//要素追加
-			levelData->objects.emplace_back(LevelData::ObjectData{});
-			//今追加した要素の参照を得る
-			LevelData::ObjectData& objectData = levelData->objects.back();
-
-			if (object.contains("file_name"))
-			{
-				const std::string path = "Resources/Level/";
-				//ファイル名
-				objectData.filename = object["file_name"];
-				objectData.filename = path + objectData.filename;
-			}
-
-			//トランスフォームのパラメータ読み込み
-			nlohmann::json& transform = object["transform"];
-			//平行移動
-			objectData.translation.x = (float)transform["translation"][0];
-			objectData.translation.y = (float)transform["translation"][2];
-			objectData.translation.z = (float)transform["translation"][1];
-
-			//回転角
-			objectData.rotation.x = -(float)transform["rotation"][0] * (float)std::numbers::pi / 180.0f;
-			objectData.rotation.y = -(float)transform["rotation"][2] * (float)std::numbers::pi / 180.0f;
-			objectData.rotation.z = -(float)transform["rotation"][1] * (float)std::numbers::pi / 180.0f;
-
-			//スケーリング
-			objectData.scaling.x = (float)transform["scaling"][0];
-			objectData.scaling.y = (float)transform["scaling"][2];
-			objectData.scaling.z = (float)transform["scaling"][1];
-
-			//コライダーのパラメータ読み込み
-			
-			if (object.contains("collider"))
-			{
-				nlohmann::json& collider = object["collider"];
-
-				if (collider.contains("type"))
-				{
-					//コライダー情報があったら取得
-					std::string type = collider["type"].get<std::string>();
-					objectData.collisionType = type;
-
-					objectData.center.x = (float)collider["center"][0];
-					objectData.center.y = (float)collider["center"][2];
-					objectData.center.z = (float)collider["center"][1];
-
-					objectData.size.x = (float)collider["size"][0];
-					objectData.size.y = (float)collider["size"][2];
-					objectData.size.z = (float)collider["size"][1];
-				}
-			}
-		
-		}
-
-		//オブジェクト走査を再帰関数にまとめ、再起呼出で枝を走査する
-		if (object.contains("children"))
-		{
-
-		}
-
+		objectTraversal(object);
 	}
 
 	//レベルデータからオブジェクトを生成、配置
@@ -192,3 +124,71 @@ void LevelEditor::Draw(Camera* camera)
 
 	}
 }
+
+void LevelEditor::objectTraversal(nlohmann::json& object)
+{
+	assert(object.contains("type"));
+
+	//種別を取得
+	std::string type = object["type"].get<std::string>();
+
+	//種類ごとの処理
+	//MESH
+	if (type.compare("MESH") == 0) {
+		//要素追加
+		levelData->objects.emplace_back(LevelData::ObjectData{});
+		//今追加した要素の参照を得る
+		LevelData::ObjectData& objectData = levelData->objects.back();
+
+		if (object.contains("file_name")) {
+			const std::string path = "Resources/Level/";
+			//ファイル名
+			objectData.filename = object["file_name"];
+			objectData.filename = path + objectData.filename;
+		}
+
+		//トランスフォームのパラメータ読み込み
+		nlohmann::json& transform = object["transform"];
+		//平行移動
+		objectData.translation.x = (float)transform["translation"][0];
+		objectData.translation.y = (float)transform["translation"][2];
+		objectData.translation.z = (float)transform["translation"][1];
+
+		//回転角
+		objectData.rotation.x = -(float)transform["rotation"][0] * (float)std::numbers::pi / 180.0f;
+		objectData.rotation.y = -(float)transform["rotation"][2] * (float)std::numbers::pi / 180.0f;
+		objectData.rotation.z = -(float)transform["rotation"][1] * (float)std::numbers::pi / 180.0f;
+
+		//スケーリング
+		objectData.scaling.x = (float)transform["scaling"][0];
+		objectData.scaling.y = (float)transform["scaling"][2];
+		objectData.scaling.z = (float)transform["scaling"][1];
+
+		//コライダーのパラメータ読み込み
+		if (object.contains("collider")) {
+			nlohmann::json& collider = object["collider"];
+
+			if (collider.contains("type")) {
+				//コライダー情報があったら取得
+				std::string type = collider["type"].get<std::string>();
+				objectData.collisionType = type;
+
+				objectData.center.x = (float)collider["center"][0];
+				objectData.center.y = (float)collider["center"][2];
+				objectData.center.z = (float)collider["center"][1];
+
+				objectData.size.x = (float)collider["size"][0];
+				objectData.size.y = (float)collider["size"][2];
+				objectData.size.z = (float)collider["size"][1];
+			}
+		}
+	}
+
+	//オブジェクト走査を再帰関数にまとめ、再起呼出で枝を走査する
+	if (object.contains("children")) {
+		for (nlohmann::json& child : object["children"]) {
+			objectTraversal(child);
+		}
+	}
+}
+

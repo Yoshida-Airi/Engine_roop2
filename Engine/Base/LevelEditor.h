@@ -38,6 +38,8 @@ public:
 	void Update();
 	void Draw(Camera* camera);
 
+	void objectTraversal(nlohmann::json& object);
+
 private:
 
 	std::map<std::string, std::unique_ptr<Model>> models;
