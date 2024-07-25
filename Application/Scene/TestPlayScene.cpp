@@ -16,6 +16,7 @@ void TestPlayScene::Initialize()
 	walkAnimation = Animation::GetInstance()->LoadAnimationFile("Resources/SampleAssets/human/walk.gltf");
 
 	model.reset(Model::Create("Resources/SampleAssets/human/walk.gltf"));
+	model->SetisInvisible(true);
 	//model->SetAnimation(walkAnimation);
 	//model->UseAnimation(false);
 	model2.reset(Model::Create("Resources/SampleAssets/cube.obj"));
@@ -23,10 +24,12 @@ void TestPlayScene::Initialize()
 	model2->SetisInvisible(true);
 
 	model3.reset(Model::Create("Resources/SampleAssets/human/sneakWalk.gltf"));
+	model3->SetisInvisible(true);
 	//model3->SetAnimation(walkAnimation);
 
 	model4.reset(Model::Create("Resources/SampleAssets/simpleSkin.gltf"));
 	model4->GetWorldTransform()->rotation_.y = 3.14f;
+	model4->SetisInvisible(true);
 
 	levelEditor = new LevelEditor();
 	levelEditor->LoaderJsonFile();
