@@ -508,7 +508,7 @@ void Player::CollisionMapRight(CollisionMapInfo& info)
 		{
 			Rect rect = GetRect(ground);
 			float move = (rect.left - playerModel->GetWorldTransform()->translation_.x) - (playerModel->GetWorldTransform()->scale_.x / 2.0f + kBlank );
-			//info.move.x = std::min(0.0f, move);
+			info.move.x = std::min(0.0f, move);
 			//info.move.x = move;
 			info.isWall = true;
 			//landing = true;
@@ -651,6 +651,6 @@ void Player::CollisionWall(const CollisionMapInfo& info)
 {
 	if (info.isWall)
 	{
-		velocity_.x = 0;
+		velocity_.x *= (1.0f - kAttenuationWall);
 	}
 }
