@@ -64,7 +64,7 @@ void Player::Update()
 	CollisionWall(collisionMapInfo);
 	SwitchGround(collisionMapInfo);
 	
-
+#ifdef _DEBUG
 	ImGui::Text("x %d", collisionMapInfo.move.x);
 	ImGui::Text("y %d", collisionMapInfo.move.y);
 	ImGui::Text("z %d", collisionMapInfo.move.z);
@@ -73,6 +73,9 @@ void Player::Update()
 	ImGui::Text("isWall %d", collisionMapInfo.isWall);
 	ImGui::Text("grand %d", onGround_);
 	ImGui::Text("HP %d", HP);
+#endif // _DEBUG
+
+
 	//ImGui::Text("landing %d", landing);
 
 	//ImGui::Text("%d", onGround_);

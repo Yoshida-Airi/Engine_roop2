@@ -345,7 +345,7 @@ void GamePlayScene::CheckAllCollisions()
 			colliderManager_->AddColliders(enemy);
 		}
 	}
-	//colliderManager_->AddColliders(goal.get());
+	colliderManager_->AddColliders(goal.get());
 
 	//colliderManager_->AddColliders(levelEditor);
 	//当たり判定
