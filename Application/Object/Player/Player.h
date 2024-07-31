@@ -35,6 +35,11 @@ public:
 		return hitGoal;
 	}
 
+	int GetHP()
+	{
+		return HP;
+	}
+
 	void SetWeapon(Weapon* weapon)
 	{
 		weapon_ = weapon;
@@ -123,6 +128,12 @@ private:
 	bool isJump = false;
 
 	bool hitGoal = false;
+
+
+	int HP = 5;
+	bool isInvincible;
+	float invincibilityTimer;
+	static constexpr float invincibilityDuration = 2.0f; // 無敵時間の長さ（秒）
 
 private:
 

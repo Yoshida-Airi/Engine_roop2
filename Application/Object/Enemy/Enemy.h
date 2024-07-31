@@ -32,6 +32,9 @@ private:
 
 	bool isAlive = true;	//生きているか: true 生きている
 	
-
+	float moveSpeed = 0.03f;  // 移動速度
+	float moveDistance = 5.0f;  // 移動する距離
+	float traveledDistance = 0.0f;  // 移動した距離
+	bool movingRight = true;  // 右方向に移動しているかどうか
 };
 

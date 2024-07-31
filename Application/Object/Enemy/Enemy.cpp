@@ -18,7 +18,25 @@ void Enemy::Update()
 	GameObject::Update();
 
 	enemyModel->ModelDebug("enemy");
-	enemyModel->GetWorldTransform()->translation_.x += 0.03f;
+	//enemyModel->GetWorldTransform()->translation_.x += 0.03f;
+
+	// 移動距離を更新
+	if (movingRight) {
+		enemyModel->GetWorldTransform()->translation_.x += moveSpeed;
+		traveledDistance += moveSpeed;
+	}
+	else {
+		enemyModel->GetWorldTransform()->translation_.x -= moveSpeed;
+		traveledDistance -= moveSpeed;
+	}
+
+	// 一定の距離を移動したら方向を反転
+	if (traveledDistance >= moveDistance) {
+		movingRight = false;
+	}
+	else if (traveledDistance <= 0.0f) {
+		movingRight = true;
+	}
 
 }
 

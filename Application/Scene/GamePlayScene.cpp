@@ -36,6 +36,7 @@ void GamePlayScene::Initialize()
 	Doll = texture->LoadTexture("Resources/SampleAssets/Doll.png");
 	circle = texture->LoadTexture("Resources/SampleAssets/circle.png");
 	configTexture = texture->LoadTexture("Resources/Scene/config.png");
+	HPTexture = texture->LoadTexture("Resources/Object/Heart.png");
 
 	camera = new Camera;
 	camera->Initialize();
@@ -60,8 +61,9 @@ void GamePlayScene::Initialize()
 	player->Initialize();
 	
 
-	SpawnEnemy({ 10.0f,5.0f,0.0f });
+	SpawnEnemy({ 20.0f,1.0f,0.0f });
 	SpawnEnemy({ 10.0f,1.0f,0.0f });
+	SpawnEnemy({ 30.0f,2.0f,0.0f });
 
 
 	skydome = std::make_unique<Skydome>();
@@ -76,6 +78,24 @@ void GamePlayScene::Initialize()
 	cameraController->Reset();
 
 	config.reset(Sprite::Create(configTexture));
+
+	hp1.reset(Sprite::Create(HPTexture));
+	hp2.reset(Sprite::Create(HPTexture));
+	hp3.reset(Sprite::Create(HPTexture));
+	hp4.reset(Sprite::Create(HPTexture));
+	hp5.reset(Sprite::Create(HPTexture));
+
+	hp1->GetWorldTransform()->scale_ = { 2.0f,2.0f,2.0f };
+	hp2->GetWorldTransform()->scale_ = { 2.0f,2.0f,2.0f };
+	hp3->GetWorldTransform()->scale_ = { 2.0f,2.0f,2.0f };
+	hp4->GetWorldTransform()->scale_ = { 2.0f,2.0f,2.0f };
+	hp5->GetWorldTransform()->scale_ = { 2.0f,2.0f,2.0f };
+
+	hp1->GetWorldTransform()->translation_ = { 20.0f,20.0f,0.0f };
+	hp2->GetWorldTransform()->translation_ = { 40.0f,20.0f,0.0f };
+	hp3->GetWorldTransform()->translation_ = { 60.0f,20.0f,0.0f };
+	hp4->GetWorldTransform()->translation_ = { 80.0f,20.0f,0.0f };
+	hp5->GetWorldTransform()->translation_ = { 100.0f,20.0f,0.0f };
 
 	//triangle.reset(Triangle::Create(uvTexture));
 	//triangle2.reset(Triangle::Create(monsterBall));
@@ -149,12 +169,17 @@ void GamePlayScene::Update()
 		sceneManager_->ChangeScene("CLEAR");
 	}
 
-	/*if (input->TriggerKey(DIK_0))
+	if (player->GetHP() == 0)
 	{
 		sceneManager_->ChangeScene("GAMEOVER");
-	}*/
+	}
 
 	config->Update();
+	hp1->Update();
+	hp2->Update();
+	hp3->Update();
+	hp4->Update();
+	hp5->Update();
 
 	//triangle->Update();
 	//triangle->GetWorldTransform()->rotation_.y += 0.03f;
@@ -258,6 +283,43 @@ void GamePlayScene::Draw()
 	colliderManager_->Draw(camera);
 
 	config->Draw(camera);
+
+
+	if (player->GetHP() == 5)
+	{
+
+		hp1->Draw(camera);
+		hp2->Draw(camera);
+		hp3->Draw(camera);
+		hp4->Draw(camera);
+		hp5->Draw(camera);
+	}
+	if (player->GetHP() == 4)
+	{
+
+		hp1->Draw(camera);
+		hp2->Draw(camera);
+		hp3->Draw(camera);
+		hp4->Draw(camera);
+	}
+	if (player->GetHP() == 3)
+	{
+
+		hp1->Draw(camera);
+		hp2->Draw(camera);
+		hp3->Draw(camera);
+	}
+	if (player->GetHP() == 2)
+	{
+
+		hp1->Draw(camera);
+		hp2->Draw(camera);
+	}
+	if (player->GetHP() == 1)
+	{
+
+		hp1->Draw(camera);
+	}
 }
 
 void GamePlayScene::CheckAllCollisions()

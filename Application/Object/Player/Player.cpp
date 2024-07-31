@@ -38,6 +38,7 @@ void Player::Initialize()
 
 
 
+
 }
 
 void Player::Update()
@@ -71,6 +72,7 @@ void Player::Update()
 	ImGui::Text("isGround %d", collisionMapInfo.isGround);
 	ImGui::Text("isWall %d", collisionMapInfo.isWall);
 	ImGui::Text("grand %d", onGround_);
+	ImGui::Text("HP %d", HP);
 	//ImGui::Text("landing %d", landing);
 
 	//ImGui::Text("%d", onGround_);
@@ -88,6 +90,16 @@ void Player::Update()
 	//float kJumpAcceleration_[1] = { kJumpAcceleration };
 	//ImGui::DragFloat("kJumpAcceleration", kJumpAcceleration_, 0.1f);
 	//kJumpAcceleration = kJumpAcceleration_[0];
+
+	//無敵時間
+	if (isInvincible)
+	{
+		invincibilityTimer -= 1.0f / 60.0f;
+		if (invincibilityTimer <= 0.0f)
+		{
+			isInvincible = false;
+		}
+	}
 
 	if (playerModel->GetWorldTransform()->translation_.x <= 0)
 	{
@@ -138,7 +150,15 @@ void Player::OnCollision(Collider* other)
 	{
 		hitGoal = true;
 	}
-	
+	if (typeID == static_cast<uint32_t>(CollisionTypeDef::kEnemy))
+	{
+		if (!isInvincible)
+		{
+			HP -= 1;
+			isInvincible = true;
+			invincibilityTimer = invincibilityDuration;
+		}
+	}
 }
 
 void Player::Move()

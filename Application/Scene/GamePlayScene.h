@@ -58,6 +58,7 @@ private:
 	uint32_t circle;
 
 	uint32_t configTexture;
+	uint32_t HPTexture;
 	
 
 	Camera* camera;
@@ -88,5 +89,10 @@ private:
 	std::list<Ground*>grounds;
 
 	std::unique_ptr<Sprite> config = nullptr;
+	std::unique_ptr<Sprite> hp1 = nullptr;
+	std::unique_ptr<Sprite> hp2 = nullptr;
+	std::unique_ptr<Sprite> hp3 = nullptr;
+	std::unique_ptr<Sprite> hp4 = nullptr;
+	std::unique_ptr<Sprite> hp5 = nullptr;
 };
 
