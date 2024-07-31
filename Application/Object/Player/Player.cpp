@@ -568,7 +568,7 @@ void Player::HitTop(const CollisionMapInfo& info)
 {
 	if (info.isTop)
 	{
-		ImGui::Text("hit");
+		//ImGui::Text("hit");
 		velocity_.y = 0;
 	}
 }
