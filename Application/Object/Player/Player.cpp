@@ -23,6 +23,7 @@ void Player::Initialize()
 
 	//モデルの初期設定
 	//playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
+	playerModel->GetWorldTransform()->translation_.x = 7.2f;
 	playerModel->GetWorldTransform()->translation_.y += 7.0f;
 
 
@@ -88,7 +89,15 @@ void Player::Update()
 	//ImGui::DragFloat("kJumpAcceleration", kJumpAcceleration_, 0.1f);
 	//kJumpAcceleration = kJumpAcceleration_[0];
 
+	if (playerModel->GetWorldTransform()->translation_.x <= 0)
+	{
+		playerModel->GetWorldTransform()->translation_.x = 0.0f;
+	}
 
+	if (playerModel->GetWorldTransform()->translation_.x >= 46.0f)
+	{
+		playerModel->GetWorldTransform()->translation_.x = 46.0f;
+	}
 
 }
 

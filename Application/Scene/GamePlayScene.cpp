@@ -49,8 +49,10 @@ void GamePlayScene::Initialize()
 	weapon->Initialize();
 
 
-	SpawnBlock({ 17.0f, -1.0f, 0 }, {24.0f, 1.0f, 1.0f});
-	SpawnBlock({ 2.0f, 4.5f, 0 }, { 2.0f, 1.0f, 1.0f });
+	SpawnBlock({ 22.8f, -1.0f, 0 }, {24.31f, 1.0f, 1.0f});
+	SpawnBlock({ 6.7f, 4.5f, 0 }, { 2.0f, 1.0f, 1.0f });
+	SpawnBlock({ -2.15f, 7.8f, 0 }, { 1.0f, 9.8f, 1.0f });
+	SpawnBlock({ 48.11f, 7.8f, 0 }, { 1.0f, 9.8f, 1.0f });
 
 	player = std::make_unique<Player>();
 	player->SetWeapon(weapon.get());
@@ -60,6 +62,7 @@ void GamePlayScene::Initialize()
 
 	SpawnEnemy({ 10.0f,5.0f,0.0f });
 	SpawnEnemy({ 10.0f,1.0f,0.0f });
+
 
 	skydome = std::make_unique<Skydome>();
 	skydome->Initialize();
@@ -146,10 +149,10 @@ void GamePlayScene::Update()
 		sceneManager_->ChangeScene("CLEAR");
 	}
 
-	if (input->TriggerKey(DIK_0))
+	/*if (input->TriggerKey(DIK_0))
 	{
 		sceneManager_->ChangeScene("GAMEOVER");
-	}
+	}*/
 
 	config->Update();
 
@@ -280,7 +283,7 @@ void GamePlayScene::CheckAllCollisions()
 			colliderManager_->AddColliders(enemy);
 		}
 	}
-	colliderManager_->AddColliders(goal.get());
+	//colliderManager_->AddColliders(goal.get());
 
 	//colliderManager_->AddColliders(levelEditor);
 	//当たり判定

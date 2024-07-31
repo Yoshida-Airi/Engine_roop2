@@ -6,7 +6,7 @@ void Goal::Initialize()
 	Collider::SetColliderTypeID(ColliderType::SPHERE);
 
 	goalModel.reset(Model::Create("Resources/Object/Goal/goal.obj"));
-	goalModel->GetWorldTransform()->translation_.x = 39.0f;
+	goalModel->GetWorldTransform()->translation_.x = 45.0f;
 	goalModel->GetWorldTransform()->translation_.y = -1.0f;
 
 	goalModels = { goalModel.get() };
