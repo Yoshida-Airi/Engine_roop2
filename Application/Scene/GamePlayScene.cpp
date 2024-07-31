@@ -42,15 +42,15 @@ void GamePlayScene::Initialize()
 
 	
 	levelEditor = new LevelEditor();
-	levelEditor->LoaderJsonFile();
+	levelEditor->LoaderJsonFile("Resources/Level/levelEditor.json");
 	levelEditor->Initialize();
 
 	weapon = std::make_unique<Weapon>();
 	weapon->Initialize();
 
 
-	SpawnBlock({ -20.0f, 1.0f, 0 }, {2.0f, 1.0f, 1.0f});
-	SpawnBlock({ -10.0f, 3.0f, 0 }, { 2.0f, 1.0f, 1.0f });
+	SpawnBlock({ 17.0f, -1.0f, 0 }, {24.0f, 1.0f, 1.0f});
+	SpawnBlock({ 2.0f, 4.5f, 0 }, { 2.0f, 1.0f, 1.0f });
 
 	player = std::make_unique<Player>();
 	player->SetWeapon(weapon.get());
@@ -182,9 +182,12 @@ void GamePlayScene::Update()
 
 	levelEditor->Update();
 
+	int i = 0;
 	for (Ground* ground : grounds)
 	{
+		i++;
 		ground->Update();
+		ground->Debug("ground" + i);
 	}
 
 
@@ -215,7 +218,7 @@ void GamePlayScene::Draw()
 
 	//sphere->Draw(camera);
 
-	levelEditor->Draw(camera);
+	//levelEditor->Draw(camera);
 
 	for (Ground* ground : grounds)
 	{
@@ -267,7 +270,7 @@ void GamePlayScene::CheckAllCollisions()
 			colliderManager_->AddColliders(enemy);
 		}
 	}
-	colliderManager_->AddColliders(levelEditor);
+	//colliderManager_->AddColliders(levelEditor);
 	//当たり判定
 	colliderManager_->ChackAllCollisions();
 

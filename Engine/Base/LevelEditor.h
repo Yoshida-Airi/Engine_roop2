@@ -35,7 +35,7 @@ class LevelEditor :public GameObject
 public:
 
 	~LevelEditor();
-	void LoaderJsonFile();
+	void LoaderJsonFile(std::string filePath);
 
 	void Initialize()override;
 	void Update()override;

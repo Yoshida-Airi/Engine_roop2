@@ -98,12 +98,11 @@ private:
 	static inline const float kTimeTrun = 1.0f;	//旋回時間<秒>
 
 	bool onGround_ = true;	//接地状態フラグ
-	bool landing = false;	//接地フラグ
 	float kGravityAcceleration = 0.05f;	//重力加速度（下方向
 	float kLimitFallSpead = 0.5f;		//最大落下速度（下方向
 	float kJumpAcceleration = 1.0f;	//ジャンプ初速（上方向
 	float kAttenuationLanding = 0.3f;
-	float kAttenuationWall = 1.5f;	//着地時の速度減衰率
+	float kAttenuationWall = 0.5f;	//着地時の速度減衰率
 
 	Weapon* weapon_;
 	std::list<Ground*> ground_;
@@ -114,7 +113,9 @@ private:
 	float kHeight = 1.8f;
 	float kDepth = 0.8f;
 
-	float kBlank = 1.0f;
+	float kBlank = 1.5f;
+
+	bool isJump = false;
 
 private:
 

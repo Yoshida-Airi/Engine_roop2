@@ -29,7 +29,7 @@ void TestPlayScene::Initialize()
 	model4->GetWorldTransform()->rotation_.y = 3.14f;
 
 	levelEditor = new LevelEditor();
-	levelEditor->LoaderJsonFile();
+	levelEditor->LoaderJsonFile("Resources/Level/levelEditor.json");
 }
 
 void TestPlayScene::Update()

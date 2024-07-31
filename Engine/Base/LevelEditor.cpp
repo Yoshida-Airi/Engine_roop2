@@ -8,9 +8,9 @@ LevelEditor::~LevelEditor()
 
 }
 
-void LevelEditor::LoaderJsonFile()
+void LevelEditor::LoaderJsonFile(std::string filePath)
 {
-	const std::string fullpath = "Resources/Level/levelEditor.json";
+	const std::string fullpath = filePath;
 	std::ifstream file;
 
 	//ファイルを開く

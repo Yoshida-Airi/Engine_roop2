@@ -52,3 +52,9 @@ void Ground::OnCollision(Collider* other)
 {
 }
 
+void Ground::Debug(const char* name)
+{
+	groundModel->ModelDebug(name);
+}
+
+
