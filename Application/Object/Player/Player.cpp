@@ -89,6 +89,7 @@ void Player::Update()
 	//kJumpAcceleration = kJumpAcceleration_[0];
 
 
+
 }
 
 void Player::Draw(Camera* camera)
@@ -124,14 +125,11 @@ AABB Player::GetAABB()
 void Player::OnCollision(Collider* other)
 {
 	uint32_t typeID = other->GetTypeID();
-	if (typeID == static_cast<uint32_t>(CollisionTypeDef::kMap))
+	if (typeID == static_cast<uint32_t>(CollisionTypeDef::kGoal))
 	{
-		//playerModel->SetisInvisible(true);
+		hitGoal = true;
 	}
-	else
-	{
-		//playerModel->SetisInvisible(false);
-	}
+	
 }
 
 void Player::Move()

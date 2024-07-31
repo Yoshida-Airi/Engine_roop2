@@ -23,6 +23,7 @@
 #include"Object/CameraController/CameraController.h"
 #include"Object/Player/Weapon.h"
 #include"Object/Ground/Ground.h"
+#include"Object/Goal/Goal.h"
 
 #include"LevelEditor.h"
 
@@ -56,6 +57,7 @@ private:
 	uint32_t Doll;
 	uint32_t circle;
 
+	uint32_t configTexture;
 	
 
 	Camera* camera;
@@ -80,8 +82,11 @@ private:
 	std::unique_ptr <Player> player;
 	std::list<Enemy*> enemys;
 	std::unique_ptr <Skydome>skydome;
+	std::unique_ptr <Goal>goal;
 	CameraController* cameraController;
 	std::unique_ptr<Weapon>weapon;
 	std::list<Ground*>grounds;
+
+	std::unique_ptr<Sprite> config = nullptr;
 };
 

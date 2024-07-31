@@ -35,7 +35,7 @@ void GamePlayScene::Initialize()
 	monsterBall = texture->LoadTexture("Resources/SampleAssets/monsterBall.png");
 	Doll = texture->LoadTexture("Resources/SampleAssets/Doll.png");
 	circle = texture->LoadTexture("Resources/SampleAssets/circle.png");
-
+	configTexture = texture->LoadTexture("Resources/Scene/config.png");
 
 	camera = new Camera;
 	camera->Initialize();
@@ -64,11 +64,15 @@ void GamePlayScene::Initialize()
 	skydome = std::make_unique<Skydome>();
 	skydome->Initialize();
 
+	goal = std::make_unique<Goal>();
+	goal->Initialize();
+
 	cameraController = new CameraController;
 	cameraController->Initialize(camera);
 	cameraController->SetTarget(player.get());
 	cameraController->Reset();
 
+	config.reset(Sprite::Create(configTexture));
 
 	//triangle.reset(Triangle::Create(uvTexture));
 	//triangle2.reset(Triangle::Create(monsterBall));
@@ -137,15 +141,17 @@ void GamePlayScene::Update()
 
 	colliderManager_->UpdateWorldTransform();
 
-	if (input->TriggerKey(DIK_RETURN))
+	if (player->GetHitGoal() == true)
 	{
 		sceneManager_->ChangeScene("CLEAR");
 	}
+
 	if (input->TriggerKey(DIK_0))
 	{
 		sceneManager_->ChangeScene("GAMEOVER");
 	}
 
+	config->Update();
 
 	//triangle->Update();
 	//triangle->GetWorldTransform()->rotation_.y += 0.03f;
@@ -201,6 +207,7 @@ void GamePlayScene::Update()
 	}
 
 	skydome->Update();
+	goal->Update();
 
 	CheckAllCollisions();
 
@@ -243,8 +250,11 @@ void GamePlayScene::Draw()
 		enemy->Draw(camera);
 	}
 
+	goal->Draw(camera);
 
 	colliderManager_->Draw(camera);
+
+	config->Draw(camera);
 }
 
 void GamePlayScene::CheckAllCollisions()
@@ -270,6 +280,8 @@ void GamePlayScene::CheckAllCollisions()
 			colliderManager_->AddColliders(enemy);
 		}
 	}
+	colliderManager_->AddColliders(goal.get());
+
 	//colliderManager_->AddColliders(levelEditor);
 	//当たり判定
 	colliderManager_->ChackAllCollisions();

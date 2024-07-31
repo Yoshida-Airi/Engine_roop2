@@ -30,6 +30,11 @@ public:
 	AABB GetAABB()override;
 	void OnCollision([[maybe_unused]] Collider* other)override;
 
+	bool GetHitGoal()
+	{
+		return hitGoal;
+	}
+
 	void SetWeapon(Weapon* weapon)
 	{
 		weapon_ = weapon;
@@ -116,6 +121,8 @@ private:
 	float kBlank = 1.5f;
 
 	bool isJump = false;
+
+	bool hitGoal = false;
 
 private:
 

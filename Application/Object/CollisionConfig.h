@@ -9,7 +9,7 @@ enum class CollisionTypeDef : uint32_t
 	kWeapon,
 	kEnemy,
 	kMap,
-	
+	kGoal,
 };
 
 enum class ColliderType : uint32_t
