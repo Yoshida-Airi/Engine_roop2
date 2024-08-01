@@ -525,7 +525,6 @@ void Player::CollisionMapRight(CollisionMapInfo& info)
 			info.isWall = false;
 		}
 	}
-	//info.isWall = false;
 }
 
 Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
@@ -574,6 +573,14 @@ void Player::HitTop(const CollisionMapInfo& info)
 		velocity_.y = 0;
 	}
 }
+void Player::CollisionWall(const CollisionMapInfo& info)
+{
+	if (info.isWall)
+	{
+		velocity_.x *= (1.0f - kAttenuationWall);
+	}
+}
+
 
 void Player::SwitchGround(const CollisionMapInfo& info)
 {
@@ -634,10 +641,4 @@ void Player::SwitchGround(const CollisionMapInfo& info)
 
 }
 
-void Player::CollisionWall(const CollisionMapInfo& info)
-{
-	if (info.isWall)
-	{
-		velocity_.x *= (1.0f - kAttenuationWall);
-	}
-}
+
