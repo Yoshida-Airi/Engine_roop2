@@ -25,6 +25,7 @@ void Player::Initialize()
 	//playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
 	playerModel->GetWorldTransform()->translation_.x = 7.2f;
 	playerModel->GetWorldTransform()->translation_.y += 7.0f;
+	playerModel->GetWorldTransform()->rotation_.y = 1.5f;
 
 
 	grobalVariables->AddItem(groupName, "Acceleration", kAcceleration);
@@ -54,6 +55,7 @@ void Player::Update()
 
 	//速度加算
 	playerModel->GetWorldTransform()->translation_ = Add(playerModel->GetWorldTransform()->translation_, velocity_);
+
 
 	collisionMapInfo.move = velocity_;
 	//マップ衝突チェック
@@ -466,7 +468,7 @@ void Player::CollisionMapLeft(CollisionMapInfo& info)
 		if (hit)
 		{
 			Rect rect = GetRect(ground);
-			float move = (rect.left - playerModel->GetWorldTransform()->translation_.x) + (playerModel->GetWorldTransform()->scale_.x / 2.0f + kBlank);
+			float move = (rect.left - playerModel->GetWorldTransform()->translation_.x) - (playerModel->GetWorldTransform()->scale_.x / 2.0f + kBlank);
 			info.move.x = std::min(0.0f, move);
 			info.isWall = true;
 		}
