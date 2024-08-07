@@ -24,6 +24,7 @@
 #include"Object/Player/Weapon.h"
 #include"Object/Ground/Ground.h"
 #include"Object/Goal/Goal.h"
+#include"Effect/DeathEffect.h"
 
 #include"LevelEditor.h"
 
@@ -43,6 +44,8 @@ public:
 
 	void SpawnEnemy(const Vector3& position);
 	void SpawnBlock(const Vector3& position, const Vector3& scale);
+
+	void CreateDeathEffect(Vector3 position);
 
 private:
 	TextureManager* texture;
@@ -87,6 +90,7 @@ private:
 	CameraController* cameraController;
 	std::unique_ptr<Weapon>weapon;
 	std::list<Ground*>grounds;
+	std::list<DeathEffect*>deathEffect_;	//敵消滅エフェクト
 
 	std::unique_ptr<Sprite> config = nullptr;
 	std::unique_ptr<Sprite> hp1 = nullptr;

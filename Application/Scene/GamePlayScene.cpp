@@ -17,6 +17,10 @@ GamePlayScene::~GamePlayScene()
 		delete ground;
 	}
 
+	for (DeathEffect* deathEffects : deathEffect_) {
+		delete deathEffects;
+	}
+
 }
 
 void GamePlayScene::Initialize()
@@ -51,7 +55,8 @@ void GamePlayScene::Initialize()
 
 
 	SpawnBlock({ 22.8f, -1.0f, 0 }, {24.31f, 1.0f, 1.0f});
-	SpawnBlock({ 6.7f, 4.5f, 0 }, { 2.0f, 1.0f, 1.0f });
+	SpawnBlock({ 6.7f, 4.5f, 0 }, { 1.0f, 1.0f, 1.0f });
+	SpawnBlock({ 8.7f, 6.5f, 0 }, { 1.0f, 1.0f, 1.0f });
 	SpawnBlock({ -2.15f, 7.8f, 0 }, { 1.0f, 9.8f, 1.0f });
 	SpawnBlock({ 48.11f, 7.8f, 0 }, { 1.0f, 9.8f, 1.0f });
 
@@ -212,7 +217,35 @@ void GamePlayScene::Update()
 	//particle->Update();
 	//particle2->Update();
 
+	for (Enemy* enemy : enemys) {
+		enemy->Update();
+		if (enemy->GetIsAlive() == false) {
+			CreateDeathEffect({ enemy->GetWorldPosition() });
+		}
+	}
 
+	deathEffect_.remove_if([](DeathEffect* hitEffects) {
+		if (hitEffects->IsDead())
+		{
+			//実行時間をすぎたらメモリ削除
+			delete hitEffects;
+			return true;
+		}
+		return false;
+		});
+
+	enemys.remove_if([](Enemy* enemys) {
+		if (enemys->GetIsAlive()==false) {
+			delete enemys;
+			return true;
+		}
+		return false;
+		});
+
+
+	for (DeathEffect* deathEffects : deathEffect_) {
+		deathEffects->Update();
+	}
 
 	levelEditor->Update();
 
@@ -277,6 +310,11 @@ void GamePlayScene::Draw()
 	{
 		enemy->Draw(camera);
 	}
+	for (DeathEffect* deathEffects : deathEffect_)
+	{
+		deathEffects->Draw();
+	}
+
 
 	goal->Draw(camera);
 
@@ -377,4 +415,15 @@ void GamePlayScene::SpawnBlock(const Vector3& position, const Vector3& scale)
 
 	// リストに登録
 	grounds.push_back(ground);
+}
+
+void GamePlayScene::CreateDeathEffect(Vector3 position)
+{
+	DeathEffect* newDeathEffect = new DeathEffect();
+	newDeathEffect->Initialize(camera);
+	newDeathEffect->SetFlag(true);
+
+	newDeathEffect->SetPosition(position);
+
+	deathEffect_.push_back(newDeathEffect);
 }

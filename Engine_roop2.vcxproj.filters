@@ -155,6 +155,7 @@
       <Filter>Application\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Goal\Goal.cpp" />
+    <ClCompile Include="Application\Effect\DeathEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -308,6 +309,7 @@
       <Filter>Application\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Goal\Goal.h" />
+    <ClInclude Include="Application\Effect\DeathEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

@@ -42,8 +42,19 @@ AABB Ground::GetAABB()
 	Vector3 worldPos = GetWorldPosition();
 	AABB aabb;
 
-	aabb.min = { worldPos.x - groundModel->GetWorldTransform()->scale_.x ,worldPos.y - groundModel->GetWorldTransform()->scale_.y ,worldPos.z - groundModel->GetWorldTransform()->scale_.z  };
-	aabb.max = { worldPos.x + groundModel->GetWorldTransform()->scale_.x ,worldPos.y + groundModel->GetWorldTransform()->scale_.y ,worldPos.z + groundModel->GetWorldTransform()->scale_.z  };
+	aabb.min = 
+	{ 
+		worldPos.x - groundModel->GetWorldTransform()->scale_.x  ,
+		worldPos.y - groundModel->GetWorldTransform()->scale_.y  ,
+		worldPos.z - groundModel->GetWorldTransform()->scale_.z  
+	};
+
+	aabb.max = 
+	{ 
+		worldPos.x + groundModel->GetWorldTransform()->scale_.x  ,
+		worldPos.y + groundModel->GetWorldTransform()->scale_.y  ,
+		worldPos.z + groundModel->GetWorldTransform()->scale_.z 
+	};
 
 	return aabb;
 }

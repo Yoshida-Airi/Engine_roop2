@@ -65,7 +65,7 @@ void Player::Update()
 	HitTop(collisionMapInfo);
 	CollisionWall(collisionMapInfo);
 	SwitchGround(collisionMapInfo);
-	
+
 #ifdef _DEBUG
 	ImGui::Text("x %d", collisionMapInfo.move.x);
 	ImGui::Text("y %d", collisionMapInfo.move.y);
@@ -114,6 +114,11 @@ void Player::Update()
 	if (playerModel->GetWorldTransform()->translation_.x >= 46.0f)
 	{
 		playerModel->GetWorldTransform()->translation_.x = 46.0f;
+	}
+
+	if (playerModel->GetWorldTransform()->translation_.y <= 0)
+	{
+		playerModel->GetWorldTransform()->translation_.y = 0.0f;
 	}
 
 }
@@ -249,7 +254,7 @@ void Player::Turn()
 void Player::Jump()
 {
 	//接地状態
-	if (onGround_ )
+	if (onGround_)
 	{
 		if (Input::GetInstance()->PushKey(DIK_UP))
 		{
@@ -263,6 +268,8 @@ void Player::Jump()
 		{
 			isJump = false;
 		}
+
+
 
 	}
 	else//空中
@@ -284,7 +291,7 @@ void Player::Jump()
 		//}
 	}
 
-	
+
 }
 
 void Player::ApplyGlobalVariables()
@@ -377,8 +384,8 @@ void Player::CollisionMapTop(CollisionMapInfo& info)
 		if (hit)
 		{
 			Rect rect = GetRect(ground);
-			float move = (rect.bottom - playerModel->GetWorldTransform()->translation_.y)-  (playerModel->GetWorldTransform()->scale_.y / 2.0f + kBlank);
-			info.move.y = std::min(0.0f, move);
+			float move = rect.bottom - playerModel->GetWorldTransform()->translation_.y + (kHeight / 2.0f + kBlank);
+			info.move.y = std::max(0.0f, move);
 			info.isTop = true;
 		}
 		else
@@ -421,7 +428,7 @@ void Player::CollisionMapBottom(CollisionMapInfo& info)
 		if (hit)
 		{
 			Rect rect = GetRect(ground);
-			float move = (rect.top - playerModel->GetWorldTransform()->translation_.y) + (playerModel->GetWorldTransform()->scale_.y / 2.0f + kBlank);
+			float move = (rect.top - playerModel->GetWorldTransform()->translation_.y) - (kHeight / 2.0f + kBlank);
 			info.move.y = std::min(0.0f, move);
 			info.isGround = true;
 		}
@@ -556,10 +563,10 @@ Player::Rect Player::GetRect(Ground* ground)
 
 	// 矩形領域を計算
 	Rect rect;
-	rect.left = center.x - ground->GetRadius().x;
-	rect.right = center.x + ground->GetRadius().x;
-	rect.bottom = center.y - ground->GetRadius().y;
-	rect.top = center.y + ground->GetRadius().y;
+	rect.left = center.x - ground->GetScale().x / 2.0f;
+	rect.right = center.x + ground->GetScale().x / 2.0f;
+	rect.bottom = center.y - ground->GetScale().y / 2.0f;
+	rect.top = center.y + ground->GetScale().y / 2.0f;
 
 	return rect;
 

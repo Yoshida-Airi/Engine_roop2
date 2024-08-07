@@ -25,7 +25,10 @@ public:
 		groundModel->GetWorldTransform()->scale_ = scale;
 	}
 
-
+	Vector3 GetScale()
+	{
+		return groundModel->GetWorldTransform()->scale_;
+	}
 
 private:
 	
