@@ -318,7 +318,7 @@ void GamePlayScene::Draw()
 
 	goal->Draw(camera);
 
-	colliderManager_->Draw(camera);
+	//colliderManager_->Draw(camera);
 
 	config->Draw(camera);
 
