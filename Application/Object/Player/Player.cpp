@@ -25,7 +25,7 @@ void Player::Initialize()
 	//playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
 	playerModel->GetWorldTransform()->translation_.x = 7.2f;
 	playerModel->GetWorldTransform()->translation_.y += 7.0f;
-	playerModel->GetWorldTransform()->rotation_.y = 1.5f;
+	//playerModel->GetWorldTransform()->rotation_.y = 1.5f;
 
 
 	grobalVariables->AddItem(groupName, "Acceleration", kAcceleration);
@@ -106,15 +106,15 @@ void Player::Update()
 		}
 	}
 
-	if (playerModel->GetWorldTransform()->translation_.x <= 0)
-	{
-		playerModel->GetWorldTransform()->translation_.x = 0.0f;
-	}
+	//if (playerModel->GetWorldTransform()->translation_.x <= 0)
+	//{
+	//	playerModel->GetWorldTransform()->translation_.x = 0.0f;
+	//}
 
-	if (playerModel->GetWorldTransform()->translation_.x >= 46.0f)
-	{
-		playerModel->GetWorldTransform()->translation_.x = 46.0f;
-	}
+	//if (playerModel->GetWorldTransform()->translation_.x >= 46.0f)
+	//{
+	//	playerModel->GetWorldTransform()->translation_.x = 46.0f;
+	//}
 
 	if (playerModel->GetWorldTransform()->translation_.y <= 0)
 	{
@@ -242,7 +242,7 @@ void Player::Turn()
 		float destinationRotationYTable[] =
 		{
 			std::numbers::pi_v<float> / 2.0f,
-			std::numbers::pi_v<float>*3.0f / 2.0f
+			std::numbers::pi_v<float>*3.0f/ 2.0f
 		};
 		//角度の取得
 		float destinationRotationY = destinationRotationYTable[static_cast<uint32_t>(lrDirection)];
@@ -340,8 +340,8 @@ void Player::CollisionMap(CollisionMapInfo& info)
 {
 	CollisionMapTop(info);
 	CollisionMapBottom(info);
-	//CollisionMapLeft(info);
-	//CollisionMapRight(info);
+	CollisionMapLeft(info);
+	CollisionMapRight(info);
 }
 
 void Player::CollisionMapTop(CollisionMapInfo& info)
@@ -522,8 +522,8 @@ void Player::CollisionMapRight(CollisionMapInfo& info)
 		if (hit)
 		{
 			Rect rect = GetRect(ground);
-			float move = (rect.right - playerModel->GetWorldTransform()->translation_.x) - (playerModel->GetWorldTransform()->scale_.x / 2.0f + kBlank);
-			info.move.x = std::max(0.0f, move);
+			float move = (rect.right - playerModel->GetWorldTransform()->translation_.x) + (playerModel->GetWorldTransform()->scale_.x / 2.0f + kBlank);
+			info.move.x = std::max(0.0f, 0.1f);
 			info.isWall = true;
 			//return;
 		}

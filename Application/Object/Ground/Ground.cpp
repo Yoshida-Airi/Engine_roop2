@@ -44,7 +44,7 @@ AABB Ground::GetAABB()
 
 	aabb.min = 
 	{ 
-		worldPos.x - groundModel->GetWorldTransform()->scale_.x  ,
+		worldPos.x - groundModel->GetWorldTransform()->scale_.x   ,
 		worldPos.y - groundModel->GetWorldTransform()->scale_.y  ,
 		worldPos.z - groundModel->GetWorldTransform()->scale_.z  
 	};
