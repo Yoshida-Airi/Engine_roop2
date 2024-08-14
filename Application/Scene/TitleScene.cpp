@@ -27,11 +27,17 @@ void TitleScene::Initialize()
 	fence_.reset(Model::Create("Resources/SampleAssets/fence.obj"));
 	cube_.reset(Model::Create("Resources/SampleAssets/cube.obj"));
 	fence_->GetWorldTransform()->rotation_.y = 3.1f;
+
+	fade_ = std::make_unique <Fade>();
+	fade_->Initialize();
+	fade_->Start(Fade::Status::FadeIn, 1.5f);
 }
 
 void TitleScene::Update()
 {
 	camera->CameraDebug();
+
+	fade_->Update();
 
 	//ゲームパットの状態を得る変数(XINPUT)
 	XINPUT_STATE joyState;
@@ -47,8 +53,13 @@ void TitleScene::Update()
 
 	if (input->TriggerKey(DIK_SPACE))
 	{
-		sceneManager_->ChangeScene("GAMEPLAY");
+		fade_->Start(Fade::Status::FadeOut, 1.5f);
 		//Audio::GetInstance()->SoundStopWave(soundData);
+	}
+
+	if (fade_->IsFinished())
+	{
+		sceneManager_->ChangeScene("GAMEPLAY");
 	}
 
 	title->Update();
@@ -63,6 +74,7 @@ void TitleScene::Update()
 	fence_->Parent(cube_.get());
 
 
+
 }
 
 void TitleScene::Draw()
@@ -71,6 +83,8 @@ void TitleScene::Draw()
 
 	fence_->Draw(camera);
 	cube_->Draw(camera);
+
+	fade_->Draw(camera);
 
 }
 

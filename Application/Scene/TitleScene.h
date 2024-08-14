@@ -12,6 +12,7 @@
 #include"Sphere.h"
 #include"Model.h"
 #include"Camera.h"
+#include"Effect/Fade.h"
 
 #include"EfectManager.h"
 
@@ -41,6 +42,7 @@ private:
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;
 
+	std::unique_ptr<Fade> fade_ = nullptr;
 	
 	
 };
