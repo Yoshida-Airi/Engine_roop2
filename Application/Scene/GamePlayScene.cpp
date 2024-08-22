@@ -21,6 +21,7 @@ GamePlayScene::~GamePlayScene()
 		delete deathEffects;
 	}
 
+
 }
 
 void GamePlayScene::Initialize()
@@ -102,6 +103,14 @@ void GamePlayScene::Initialize()
 	hp4->GetWorldTransform()->translation_ = { 80.0f,20.0f,0.0f };
 	hp5->GetWorldTransform()->translation_ = { 100.0f,20.0f,0.0f };
 
+	fade_ = std::make_unique <Fade>();
+	fade_->Initialize();
+	fade_->Start(Fade::Status::FadeIn, 1.5f);
+
+
+
+	phase_ = Phase::kPlay;
+
 	//triangle.reset(Triangle::Create(uvTexture));
 	//triangle2.reset(Triangle::Create(monsterBall));
 	//
@@ -157,123 +166,22 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
-	input->TriggerKey(DIK_0);
-
-#ifdef _DEBUG
-
-	camera->CameraDebug();
-
-#endif // _DEBUG
-
-	cameraController->Update();
-
-	colliderManager_->UpdateWorldTransform();
-
-	if (player->GetHitGoal() == true)
+	switch (phase_)
 	{
-		sceneManager_->ChangeScene("CLEAR");
+	case GamePlayScene::Phase::kPlay:
+		//ゲームプレイフェーズの処理
+		GamePlayPhase();
+		break;
+	case GamePlayScene::Phase::kClear:
+		//自キャラ死亡時の処理
+		GameClearPhase();
+		break;
+	case GamePlayScene::Phase::kDeath:
+		//自キャラ死亡時の処理
+		GameOverPhase();
+		break;
 	}
 
-	if (player->GetHP() == 0)
-	{
-		sceneManager_->ChangeScene("GAMEOVER");
-	}
-
-	config->Update();
-	hp1->Update();
-	hp2->Update();
-	hp3->Update();
-	hp4->Update();
-	hp5->Update();
-
-	//triangle->Update();
-	//triangle->GetWorldTransform()->rotation_.y += 0.03f;
-
-	//triangle2->Update();
-	//triangle2->GetWorldTransform()->scale_.y = 0.5f;
-	//triangle2->GetWorldTransform()->rotation_.y += 0.02f;
-
-	//sprite->GetWorldTransform()->translation_ = { 700.0f };
-
-	//sprite->Update();
-	//sprite2->Update();
-
-	//sprite->Debug("Doll");
-	//sprite2->Debug("uv");
-
-	//sphere->Update();
-	//sphere->GetWorldTransform()->rotation_.y += 0.01f;
-
-	//model->ModelDebug("plane");
-	//model2->ModelDebug("plane2");
-
-	//model->Update();
-	//model2->Update();
-	//model->GetWorldTransform()->translation_.x = 3.0f;
-
-	//particle->Debug("circleParticle");
-	//particle2->Debug("uvTextureParticle");
-
-	//particle->Update();
-	//particle2->Update();
-
-	for (Enemy* enemy : enemys) {
-		enemy->Update();
-		if (enemy->GetIsAlive() == false) {
-			CreateDeathEffect({ enemy->GetWorldPosition() });
-		}
-	}
-
-	deathEffect_.remove_if([](DeathEffect* hitEffects) {
-		if (hitEffects->IsDead())
-		{
-			//実行時間をすぎたらメモリ削除
-			delete hitEffects;
-			return true;
-		}
-		return false;
-		});
-
-	enemys.remove_if([](Enemy* enemys) {
-		if (enemys->GetIsAlive()==false) {
-			delete enemys;
-			return true;
-		}
-		return false;
-		});
-
-
-	for (DeathEffect* deathEffects : deathEffect_) {
-		deathEffects->Update();
-	}
-
-	levelEditor->Update();
-
-	int i = 0;
-	for (Ground* ground : grounds)
-	{
-		i++;
-		ground->Update();
-		ground->Debug("ground" + i);
-	}
-
-
-	player->Update();
-	//武器の更新
-	weapon->Update();
-
-	for (Enemy* enemy : enemys) 
-	{
-		enemy->Update();
-	}
-
-	skydome->Update();
-	goal->Update();
-
-	CheckAllCollisions();
-
-	//camera->transform.translate.x = LerpShortTranslate(camera->transform.translate.x, player->GetWorldTransform()->translation_.x, 0.04f);
-	//camera->transform.translate.y = LerpShortTranslate(camera->transform.translate.y, player->GetWorldTransform()->translation_.y, 0.04f);
 }
 
 void GamePlayScene::Draw()
@@ -358,6 +266,8 @@ void GamePlayScene::Draw()
 
 		hp1->Draw(camera);
 	}
+
+	fade_->Draw(camera);
 }
 
 void GamePlayScene::CheckAllCollisions()
@@ -426,4 +336,298 @@ void GamePlayScene::CreateDeathEffect(Vector3 position)
 	newDeathEffect->SetPosition(position);
 
 	deathEffect_.push_back(newDeathEffect);
+}
+
+void GamePlayScene::ChangePhase(Phase phase)
+{
+	phase_ = phase;
+}
+
+void GamePlayScene::GamePlayPhase()
+{
+	input->TriggerKey(DIK_0);
+
+#ifdef _DEBUG
+
+	camera->CameraDebug();
+
+#endif // _DEBUG
+
+	cameraController->Update();
+
+	colliderManager_->UpdateWorldTransform();
+
+
+	if (player->GetHitGoal() == true)
+	{
+		ChangePhase(Phase::kClear);
+		fade_->Start(Fade::Status::FadeOut, 1.5f);
+	}
+
+	if (player->GetHP() == 0)
+	{
+		ChangePhase(Phase::kDeath);
+		fade_->Start(Fade::Status::FadeOut, 1.5f);
+	}
+
+	fade_->Update();
+
+	if (fade_->IsFinished())
+	{
+		fade_->Stop();
+	}
+
+	config->Update();
+	hp1->Update();
+	hp2->Update();
+	hp3->Update();
+	hp4->Update();
+	hp5->Update();
+
+
+	for (Enemy* enemy : enemys) {
+		enemy->Update();
+		if (enemy->GetIsAlive() == false) {
+			CreateDeathEffect({ enemy->GetWorldPosition() });
+		}
+	}
+
+	deathEffect_.remove_if([](DeathEffect* hitEffects) {
+		if (hitEffects->IsDead())
+		{
+			//実行時間をすぎたらメモリ削除
+			delete hitEffects;
+			return true;
+		}
+		return false;
+		});
+
+	enemys.remove_if([](Enemy* enemys) {
+		if (enemys->GetIsAlive() == false) {
+			delete enemys;
+			return true;
+		}
+		return false;
+		});
+
+
+	for (DeathEffect* deathEffects : deathEffect_) {
+		deathEffects->Update();
+	}
+
+	levelEditor->Update();
+
+	int i = 0;
+	for (Ground* ground : grounds)
+	{
+		i++;
+		ground->Update();
+		ground->Debug("ground" + i);
+	}
+
+
+	player->Update();
+	//武器の更新
+	weapon->Update();
+
+	for (Enemy* enemy : enemys)
+	{
+		enemy->Update();
+	}
+
+	skydome->Update();
+	goal->Update();
+
+	CheckAllCollisions();
+
+
+	//camera->transform.translate.x = LerpShortTranslate(camera->transform.translate.x, player->GetWorldTransform()->translation_.x, 0.04f);
+	//camera->transform.translate.y = LerpShortTranslate(camera->transform.translate.y, player->GetWorldTransform()->translation_.y, 0.04f);
+
+}
+
+void GamePlayScene::GameClearPhase()
+{
+	input->TriggerKey(DIK_0);
+
+#ifdef _DEBUG
+
+	camera->CameraDebug();
+
+#endif // _DEBUG
+
+	cameraController->Update();
+
+	//colliderManager_->UpdateWorldTransform();
+
+
+	fade_->Update();
+
+
+
+	if (fade_->IsFinished())
+	{
+		sceneManager_->ChangeScene("CLEAR");
+
+	}
+
+	config->Update();
+	hp1->Update();
+	hp2->Update();
+	hp3->Update();
+	hp4->Update();
+	hp5->Update();
+
+	for (Enemy* enemy : enemys) {
+		enemy->Update();
+		if (enemy->GetIsAlive() == false) {
+			CreateDeathEffect({ enemy->GetWorldPosition() });
+		}
+	}
+
+	//deathEffect_.remove_if([](DeathEffect* hitEffects) {
+	//	if (hitEffects->IsDead())
+	//	{
+	//		//実行時間をすぎたらメモリ削除
+	//		delete hitEffects;
+	//		return true;
+	//	}
+	//	return false;
+	//	});
+
+	enemys.remove_if([](Enemy* enemys) {
+		if (enemys->GetIsAlive() == false) {
+			delete enemys;
+			return true;
+		}
+		return false;
+		});
+
+
+	for (DeathEffect* deathEffects : deathEffect_) {
+		deathEffects->Update();
+	}
+
+	levelEditor->Update();
+
+	int i = 0;
+	for (Ground* ground : grounds)
+	{
+		i++;
+		ground->Update();
+		ground->Debug("ground" + i);
+	}
+
+
+	player->Update();
+	//武器の更新
+	weapon->Update();
+
+	for (Enemy* enemy : enemys)
+	{
+		enemy->Update();
+	}
+
+	skydome->Update();
+	goal->Update();
+
+	CheckAllCollisions();
+
+
+	//camera->transform.translate.x = LerpShortTranslate(camera->transform.translate.x, player->GetWorldTransform()->translation_.x, 0.04f);
+	//camera->transform.translate.y = LerpShortTranslate(camera->transform.translate.y, player->GetWorldTransform()->translation_.y, 0.04f);
+
+}
+
+void GamePlayScene::GameOverPhase()
+{
+	input->TriggerKey(DIK_0);
+
+#ifdef _DEBUG
+
+	camera->CameraDebug();
+
+#endif // _DEBUG
+
+	cameraController->Update();
+
+	//colliderManager_->UpdateWorldTransform();
+
+
+	fade_->Update();
+
+	
+
+	if (fade_->IsFinished())
+	{
+		sceneManager_->ChangeScene("GAMEOVER");
+
+	}
+
+	config->Update();
+	hp1->Update();
+	hp2->Update();
+	hp3->Update();
+	hp4->Update();
+	hp5->Update();
+
+	for (Enemy* enemy : enemys) {
+		enemy->Update();
+		if (enemy->GetIsAlive() == false) {
+			CreateDeathEffect({ enemy->GetWorldPosition() });
+		}
+	}
+
+	//deathEffect_.remove_if([](DeathEffect* hitEffects) {
+	//	if (hitEffects->IsDead())
+	//	{
+	//		//実行時間をすぎたらメモリ削除
+	//		delete hitEffects;
+	//		return true;
+	//	}
+	//	return false;
+	//	});
+
+	enemys.remove_if([](Enemy* enemys) {
+		if (enemys->GetIsAlive() == false) {
+			delete enemys;
+			return true;
+		}
+		return false;
+		});
+
+
+	for (DeathEffect* deathEffects : deathEffect_) {
+		deathEffects->Update();
+	}
+
+	levelEditor->Update();
+
+	int i = 0;
+	for (Ground* ground : grounds)
+	{
+		i++;
+		ground->Update();
+		ground->Debug("ground" + i);
+	}
+
+
+	player->Update();
+	//武器の更新
+	weapon->Update();
+
+	for (Enemy* enemy : enemys)
+	{
+		enemy->Update();
+	}
+
+	skydome->Update();
+	goal->Update();
+
+	CheckAllCollisions();
+
+
+	//camera->transform.translate.x = LerpShortTranslate(camera->transform.translate.x, player->GetWorldTransform()->translation_.x, 0.04f);
+	//camera->transform.translate.y = LerpShortTranslate(camera->transform.translate.y, player->GetWorldTransform()->translation_.y, 0.04f);
+
 }

@@ -106,15 +106,15 @@ void Player::Update()
 		}
 	}
 
-	//if (playerModel->GetWorldTransform()->translation_.x <= 0)
-	//{
-	//	playerModel->GetWorldTransform()->translation_.x = 0.0f;
-	//}
+	if (playerModel->GetWorldTransform()->translation_.x <= 0)
+	{
+		playerModel->GetWorldTransform()->translation_.x = 0.0f;
+	}
 
-	//if (playerModel->GetWorldTransform()->translation_.x >= 46.0f)
-	//{
-	//	playerModel->GetWorldTransform()->translation_.x = 46.0f;
-	//}
+	if (playerModel->GetWorldTransform()->translation_.x >= 46.0f)
+	{
+		playerModel->GetWorldTransform()->translation_.x = 46.0f;
+	}
 
 	if (playerModel->GetWorldTransform()->translation_.y <= 0)
 	{
@@ -340,8 +340,8 @@ void Player::CollisionMap(CollisionMapInfo& info)
 {
 	CollisionMapTop(info);
 	CollisionMapBottom(info);
-	CollisionMapLeft(info);
-	CollisionMapRight(info);
+	//CollisionMapLeft(info);
+	//CollisionMapRight(info);
 }
 
 void Player::CollisionMapTop(CollisionMapInfo& info)
@@ -523,7 +523,7 @@ void Player::CollisionMapRight(CollisionMapInfo& info)
 		{
 			Rect rect = GetRect(ground);
 			float move = (rect.right - playerModel->GetWorldTransform()->translation_.x) + (playerModel->GetWorldTransform()->scale_.x / 2.0f + kBlank);
-			info.move.x = std::max(0.0f, 0.1f);
+			info.move.x = std::max(0.0f, move);
 			info.isWall = true;
 			//return;
 		}

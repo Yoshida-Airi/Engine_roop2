@@ -80,6 +80,7 @@ bool Fade::IsFinished() const
 	switch (status_)
 	{
 	case Fade::Status::FadeIn:
+		return false;
 	case Fade::Status::FadeOut:
 		if (counter_ >= duration_)
 		{
@@ -91,5 +92,5 @@ bool Fade::IsFinished() const
 		}
 	}
 
-	return true;
+	return false;
 }

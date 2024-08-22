@@ -25,6 +25,7 @@
 #include"Object/Ground/Ground.h"
 #include"Object/Goal/Goal.h"
 #include"Effect/DeathEffect.h"
+#include"Effect/Fade.h"
 
 #include"LevelEditor.h"
 
@@ -46,6 +47,17 @@ public:
 	void SpawnBlock(const Vector3& position, const Vector3& scale);
 
 	void CreateDeathEffect(Vector3 position);
+
+	enum class Phase
+	{
+		kPlay,
+		kClear,
+		kDeath,
+	};
+
+
+	void ChangePhase(Phase phase);
+
 
 private:
 	TextureManager* texture;
@@ -81,6 +93,8 @@ private:
 	std::unique_ptr<ParticleSystem> particle = nullptr;
 	std::unique_ptr<ParticleSystem> particle2 = nullptr;
 
+	std::unique_ptr<Fade> fade_ = nullptr;
+
 	LevelEditor* levelEditor = nullptr;
 
 	std::unique_ptr <Player> player;
@@ -91,6 +105,7 @@ private:
 	std::unique_ptr<Weapon>weapon;
 	std::list<Ground*>grounds;
 	std::list<DeathEffect*>deathEffect_;	//敵消滅エフェクト
+	//　std::unique_ptr<DeathEffect> playerDeathEffect = nullptr;
 
 	std::unique_ptr<Sprite> config = nullptr;
 	std::unique_ptr<Sprite> hp1 = nullptr;
@@ -98,5 +113,13 @@ private:
 	std::unique_ptr<Sprite> hp3 = nullptr;
 	std::unique_ptr<Sprite> hp4 = nullptr;
 	std::unique_ptr<Sprite> hp5 = nullptr;
+
+	Phase phase_;
+
+private:
+
+	void GamePlayPhase();
+	void GameClearPhase();
+	void GameOverPhase();
 };
 
