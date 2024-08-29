@@ -190,7 +190,7 @@ void GamePlayScene::Draw()
 	//triangle->Draw(camera);
 	//triangle2->Draw(camera);
 
-	//
+	//	
 
 	//sphere->Draw(camera);
 

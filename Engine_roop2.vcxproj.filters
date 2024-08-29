@@ -154,9 +154,18 @@
     <ClCompile Include="Application\Scene\GameOverScene.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Goal\Goal.cpp" />
-    <ClCompile Include="Application\Effect\DeathEffect.cpp" />
-    <ClCompile Include="Application\Effect\Fade.cpp" />
+    <ClCompile Include="Engine\2D\Line.cpp">
+      <Filter>Engine\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Effect\DeathEffect.cpp">
+      <Filter>Application\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Effect\Fade.cpp">
+      <Filter>Application\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Goal\Goal.cpp">
+      <Filter>Application\Objects\Goal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -309,9 +318,18 @@
     <ClInclude Include="Application\Scene\GameOverScene.h">
       <Filter>Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\Goal\Goal.h" />
-    <ClInclude Include="Application\Effect\DeathEffect.h" />
-    <ClInclude Include="Application\Effect\Fade.h" />
+    <ClInclude Include="Engine\2D\Line.h">
+      <Filter>Engine\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Effect\DeathEffect.h">
+      <Filter>Application\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Effect\Fade.h">
+      <Filter>Application\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Goal\Goal.h">
+      <Filter>Application\Objects\Goal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -382,6 +400,12 @@
     </Filter>
     <Filter Include="Application\Objects\Ground">
       <UniqueIdentifier>{acce9506-56a9-43cd-81bd-e881f8f1fa1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Effect">
+      <UniqueIdentifier>{72edca59-eab7-4d23-a363-bc5d941715ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Objects\Goal">
+      <UniqueIdentifier>{064a658e-0669-4b7c-b827-95a324a8635b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

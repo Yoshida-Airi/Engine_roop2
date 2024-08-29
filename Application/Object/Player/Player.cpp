@@ -340,7 +340,7 @@ void Player::CollisionMap(CollisionMapInfo& info)
 {
 	CollisionMapTop(info);
 	CollisionMapBottom(info);
-	//CollisionMapLeft(info);
+	CollisionMapLeft(info);
 	//CollisionMapRight(info);
 }
 
