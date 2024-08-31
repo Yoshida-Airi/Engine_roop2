@@ -44,16 +44,16 @@ AABB Ground::GetAABB()
 
 	aabb.min = 
 	{ 
-		worldPos.x - groundModel->GetWorldTransform()->scale_.x/2.0f   ,
-		worldPos.y - groundModel->GetWorldTransform()->scale_.y/2.0f  ,
-		worldPos.z - groundModel->GetWorldTransform()->scale_.z /2.0f 
+		worldPos.x - groundModel->GetWorldTransform()->scale_.x   ,
+		worldPos.y - groundModel->GetWorldTransform()->scale_.y  ,
+		worldPos.z - groundModel->GetWorldTransform()->scale_.z  
 	};
 
 	aabb.max = 
 	{ 
-		worldPos.x + groundModel->GetWorldTransform()->scale_.x /2.0f ,
-		worldPos.y + groundModel->GetWorldTransform()->scale_.y /2.0f ,
-		worldPos.z + groundModel->GetWorldTransform()->scale_.z /2.0f
+		worldPos.x + groundModel->GetWorldTransform()->scale_.x  ,
+		worldPos.y + groundModel->GetWorldTransform()->scale_.y  ,
+		worldPos.z + groundModel->GetWorldTransform()->scale_.z 
 	};
 
 	return aabb;

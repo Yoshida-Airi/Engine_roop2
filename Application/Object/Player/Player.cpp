@@ -341,7 +341,7 @@ void Player::CollisionMap(CollisionMapInfo& info)
 	CollisionMapTop(info);
 	CollisionMapBottom(info);
 	CollisionMapLeft(info);
-	//CollisionMapRight(info);
+	CollisionMapRight(info);
 }
 
 void Player::CollisionMapTop(CollisionMapInfo& info)
@@ -523,7 +523,7 @@ void Player::CollisionMapRight(CollisionMapInfo& info)
 		{
 			Rect rect = GetRect(ground);
 			float move = (rect.right - playerModel->GetWorldTransform()->translation_.x) + (playerModel->GetWorldTransform()->scale_.x / 2.0f + kBlank);
-			info.move.x = std::max(0.0f, move);
+			info.move.x = std::min(0.0f, move);
 			info.isWall = true;
 			//return;
 		}
