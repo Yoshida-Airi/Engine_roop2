@@ -111,10 +111,10 @@ void Player::Update()
 		playerModel->GetWorldTransform()->translation_.x = 0.0f;
 	}
 
-	if (playerModel->GetWorldTransform()->translation_.x >= 46.0f)
-	{
-		playerModel->GetWorldTransform()->translation_.x = 46.0f;
-	}
+	//if (playerModel->GetWorldTransform()->translation_.x >= 46.0f)
+	//{
+	//	playerModel->GetWorldTransform()->translation_.x = 46.0f;
+	//}
 
 	if (playerModel->GetWorldTransform()->translation_.y <= 0)
 	{
@@ -442,6 +442,7 @@ void Player::CollisionMapBottom(CollisionMapInfo& info)
 void Player::CollisionMapLeft(CollisionMapInfo& info)
 {
 	bool hit = false;
+	info.isWall = false;
 
 	//右移動あり
 	if (velocity_.x >= 0)
@@ -460,13 +461,13 @@ void Player::CollisionMapLeft(CollisionMapInfo& info)
 	for (const auto& ground : ground_)
 	{
 		//左上点の判定
-		if (IsCollision(positionsNew[kLeftTop], ground->GetAABB()))
+		if (IsCollision(positionsNew[kRightTop], ground->GetAABB()))
 		{
 			hit = true;
 		}
 
 		//左下点の判定
-		if (IsCollision(positionsNew[kLeftBottom], ground->GetAABB()))
+		if (IsCollision(positionsNew[kRightBottom], ground->GetAABB()))
 		{
 			hit = true;
 		}
@@ -490,12 +491,14 @@ void Player::CollisionMapLeft(CollisionMapInfo& info)
 void Player::CollisionMapRight(CollisionMapInfo& info)
 {
 	bool hit = false;
+	info.isWall = false;
 
-	//右移動あり
+	//左移動あり
 	if (velocity_.x <= 0)
 	{
 		return;
 	}
+
 
 
 	//移動後の4つの角の座標
@@ -508,13 +511,13 @@ void Player::CollisionMapRight(CollisionMapInfo& info)
 	for (const auto& ground : ground_)
 	{
 		//右上点の判定
-		if (IsCollision(positionsNew[kRightTop], ground->GetAABB()))
+		if (IsCollision(positionsNew[kLeftTop], ground->GetAABB()))
 		{
 			hit = true;
 		}
 
 		//右下点の判定
-		if (IsCollision(positionsNew[kRightBottom], ground->GetAABB()))
+		if (IsCollision(positionsNew[kLeftBottom], ground->GetAABB()))
 		{
 			hit = true;
 		}
@@ -585,6 +588,7 @@ void Player::CollisionWall(const CollisionMapInfo& info)
 	if (info.isWall)
 	{
 		velocity_.x *= (1.0f - kAttenuationWall);
+		//velocity_.x = 0;
 	}
 }
 
