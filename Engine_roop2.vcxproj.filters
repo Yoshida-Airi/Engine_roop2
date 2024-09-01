@@ -166,6 +166,7 @@
     <ClCompile Include="Application\Object\Goal\Goal.cpp">
       <Filter>Application\Objects\Goal</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Enemy\FlyEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -330,6 +331,7 @@
     <ClInclude Include="Application\Object\Goal\Goal.h">
       <Filter>Application\Objects\Goal</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Object\Enemy\FlyEnemy.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

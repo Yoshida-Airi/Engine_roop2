@@ -137,6 +137,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Goal\Goal.cpp" />
     <ClCompile Include="Application\Effect\Fade.cpp" />
     <ClCompile Include="Engine\2D\Line.cpp" />
+    <ClCompile Include="Application\Object\Enemy\FlyEnemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Math\MathUtilty.cpp" />
     <ClCompile Include="Engine\3D\Model.cpp" />
@@ -212,6 +213,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\Goal\Goal.h" />
     <ClInclude Include="Application\Effect\Fade.h" />
     <ClInclude Include="Engine\2D\Line.h" />
+    <ClInclude Include="Application\Object\Enemy\FlyEnemy.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Particle.PS.hlsl">
