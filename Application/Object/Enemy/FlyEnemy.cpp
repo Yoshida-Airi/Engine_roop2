@@ -10,6 +10,7 @@ void FlyEnemy::Initialize()
 	GameObject::Initialize();
 	GameObject::SetModel(enemyModels);
 	enemyModel->SetMaterial({ 1.0f,0.0,0.0f,1.0f });
+
 }
 
 void FlyEnemy::Update()
@@ -36,6 +37,10 @@ void FlyEnemy::Update()
 	else if (traveledDistance <= 0.0f) {
 		movingRight = true;
 	}
+
+	// 垂直方向のふわふわとした動き（サイン波を使用）
+	time += Speed; // 時間を進める
+	enemyModel->GetWorldTransform()->translation_.y = initialY + Amplitude * sin(time);
 
 }
 

@@ -71,6 +71,8 @@ void GamePlayScene::Initialize()
 	SpawnEnemy({ 10.0f,1.0f,0.0f });
 	SpawnEnemy({ 30.0f,2.0f,0.0f });
 
+	SpawnFlyEnemy({ 20.0f,5.0f,0.0f });
+
 
 	skydome = std::make_unique<Skydome>();
 	skydome->Initialize();
@@ -218,6 +220,13 @@ void GamePlayScene::Draw()
 	{
 		enemy->Draw(camera);
 	}
+
+	for (FlyEnemy* flyEnemy : flyEnemys)
+	{
+		flyEnemy->Draw(camera);
+	}
+
+
 	for (DeathEffect* deathEffects : deathEffect_)
 	{
 		deathEffects->Draw();
@@ -293,6 +302,16 @@ void GamePlayScene::CheckAllCollisions()
 			colliderManager_->AddColliders(enemy);
 		}
 	}
+
+	for (FlyEnemy* flyEnemy : flyEnemys)
+	{
+		if (flyEnemy->GetIsAlive() == true)
+		{
+			//生きているときのみ
+			colliderManager_->AddColliders(flyEnemy);
+		}
+	}
+
 	colliderManager_->AddColliders(goal.get());
 
 	//colliderManager_->AddColliders(levelEditor);
@@ -312,6 +331,18 @@ void GamePlayScene::SpawnEnemy(const Vector3& position)
 
 	// リストに登録
 	enemys.push_back(enemy);
+}
+
+void GamePlayScene::SpawnFlyEnemy(const Vector3& position)
+{
+	// 敵を発生させる
+	FlyEnemy* enemy = new FlyEnemy();
+	// 敵の初期化
+	enemy->Initialize();
+	enemy->SetPosition(position);
+
+	// リストに登録
+	flyEnemys.push_back(enemy);
 }
 
 void GamePlayScene::SpawnBlock(const Vector3& position, const Vector3& scale)
@@ -392,6 +423,13 @@ void GamePlayScene::GamePlayPhase()
 		}
 	}
 
+	for (FlyEnemy* flyEnemy : flyEnemys) {
+		flyEnemy->Update();
+		if (flyEnemy->GetIsAlive() == false) {
+			CreateDeathEffect({ flyEnemy->GetWorldPosition() });
+		}
+	}
+
 	deathEffect_.remove_if([](DeathEffect* hitEffects) {
 		if (hitEffects->IsDead())
 		{
@@ -405,6 +443,14 @@ void GamePlayScene::GamePlayPhase()
 	enemys.remove_if([](Enemy* enemys) {
 		if (enemys->GetIsAlive() == false) {
 			delete enemys;
+			return true;
+		}
+		return false;
+		});
+
+	flyEnemys.remove_if([](FlyEnemy* flyEnemys) {
+		if (flyEnemys->GetIsAlive() == false) {
+			delete flyEnemys;
 			return true;
 		}
 		return false;
@@ -433,6 +479,11 @@ void GamePlayScene::GamePlayPhase()
 	for (Enemy* enemy : enemys)
 	{
 		enemy->Update();
+	}
+
+	for (FlyEnemy* flyEnemy : flyEnemys)
+	{
+		flyEnemy->Update();
 	}
 
 	skydome->Update();

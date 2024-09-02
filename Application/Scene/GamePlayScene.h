@@ -19,6 +19,7 @@
 
 #include"Object/Player/Player.h"
 #include"Object/Enemy/Enemy.h"
+#include"Object/Enemy/FlyEnemy.h"
 #include"Object/Skydome/Skydome.h"
 #include"Object/CameraController/CameraController.h"
 #include"Object/Player/Weapon.h"
@@ -44,6 +45,7 @@ public:
 	void CheckAllCollisions();
 
 	void SpawnEnemy(const Vector3& position);
+	void SpawnFlyEnemy(const Vector3& position);
 	void SpawnBlock(const Vector3& position, const Vector3& scale);
 
 	void CreateDeathEffect(Vector3 position);
@@ -99,6 +101,7 @@ private:
 
 	std::unique_ptr <Player> player;
 	std::list<Enemy*> enemys;
+	std::list<FlyEnemy*> flyEnemys;
 	std::unique_ptr <Skydome>skydome;
 	std::unique_ptr <Goal>goal;
 	CameraController* cameraController;
