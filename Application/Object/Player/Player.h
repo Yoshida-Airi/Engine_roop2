@@ -135,6 +135,9 @@ private:
 	float invincibilityTimer;
 	static constexpr float invincibilityDuration = 2.0f; // 無敵時間の長さ（秒）
 
+	float alpha = 1.0f;       // 初期のアルファ値（不透明）
+	float fadeSpeed = 0.01f;  // 透明になる速度
+
 private:
 
 	/// <summary>

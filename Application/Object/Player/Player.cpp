@@ -121,6 +121,16 @@ void Player::Update()
 		playerModel->GetWorldTransform()->translation_.y = 0.0f;
 	}
 
+	if (HP == 0)
+	{
+		// アルファ値を段々と減少させる
+		alpha -= fadeSpeed;
+		if (alpha < 0.0f) {
+			alpha = 0.0f;  // アルファ値が負にならないように制限
+		}
+
+		playerModel->SetMaterial({ 1.0f,1.0f,1.0f,alpha });
+	}
 }
 
 void Player::Draw(Camera* camera)

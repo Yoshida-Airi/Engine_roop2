@@ -12,6 +12,11 @@ GamePlayScene::~GamePlayScene()
 		delete enemy;
 	}
 
+	for (FlyEnemy* flyEnemy : flyEnemys)
+	{
+		delete flyEnemy;
+	}
+
 	for (Ground* ground : grounds)
 	{
 		delete ground;
@@ -398,6 +403,7 @@ void GamePlayScene::GamePlayPhase()
 	if (player->GetHP() == 0)
 	{
 		ChangePhase(Phase::kDeath);
+		CreateDeathEffect({ player->GetWorldPosition() });
 		fade_->Start(Fade::Status::FadeOut, 1.5f);
 	}
 
