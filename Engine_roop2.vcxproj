@@ -113,6 +113,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\CameraController\CameraController.cpp" />
     <ClCompile Include="Application\Scene\ClearScene.cpp" />
     <ClCompile Include="Application\Effect\DeathEffect.cpp" />
+    <ClCompile Include="Application\Scene\BossScene.cpp" />
+    <ClCompile Include="Application\Object\Enemy\Boss.cpp" />
     <ClCompile Include="Engine\Collider\CollisionManager.cpp" />
     <ClCompile Include="Engine\Collider\Collider.cpp" />
     <ClCompile Include="Engine\Animation\Animation.cpp" />
@@ -164,6 +166,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Application\Object\CameraController\CameraController.h" />
     <ClInclude Include="Application\Scene\ClearScene.h" />
     <ClInclude Include="Application\Effect\DeathEffect.h" />
+    <ClInclude Include="Application\Scene\BossScene.h" />
+    <ClInclude Include="Application\Object\Enemy\Boss.h" />
     <ClInclude Include="Engine\Collider\CollisionManager.h" />
     <ClInclude Include="Engine\Collider\Collider.h" />
     <ClInclude Include="Engine\Animation\Animation.h" />

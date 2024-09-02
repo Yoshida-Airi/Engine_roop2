@@ -1,6 +1,8 @@
-#include "GamePlayScene.h"
+#include "BossScene.h"
+#include"SceneManager.h"
 
-GamePlayScene::~GamePlayScene()
+
+BossScene::~BossScene()
 {
 
 	delete camera;
@@ -29,7 +31,7 @@ GamePlayScene::~GamePlayScene()
 
 }
 
-void GamePlayScene::Initialize()
+void BossScene::Initialize()
 {
 	texture = TextureManager::GetInstance();
 	input = Input::GetInstance();
@@ -50,8 +52,8 @@ void GamePlayScene::Initialize()
 
 	camera = new Camera;
 	camera->Initialize();
+	camera->transform.translate.x = 9.0f;
 
-	
 	levelEditor = new LevelEditor();
 	levelEditor->LoaderJsonFile("Resources/Level/levelEditor.json");
 	levelEditor->Initialize();
@@ -60,24 +62,17 @@ void GamePlayScene::Initialize()
 	weapon->Initialize();
 
 
-	SpawnBlock({ 47.8f, -1.0f, 0 }, {50.31f, 1.0f, 1.0f});
-	SpawnBlock({ 6.7f, 4.5f, 0 }, { 1.0f, 1.0f, 1.0f });
-	SpawnBlock({ 8.7f, 6.5f, 0 }, { 1.0f, 1.0f, 1.0f });
+	SpawnBlock({ 47.8f, -1.0f, 0 }, { 50.31f, 1.0f, 1.0f });
 	SpawnBlock({ -2.15f, 7.8f, 0 }, { 1.0f, 9.8f, 1.0f });
-	SpawnBlock({ 50.11f, 7.8f, 0 }, { 1.0f, 9.8f, 1.0f });
+	SpawnBlock({ 20.11f, 7.8f, 0 }, { 1.0f, 9.8f, 1.0f });
 
 	player = std::make_unique<Player>();
 	player->SetWeapon(weapon.get());
 	player->SetGround(grounds);
 	player->Initialize();
-	
 
-	SpawnEnemy({ 20.0f,1.0f,0.0f });
-	SpawnEnemy({ 10.0f,1.0f,0.0f });
-	SpawnEnemy({ 30.0f,1.0f,0.0f });
-
-	SpawnFlyEnemy({ 20.0f,5.0f,0.0f });
-
+	boss = std::make_unique<Boss>();
+	boss->Initialize();
 
 	skydome = std::make_unique<Skydome>();
 	skydome->Initialize();
@@ -85,10 +80,10 @@ void GamePlayScene::Initialize()
 	goal = std::make_unique<Goal>();
 	goal->Initialize();
 
-	cameraController = new CameraController;
-	cameraController->Initialize(camera);
-	cameraController->SetTarget(player.get());
-	cameraController->Reset();
+	//cameraController = new CameraController;
+	//cameraController->Initialize(camera);
+	//cameraController->SetTarget(player.get());
+	//cameraController->Reset();
 
 	config.reset(Sprite::Create(configTexture));
 
@@ -118,72 +113,22 @@ void GamePlayScene::Initialize()
 
 	phase_ = Phase::kPlay;
 
-	//triangle.reset(Triangle::Create(uvTexture));
-	//triangle2.reset(Triangle::Create(monsterBall));
-	//
-	//triangle->SetisInvisible(true);
-	//triangle2->SetisInvisible(true);
-
-	////
-	//sprite.reset(Sprite::Create(Doll));
-	//sprite->SetSize({ 64.0f, 64.0f });
-	//sprite->SetTextureLeftTop({ 0,0 });
-	//
-	////sprite->SetisInvisible(true);
-
-
-	//sprite2.reset(Sprite::Create(uvTexture));
-	//sprite2->SetSize({ 64.0f, 64.0f });
-	//sprite2->SetTextureLeftTop({ 0,0 });
-	////sprite2->SetisInvisible(true);
-
-	//sphere.reset(Sphere::Create(monsterBall));
-	//sphere->GetWorldTransform()->translation_.y = -1.0f;
-	////sphere->SetisInvisible(true);
-
-	//model.reset(Model::Create("Resources/SampleAssets/plane.gltf"));
-	//model2.reset(Model::Create("Resources/SampleAssets/terrain.obj"));
-
-	//model->GetWorldTransform()->rotation_.y = 3.14f;
-	//model2->GetWorldTransform()->rotation_.y = 3.14f;
-
-	//model2->GetWorldTransform()->translation_ =
-	//{
-	//	0.0f,-1.5,0.0f
-	//};
-
-	////model->SetisInvisible(true);
-	////model2->SetisInvisible(true);
-
-	//Vector3 velocity = { 1.0f,1.0f,0.0f };
-	//particle.reset(ParticleSystem::Create(circle, camera, velocity, true,false));
-	//particle->emitter_->count = 100;
-	//particle->emitter_->transform.scale = { 0.5f,0.0f,0.0f };
-	//particle->SetLifeTime(1.0f, 3.0f);
-	////particle->SetisInvisible(true);
-
-	//Vector3 velocity2 = { 0.0f,5.0f,5.0f };
-	//particle2.reset(ParticleSystem::Create(uvTexture, camera, velocity2, true, true));
-	//particle2->emitter_->frequency = 0.1f;
-	//particle2->SetLifeTime(0.1f, 0.5f);
-	////particle2->SetisInvisible(true);
-
 
 }
 
-void GamePlayScene::Update()
+void BossScene::Update()
 {
 	switch (phase_)
 	{
-	case GamePlayScene::Phase::kPlay:
+	case BossScene::Phase::kPlay:
 		//ゲームプレイフェーズの処理
 		GamePlayPhase();
 		break;
-	case GamePlayScene::Phase::kClear:
+	case BossScene::Phase::kClear:
 		//自キャラ死亡時の処理
 		GameClearPhase();
 		break;
-	case GamePlayScene::Phase::kDeath:
+	case BossScene::Phase::kDeath:
 		//自キャラ死亡時の処理
 		GameOverPhase();
 		break;
@@ -191,37 +136,20 @@ void GamePlayScene::Update()
 
 }
 
-void GamePlayScene::Draw()
+void BossScene::Draw()
 {
 
-	//triangle->Draw(camera);
-	//triangle2->Draw(camera);
-
-	//	
-
-	//sphere->Draw(camera);
-
-	//levelEditor->Draw(camera);
 
 	for (Ground* ground : grounds)
 	{
 		ground->Draw(camera);
 	}
 
-	//model->Draw(camera);
-	//model2->Draw(camera);
-
-
-	//sprite->Draw(camera);
-	//sprite2->Draw(camera);
-
-	//particle->Draw();
-	//particle2->Draw();
 
 	skydome->Draw(camera);
 	player->Draw(camera);
 	weapon->Draw(camera);
-	for (Enemy* enemy : enemys) 
+	for (Enemy* enemy : enemys)
 	{
 		enemy->Draw(camera);
 	}
@@ -237,6 +165,7 @@ void GamePlayScene::Draw()
 		deathEffects->Draw();
 	}
 
+	boss->Draw(camera);
 
 	goal->Draw(camera);
 
@@ -284,7 +213,7 @@ void GamePlayScene::Draw()
 	fade_->Draw(camera);
 }
 
-void GamePlayScene::CheckAllCollisions()
+void BossScene::CheckAllCollisions()
 {
 
 
@@ -299,23 +228,7 @@ void GamePlayScene::CheckAllCollisions()
 		//攻撃中のみ
 		colliderManager_->AddColliders(weapon.get());
 	}
-	for (Enemy* enemy : enemys) 
-	{
-		if(enemy->GetIsAlive() == true)
-		{
-			//生きているときのみ
-			colliderManager_->AddColliders(enemy);
-		}
-	}
-
-	for (FlyEnemy* flyEnemy : flyEnemys)
-	{
-		if (flyEnemy->GetIsAlive() == true)
-		{
-			//生きているときのみ
-			colliderManager_->AddColliders(flyEnemy);
-		}
-	}
+	colliderManager_->AddColliders(boss.get());
 
 	colliderManager_->AddColliders(goal.get());
 
@@ -326,31 +239,8 @@ void GamePlayScene::CheckAllCollisions()
 
 }
 
-void GamePlayScene::SpawnEnemy(const Vector3& position)
-{
-	// 敵を発生させる
-	Enemy* enemy = new Enemy();
-	// 敵の初期化
-	enemy->Initialize();
-	enemy->SetPosition(position);
 
-	// リストに登録
-	enemys.push_back(enemy);
-}
-
-void GamePlayScene::SpawnFlyEnemy(const Vector3& position)
-{
-	// 敵を発生させる
-	FlyEnemy* enemy = new FlyEnemy();
-	// 敵の初期化
-	enemy->Initialize();
-	enemy->SetPosition(position);
-
-	// リストに登録
-	flyEnemys.push_back(enemy);
-}
-
-void GamePlayScene::SpawnBlock(const Vector3& position, const Vector3& scale)
+void BossScene::SpawnBlock(const Vector3& position, const Vector3& scale)
 {
 	// 敵を発生させる
 	Ground* ground = new Ground();
@@ -363,7 +253,7 @@ void GamePlayScene::SpawnBlock(const Vector3& position, const Vector3& scale)
 	grounds.push_back(ground);
 }
 
-void GamePlayScene::CreateDeathEffect(Vector3 position)
+void BossScene::CreateDeathEffect(Vector3 position)
 {
 	DeathEffect* newDeathEffect = new DeathEffect();
 	newDeathEffect->Initialize(camera);
@@ -374,14 +264,19 @@ void GamePlayScene::CreateDeathEffect(Vector3 position)
 	deathEffect_.push_back(newDeathEffect);
 }
 
-void GamePlayScene::ChangePhase(Phase phase)
+void BossScene::ChangePhase(Phase phase)
 {
 	phase_ = phase;
 }
 
-void GamePlayScene::GamePlayPhase()
+void BossScene::GamePlayPhase()
 {
 	input->TriggerKey(DIK_0);
+
+	if (player->GetWorldTransform()->translation_.x >= 18.0f)
+	{
+		player->GetWorldTransform()->translation_.x= 18.0f;
+	}
 
 #ifdef _DEBUG
 
@@ -389,12 +284,12 @@ void GamePlayScene::GamePlayPhase()
 
 #endif // _DEBUG
 
-	cameraController->Update();
+	//cameraController->Update();
 
 	colliderManager_->UpdateWorldTransform();
 
 
-	if (player->GetHitGoal() == true)
+	if (boss->GetIsAlive() == false)
 	{
 		ChangePhase(Phase::kClear);
 		fade_->Start(Fade::Status::FadeOut, 1.5f);
@@ -421,20 +316,13 @@ void GamePlayScene::GamePlayPhase()
 	hp4->Update();
 	hp5->Update();
 
+	boss->Update();
 
-	for (Enemy* enemy : enemys) {
-		enemy->Update();
-		if (enemy->GetIsAlive() == false) {
-			CreateDeathEffect({ enemy->GetWorldPosition() });
-		}
+	if (boss->GetIsAlive() == false)
+	{
+		CreateDeathEffect({ boss->GetWorldPosition() });
 	}
 
-	for (FlyEnemy* flyEnemy : flyEnemys) {
-		flyEnemy->Update();
-		if (flyEnemy->GetIsAlive() == false) {
-			CreateDeathEffect({ flyEnemy->GetWorldPosition() });
-		}
-	}
 
 	deathEffect_.remove_if([](DeathEffect* hitEffects) {
 		if (hitEffects->IsDead())
@@ -503,7 +391,7 @@ void GamePlayScene::GamePlayPhase()
 
 }
 
-void GamePlayScene::GameClearPhase()
+void BossScene::GameClearPhase()
 {
 	input->TriggerKey(DIK_0);
 
@@ -513,7 +401,7 @@ void GamePlayScene::GameClearPhase()
 
 #endif // _DEBUG
 
-	cameraController->Update();
+	//cameraController->Update();
 
 	//colliderManager_->UpdateWorldTransform();
 
@@ -524,7 +412,7 @@ void GamePlayScene::GameClearPhase()
 
 	if (fade_->IsFinished())
 	{
-		sceneManager_->ChangeScene("Boss");
+		sceneManager_->ChangeScene("CLEAR");
 
 	}
 
@@ -596,7 +484,7 @@ void GamePlayScene::GameClearPhase()
 
 }
 
-void GamePlayScene::GameOverPhase()
+void BossScene::GameOverPhase()
 {
 	input->TriggerKey(DIK_0);
 
@@ -606,14 +494,14 @@ void GamePlayScene::GameOverPhase()
 
 #endif // _DEBUG
 
-	cameraController->Update();
+	//cameraController->Update();
 
 	//colliderManager_->UpdateWorldTransform();
 
 
 	fade_->Update();
 
-	
+
 
 	if (fade_->IsFinished())
 	{

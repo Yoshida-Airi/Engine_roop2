@@ -111,6 +111,8 @@ void Player::Update()
 		playerModel->GetWorldTransform()->translation_.x = 0.0f;
 	}
 
+	
+
 	//if (playerModel->GetWorldTransform()->translation_.x >= 46.0f)
 	//{
 	//	playerModel->GetWorldTransform()->translation_.x = 46.0f;

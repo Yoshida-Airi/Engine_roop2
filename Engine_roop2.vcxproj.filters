@@ -166,7 +166,15 @@
     <ClCompile Include="Application\Object\Goal\Goal.cpp">
       <Filter>Application\Objects\Goal</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Object\Enemy\FlyEnemy.cpp" />
+    <ClCompile Include="Application\Scene\BossScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Enemy\FlyEnemy.cpp">
+      <Filter>Application\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Enemy\Boss.cpp">
+      <Filter>Application\Objects\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -331,7 +339,15 @@
     <ClInclude Include="Application\Object\Goal\Goal.h">
       <Filter>Application\Objects\Goal</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Object\Enemy\FlyEnemy.h" />
+    <ClInclude Include="Application\Scene\BossScene.h">
+      <Filter>Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Enemy\FlyEnemy.h">
+      <Filter>Application\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Enemy\Boss.h">
+      <Filter>Application\Objects\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
