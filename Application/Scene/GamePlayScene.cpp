@@ -74,9 +74,9 @@ void GamePlayScene::Initialize()
 
 	SpawnEnemy({ 20.0f,1.0f,0.0f });
 	SpawnEnemy({ 10.0f,1.0f,0.0f });
-	SpawnEnemy({ 30.0f,1.0f,0.0f });
+	//SpawnEnemy({ 30.0f,1.0f,0.0f });
 
-	SpawnFlyEnemy({ 20.0f,5.0f,0.0f });
+	SpawnFlyEnemy({ 35.0f,5.0f,0.0f });
 
 
 	skydome = std::make_unique<Skydome>();

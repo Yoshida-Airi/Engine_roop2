@@ -278,6 +278,8 @@ void BossScene::GamePlayPhase()
 		player->GetWorldTransform()->translation_.x= 18.0f;
 	}
 
+	camera->UpdateMatrix();
+
 #ifdef _DEBUG
 
 	camera->CameraDebug();
