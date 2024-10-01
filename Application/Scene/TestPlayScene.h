@@ -9,6 +9,8 @@
 
 #include"LevelEditor.h"
 
+#include"Light.h"
+
 class TestPlayScene:public BaseScene
 {
 public:
@@ -32,6 +34,7 @@ private:
 
 	LevelEditor* levelEditor;
 
+	PointLight* pointLight;
 
 };
 

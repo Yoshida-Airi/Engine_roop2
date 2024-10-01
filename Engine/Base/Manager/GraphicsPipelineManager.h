@@ -41,6 +41,7 @@ public:
 		PSOData skinningObject3D;
 		PSOData sprite;
 		PSOData particle;
+		PSOData pointLight;
 	};
 
 
@@ -87,6 +88,7 @@ private:
 	PSOData CreateSkinningObject3D(const std::wstring& filePath);
 	PSOData CreateSprite(const std::wstring& filePath);
 	PSOData CreateParticle(const std::wstring& filePath);
+	PSOData CreatepointLight(const std::wstring& filePath);
 
 	/// <summary>
 	/// 全体のPSO生成関数

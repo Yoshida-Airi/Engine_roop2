@@ -7,6 +7,7 @@
 Model::~Model()
 {
 	delete worldTransform_;
+	delete light_;
 }
 
 void Model::Initialize(const std::string& filename)
@@ -49,9 +50,9 @@ void Model::Initialize(const std::string& filename)
 	//ライトのデフォルト値
 	lightData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	lightData_->direction = { -1.0f,-1.0f,1.0f };
-	lightData_->intensity = 1.0f;
+	lightData_->intensity = 0.0f;
 
-
+	
 }
 
 void Model::Update()
@@ -122,8 +123,10 @@ void Model::Draw(Camera* camera)
 		return;
 	}
 
-	if (animation.isValid == true)
+
+	if (animation.isValid == true)	
 	{
+		//アニメーションモデルの場合
 		D3D12_VERTEX_BUFFER_VIEW vbvs[2] =
 		{
 			vertexBufferView_,
@@ -140,8 +143,17 @@ void Model::Draw(Camera* camera)
 
 	if (animation.isValid == false)
 	{
+
+
+		//アニメーションモデルでない場合
 		dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().object3D.rootSignature.Get());
 		dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().object3D.graphicPipelineState.Get());
+
+		if (light_)
+		{
+			dxCommon_->GetCommandList()->SetGraphicsRootSignature(psoManager_->GetPsoMember().pointLight.rootSignature.Get());
+			dxCommon_->GetCommandList()->SetPipelineState(psoManager_->GetPsoMember().pointLight.graphicPipelineState.Get());
+		}
 
 		//VBVを設定
 		dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
@@ -161,9 +173,15 @@ void Model::Draw(Camera* camera)
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(2, camera->constBuffer_->GetGPUVirtualAddress());
 	//SRVのDescriptorTableの先頭を設定。3はrootParamater[3]である。
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(3, texture_->GetSrvGPUHandle(textureHandle_));
+
 	//ライト用のCBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(4, lightResource_->GetGPUVirtualAddress());
 	
+	if (light_)
+	{
+		light_->Draw(camera);
+	}
+
 	if (animation.isValid == true)
 	{
 		//weight用のCBufferの場所を設定

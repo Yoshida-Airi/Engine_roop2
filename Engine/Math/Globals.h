@@ -1,5 +1,5 @@
 #pragma once
-#pragma once
+#include<stdint.h>
 #include"VectorMath.h"
 #include"MatrixMath.h"
 
@@ -27,6 +27,14 @@ struct DirectionalLight
 	Vector3 direction;
 	float intensity;
 };
+
+struct PointLight
+{
+	Vector4 color;
+	Vector3 position;
+	float intensity;
+};
+
 
 
 //スプライト用

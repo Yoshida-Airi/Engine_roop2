@@ -10,6 +10,7 @@
 #include"Animation.h"
 #include"SrvManager.h"
 #include<span>
+#include"Light.h"
 
 const uint32_t kNumMaxInfluence = 4;
 
@@ -57,6 +58,13 @@ public:
 	void UseAnimation(bool isUse)
 	{
 		animation.isValid = isUse;
+	}
+
+	void SetLight(PointLight* light)
+	{
+		light_ = new Light();
+		light_->Initialize();
+		light_->SetPointLight(light);
 	}
 
 	/// <summary>
@@ -130,6 +138,7 @@ private:
 
 	bool isActiveAnimation = true;
 
+	Light* light_;
 	
 private:
 
