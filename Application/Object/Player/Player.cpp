@@ -32,7 +32,7 @@ void Player::Initialize()
 	grobalVariables->AddItem(groupName, "Attenuation", kAttenuation);
 	grobalVariables->AddItem(groupName, "LimitRunSpeed", kLimitRunSpeed);
 	grobalVariables->AddItem(groupName, "GravityAcceleration", kGravityAcceleration);
-	grobalVariables->AddItem(groupName, "LimitFallSpead", kLimitFallSpead);
+	grobalVariables->AddItem(groupName, "LimitFallSpead", kLimitFallSpeed);
 	grobalVariables->AddItem(groupName, "JumpAcceleration", kJumpAcceleration);
 	grobalVariables->AddItem(groupName, "playerWidth", kWidth);
 	grobalVariables->AddItem(groupName, "playerHeight", kHeight);
@@ -289,7 +289,7 @@ void Player::Jump()
 		//落下速度
 		velocity_ = Add(velocity_, Vector3(0, -kGravityAcceleration, 0));
 		//落下速度制限
-		velocity_.y = std::max(velocity_.y, -kLimitFallSpead);
+		velocity_.y = std::max(velocity_.y, -kLimitFallSpeed);
 
 		//landing = false;
 
@@ -312,7 +312,7 @@ void Player::ApplyGlobalVariables()
 	kAttenuation = grobalVariables->GetFloatValue(groupName, "Attenuation");
 	kLimitRunSpeed = grobalVariables->GetFloatValue(groupName, "LimitRunSpeed");
 	kGravityAcceleration = grobalVariables->GetFloatValue(groupName, "GravityAcceleration");
-	kLimitFallSpead = grobalVariables->GetFloatValue(groupName, "LimitFallSpead");
+	kLimitFallSpeed = grobalVariables->GetFloatValue(groupName, "LimitFallSpead");
 	kJumpAcceleration = grobalVariables->GetFloatValue(groupName, "JumpAcceleration");
 	kWidth = grobalVariables->GetFloatValue(groupName, "playerWidth");
 	kHeight = grobalVariables->GetFloatValue(groupName, "playerHeight");

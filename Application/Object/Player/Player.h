@@ -109,7 +109,7 @@ private:
 
 	bool onGround_ = true;	//接地状態フラグ
 	float kGravityAcceleration = 0.05f;	//重力加速度（下方向
-	float kLimitFallSpead = 0.5f;		//最大落下速度（下方向
+	float kLimitFallSpeed = 0.5f;		//最大落下速度（下方向
 	float kJumpAcceleration = 0.5f;	//ジャンプ初速（上方向
 	float kAttenuationLanding = 0.1f;
 	float kAttenuationWall = 0.1f;	//着地時の速度減衰率
