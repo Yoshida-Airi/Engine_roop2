@@ -26,6 +26,15 @@ GamePlayScene::~GamePlayScene()
 		delete deathEffects;
 	}
 
+	delete mapChipField_;
+
+	// delete block;
+	for (std::vector<Model*>& worldTransforBlockLine : Block_) {
+		for (Model* worldTransformBlock : worldTransforBlockLine) {
+			delete worldTransformBlock;
+		}
+		Block_.clear();
+	}
 
 }
 
@@ -117,6 +126,9 @@ void GamePlayScene::Initialize()
 
 
 	phase_ = Phase::kPlay;
+
+	mapChipField_ = new MapChipField;
+	mapChipField_->LoadMapChipCsv("Resources/CSV/field.csv");
 
 	//triangle.reset(Triangle::Create(uvTexture));
 	//triangle2.reset(Triangle::Create(monsterBall));
@@ -282,6 +294,20 @@ void GamePlayScene::Draw()
 	}
 
 	fade_->Draw(camera);
+
+	// ブロックの描画処理
+	uint32_t numBlockVertical = mapChipField_->GetNumBlockVertical();
+	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
+
+	//for (uint32_t i = 0; i < numBlockVertical; i++) {
+	//	for (uint32_t j = 0; j < numBlockHorizontal; j++) {
+	//		if (Block_[i][j] != nullptr) {
+	//			// 各ブロックの描画
+	//			Block_[i][j]->Draw(camera);
+	//		}
+	//	}
+	//}
+
 }
 
 void GamePlayScene::CheckAllCollisions()
@@ -501,6 +527,20 @@ void GamePlayScene::GamePlayPhase()
 	//camera->transform.translate.x = LerpShortTranslate(camera->transform.translate.x, player->GetWorldTransform()->translation_.x, 0.04f);
 	//camera->transform.translate.y = LerpShortTranslate(camera->transform.translate.y, player->GetWorldTransform()->translation_.y, 0.04f);
 
+	// ブロックの更新処理
+	uint32_t numBlockVertical = mapChipField_->GetNumBlockVertical();
+	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
+
+	//for (uint32_t i = 0; i < numBlockVertical; i++) {
+	//	for (uint32_t j = 0; j < numBlockHorizontal; j++) {
+	//		if (Block_[i][j] != nullptr) {
+	//			// 必要に応じてブロックの更新処理
+	//			// 例: 物理システムに基づく位置の更新、アニメーションの適用など
+	//			Block_[i][j]->Update();
+	//		}
+	//	}
+	//}
+
 }
 
 void GamePlayScene::GameClearPhase()
@@ -687,4 +727,31 @@ void GamePlayScene::GameOverPhase()
 	//camera->transform.translate.x = LerpShortTranslate(camera->transform.translate.x, player->GetWorldTransform()->translation_.x, 0.04f);
 	//camera->transform.translate.y = LerpShortTranslate(camera->transform.translate.y, player->GetWorldTransform()->translation_.y, 0.04f);
 
+	//for (std::vector<Model*>& worldTransforBlockLine : Block_) {
+	//	for (Model* Block : worldTransforBlockLine) {
+	//		if (!Block)
+	//			continue;
+	//		Block->Update();
+	//	}
+	//}
+
 }
+
+
+//void GamePlayScene::BlockSpown(Vector3 translation, float type) {
+//	// ブロックの生成
+//	Block* block_ = new Block();
+//	// ブロックの初期化
+//	if (type <= 2) {
+//		block_->Initialize(model2_, translation, "cube.obj");
+//	}
+//	if (type == 3) {
+//		block_->Initialize(model3_, translation, "clearblock.obj");
+//	}
+//	if (type == 4) {
+//		block_->Initialize(model4_, translation, "damageblock.obj");
+//	}
+//	// ブロックのタイプ設定
+//	block_->SetType(type);
+//	AddBlock(block_);
+//}

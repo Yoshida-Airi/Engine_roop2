@@ -175,6 +175,9 @@
     <ClCompile Include="Application\Object\Enemy\Boss.cpp">
       <Filter>Application\Objects\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Object\Ground\MapChipField.cpp">
+      <Filter>Application\Objects\Ground</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -347,6 +350,9 @@
     </ClInclude>
     <ClInclude Include="Application\Object\Enemy\Boss.h">
       <Filter>Application\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Ground\MapChipField.h">
+      <Filter>Application\Objects\Ground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

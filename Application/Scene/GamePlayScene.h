@@ -27,6 +27,8 @@
 #include"Object/Goal/Goal.h"
 #include"Effect/DeathEffect.h"
 #include"Effect/Fade.h"
+#include"Object/Ground/MapChipField.h"
+
 
 #include"LevelEditor.h"
 
@@ -119,10 +121,16 @@ private:
 
 	Phase phase_;
 
+	MapChipField* mapChipField_;
+
+	std::vector<std::vector<Model*>> Block_;
+
 private:
 
 	void GamePlayPhase();
 	void GameClearPhase();
 	void GameOverPhase();
+
+	void GenerateBlocks();
 };
 

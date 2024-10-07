@@ -11,7 +11,7 @@ void Ground::Initialize()
 
 	SetRadius({ groundModel->GetWorldTransform()->scale_.x / 2.0f,groundModel->GetWorldTransform()->scale_.y / 2.0f,groundModel->GetWorldTransform()->scale_.z / 2.0f });
 
-
+	//groundModel->SetisInvisible(true);
 }
 
 void Ground::Update()
