@@ -13,7 +13,8 @@ void TitleScene::Initialize()
 	sceneManager_ = SceneManager::GetInstance();
 	textureManager = TextureManager::GetInstance();
 
-	titleTexture = textureManager->LoadTexture("Resources/Scene/title.png");
+	titleLogo = textureManager->LoadTexture("Resources/Scene/logo.png");
+	backGroundTexture= textureManager->LoadTexture("Resources/Scene/backGround.png");
 
 	soundData = Audio::GetInstance()->SoundLoadWave("Resources/SampleSound/Alarm01.wav");
 	//Audio::GetInstance()->SoundPlayWave(soundData, false);
@@ -21,13 +22,16 @@ void TitleScene::Initialize()
 	camera = new Camera;
 	camera->Initialize();
 
-	title.reset(Sprite::Create(titleTexture));
-	title->SetisInvisible(true);
+	title.reset(Sprite::Create(titleLogo));
+	title->GetWorldTransform()->translation_ = { 220.0f,110.0f };
 
+	backGround.reset(Sprite::Create(backGroundTexture));
+	
 
-	fence_.reset(Model::Create("Resources/SampleAssets/fence.obj"));
-	cube_.reset(Model::Create("Resources/SampleAssets/cube.obj"));
-	fence_->GetWorldTransform()->rotation_.y = 3.1f;
+	skydome = std::make_unique<Skydome>();
+	skydome->Initialize();
+	skydome->SetLight(false);
+
 
 	fade_ = std::make_unique <Fade>();
 	fade_->Initialize();
@@ -73,15 +77,11 @@ void TitleScene::Update()
 	}
 
 	title->Update();
+	backGround->Update();
 
-	fence_->Update();
-	cube_->Update();
-
-
+	skydome->Update();
 	
-	cube_->ModelDebug("cube");
-	fence_->ModelDebug("fence");
-	fence_->Parent(cube_.get());
+	
 
 	titleEffect_->Update();
 	
@@ -89,12 +89,15 @@ void TitleScene::Update()
 
 void TitleScene::Draw()
 {
-	title->Draw(camera);
+	
 
-	fence_->Draw(camera);
-	cube_->Draw(camera);
+	
+	
+	skydome->Draw(camera);
 
 	titleEffect_->Draw();
+	//backGround->Draw(camera);
+	title->Draw(camera);
 	
 
 	fade_->Draw(camera);

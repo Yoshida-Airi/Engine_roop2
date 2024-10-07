@@ -8,6 +8,11 @@ public:
 	void Update();
 	void Draw(Camera* camera);
 
+	void SetLight(bool isLight)
+	{
+		skydomeModel_->SetLight(isLight);
+	}
+
 private:
 	std::unique_ptr<Model> skydomeModel_ = nullptr;
 

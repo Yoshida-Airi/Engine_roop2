@@ -96,6 +96,11 @@ public:
 		materialData_->color = material;
 	}
 
+	void SetLight(uint32_t isLight)
+	{
+		materialData_->enableLighting = isLight;
+	}
+
 private:
 	DirectXCommon* dxCommon_;
 	GraphicsPipelineManager* psoManager_;

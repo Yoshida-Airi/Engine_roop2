@@ -15,7 +15,7 @@
 #include"Effect/Fade.h"
 #include"Effect/TitleEffect.h"
 #include"ParticleSystem.h"
-
+#include"Object/Skydome/Skydome.h"
 #include"EfectManager.h"
 
 class TitleScene :public BaseScene
@@ -35,18 +35,22 @@ private:
 	SceneManager* sceneManager_ = nullptr;
 	Camera* camera;
 
-	uint32_t titleTexture;
-
+	uint32_t titleLogo;
+	uint32_t backGroundTexture;
 	uint32_t soundData;
 	
 	std::unique_ptr<Sprite> title = nullptr;
+	std::unique_ptr<Sprite> backGround = nullptr;
 
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;
 
+	std::unique_ptr <Skydome>skydome;
+
 	std::unique_ptr<Fade> fade_ = nullptr;
 	std::unique_ptr<TitleEffect> titleEffect_ = nullptr;
 	
+
 
 };
 

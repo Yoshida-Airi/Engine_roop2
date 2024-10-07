@@ -10,8 +10,8 @@ void TitleEffect::Initialize(Camera* camera)
 	hitEffect.reset(ParticleSystem::Create(circleTexture, camera, velocity, true));
 	//hitEffect->emitter_->transform.translate = { 0.0f,-2.1f,0.0f };
 	hitEffect->emitter_->transform.scale = { 11.0f,2.0f,1.0f };
-	hitEffect->emitter_->count = 60;
-	hitEffect->emitter_->frequency = 0.2f;
+	hitEffect->emitter_->count = 10;
+	hitEffect->emitter_->frequency = 0.8f;
 	hitEffect->SetLifeTime(1.0f, 3.0f);
 	
 	hitEffect->SetUseBillBoard();
