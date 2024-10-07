@@ -13,6 +13,8 @@
 #include"Model.h"
 #include"Camera.h"
 #include"Effect/Fade.h"
+#include"Effect/TitleEffect.h"
+#include"ParticleSystem.h"
 
 #include"EfectManager.h"
 
@@ -43,7 +45,8 @@ private:
 	std::unique_ptr<Model> cube_ = nullptr;
 
 	std::unique_ptr<Fade> fade_ = nullptr;
+	std::unique_ptr<TitleEffect> titleEffect_ = nullptr;
 	
-	
+
 };
 

@@ -109,7 +109,6 @@ public:
 	/// <param name="camera">カメラ</param>
 	/// <param name="velocity">速度</param>
 	/// <param name="isRandomPosition">ランダムな位置に置くか　true : 置く</param>
-	/// <param name="isRandomVelocity">ランダムな速度にするか　true : する</param>
 	/// <returns>パーティクル</returns>
 	static ParticleSystem* Create(uint32_t textureHandle, Camera* camera, Vector3 velocity, bool isRandomPosition);
 

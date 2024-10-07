@@ -160,6 +160,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Application\Object\Skydome\Skydome.cpp" />
     <ClCompile Include="Application\Object\Player\Weapon.cpp" />
     <ClCompile Include="Application\Object\Ground\MapChipField.cpp" />
+    <ClCompile Include="Application\Effect\TitleEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Object\CollisionConfig.h" />
@@ -220,6 +221,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\2D\Line.h" />
     <ClInclude Include="Application\Object\Enemy\FlyEnemy.h" />
     <ClInclude Include="Application\Object\Ground\MapChipField.h" />
+    <ClInclude Include="Application\Effect\TitleEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Particle.PS.hlsl">

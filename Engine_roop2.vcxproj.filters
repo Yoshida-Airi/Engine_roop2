@@ -178,6 +178,7 @@
     <ClCompile Include="Application\Object\Ground\MapChipField.cpp">
       <Filter>Application\Objects\Ground</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Effect\TitleEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -354,6 +355,7 @@
     <ClInclude Include="Application\Object\Ground\MapChipField.h">
       <Filter>Application\Objects\Ground</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Effect\TitleEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

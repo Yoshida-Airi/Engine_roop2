@@ -22,6 +22,7 @@ void TitleScene::Initialize()
 	camera->Initialize();
 
 	title.reset(Sprite::Create(titleTexture));
+	title->SetisInvisible(true);
 
 
 	fence_.reset(Model::Create("Resources/SampleAssets/fence.obj"));
@@ -31,6 +32,13 @@ void TitleScene::Initialize()
 	fade_ = std::make_unique <Fade>();
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.5f);
+
+	titleEffect_ = std::make_unique <TitleEffect>();
+	titleEffect_->Initialize(camera);
+	titleEffect_->SetFlag(true);
+	titleEffect_->SetPosition({ 0.0f,0.0f,0.0f });
+
+
 }
 
 void TitleScene::Update()
@@ -38,6 +46,8 @@ void TitleScene::Update()
 	camera->CameraDebug();
 
 	fade_->Update();
+
+	
 
 	//ゲームパットの状態を得る変数(XINPUT)
 	XINPUT_STATE joyState;
@@ -73,8 +83,8 @@ void TitleScene::Update()
 	fence_->ModelDebug("fence");
 	fence_->Parent(cube_.get());
 
-
-
+	titleEffect_->Update();
+	
 }
 
 void TitleScene::Draw()
@@ -84,7 +94,11 @@ void TitleScene::Draw()
 	fence_->Draw(camera);
 	cube_->Draw(camera);
 
+	titleEffect_->Draw();
+	
+
 	fade_->Draw(camera);
 
+	
 }
 
