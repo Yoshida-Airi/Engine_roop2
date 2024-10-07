@@ -465,10 +465,20 @@ Particle ParticleSystem::MakeNewParticle(std::mt19937& randomEngine, Emitter* em
 
 std::list<Particle> ParticleSystem::Emission(Emitter* emitter, std::mt19937& randomEngine, Vector3 velocity, bool isRandamTranslate)
 {
+
+
 	std::list<Particle>particle;
 
-	for (uint32_t count = 0; count < emitter->count; ++count)
-	{
+	float emissionRate = 10.0f; // 1フレームに10個のパーティクルを生成
+	float accumulatedTime = 1.0f;
+
+	accumulatedTime += kDeltaTime;
+
+	// パーティクルをエミッションレートに応じて生成
+	uint32_t particlesToEmit = static_cast<uint32_t>(accumulatedTime * emissionRate);
+	accumulatedTime -= particlesToEmit / emissionRate;
+
+	for (uint32_t count = 0; count < particlesToEmit; ++count) {
 		particle.push_back(MakeNewParticle(randomEngine, emitter, velocity, isRandamTranslate));
 	}
 

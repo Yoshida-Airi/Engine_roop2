@@ -36,7 +36,7 @@ void TitleScene::Initialize()
 	titleEffect_ = std::make_unique <TitleEffect>();
 	titleEffect_->Initialize(camera);
 	titleEffect_->SetFlag(true);
-	titleEffect_->SetPosition({ 0.0f,0.0f,0.0f });
+	titleEffect_->SetPosition({ 0.0f,-3.5f,0.0f });
 
 
 }

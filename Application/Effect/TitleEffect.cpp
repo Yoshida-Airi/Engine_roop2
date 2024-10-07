@@ -6,9 +6,10 @@ void TitleEffect::Initialize(Camera* camera)
 	textureManager_ = TextureManager::GetInstance();
 	circleTexture = textureManager_->LoadTexture("Resources/SampleAssets/circle.png");
 
-	Vector3 velocity = { 0.0f,2.0f,0.0f };
+	Vector3 velocity = { 0.0f,5.0f,0.0f };
 	hitEffect.reset(ParticleSystem::Create(circleTexture, camera, velocity, true));
-	hitEffect->emitter_->transform.scale = { 11.0f,0.6f,1.0f };
+	//hitEffect->emitter_->transform.translate = { 0.0f,-2.1f,0.0f };
+	hitEffect->emitter_->transform.scale = { 11.0f,2.0f,1.0f };
 	hitEffect->emitter_->count = 60;
 	hitEffect->emitter_->frequency = 0.2f;
 	hitEffect->SetLifeTime(1.0f, 3.0f);
