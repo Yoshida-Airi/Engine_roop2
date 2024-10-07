@@ -42,6 +42,11 @@ public:
 		isInvisible_ = isInvisible;
 	}
 
+	bool GetisInvisible()
+	{
+		return isInvisible_;
+	}
+
 
 	/// <summary>
 	/// テクスチャの左上座標（画像上の描画したい左上座標

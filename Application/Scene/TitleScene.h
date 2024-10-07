@@ -26,6 +26,8 @@ public:
 	void Update()override;
 	void Draw()override;
 
+	void UpdateSpriteBlink();
+
 private:
 
 	EfectManager* efect = nullptr;
@@ -37,10 +39,12 @@ private:
 
 	uint32_t titleLogo;
 	uint32_t backGroundTexture;
+	uint32_t spaceTexture;
 	uint32_t soundData;
 	
 	std::unique_ptr<Sprite> title = nullptr;
 	std::unique_ptr<Sprite> backGround = nullptr;
+	std::unique_ptr<Sprite> space = nullptr;
 
 	std::unique_ptr<Model> fence_ = nullptr;
 	std::unique_ptr<Model> cube_ = nullptr;
@@ -50,7 +54,10 @@ private:
 	std::unique_ptr<Fade> fade_ = nullptr;
 	std::unique_ptr<TitleEffect> titleEffect_ = nullptr;
 	
+	bool isSceneChange = false;
 
-
+	const float kDeltaTime = 1.0f / 60.0f;
+	int frameCount = 0;
+	int blinkFrames = 50;  // 30フレームごとに点滅
 };
 
