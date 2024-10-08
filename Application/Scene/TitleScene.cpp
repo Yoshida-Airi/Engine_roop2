@@ -24,7 +24,7 @@ void TitleScene::Initialize()
 	camera->Initialize();
 
 	title.reset(Sprite::Create(titleLogo));
-	title->GetWorldTransform()->translation_ = { 220.0f,110.0f };
+	title->GetWorldTransform()->translation_ = { 200.0f,110.0f };
 
 	backGround.reset(Sprite::Create(backGroundTexture));
 
