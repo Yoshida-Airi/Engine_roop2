@@ -1,4 +1,6 @@
 #include "MapChipField.h"
+#include<fstream>
+#include<sstream>
 
 void MapChipField::ResetMapChipData()
 {
@@ -45,11 +47,13 @@ void MapChipField::LoadMapChipCsv(const std::string& filePath)
 			if (mapChipTable.contains(word))
 			{
 				mapChipData_.data[i][j] = mapChipTable[word];
+				
 			}
 
 		}
 
 	}
+
 }
 
 MapChipType MapChipField::GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex)

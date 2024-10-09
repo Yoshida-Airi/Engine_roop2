@@ -9,6 +9,10 @@
 
 #include"LevelEditor.h"
 
+#include<vector>
+
+#include"Object/Ground/MapChipField.h"
+
 class TestPlayScene:public BaseScene
 {
 public:
@@ -28,10 +32,18 @@ private:
 	std::unique_ptr<Model> model3 = nullptr;
 	std::unique_ptr<Model> model4 = nullptr;
 
+	
+
 	AnimationData walkAnimation;
 
 	LevelEditor* levelEditor;
 
+
+	std::vector<std::vector<Model*>>blocks_;
+
+	MapChipField* mapChipField_;
+
+	void GenerateBlocks();
 
 };
 

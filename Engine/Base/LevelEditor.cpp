@@ -156,6 +156,8 @@ void LevelEditor::Initialize()
 	GameObject::Initialize();
 	GameObject::SetModel(models_);
 
+
+
 }
 
 void LevelEditor::Update()
@@ -198,7 +200,7 @@ void LevelEditor::Draw(Camera* camera)
 			debugName << "mapData _" << i;
 
 			model->ModelDebug(debugName.str().c_str());
-
+			model->SetisInvisible(true);
 		}
 
 		i++;
