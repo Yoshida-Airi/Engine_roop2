@@ -84,3 +84,26 @@ uint32_t MapChipField::GetNumBlockHorizontal()
 { 
 	return kNumBlockHorizontal; 
 }
+
+MapChipField::IndexSet MapChipField::GetMapChipIndexSetByPosition(const Vector3& position)
+{
+	IndexSet indexset = {};
+	indexset.xIndex = static_cast<uint32_t>((position.x + kBlockWidth / 2) / kBlockWidth);
+	float y = (position.y + kBlockHeight / 2) / kBlockHeight;
+	indexset.yIndex = static_cast<uint32_t>(kNumBlockVirtical - 1 - y);
+	return indexset;
+}
+
+MapChipField::Rect MapChipField::GetRectByIndex(uint32_t xIndex, uint32_t yIndex)
+{
+	Vector3 center = GetMapChipPositionByIndex(xIndex, yIndex);
+
+	Rect rect;
+	rect.left = center.x - kBlockWidth / 2.0f;
+	rect.right = center.x + kBlockWidth / 2.0f;
+	rect.bottom = center.y + kBlockHeight / 2.0f;
+	rect.top = center.y - kBlockHeight / 2.0f;
+
+	return rect;
+
+}

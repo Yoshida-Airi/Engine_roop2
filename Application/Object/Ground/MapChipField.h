@@ -29,9 +29,26 @@ namespace
 }
 
 
+
 class MapChipField
 {
 public:
+
+
+	struct IndexSet
+	{
+		uint32_t xIndex;
+		uint32_t yIndex;
+	};
+
+	struct Rect
+	{
+		float left;
+		float right;
+		float bottom;
+		float top;
+	};
+
 	void LoadMapChipCsv(const std::string& filePath);
 
 	/// <summary>
@@ -52,6 +69,10 @@ public:
 
 	uint32_t GetNumBlockVertical();
 	uint32_t GetNumBlockHorizontal();
+
+	IndexSet GetMapChipIndexSetByPosition(const Vector3& position);
+
+	Rect GetRectByIndex(uint32_t xIndex, uint32_t yIndex);
 
 private:
 

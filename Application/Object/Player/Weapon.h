@@ -9,7 +9,8 @@ public:
 
 	Vector3 GetWorldPosition()override;
 	AABB GetAABB()override;
-	void OnCollision([[maybe_unused]] Collider* other)override;
+
+	[[maybe_unused]] void OnCollision([[maybe_unused]] Collider* other)override;
 
 	void SetParent(Model* model)
 	{

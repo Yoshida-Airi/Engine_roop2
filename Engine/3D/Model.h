@@ -172,7 +172,7 @@ private:
 	/// <param name="descriptorHeap"></param>
 	/// <param name="descriptorSize"></param>
 	/// <returns></returns>
-	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData);
+	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton/*, const ModelData& modelData*/);
 
 	void ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeltion);
 

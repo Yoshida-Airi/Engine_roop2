@@ -57,9 +57,9 @@ private:
 	DirectXCommon* dxCommon_ = nullptr;
 	HRESULT hr;
 
-	IDxcUtils* dxcUtils = nullptr;
-	IDxcCompiler3* dxcCompiler = nullptr;
-	IDxcIncludeHandler* includeHandler = nullptr;
+	IDxcUtils* m_dxcUtils = nullptr;
+	IDxcCompiler3* m_dxcCompiler = nullptr;
+	IDxcIncludeHandler* m_includeHandler = nullptr;
 
 	Microsoft::WRL::ComPtr< ID3D12RootSignature> rootSignature = nullptr;	//バイナリを元に生成
 
@@ -71,7 +71,7 @@ private:
 	Microsoft::WRL::ComPtr< IDxcBlob> vertexShaderBlob;
 	Microsoft::WRL::ComPtr< IDxcBlob> pixelShaderBlob;
 
-	D3D12_DEPTH_STENCIL_DESC depthStencilDesc{};	//DepthStensilStateの設定
+	D3D12_DEPTH_STENCIL_DESC depthStencil{};	//DepthStensilStateの設定
 
 	Microsoft::WRL::ComPtr< ID3D12PipelineState> graphicPipelineState = nullptr;
 	

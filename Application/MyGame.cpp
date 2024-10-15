@@ -18,7 +18,7 @@ void MyGame::Initialize()
 
 #ifdef _DEBUG
 	//シーンマネージャーに最初のシーンをセット
-	sceneManager_->ChangeScene("TEST");
+	sceneManager_->ChangeScene("GAMEPLAY");
 #endif // _DEBUG
 
 #ifdef _NDEBUG

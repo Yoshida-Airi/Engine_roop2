@@ -46,11 +46,11 @@ void LevelEditor::LoaderJsonFile(std::string filePath)
 		assert(object.contains("type"));
 
 		//種別を取得
-		std::string type = object["type"].get<std::string>();
+		std::string objectType = object["type"].get<std::string>();
 
 		//種類ごとの処理
 		//MESH
-		if (type.compare("MESH") == 0)
+		if (objectType.compare("MESH") == 0)
 		{
 			//要素追加
 			levelData->objects.emplace_back(LevelData::ObjectData{});
@@ -88,8 +88,8 @@ void LevelEditor::LoaderJsonFile(std::string filePath)
 			if (collider.contains("type"))
 			{
 				//コライダー情報があったら取得
-				std::string type = collider["type"].get<std::string>();
-				objectData.collisionType = type;
+				std::string colliderType = collider["type"].get<std::string>();
+				objectData.collisionType = colliderType;
 
 				objectData.center.x = (float)collider["center"][0];
 				objectData.center.y = (float)collider["center"][2];
@@ -200,7 +200,7 @@ void LevelEditor::Draw(Camera* camera)
 			debugName << "mapData _" << i;
 
 			model->ModelDebug(debugName.str().c_str());
-			model->SetisInvisible(true);
+			//model->SetisInvisible(true);
 		}
 
 		i++;
@@ -211,23 +211,22 @@ void LevelEditor::Draw(Camera* camera)
 
 Vector3 LevelEditor::GetWorldPosition()
 {
-	Vector3 worldPosition;
+	Vector3 worldPosition = { 0.0f,0.0f,0.0f };
 	for (auto& pair : models) {
 		std::string modelName = pair.first; // モデル名
 		Model* modelPtr = pair.second.get(); // ユニークポインタからモデルを取得
-		//Vector3 worldPosition;
-		// Collider クラスの GetWorldPosition() を呼び出す例
+
 		if (modelPtr) {
-			
+			// modelPtr が有効なら、そのモデルのワールドポジションを取得
 			worldPosition.x = modelPtr->GetWorldTransform()->matWorld_.m[3][0];
 			worldPosition.y = modelPtr->GetWorldTransform()->matWorld_.m[3][1];
 			worldPosition.z = modelPtr->GetWorldTransform()->matWorld_.m[3][2];
-			// worldPosition を使って何かをする
-			return worldPosition;
+
+			// 必要に応じて、ここで他の処理を行う
+			break; // 最初の有効なモデルが見つかったらループを終了
 		}
-		return worldPosition;
 	}
-	return worldPosition;
+	return worldPosition; // ループが終わった後に返す
 }
 
 AABB LevelEditor::GetAABB()

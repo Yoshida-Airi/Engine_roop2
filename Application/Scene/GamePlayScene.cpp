@@ -7,7 +7,7 @@ GamePlayScene::~GamePlayScene()
 {
 
 	delete camera;
-	delete levelEditor;
+	//delete levelEditor;
 	delete cameraController;
 
 	for (Enemy* enemy : enemys)
@@ -29,15 +29,17 @@ GamePlayScene::~GamePlayScene()
 		delete deathEffects;
 	}
 
-	delete mapChipField_;
-
-	// delete block;
-	for (std::vector<Model*>& worldTransforBlockLine : Block_) {
-		for (Model* worldTransformBlock : worldTransforBlockLine) {
-			delete worldTransformBlock;
+	for (std::vector<Model*>& blockLine : blocks_)
+	{
+		for (Model* block : blockLine)
+		{
+			delete block;
 		}
-		Block_.clear();
 	}
+
+	blocks_.clear();
+
+	delete mapChipField_;
 
 }
 
@@ -64,19 +66,19 @@ void GamePlayScene::Initialize()
 	camera->Initialize();
 
 	
-	levelEditor = new LevelEditor();
-	levelEditor->LoaderJsonFile("Resources/Level/levelEditor.json");
-	levelEditor->Initialize();
+	//levelEditor = new LevelEditor();
+	//levelEditor->LoaderJsonFile("Resources/Level/levelEditor.json");
+	//levelEditor->Initialize();
 
 	weapon = std::make_unique<Weapon>();
 	weapon->Initialize();
 
 
-	SpawnBlock({ 47.8f, -1.0f, 0 }, {50.31f, 1.0f, 1.0f});
-	SpawnBlock({ 6.7f, 4.5f, 0 }, { 1.0f, 1.0f, 1.0f });
-	SpawnBlock({ 8.7f, 6.5f, 0 }, { 1.0f, 1.0f, 1.0f });
-	SpawnBlock({ -2.15f, 7.8f, 0 }, { 1.0f, 9.8f, 1.0f });
-	SpawnBlock({ 50.11f, 7.8f, 0 }, { 1.0f, 9.8f, 1.0f });
+	//SpawnBlock({ 47.8f, -1.0f, 0 }, {50.31f, 1.0f, 1.0f});
+	//SpawnBlock({ 6.7f, 4.5f, 0 }, { 1.0f, 1.0f, 1.0f });
+	//SpawnBlock({ 8.7f, 6.5f, 0 }, { 1.0f, 1.0f, 1.0f });
+	//SpawnBlock({ -2.15f, 7.8f, 0 }, { 1.0f, 9.8f, 1.0f });
+	//SpawnBlock({ 50.11f, 7.8f, 0 }, { 1.0f, 9.8f, 1.0f });
 
 	player = std::make_unique<Player>();
 	player->SetWeapon(weapon.get());
@@ -133,6 +135,10 @@ void GamePlayScene::Initialize()
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/CSV/field.csv");
 
+	GenerateBlocks();
+
+	player->SetMapChipField(mapChipField_);
+
 	//triangle.reset(Triangle::Create(uvTexture));
 	//triangle2.reset(Triangle::Create(monsterBall));
 	//
@@ -184,6 +190,7 @@ void GamePlayScene::Initialize()
 	////particle2->SetisInvisible(true);
 
 
+	
 }
 
 void GamePlayScene::Update()
@@ -204,6 +211,7 @@ void GamePlayScene::Update()
 		break;
 	}
 
+	
 }
 
 void GamePlayScene::Draw()
@@ -252,6 +260,20 @@ void GamePlayScene::Draw()
 		deathEffects->Draw();
 	}
 
+	// ブロックの描画処理
+	for (std::vector<Model*>& blockLine : blocks_)
+	{
+		for (Model* block : blockLine)
+		{
+			if (!block)
+			{
+				continue;
+			}
+
+			block->Draw(camera);
+		}
+	}
+
 
 	goal->Draw(camera);
 
@@ -298,18 +320,7 @@ void GamePlayScene::Draw()
 
 	fade_->Draw(camera);
 
-	// ブロックの描画処理
-	uint32_t numBlockVertical = mapChipField_->GetNumBlockVertical();
-	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
 
-	//for (uint32_t i = 0; i < numBlockVertical; i++) {
-	//	for (uint32_t j = 0; j < numBlockHorizontal; j++) {
-	//		if (Block_[i][j] != nullptr) {
-	//			// 各ブロックの描画
-	//			Block_[i][j]->Draw(camera);
-	//		}
-	//	}
-	//}
 
 }
 
@@ -496,7 +507,7 @@ void GamePlayScene::GamePlayPhase()
 		deathEffects->Update();
 	}
 
-	levelEditor->Update();
+	//levelEditor->Update();
 
 	int i = 0;
 	for (Ground* ground : grounds)
@@ -531,18 +542,18 @@ void GamePlayScene::GamePlayPhase()
 	//camera->transform.translate.y = LerpShortTranslate(camera->transform.translate.y, player->GetWorldTransform()->translation_.y, 0.04f);
 
 	// ブロックの更新処理
-	uint32_t numBlockVertical = mapChipField_->GetNumBlockVertical();
-	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
+	for (std::vector<Model*>& blockLine : blocks_)
+	{
+		for (Model* block : blockLine)
+		{
+			if (!block)
+			{
+				continue;
+			}
 
-	//for (uint32_t i = 0; i < numBlockVertical; i++) {
-	//	for (uint32_t j = 0; j < numBlockHorizontal; j++) {
-	//		if (Block_[i][j] != nullptr) {
-	//			// 必要に応じてブロックの更新処理
-	//			// 例: 物理システムに基づく位置の更新、アニメーションの適用など
-	//			Block_[i][j]->Update();
-	//		}
-	//	}
-	//}
+			block->Update();
+		}
+	}
 
 }
 
@@ -608,7 +619,7 @@ void GamePlayScene::GameClearPhase()
 		deathEffects->Update();
 	}
 
-	levelEditor->Update();
+	//levelEditor->Update();
 
 	int i = 0;
 	for (Ground* ground : grounds)
@@ -633,6 +644,19 @@ void GamePlayScene::GameClearPhase()
 
 	CheckAllCollisions();
 
+	// ブロックの更新処理
+	for (std::vector<Model*>& blockLine : blocks_)
+	{
+		for (Model* block : blockLine)
+		{
+			if (!block)
+			{
+				continue;
+			}
+
+			block->Update();
+		}
+	}
 
 	//camera->transform.translate.x = LerpShortTranslate(camera->transform.translate.x, player->GetWorldTransform()->translation_.x, 0.04f);
 	//camera->transform.translate.y = LerpShortTranslate(camera->transform.translate.y, player->GetWorldTransform()->translation_.y, 0.04f);
@@ -701,7 +725,7 @@ void GamePlayScene::GameOverPhase()
 		deathEffects->Update();
 	}
 
-	levelEditor->Update();
+	//levelEditor->Update();
 
 	int i = 0;
 	for (Ground* ground : grounds)
@@ -738,23 +762,50 @@ void GamePlayScene::GameOverPhase()
 	//	}
 	//}
 
+	// ブロックの更新処理
+	for (std::vector<Model*>& blockLine : blocks_)
+	{
+		for (Model* block : blockLine)
+		{
+			if (!block)
+			{
+				continue;
+			}
+
+			block->Update();
+		}
+	}
+
 }
 
 
-//void GamePlayScene::BlockSpown(Vector3 translation, float type) {
-//	// ブロックの生成
-//	Block* block_ = new Block();
-//	// ブロックの初期化
-//	if (type <= 2) {
-//		block_->Initialize(model2_, translation, "cube.obj");
-//	}
-//	if (type == 3) {
-//		block_->Initialize(model3_, translation, "clearblock.obj");
-//	}
-//	if (type == 4) {
-//		block_->Initialize(model4_, translation, "damageblock.obj");
-//	}
-//	// ブロックのタイプ設定
-//	block_->SetType(type);
-//	AddBlock(block_);
-//}
+void GamePlayScene::GenerateBlocks()
+{
+	//要素数
+	uint32_t numBlockVirtical = mapChipField_->GetNumBlockVertical();
+	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
+
+	//要素数を変更
+	blocks_.resize(numBlockVirtical);
+	for (uint32_t i = 0; i < numBlockVirtical; ++i)
+	{
+		blocks_[i].resize(numBlockHorizontal);
+	}
+
+	//ブロックの生成
+	for (uint32_t i = 0; i < numBlockVirtical; ++i)
+	{
+		for (uint32_t j = 0; j < numBlockHorizontal; ++j)
+		{
+			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock)
+			{
+				Model* model = new Model();
+				model->Initialize("Resources/SampleAssets/cube.obj");
+				blocks_[i][j] = model;
+				blocks_[i][j]->GetWorldTransform()->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
+
+			}
+		}
+	}
+
+}

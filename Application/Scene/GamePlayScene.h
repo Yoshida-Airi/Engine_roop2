@@ -91,7 +91,7 @@ private:
 	std::unique_ptr<Sprite> sprite = nullptr;
 	std::unique_ptr<Sprite> sprite2 = nullptr;
 	std::unique_ptr<Sphere> sphere = nullptr;
-	std::unique_ptr<Model> model = nullptr;
+	//std::unique_ptr<Model> model = nullptr;
 	std::unique_ptr<Model> model2 = nullptr;
 
 	std::unique_ptr<ParticleSystem> particle = nullptr;
@@ -99,7 +99,7 @@ private:
 
 	std::unique_ptr<Fade> fade_ = nullptr;
 
-	LevelEditor* levelEditor = nullptr;
+	//LevelEditor* levelEditor = nullptr;
 
 	std::unique_ptr <Player> player;
 	std::list<Enemy*> enemys;
@@ -121,9 +121,8 @@ private:
 
 	Phase phase_;
 
+	std::vector<std::vector<Model*>>blocks_;
 	MapChipField* mapChipField_;
-
-	std::vector<std::vector<Model*>> Block_;
 
 private:
 

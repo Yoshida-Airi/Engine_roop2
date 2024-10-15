@@ -35,10 +35,10 @@ void Sprite::Initialize(uint32_t textureHandle)
 
 	AdjustTextureSize();
 	
-	left = 0.0f * textureSize_.x;
-	right = 1.0f * textureSize_.x;
-	top = 0.0f * textureSize_.y;
-	bottom = 1.0f * textureSize_.y;
+	textureSizeLeft = 0.0f * textureSize_.x;
+	textureSizeRight = 1.0f * textureSize_.x;
+	textureSizeTop = 0.0f * textureSize_.y;
+	textureSizeBottom = 1.0f * textureSize_.y;
 
 	texLeft = textureLeftTop.x / textureSize_.x;
 	texRight = (textureLeftTop.x + textureSize_.x) / textureSize_.x;
@@ -49,16 +49,16 @@ void Sprite::Initialize(uint32_t textureHandle)
 	Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
 
 	//頂点の設定
-	vertexData_[LB].position = { left,bottom,0.0f,1.0f };
+	vertexData_[LB].position = { textureSizeLeft,textureSizeBottom,0.0f,1.0f };
 	vertexData_[LB].texcoord = { texLeft,texBottom };
 
-	vertexData_[LT].position = { left,top,0.0f,1.0f };
+	vertexData_[LT].position = { textureSizeLeft,textureSizeTop,0.0f,1.0f };
 	vertexData_[LT].texcoord = { texLeft,texTop };
 
-	vertexData_[RB].position = { right,bottom,0.0f,1.0f };
+	vertexData_[RB].position = { textureSizeRight,textureSizeBottom,0.0f,1.0f };
 	vertexData_[RB].texcoord = { texRight,texBottom };
 
-	vertexData_[RT].position = { right,top,0.0f,1.0f };
+	vertexData_[RT].position = { textureSizeRight,textureSizeTop,0.0f,1.0f };
 	vertexData_[RT].texcoord = { texRight,texTop };
 
 
@@ -126,10 +126,10 @@ void Sprite::Draw(Camera* camera)
 
 void Sprite::SetVertexData(const float left, const float right, const float top, const float bottom)
 {
-	this->left = left;
-	this->right = right;
-	this->top = top;
-	this->bottom = bottom;
+	textureSizeLeft = left;
+	textureSizeRight = right;
+	textureSizeTop = top;
+	textureSizeBottom = bottom;
 }
 
 void Sprite::SetMaterialData(const Vector4 color)
@@ -241,10 +241,10 @@ void Sprite::UpdateVertexBuffer()
 
 
 	//テクスチャのサイズを合わせる
-	left = (0.0f - anchorPoint_.x) * cutSize_.x;
-	right = (1.0f - anchorPoint_.x) * cutSize_.x;
-	top = (0.0f - anchorPoint_.y) * cutSize_.y;
-	bottom = (1.0f - anchorPoint_.y) * cutSize_.y;
+	textureSizeLeft = (0.0f - anchorPoint_.x) * cutSize_.x;
+	textureSizeRight = (1.0f - anchorPoint_.x) * cutSize_.x;
+	textureSizeTop = (0.0f - anchorPoint_.y) * cutSize_.y;
+	textureSizeBottom = (1.0f - anchorPoint_.y) * cutSize_.y;
 
 	texLeft = textureLeftTop.x / textureSize_.x;
 	texRight = (textureLeftTop.x + cutSize_.x) / textureSize_.x;
@@ -254,16 +254,16 @@ void Sprite::UpdateVertexBuffer()
 
 
 	//頂点の設定
-	vertexData_[LB].position = { left,bottom,0.0f,1.0f };
+	vertexData_[LB].position = { textureSizeLeft,textureSizeBottom,0.0f,1.0f };
 	vertexData_[LB].texcoord = { texLeft,texBottom };
 
-	vertexData_[LT].position = { left,top,0.0f,1.0f };
+	vertexData_[LT].position = { textureSizeLeft,textureSizeTop,0.0f,1.0f };
 	vertexData_[LT].texcoord = { texLeft,texTop };
 
-	vertexData_[RB].position = { right,bottom,0.0f,1.0f };
+	vertexData_[RB].position = { textureSizeRight,textureSizeBottom,0.0f,1.0f };
 	vertexData_[RB].texcoord = { texRight,texBottom };
 
-	vertexData_[RT].position = { right,top,0.0f,1.0f };
+	vertexData_[RT].position = { textureSizeRight,textureSizeTop,0.0f,1.0f };
 	vertexData_[RT].texcoord = { texRight,texTop };
 
 	

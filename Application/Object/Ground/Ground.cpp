@@ -59,7 +59,8 @@ AABB Ground::GetAABB()
 	return aabb;
 }
 
-void Ground::OnCollision(Collider* other)
+[[maybe_unused]]
+void Ground::OnCollision([[maybe_unused]] Collider* other)
 {
 }
 

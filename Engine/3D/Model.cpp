@@ -39,7 +39,7 @@ void Model::Initialize(const std::string& filename)
 	if (animation.isValid == true)
 	{
 		skelton = animation_->CreateSkelton(modelData_.rootNode);
-		skinCluster = CreateSkinCluster(dxCommon_->GetDevice(), skelton, modelData_);
+		skinCluster = CreateSkinCluster(dxCommon_->GetDevice(), skelton/*, modelData_*/);
 	}
 
 	VertexBuffer();
@@ -225,20 +225,20 @@ void Model::Parent(Model* model)
 	this->worldTransform_->parent_ = model->worldTransform_;
 }
 
-SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData)
+SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton/*, const ModelData& modelData*/)
 {
-	SkinCluster skinCluster;
+	SkinCluster tempSkinCluster;
 	uint32_t srvHandle;
 	srvHandle = srvManager_->Allocate();
 	
 
 	//palette用のresourceを確保
-	skinCluster.palatteResource = dxCommon_->CreateBufferResource(sizeof(WellForGPU) * skeleton.joints.size());
+	tempSkinCluster.palatteResource = dxCommon_->CreateBufferResource(sizeof(WellForGPU) * skeleton.joints.size());
 	WellForGPU* mappedPalette = nullptr;
-	skinCluster.palatteResource->Map(0, nullptr, reinterpret_cast<void**>(&mappedPalette));
-	skinCluster.mappedPalette = { mappedPalette,skeleton.joints.size() };	//spanを使ってアクセス
-	skinCluster.paletteSrvHandle.first = srvManager_->GetCPUDescriptorHandle(srvHandle);
-	skinCluster.paletteSrvHandle.second = srvManager_->GetGPUDescriptorHandle(srvHandle);
+	tempSkinCluster.palatteResource->Map(0, nullptr, reinterpret_cast<void**>(&mappedPalette));
+	tempSkinCluster.mappedPalette = { mappedPalette,skeleton.joints.size() };	//spanを使ってアクセス
+	tempSkinCluster.paletteSrvHandle.first = srvManager_->GetCPUDescriptorHandle(srvHandle);
+	tempSkinCluster.paletteSrvHandle.second = srvManager_->GetGPUDescriptorHandle(srvHandle);
 
 	//srvManager_->CreateSRVforStructuredBuffer(srvHandle, skinCluster.palatteResource.Get(), UINT(skeleton.joints.size()), WellForGPU);
 
@@ -252,26 +252,26 @@ SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>&
 	paletteSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	paletteSrvDesc.Buffer.NumElements = UINT(skeleton.joints.size());
 	paletteSrvDesc.Buffer.StructureByteStride = sizeof(WellForGPU);
-	device->CreateShaderResourceView(skinCluster.palatteResource.Get(), &paletteSrvDesc, skinCluster.paletteSrvHandle.first);
+	device->CreateShaderResourceView(tempSkinCluster.palatteResource.Get(), &paletteSrvDesc, tempSkinCluster.paletteSrvHandle.first);
 
 
 	//influence用のResourceを確保
-	skinCluster.influenceResource = dxCommon_->CreateBufferResource(sizeof(VertexInfluence) * modelData_.vertices.size());
+	tempSkinCluster.influenceResource = dxCommon_->CreateBufferResource(sizeof(VertexInfluence) * modelData_.vertices.size());
 	VertexInfluence* mappedInfluence = nullptr;
-	skinCluster.influenceResource->Map(0, nullptr, reinterpret_cast<void**>(&mappedInfluence));
+	tempSkinCluster.influenceResource->Map(0, nullptr, reinterpret_cast<void**>(&mappedInfluence));
 	std::memset(mappedInfluence, 0, sizeof(VertexInfluence) * modelData_.vertices.size());	//0埋め。Weightを0にしておく
-	skinCluster.mappedInfluence = { mappedInfluence,modelData_.vertices.size() };
+	tempSkinCluster.mappedInfluence = { mappedInfluence,modelData_.vertices.size() };
 
 
 	//influence用のVBVを確保
-	skinCluster.influenceBufferView.BufferLocation = skinCluster.influenceResource->GetGPUVirtualAddress();
-	skinCluster.influenceBufferView.SizeInBytes = UINT(sizeof(VertexInfluence) * modelData_.vertices.size());
-	skinCluster.influenceBufferView.StrideInBytes = sizeof(VertexInfluence);
+	tempSkinCluster.influenceBufferView.BufferLocation = tempSkinCluster.influenceResource->GetGPUVirtualAddress();
+	tempSkinCluster.influenceBufferView.SizeInBytes = UINT(sizeof(VertexInfluence) * modelData_.vertices.size());
+	tempSkinCluster.influenceBufferView.StrideInBytes = sizeof(VertexInfluence);
 
 
 	//inverseBindPoseMatrixの保存領域を作成
-	skinCluster.inverseBindPoseMatrices.resize(skeleton.joints.size());
-	std::generate(skinCluster.inverseBindPoseMatrices.begin(), skinCluster.inverseBindPoseMatrices.end(), MakeIdentity4x4);
+	tempSkinCluster.inverseBindPoseMatrices.resize(skeleton.joints.size());
+	std::generate(tempSkinCluster.inverseBindPoseMatrices.begin(), tempSkinCluster.inverseBindPoseMatrices.end(), MakeIdentity4x4);
 
 
 	//ModelDataのSkinClusterを解析してInfluenceの中身を埋める
@@ -285,10 +285,10 @@ SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>&
 		}
 
 		//該当のIndexのinverseBindPoseMatrixを代入
-		skinCluster.inverseBindPoseMatrices[(*it).second] = jointWeight.second.inverseBindPoseMatrix;
+		tempSkinCluster.inverseBindPoseMatrices[(*it).second] = jointWeight.second.inverseBindPoseMatrix;
 		for (const auto& vertexWeight : jointWeight.second.vertexWeights)
 		{
-			auto& currentInfluence = skinCluster.mappedInfluence[vertexWeight.vertexIndex];	//該当のvertexIndexのinfluence情報を参照
+			auto& currentInfluence = tempSkinCluster.mappedInfluence[vertexWeight.vertexIndex];	//該当のvertexIndexのinfluence情報を参照
 			for (uint32_t index = 0; index < kNumMaxInfluence; ++index)
 			{
 				if (currentInfluence.weights[index] == 0.0f)
@@ -304,18 +304,18 @@ SkinCluster Model::CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>&
 
 
 
-	return skinCluster;
+	return tempSkinCluster;
 
 }
 
-void Model::ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeleton)
+void Model::ClasterUpdate(SkinCluster& tempSkinCluster, const Skeleton& skeleton)
 {
 	for (size_t jointIndex = 0; jointIndex < skeleton.joints.size(); ++jointIndex)
 	{
-		assert(jointIndex < skinCluster.inverseBindPoseMatrices.size());
+		assert(jointIndex < tempSkinCluster.inverseBindPoseMatrices.size());
 
 		// 行列の乗算
-		Matrix4x4 skeletonSpaceMatrix = Multiply(skinCluster.inverseBindPoseMatrices[jointIndex], skeleton.joints[jointIndex].sleletonSpaceMatrix);
+		Matrix4x4 skeletonSpaceMatrix = Multiply(tempSkinCluster.inverseBindPoseMatrices[jointIndex], skeleton.joints[jointIndex].sleletonSpaceMatrix);
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
 				assert(!isnan(skeletonSpaceMatrix.m[i][j]) && !isinf(skeletonSpaceMatrix.m[i][j]));
@@ -338,8 +338,8 @@ void Model::ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeleton)
 		}
 
 		// パレットに設定
-		skinCluster.mappedPalette[jointIndex].skeletonSpaceMatrix = skeletonSpaceMatrix;
-		skinCluster.mappedPalette[jointIndex].skeletonSpaceInverseTransposeMatrix = transposeMatrix;
+		tempSkinCluster.mappedPalette[jointIndex].skeletonSpaceMatrix = skeletonSpaceMatrix;
+		tempSkinCluster.mappedPalette[jointIndex].skeletonSpaceInverseTransposeMatrix = transposeMatrix;
 	}
 
 

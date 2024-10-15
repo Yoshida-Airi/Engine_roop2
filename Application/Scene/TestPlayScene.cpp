@@ -28,8 +28,8 @@ void TestPlayScene::Initialize()
 
 	walkAnimation = Animation::GetInstance()->LoadAnimationFile("Resources/SampleAssets/human/walk.gltf");
 
-	model.reset(Model::Create("Resources/SampleAssets/human/walk.gltf"));
-	model->SetisInvisible(true);
+	walk.reset(Model::Create("Resources/SampleAssets/human/walk.gltf"));
+	walk->SetisInvisible(true);
 	//model->SetAnimation(walkAnimation);
 	//model->UseAnimation(false);
 	model2.reset(Model::Create("Resources/SampleAssets/cube.obj"));
@@ -61,7 +61,7 @@ void TestPlayScene::Initialize()
 void TestPlayScene::Update()
 {
 	camera->CameraDebug();
-	model->Update();
+	walk->Update();
 	model2->Update();
 	model3->Update();
 	model4->Update();
@@ -70,10 +70,10 @@ void TestPlayScene::Update()
 
 	if (Input::GetInstance()->TriggerKey(DIK_0))
 	{
-		model->MoveAnimation(false);
+		walk->MoveAnimation(false);
 	}
 
-	model->ModelDebug("model");
+	walk->ModelDebug("model");
 	model2->ModelDebug("cube");
 	model3->ModelDebug("walk");
 	model4->ModelDebug("simpleSkin");
@@ -98,7 +98,7 @@ void TestPlayScene::Draw()
 {
 	levelEditor->Draw(camera);
 
-	model->Draw(camera);
+	walk->Draw(camera);
 	model2->Draw(camera);
 	model3->Draw(camera);
 	model4->Draw(camera);

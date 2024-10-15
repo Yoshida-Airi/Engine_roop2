@@ -61,6 +61,7 @@ AABB Weapon::GetAABB()
 	return aabb;
 }
 
-void Weapon::OnCollision(Collider* other)
+[[maybe_unused]]
+void Weapon::OnCollision([[maybe_unused]] Collider* other)
 {
 }

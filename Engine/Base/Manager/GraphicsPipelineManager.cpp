@@ -361,12 +361,12 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateParticle(const s
 
 void GraphicsPipelineManager::InitializeDXCCompiler()
 {
-	hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils));
+	hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&m_dxcUtils));
 	assert(SUCCEEDED(hr));
-	hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler));
+	hr = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&m_dxcCompiler));
 	assert(SUCCEEDED(hr));
 
-	hr = dxcUtils->CreateDefaultIncludeHandler(&includeHandler);
+	hr = m_dxcUtils->CreateDefaultIncludeHandler(&m_includeHandler);
 	assert(SUCCEEDED(hr));
 }
 
@@ -461,11 +461,11 @@ void GraphicsPipelineManager::SetupRasterrizerState()
 void GraphicsPipelineManager::SetupDepthStencilState()
 {
 	//Depthの機能を有効化する
-	depthStencilDesc.DepthEnable = true;
+	depthStencil.DepthEnable = true;
 	//書き込みします
-	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	depthStencil.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
 	//比較関数はLessEqual。つまり、近ければ描画される
-	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+	depthStencil.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 }
 
 //CompileShader関数
@@ -486,7 +486,7 @@ IDxcBlob* GraphicsPipelineManager::CompileShader
 	Log(ConvertString(std::format(L"Begin CompileShader,path:{},profile:{}\n", filePath, profile)));
 	//hlslファイルを読む
 	IDxcBlobEncoding* shaderSource = nullptr;
-	HRESULT hr = dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource);
+	hr = dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource);
 	//読めなかったら止める
 	assert(SUCCEEDED(hr));
 	//読み込んだファイルの内容を設定する
@@ -586,9 +586,9 @@ GraphicsPipelineManager::PSOData GraphicsPipelineManager::CreateCommonPSO(const 
 	assert(SUCCEEDED(hr));
 
 
-	psoData.vertexShaderBlob = CompileShader(L"Resources/Shaders/" + filePath + L".VS.hlsl", L"vs_6_0", dxcUtils, dxcCompiler, includeHandler);
+	psoData.vertexShaderBlob = CompileShader(L"Resources/Shaders/" + filePath + L".VS.hlsl", L"vs_6_0", m_dxcUtils, m_dxcCompiler, m_includeHandler);
 	assert(psoData.vertexShaderBlob != nullptr);
-	psoData.pixelShaderBlob = CompileShader(L"Resources/Shaders/" + filePath + L".PS.hlsl", L"ps_6_0", dxcUtils, dxcCompiler, includeHandler);
+	psoData.pixelShaderBlob = CompileShader(L"Resources/Shaders/" + filePath + L".PS.hlsl", L"ps_6_0", m_dxcUtils, m_dxcCompiler, m_includeHandler);
 	assert(psoData.pixelShaderBlob != nullptr);
 
 

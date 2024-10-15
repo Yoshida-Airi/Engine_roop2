@@ -16,6 +16,7 @@
 #include <functional>
 #include<numbers>
 
+class MapChipField;
 class Ground;
 class Weapon;
 class Player :public GameObject
@@ -78,6 +79,11 @@ public:
 		float top;
 	};
 
+	void SetMapChipField(MapChipField* mapChipField)
+	{
+		mapChipField_ = mapChipField;
+	}
+
 private:
 
 	GlobalVariables* grobalVariables;
@@ -119,8 +125,8 @@ private:
 
 	CollisionMapInfo collisionMapInfo;
 
-	float kWidth = 0.9f;
-	float kHeight = 0.9f;
+	float kWidth = 0.8f;
+	float kHeight = 0.8f;
 	float kDepth = 0.8f;
 
 	float kBlank = 0.1f;
@@ -137,6 +143,8 @@ private:
 
 	float alpha = 1.0f;       // 初期のアルファ値（不透明）
 	float fadeSpeed = 0.01f;  // 透明になる速度
+
+	MapChipField* mapChipField_ = nullptr;
 
 private:
 
@@ -194,6 +202,8 @@ private:
 	void SwitchGround(const CollisionMapInfo& info);
 
 	void CollisionWall(const CollisionMapInfo& info);
+
+
 };
 
 
