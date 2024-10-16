@@ -129,7 +129,7 @@ private:
 	float kHeight = 0.8f;
 	float kDepth = 0.8f;
 
-	float kBlank = 0.1f;
+	float kBlank = 0.01f;
 
 	bool isJump = false;
 
