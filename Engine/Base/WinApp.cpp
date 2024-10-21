@@ -26,7 +26,7 @@ void WinApp::Initialize()
 {
 	//システムタイマーの分解能をあげる
 	timeBeginPeriod(1);
-	HRESULT hr = CoInitializeEx(0, COINIT_MULTITHREADED);
+	//HRESULT hr = CoInitializeEx(0, COINIT_MULTITHREADED);
 	CreateGameWindow();
 }
 

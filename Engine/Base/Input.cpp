@@ -83,15 +83,15 @@ bool Input::GetJoystickState(int32_t stickNo, XINPUT_STATE& state)
 {
 	DWORD Result = XInputGetState(stickNo, &state);
 
-	// XInputGetStateが成功した場合、resultの値はERROR_SUCCESS
-	if (Result == ERROR_SUCCESS) {
-		// デッドゾーンを適用
-		state.Gamepad.sThumbLX = ApplyDeadzone(state.Gamepad.sThumbLX, DEADZONE_THRESHOLD);
-		state.Gamepad.sThumbLY = ApplyDeadzone(state.Gamepad.sThumbLY, DEADZONE_THRESHOLD);
-		// 他にも必要ならデッドゾーンの適用を追加
+	//// XInputGetStateが成功した場合、resultの値はERROR_SUCCESS
+	//if (Result == ERROR_SUCCESS) {
+	//	// デッドゾーンを適用
+	//	state.Gamepad.sThumbLX = ApplyDeadzone(state.Gamepad.sThumbLX, DEADZONE_THRESHOLD);
+	//	state.Gamepad.sThumbLY = ApplyDeadzone(state.Gamepad.sThumbLY, DEADZONE_THRESHOLD);
+	//	// 他にも必要ならデッドゾーンの適用を追加
 
-		return true;  // 成功した場合はtrueを返す
-	}
+	//	return true;  // 成功した場合はtrueを返す
+	//}
 
 	return Result == ERROR_SUCCESS;
 }
