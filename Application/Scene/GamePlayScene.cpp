@@ -800,7 +800,7 @@ void GamePlayScene::GenerateBlocks()
 			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock)
 			{
 				Model* model = new Model();
-				model->Initialize("Resources/SampleAssets/cube.obj");
+				model->Initialize("Resources/Level/map.obj");
 				blocks_[i][j] = model;
 				blocks_[i][j]->GetWorldTransform()->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
 

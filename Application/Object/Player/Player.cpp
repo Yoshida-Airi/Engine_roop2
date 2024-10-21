@@ -25,7 +25,7 @@ void Player::Initialize()
 	//モデルの初期設定
 	//playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
 	playerModel->GetWorldTransform()->translation_.x = 7.2f;
-	playerModel->GetWorldTransform()->translation_.y = 50.0f;
+	playerModel->GetWorldTransform()->translation_.y = 75.0f;
 	//playerModel->GetWorldTransform()->rotation_.y = 1.5f;
 
 
