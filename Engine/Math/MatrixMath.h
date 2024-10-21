@@ -1,3 +1,9 @@
+/**
+*	@file MatrixMath.h
+*	@brief 数学用構造体クラスヘッダ
+*/
+
+
 #pragma once
 
 struct Matrix4x4

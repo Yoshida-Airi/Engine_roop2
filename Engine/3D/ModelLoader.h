@@ -1,3 +1,9 @@
+/**
+*	@file ModelLoader.h
+*	@brief モデル読み込みクラスヘッダ
+*/
+
+
 #pragma once
 #include<string>
 #include<fstream>

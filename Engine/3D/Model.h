@@ -1,3 +1,9 @@
+/**
+*	@file Model.h
+*	@brief モデルクラスヘッダ
+*/
+
+
 #pragma once
 #include"DirectXCommon.h"
 #include"GraphicsPipelineManager.h"

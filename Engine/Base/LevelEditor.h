@@ -1,3 +1,8 @@
+/**
+*	@file LevelEditor.h
+*	@brief レベルエディタークラスヘッダ
+*/
+
 #pragma once
 #include"json.hpp"
 #include<fstream>

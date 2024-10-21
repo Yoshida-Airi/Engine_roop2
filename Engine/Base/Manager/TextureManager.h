@@ -1,3 +1,8 @@
+/**
+*	@file TextureManager.h
+*	@brief テクスチャ保存クラスヘッダ
+*/
+
 #pragma once
 
 #include"Logger.h"

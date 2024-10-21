@@ -1,3 +1,8 @@
+/**
+*	@file Framework.h
+*	@brief フレームワーククラスヘッダ
+*/
+
 #pragma once
 #include"WinApp.h"
 #include"DirectXCommon.h"

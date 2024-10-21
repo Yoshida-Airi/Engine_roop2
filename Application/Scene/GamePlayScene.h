@@ -1,3 +1,8 @@
+/**
+*	@file GamePlayScene.h
+*	@brief ゲームプレイシーンクラスヘッダ
+*/
+
 #pragma once
 
 #include"BaseScene.h"

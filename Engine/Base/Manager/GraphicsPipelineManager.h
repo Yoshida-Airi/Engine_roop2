@@ -1,3 +1,9 @@
+/**
+*	@file GraphicsPipelineManager.h
+*	@brief パイプラインステートクラスヘッダ
+*/
+
+
 #pragma once
 #include"Logger.h"
 

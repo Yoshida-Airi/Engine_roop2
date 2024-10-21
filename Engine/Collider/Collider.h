@@ -1,3 +1,8 @@
+/**
+*	@file Collider.h
+*	@brief 当たり判定クラスヘッダ
+*/
+
 #pragma once
 #include"VectorMath.h"
 #include"WorldTransform.h"

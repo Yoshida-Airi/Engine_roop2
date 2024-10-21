@@ -1,3 +1,8 @@
+/**
+*	@file WinApp.h
+*	@brief Windows初期化クラスヘッダ
+*/
+
 #pragma once
 #include<Windows.h>
 #include<cstdint>

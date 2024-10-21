@@ -1,28 +1,77 @@
-#pragma once
+/**
+*	@file FlyEnemy.h
+*	@brief 飛んでいる敵クラスヘッダ
+*/
 
 #pragma once
 #include"Model.h"
 #include"Collider.h"
 #include"GameObject.h"
 
+/**
+* @class FlyEnemy
+* @brief 飛んでいる敵キャラクターを制御するクラス
+* @details 敵の移動、描画、衝突処理、浮遊アニメーションを管理する
+*/
 class FlyEnemy : public GameObject
 {
 public:
+
+	/**
+	* @brief 飛んでいる敵の初期化処理
+	* @details モデルや初期位置などの設定を行う
+	*/
 	void Initialize()override;
+
+	/**
+	* @brief 飛んでいる敵の更新処理
+	* @details 毎フレーム呼ばれ、移動や浮遊アニメーションの更新を行う
+	*/
 	void Update()override;
+
+	/**
+	* @brief 飛んでいる敵の描画処理
+	* @param camera カメラ情報
+	* @details モデルをカメラに合わせて描画する
+	*/
 	void Draw(Camera* camera)override;
+
+	/**
+	* @brief 飛んでいる敵の位置を設定する
+	* @param position 新しい位置
+	* @details 指定した位置にモデルを移動させ、y座標の初期値を設定する
+	*/
 	void SetPosition(Vector3 position)
 	{
 		enemyModel->GetWorldTransform()->translation_ = position;
 		initialY = enemyModel->GetWorldTransform()->translation_.y;
 	}
 
+
+	/**
+	* @brief ワールド座標を取得する
+	* @return 敵のワールド座標
+	*/
 	Vector3 GetWorldPosition()override;
+
+	/**
+	* @brief 敵のAABB（軸に平行なバウンディングボックス）を取得する
+	* @return AABB 敵のバウンディングボックス
+	*/
 	AABB GetAABB()override;
+
+
+	/**
+	* @brief 衝突時の処理
+	* @param other 衝突したコライダー
+	* @details 他のオブジェクトとの衝突時に呼び出される処理
+	*/
 	void OnCollision([[maybe_unused]] Collider* other)override;
 
-	//ゲッター
-
+	/**
+	* @brief 生存状態を取得する
+	* @return bool 生きているかどうか
+	*/
 	bool GetIsAlive()
 	{
 		return isAlive;

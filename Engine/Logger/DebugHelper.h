@@ -1,3 +1,9 @@
+/**
+*	@file DebugHelper.h
+*	@brief リークチェック用クラスヘッダ
+*/
+
+
 #pragma once
 #include<wrl.h>
 #include<d3d12.h>

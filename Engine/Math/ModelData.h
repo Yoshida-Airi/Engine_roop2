@@ -1,3 +1,9 @@
+/**
+*	@file ModelData.h
+*	@brief モデルデータ構造体用クラスヘッダ
+*/
+
+
 #pragma once
 #include<string>
 #include<vector>

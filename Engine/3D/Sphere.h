@@ -1,3 +1,9 @@
+/**
+*	@file Sphere.h
+*	@brief 球体クラスヘッダ
+*/
+
+
 #pragma once
 #include"DirectXCommon.h"
 #include"GraphicsPipelineManager.h"

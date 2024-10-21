@@ -84,7 +84,7 @@
     <ClCompile Include="Engine\Base\Scene\SceneManager.cpp">
       <Filter>Engine\Base\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\EfectManager.cpp">
+    <ClCompile Include="Engine\Effect\EffectManager.cpp">
       <Filter>Engine\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\Manager\GraphicsPipelineManager.cpp">
@@ -256,7 +256,7 @@
     <ClInclude Include="Engine\Base\Scene\SceneManager.h">
       <Filter>Engine\Base\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\EfectManager.h">
+    <ClInclude Include="Engine\Effect\EffectManager.h">
       <Filter>Engine\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Manager\GraphicsPipelineManager.h">

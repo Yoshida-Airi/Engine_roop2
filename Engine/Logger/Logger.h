@@ -1,3 +1,9 @@
+/**
+*	@file Logger.h
+*	@brief 文字列変換用クラスヘッダ
+*/
+
+
 #pragma once
 #include<string>
 #include <Windows.h>

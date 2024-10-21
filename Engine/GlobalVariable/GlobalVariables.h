@@ -1,3 +1,8 @@
+/**
+*	@file GlobalVariables.h
+*	@brief グローバル変数クラスヘッダ
+*/
+
 #pragma once
 #include<variant>
 #include<map>

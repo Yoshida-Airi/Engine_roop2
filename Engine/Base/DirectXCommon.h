@@ -1,3 +1,8 @@
+/**
+*	@file DirectXCommon.h
+*	@brief ダイレクトX基底クラスヘッダ
+*/
+
 #pragma once
 #include"Logger.h"
 #include"WinApp.h"

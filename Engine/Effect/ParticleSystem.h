@@ -1,3 +1,8 @@
+/**
+*	@file ParticleSystem.h
+*	@brief パーティクルクラスヘッダ
+*/
+
 #pragma once
 #include"DirectXCommon.h"
 #include"SrvManager.h"

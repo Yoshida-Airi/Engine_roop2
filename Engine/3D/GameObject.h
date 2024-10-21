@@ -1,3 +1,9 @@
+/**
+*	@file GameObject.h
+*	@brief ゲームオブジェクトクラスヘッダ
+*/
+
+
 #pragma once
 
 #include"Model.h"

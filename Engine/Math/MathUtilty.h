@@ -1,3 +1,9 @@
+/**
+*	@file MathUtilty.h
+*	@brief 数学クラスヘッダ
+*/
+
+
 #pragma once
 #include"MatrixMath.h"
 #include"VectorMath.h"

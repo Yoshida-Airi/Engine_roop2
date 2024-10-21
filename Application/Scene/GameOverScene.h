@@ -1,3 +1,8 @@
+/**
+*	@file GameOverScene.h
+*	@brief ゲームオーバーシーンクラスヘッダ
+*/
+
 #pragma once
 
 #include"BaseScene.h"
@@ -13,7 +18,7 @@
 #include"Model.h"
 #include"Camera.h"
 
-#include"EfectManager.h"
+#include"EffectManager.h"
 
 class GameOverScene :public BaseScene
 {
@@ -25,7 +30,7 @@ public:
 
 private:
 
-	EfectManager* efect = nullptr;
+	EffectManager* efect = nullptr;
 	TextureManager* textureManager = nullptr;
 
 	Input* input;

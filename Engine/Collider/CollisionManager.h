@@ -1,3 +1,8 @@
+/**
+*	@file CollisionManager.h
+*	@brief 当たり判定マネージャークラスヘッダ
+*/
+
 #pragma once
 #include<list>
 #include"Collider.h"

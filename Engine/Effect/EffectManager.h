@@ -1,3 +1,8 @@
+/**
+*	@file EffectManager.h
+*	@brief エフェクトマネージャークラスヘッダ
+*/
+
 #pragma once
 #include<wrl.h>
 #include"Sprite.h"
@@ -7,7 +12,7 @@ struct FadeConstants
 	float fadeInProgress;
 };
 
-class EfectManager
+class EffectManager
 {
 	
 public:

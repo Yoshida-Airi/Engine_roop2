@@ -1,3 +1,9 @@
+/**
+*	@file Sprite.h
+*	@brief テクスチャクラスヘッダ
+*/
+
+
 #pragma once
 #include"DirectXCommon.h"
 #include"GraphicsPipelineManager.h"

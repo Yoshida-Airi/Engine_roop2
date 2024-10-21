@@ -1,3 +1,8 @@
+/**
+*	@file MyGame.h
+*	@brief ゲームクラスヘッダ
+*/
+
 #pragma once
 #include"Framework.h"
 

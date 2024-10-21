@@ -1,26 +1,74 @@
+/**
+*	@file Boss.h
+*	@brief ボスクラスヘッダ
+*/
 
 #pragma once
 #include"Model.h"
 #include"Collider.h"
 #include"GameObject.h"
 
+/**
+* @class Boss
+* @brief ボスキャラクターを制御するクラス
+* @details ボスの移動、描画、衝突処理、HP管理などを担当する
+*/
 class Boss : public GameObject
 {
 public:
+
+	/**
+	* @brief ボスの初期化処理
+	* @details モデルや状態の初期設定を行う
+	*/
 	void Initialize()override;
+
+	/**
+	* @brief ボスの更新処理
+	* @details 毎フレーム呼ばれ、移動やHPの管理、無敵状態の更新などを行う
+	*/
 	void Update()override;
+
+	/**
+	* @brief ボスの描画処理
+	* @param camera カメラ情報
+	* @details モデルをカメラに合わせて描画する
+	*/
 	void Draw(Camera* camera)override;
+
+	/**
+	* @brief ボスの位置を設定する
+	* @param position 新しい位置
+	* @details 指定した位置にボスのモデルを移動させる
+	*/
 	void SetPosition(Vector3 position)
 	{
 		enemyModel->GetWorldTransform()->translation_ = position;
 	}
 
+	/**
+	* @brief ボスのワールド座標を取得する
+	* @return ボスのワールド座標
+	*/
 	Vector3 GetWorldPosition()override;
+
+	/**
+	* @brief ボスのAABB（軸に平行なバウンディングボックス）を取得する
+	* @return AABB ボスのバウンディングボックス
+	*/
 	AABB GetAABB()override;
+
+	/**
+	* @brief 衝突時の処理
+	* @param other 衝突したコライダー
+	* @details 他のオブジェクトとの衝突時に呼び出される処理
+	*/
 	void OnCollision([[maybe_unused]] Collider* other)override;
 
-	//ゲッター
-
+	/**
+	* @brief 生存状態を取得する
+	* @return bool 生きているかどうか
+	*/
 	bool GetIsAlive()
 	{
 		return isAlive;

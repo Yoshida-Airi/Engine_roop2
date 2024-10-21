@@ -1,3 +1,8 @@
+/**
+*	@file AbstractSceneFactory.h
+*	@brief シーン工場クラスヘッダ
+*/
+
 #pragma once
 #include"BaseScene.h"
 #include<string>

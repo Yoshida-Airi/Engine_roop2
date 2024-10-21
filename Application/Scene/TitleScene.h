@@ -1,3 +1,8 @@
+/**
+*	@file TitleScene.h
+*	@brief タイトルシーンクラスヘッダ
+*/
+
 #pragma once
 
 #include"BaseScene.h"
@@ -16,7 +21,7 @@
 #include"Effect/TitleEffect.h"
 #include"ParticleSystem.h"
 #include"Object/Skydome/Skydome.h"
-#include"EfectManager.h"
+#include"EffectManager.h"
 
 class TitleScene :public BaseScene
 {
@@ -30,7 +35,7 @@ public:
 
 private:
 
-	EfectManager* efect = nullptr;
+	EffectManager* efect = nullptr;
 	TextureManager* textureManager = nullptr;
 
 	Input* input;

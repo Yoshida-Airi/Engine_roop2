@@ -1,3 +1,9 @@
+/**
+*	@file Animation.h
+*	@brief アニメーションクラスヘッダ
+*/
+
+
 #pragma once
 #include <string>
 #include<map>

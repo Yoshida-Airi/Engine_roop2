@@ -1,3 +1,8 @@
+/**
+*	@file TestPlayScene.h
+*	@brief テストシーンクラスヘッダ
+*/
+
 #pragma once
 #include"BaseScene.h"
 

@@ -1,3 +1,8 @@
+/**
+*	@file BossScene.h
+*	@brief ボスシーンクラスヘッダ
+*/
+
 #pragma once
 
 #include"BaseScene.h"
@@ -20,7 +25,7 @@
 #include"Object/Player/Player.h"
 #include"Object/Enemy/Enemy.h"
 #include"Object/Enemy/FlyEnemy.h"
-#include"Object/Skydome/Skydome.h"
+#include"Object/Skydome/Skydome.h"              
 #include"Object/CameraController/CameraController.h"
 #include"Object/Player/Weapon.h"
 #include"Object/Ground/Ground.h"

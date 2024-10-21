@@ -1,48 +1,82 @@
+/**
+*	@file DeathEffect.h
+*	@brief デスエフェクトクラスヘッダ
+*/
+
+
 #pragma once
 #include"ParticleSystem.h"
 
+/** 
+*   @class DeathEffect
+*	@brief  何かが死んだときのパーティクル制御クラス
+*/
 class DeathEffect
 {
 public:
+
+	/**
+	* @brief デスエフェクトの初期化関数
+	* @param camera->カメラ
+	* @details カメラ情報を使用して、パーティクルエフェクトの表示位置や動作を設定する初期化処理を行う。
+	*/
 	void Initialize(Camera* camera);
+
+	/**
+	* @brief デスエフェクトの更新処理
+	* @details 毎フレーム実行され、エフェクトの進行を管理する。エフェクトの表示時間が過ぎると、消滅フラグを立てる。
+	*/
 	void Update();
+
+	/**
+	* @brief デスエフェクトの描画処理
+	* @details パーティクルシステムを使って、デスエフェクトを描画する処理を実行する。
+	*/
 	void Draw();
 
-	/// <summary>
-	/// 実行するかどうか
-	/// </summary>
-	/// <param name="isFlag"></param>
+	/**
+	* @brief エフェクトを実行するかどうかを設定する
+	* @param isFlag->エフェクトを実行するかどうかのフラグ（trueなら実行、falseなら非実行）
+	* @details この関数でフラグを設定し、エフェクトの実行状態を制御する。
+	*/
 	void SetFlag(bool isFlag)
 	{
 		flag = isFlag;
 	}
 
-	/// <summary>
-	/// 位置の設定
-	/// </summary>
-	/// <param name="position"></param>
+	/**
+	* @brief デスエフェクトの表示位置を設定する
+	* @param position->デスエフェクトのエミッター位置
+	* @details パーティクルのエミッター位置を設定する。
+	*/
 	void SetPosition(Vector3 position)
 	{
 		hitEffect->emitter_->transform.translate.x = position.x;
-		hitEffect->emitter_->transform.translate.y = position.y + 0.7f;
+		hitEffect->emitter_->transform.translate.y = position.y + 0.2f;
 		hitEffect->emitter_->transform.translate.z = position.z;
 	}
 
-	/// <summary>
-	/// 実行が終わったかどうか
-	/// </summary>
-	/// <returns></returns>
+	/**
+	* @brief デスエフェクトが終了（消滅）したかどうかを判定する
+	* @return bool->エフェクトが終了した場合はtrue、まだ表示中ならfalse
+	* @details エフェクトの表示時間が終了し、消滅したかどうかを確認するための関数。
+	*/
 	bool IsDead();
 
 private:
 
+	//! テクスチャ管理用のポインタ
 	TextureManager* textureManager_ = nullptr;
-
+	//! パーティクルシステムのインスタンス 
 	std::unique_ptr<ParticleSystem> hitEffect = nullptr;
+	//! 使用する円形テクスチャのID 
 	uint32_t circleTexture;
 
-	bool flag;	//実行中かどうかのフラグ
+	//! エフェクトが実行中かどうかを示すフラグ 
+	bool flag;	
+	//!  エフェクトの再生時間（フレーム数）
 	int playTime = 20;
+	//! エフェクトが消滅したかどうかのフラグ
 	bool isDead = false;
 
 

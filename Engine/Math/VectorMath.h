@@ -1,3 +1,9 @@
+/**
+*	@file VectorMath.h
+*	@brief ベクトル構造体クラスヘッダ
+*/
+
+
 #pragma once
 struct Vector2
 {

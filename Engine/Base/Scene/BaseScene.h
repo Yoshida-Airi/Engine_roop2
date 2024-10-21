@@ -1,3 +1,8 @@
+/**
+*	@file BaseScene.h
+*	@brief シーン基底クラスヘッダ
+*/
+
 #pragma once
 
 class SceneManager;

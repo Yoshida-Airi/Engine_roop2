@@ -1,3 +1,8 @@
+/**
+*	@file SceneFactory.h
+*	@brief シーン生成クラスヘッダ
+*/
+
 #pragma once
 #include "AbstractSceneFactory.h"
 

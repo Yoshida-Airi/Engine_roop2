@@ -1,12 +1,12 @@
-#include "EfectManager.h"
+#include "EffectManager.h"
 
-void EfectManager::Initialize()
+void EffectManager::Initialize()
 {
 
 	initialized_ = false;  // 初期化が行われていない状態に設定
 }
 
-void EfectManager::Update(float deltaTime)
+void EffectManager::Update(float deltaTime)
 {
     if (!initialized_)
     {
@@ -27,7 +27,7 @@ void EfectManager::Update(float deltaTime)
     fadeIn->SetMaterialData({ 1.0f, 1.0f, 1.0f, deltaTime_ });
 }
 
-void EfectManager::Draw(Camera* camera)
+void EffectManager::Draw(Camera* camera)
 {
     fadeIn->Draw(camera);
 }
