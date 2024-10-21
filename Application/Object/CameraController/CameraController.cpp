@@ -27,7 +27,7 @@ void CameraController::Update()
 	targetPosition = Add(targetWorldTransform->translation_, targetOffset_);
 
 	//座標補間
-	camera_->transform.translate = Lerp(camera_->transform.translate, targetPosition, interpolationRate);
+	camera_->transform.translate = targetPosition;/*Lerp(camera_->transform.translate, targetPosition, interpolationRate);*/
 
 	camera_->UpdateMatrix();
 }

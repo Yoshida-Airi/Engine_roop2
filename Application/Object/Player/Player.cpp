@@ -25,7 +25,7 @@ void Player::Initialize()
 	//モデルの初期設定
 	//playerModel->GetWorldTransform()->rotation_.y = std::numbers::pi_v<float> / 2.0f;
 	playerModel->GetWorldTransform()->translation_.x = 7.2f;
-	playerModel->GetWorldTransform()->translation_.y += 7.0f;
+	playerModel->GetWorldTransform()->translation_.y = 50.0f;
 	//playerModel->GetWorldTransform()->rotation_.y = 1.5f;
 
 
@@ -514,49 +514,45 @@ void Player::CollisionMapBottom(CollisionMapInfo& info)
 
 void Player::CollisionMapLeft(CollisionMapInfo& info)
 {
-	bool hit = false;
-	info.isWall = false;
-
-	//右移動あり
-	if (velocity_.x >= 0)
-	{
+	if (info.move.x >= 0) {
 		return;
 	}
 
-
-	//移動後の4つの角の座標
-	std::array<Vector3, kNumCorner>positionsNew;
+	std::array<Vector3, kNumCorner> positionsNew;
 	for (uint32_t i = 0; i < positionsNew.size(); ++i)
 	{
 		positionsNew[i] = CornerPosition(Add(playerModel->GetWorldTransform()->translation_, info.move), static_cast<Corner>(i));
 	}
 
-	for (const auto& ground : ground_)
+	MapChipType mapChipType;
+	bool hit = false;
+	MapChipField::IndexSet indexSet;
+
+	// 左上
+	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kLeftTop]);
+	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChipType == MapChipType::kBlock) {
+		hit = true;
+	}
+	// 左下
+	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kLeftBottom]);
+	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChipType == MapChipType::kBlock) {
+		hit = true;
+	}
+
+	if (hit) {
+		Vector3 offset = { kWidth / 2.0f, 0.0f, 0.0f };
+		indexSet = mapChipField_->GetMapChipIndexSetByPosition(Subtract(Add(playerModel->GetWorldTransform()->translation_, info.move), offset));
+		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
+
+		float moveX = rect.right - playerModel->GetWorldTransform()->translation_.x + kWidth / 2 + kBlank;
+		info.move.x = std::min(0.0f, moveX);
+		info.isWall = true;
+	}
+	else
 	{
-		//左上点の判定
-		if (IsCollision(positionsNew[kRightTop], ground->GetAABB()))
-		{
-			hit = true;
-		}
-
-		//左下点の判定
-		if (IsCollision(positionsNew[kRightBottom], ground->GetAABB()))
-		{
-			hit = true;
-		}
-
-
-		if (hit)
-		{
-			Rect rect = GetRect(ground);
-			float move = (rect.left - playerModel->GetWorldTransform()->translation_.x) - (playerModel->GetWorldTransform()->scale_.x / 2.0f + kBlank);
-			info.move.x = std::min(0.0f, move);
-			info.isWall = true;
-		}
-		else
-		{
-			info.isWall = false;
-		}
+		info.isWall = false;
 	}
 
 }
