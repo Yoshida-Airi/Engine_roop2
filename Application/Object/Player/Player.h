@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <functional>
 #include<numbers>
+#include <algorithm>
 
 class MapChipField;
 class Ground;
@@ -113,12 +114,12 @@ private:
 	float turnTimer = 0.0f;				//旋回タイマー
 	static inline const float kTimeTrun = 0.3f;	//旋回時間<秒>
 
-	bool onGround_ = true;	//接地状態フラグ
+	bool onGround_ = false;	//接地状態フラグ
 	float kGravityAcceleration = 0.05f;	//重力加速度（下方向
 	float kLimitFallSpeed = 0.5f;		//最大落下速度（下方向
 	float kJumpAcceleration = 0.5f;	//ジャンプ初速（上方向
-	float kAttenuationLanding = 0.1f;
-	float kAttenuationWall = 0.1f;	//着地時の速度減衰率
+	float kAttenuationLanding = 0.1f;//着地時の速度減衰率
+	float kAttenuationWall = 0.05f;	
 
 	Weapon* weapon_;
 	std::list<Ground*> ground_;
@@ -129,7 +130,7 @@ private:
 	float kHeight = 0.8f;
 	float kDepth = 0.8f;
 
-	float kBlank = 0.01f;
+	float kBlank = 0.5f;
 
 	bool isJump = false;
 
@@ -193,7 +194,7 @@ private:
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 	void CollisionMove(const CollisionMapInfo& info);
 
-	Rect GetRect(Ground* ground);
+	//Rect GetRect(Ground* ground);
 	void HitTop(const CollisionMapInfo& info);
 
 	/// <summary>
