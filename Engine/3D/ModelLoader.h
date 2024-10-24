@@ -34,19 +34,17 @@
 class ModelLoader
 {
 public:
-
+	/// @brief シングルトンインスタンスを取得
+	/// @return モデルローダーのインスタンス
 	static ModelLoader* GetInstance();
 
 
 
-	~ModelLoader();
-	/*void Initialize();
-	void Update();
-	void Draw();*/
+	~ModelLoader();///< デストラクタ
 
-	/// <summary>
-	/// Objファイルを読むための関数
-	/// </summary>
+	/// @brief OBJファイルを読み込む
+	/// @param filename 読み込むモデルファイルのパス
+	/// @return 読み込んだモデルデータ
 	ModelData LoadModelFile(const std::string& filename);
 
 
@@ -62,6 +60,9 @@ private:
 
 private:
 
+	/// @brief ノードを読み込む
+	/// @param node 読み込むノード
+	/// @return 読み込んだノードデータ
 	Node ReadNode(aiNode* node);
 
 

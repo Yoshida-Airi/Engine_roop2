@@ -34,39 +34,41 @@ struct TriangleData
 class Triangle
 {
 public:
+	/// @brief デストラクタ
 	~Triangle();
-
+	/// @brief 初期化処理
 	void Initialize(uint32_t textureHandle);
-
+	/// @brief 更新処理
 	void Update();
+	/// @brief 描画処理
 	void Draw(Camera* camera);
 
 
-	/// <summary>
-	/// マテリアルデータの設定
-	/// </summary>
-	/// <param name="color"></param>
+	/// @brief マテリアルデータの設定
+	/// @param color マテリアルの色
 	void SetMaterialData(const Vector4 color);
 
+	/// @brief テクスチャSRVハンドルを設定
+	/// @param textureSrvHandleGPU ハンドル
 	void SetTextureSrvHandleGPU(D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU)
 	{
 		textureSrvHandleGPU_ = textureSrvHandleGPU;
 	}
 
+	/// @brief スプライトの可視性を設定
+/// @param isInvisible true :非表示
 	void SetisInvisible(bool isInvisible)
 	{
 		isInvisible_ = isInvisible;
 	}
 
-	
-
+	/// @brief ワールドトランスフォームを取得
+	/// @return ワールドトランスフォーム
 	WorldTransform* GetWorldTransform()const { return worldTransform_; };
 
-	/// <summary>
-	/// 三角形の生成
-	/// </summary>
-	/// <param name="textureHandle">テクスチャ番号</param>
-	/// <returns>三角形</returns>
+	/// @brief 三角形の生成
+	/// @param textureHandle テクスチャ番号
+	/// @return 生成された三角形
 	static Triangle* Create(uint32_t textureHandle);
 	
 private://プライベート変数
@@ -99,19 +101,13 @@ private://プライベート変数
 
 private://プライベート関数
 
-	/// <summary>
-	/// 頂点のバッファの取得
-	/// </summary>
+	/// @brief 頂点バッファを取得
 	void VertexBuffer();
 
-	/// <summary>
-	/// マテリアルのバッファの取得
-	/// </summary>
+	/// @brief マテリアルバッファを取得
 	void MaterialBuffer();
 
-	/// <summary>
-	/// ライトのバッファの取得
-	/// </summary>
+	/// @brief ライトバッファを取得
 	void LightBuffer();
 };
 
