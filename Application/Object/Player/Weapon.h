@@ -60,7 +60,7 @@ public:
 	*/
 	void SetParent(Model* model)
 	{
-		weaponModel->Parent(model);
+		weaponModel_->Parent(model);
 	};
 
 	/**
@@ -83,8 +83,8 @@ public:
 	}
 
 private:
-	std::unique_ptr<Model>weaponModel;
-	std::vector<Model*>weaponModels;
+	std::unique_ptr<Model>weaponModel_;
+	std::vector<Model*>weaponModels_;
 
 	bool isAttack_ = false; //攻撃中かどうか : ture 攻撃中
 };
