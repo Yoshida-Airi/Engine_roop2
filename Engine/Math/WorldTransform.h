@@ -1,3 +1,9 @@
+/**
+*	@file WorldTransform.h
+*	@brief ワールドトランスフォームクラスヘッダ
+*/
+
+
 #pragma once
 #include"MathUtilty.h"
 #include"DirectXCommon.h"

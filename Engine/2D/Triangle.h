@@ -1,3 +1,9 @@
+/**
+*	@file Triangle.h
+*	@brief 三角形クラスヘッダ
+*/
+
+
 #pragma once
 #include"DirectXCommon.h"
 #include"GraphicsPipelineManager.h"

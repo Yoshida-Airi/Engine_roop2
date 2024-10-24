@@ -1,5 +1,6 @@
 #include "LevelEditor.h"
 #include<numbers>
+#include"Object/CollisionConfig.h"
 
 LevelEditor::~LevelEditor()
 {
@@ -7,9 +8,9 @@ LevelEditor::~LevelEditor()
 
 }
 
-void LevelEditor::LoaderJsonFile()
+void LevelEditor::LoaderJsonFile(std::string filePath)
 {
-	const std::string fullpath = "Resources/Level/levelEditor.json";
+	const std::string fullpath = filePath;
 	std::ifstream file;
 
 	//ファイルを開く
@@ -45,11 +46,11 @@ void LevelEditor::LoaderJsonFile()
 		assert(object.contains("type"));
 
 		//種別を取得
-		std::string type = object["type"].get<std::string>();
+		std::string objectType = object["type"].get<std::string>();
 
 		//種類ごとの処理
 		//MESH
-		if (type.compare("MESH") == 0)
+		if (objectType.compare("MESH") == 0)
 		{
 			//要素追加
 			levelData->objects.emplace_back(LevelData::ObjectData{});
@@ -87,8 +88,8 @@ void LevelEditor::LoaderJsonFile()
 			if (collider.contains("type"))
 			{
 				//コライダー情報があったら取得
-				std::string type = collider["type"].get<std::string>();
-				objectData.collisionType = type;
+				std::string colliderType = collider["type"].get<std::string>();
+				objectData.collisionType = colliderType;
 
 				objectData.center.x = (float)collider["center"][0];
 				objectData.center.y = (float)collider["center"][2];
@@ -118,7 +119,7 @@ void LevelEditor::LoaderJsonFile()
 			//Model* model = Model::Create(objectData.filename);
 		
 			models[objectData.filename].reset(Model::Create(objectData.filename));
-		
+
 		}
 	}
 
@@ -133,8 +134,27 @@ void LevelEditor::LoaderJsonFile()
 		newObject->UpdateWorldMatrix();
 		//配列に登録
 		objects.push_back(std::move(newObject));
-		
+
 	}
+
+
+
+}
+
+void LevelEditor::Initialize()
+{
+	Collider::SetTypeID(CollisionTypeDef::kMap);
+	Collider::SetColliderTypeID(ColliderType::AABB);
+
+	models_.reserve(this->models.size());
+
+	for (auto& pair : this->models) {
+		models_.push_back(std::move(pair.second.get()));
+	}
+
+
+	GameObject::Initialize();
+	GameObject::SetModel(models_);
 
 
 
@@ -143,7 +163,7 @@ void LevelEditor::LoaderJsonFile()
 void LevelEditor::Update()
 {
 
-	
+	GameObject::Update();
 
 
 }
@@ -180,10 +200,73 @@ void LevelEditor::Draw(Camera* camera)
 			debugName << "mapData _" << i;
 
 			model->ModelDebug(debugName.str().c_str());
-
+			//model->SetisInvisible(true);
 		}
 
 		i++;
 
+	}
+}
+
+
+Vector3 LevelEditor::GetWorldPosition()
+{
+	Vector3 worldPosition = { 0.0f,0.0f,0.0f };
+	for (auto& pair : models) {
+		std::string modelName = pair.first; // モデル名
+		Model* modelPtr = pair.second.get(); // ユニークポインタからモデルを取得
+
+		if (modelPtr) {
+			// modelPtr が有効なら、そのモデルのワールドポジションを取得
+			worldPosition.x = modelPtr->GetWorldTransform()->matWorld_.m[3][0];
+			worldPosition.y = modelPtr->GetWorldTransform()->matWorld_.m[3][1];
+			worldPosition.z = modelPtr->GetWorldTransform()->matWorld_.m[3][2];
+
+			// 必要に応じて、ここで他の処理を行う
+			break; // 最初の有効なモデルが見つかったらループを終了
+		}
+	}
+	return worldPosition; // ループが終わった後に返す
+}
+
+AABB LevelEditor::GetAABB()
+{
+	int i = 0;
+	AABB aabb = {};
+
+	//レベルデータからオブジェクトを生成、配置
+	for (auto& objectData : levelData->objects)
+	{
+		aabb.min = { objectData.center.x - objectData.size.x / 2.0f, objectData.center.y - objectData.size.y / 2.0f, objectData.center.z - objectData.size.z / 2.0f };
+		aabb.max = { objectData.center.x + objectData.size.x / 2.0f, objectData.center.y + objectData.size.y / 2.0f, objectData.center.z + objectData.size.z / 2.0f };
+
+		i++;
+	}
+	return aabb;
+}
+
+void LevelEditor::OnCollision(Collider* other)
+{
+	uint32_t typeID = other->GetTypeID();
+	if (typeID == static_cast<uint32_t>(CollisionTypeDef::kPlayer))
+	{
+		int i = 0;
+		//レベルデータからオブジェクトを生成、配置
+		for (auto& objectData : levelData->objects)
+		{
+			Model* model = nullptr;
+			decltype(models)::iterator it = models.find(objectData.filename);
+			if (it != models.end())
+			{
+				model = (it->second.get());
+			}
+			if (model)
+			{
+				//model->SetisInvisible(true);
+			}
+
+			i++;
+
+		}
 	}
 }

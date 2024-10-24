@@ -1,3 +1,8 @@
+/**
+*	@file SrvManager.h
+*	@brief srv制御クラスヘッダ
+*/
+
 #pragma once
 #include"DirectXCommon.h"
 

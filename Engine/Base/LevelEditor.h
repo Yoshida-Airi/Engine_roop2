@@ -1,3 +1,8 @@
+/**
+*	@file LevelEditor.h
+*	@brief レベルエディタークラスヘッダ
+*/
+
 #pragma once
 #include"json.hpp"
 #include<fstream>
@@ -8,8 +13,10 @@
 #include"WorldTransform.h"
 #include"Camera.h"
 
+#include"GameObject.h"
+
 //レベルデータ
-struct LevelData
+struct LevelData 
 {
 	//オブジェクト1個分のデータ
 	struct ObjectData
@@ -28,20 +35,29 @@ struct LevelData
 	std::vector<ObjectData>objects;
 };
 
-class LevelEditor
+class LevelEditor :public GameObject
 {
 public:
 
 	~LevelEditor();
-	void LoaderJsonFile();
+	void LoaderJsonFile(std::string filePath);
 
-	void Update();
-	void Draw(Camera* camera);
+	void Initialize()override;
+	void Update()override;
+	void Draw(Camera* camera)override;
+
+	Vector3 GetWorldPosition()override;
+	AABB GetAABB()override;
+	void OnCollision([[maybe_unused]] Collider* other)override;
+	
 
 private:
 
 	std::map<std::string, std::unique_ptr<Model>> models;
 	std::vector<std::unique_ptr<WorldTransform>> objects;
 	std::unique_ptr<LevelData> levelData;
+
+	std::vector<Model*>models_;
+
 };
 

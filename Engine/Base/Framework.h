@@ -1,3 +1,8 @@
+/**
+*	@file Framework.h
+*	@brief フレームワーククラスヘッダ
+*/
+
 #pragma once
 #include"WinApp.h"
 #include"DirectXCommon.h"
@@ -10,6 +15,7 @@
 #include"ImGuiManager.h"
 #include"AbstractSceneFactory.h"
 #include"SrvManager.h"
+#include"GlobalVariables.h"
 
 class Framework
 {
@@ -37,6 +43,7 @@ protected:
 	Audio* audio;
 	//IScene* scene_ = nullptr;	//シーン
 	SceneManager* sceneManager_ = nullptr;
+	GlobalVariables* glovalVariable = nullptr;
 
 	AbstractSceneFactory* sceneFactory_ = nullptr;
 

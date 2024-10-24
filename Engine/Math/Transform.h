@@ -1,3 +1,9 @@
+/**
+*	@file Transform.h
+*	@brief トランスフォーム構造体クラスヘッダ
+*/
+
+
 #pragma once
 #include"VectorMath.h"
 

@@ -405,9 +405,9 @@ Matrix4x4 MakeAffinMatrix(const Vector3& scale, const Quaternion& rotate, const 
 	Matrix4x4 rotateMatrix = MakeRotateMatrix(normalizeRotate);
 
 
-	
+
 	// アフィン変換行列を構築: S * R * T の順で合成
-	resultMakeAffinMatrix = Multiply(Multiply(resultMakeScaleMatrix,rotateMatrix), resultMakeTranselateMatrix);
+	resultMakeAffinMatrix = Multiply(Multiply(resultMakeScaleMatrix, rotateMatrix), resultMakeTranselateMatrix);
 
 	return resultMakeAffinMatrix;
 }
@@ -733,4 +733,46 @@ Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t)
 float LerpShortTranslate(float a, float b, float t)
 {
 	return a + t * (b - a);
+}
+
+bool IsCollision(const AABB& aabb, const SphereData& sphere)
+{
+	//最近接点を求める
+	Vector3 clossestPoint{
+		std::clamp(sphere.center.x, aabb.min.x, aabb.max.x),
+		std::clamp(sphere.center.y, aabb.min.y, aabb.max.y),
+		std::clamp(sphere.center.z, aabb.min.z, aabb.max.z)
+	};
+	//最近接点と球の中心との距離を求める
+	float distance = Length(Subtract(clossestPoint, sphere.center));
+
+	//距離が半径よりも小さければ衝突
+	if (distance <= sphere.radius.x && distance <= sphere.radius.y && distance <= sphere.radius.z)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool IsCollision(const AABB& aabb1, const AABB& aabb2)
+{
+	if ((aabb1.min.x <= aabb2.max.x && aabb1.max.x >= aabb2.min.x) &&
+		(aabb1.min.y <= aabb2.max.y && aabb1.max.y >= aabb2.min.y) &&
+		(aabb1.min.z <= aabb2.max.z && aabb1.max.z >= aabb2.min.z)
+		) {
+		return true;
+	}
+	return false;
+}
+
+bool IsCollision(const Vector3& point, const AABB& aabb)
+{
+	if ((aabb.min.x <= point.x && point.x <= aabb.max.x) &&
+		(aabb.min.y <= point.y && point.y <= aabb.max.y) &&
+		(aabb.min.z <= point.z && point.z <= aabb.max.z)
+		)
+	{
+		return true;
+	}
+	return false;
 }

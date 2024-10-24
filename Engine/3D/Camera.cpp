@@ -8,7 +8,7 @@ void Camera::Initialize()
 	transform =
 	{
 		{1.0f,1.0f,1.0f},
-		{0.2f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
 		{0.0f,6.0f,-30.0f}
 	};
 

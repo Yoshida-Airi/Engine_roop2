@@ -66,9 +66,6 @@
     <ClCompile Include="Engine\3D\ModelLoader.cpp">
       <Filter>Engine\3D</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Scene\GamePlayScene.cpp">
       <Filter>Application\Scene</Filter>
     </ClCompile>
@@ -87,7 +84,7 @@
     <ClCompile Include="Engine\Base\Scene\SceneManager.cpp">
       <Filter>Engine\Base\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Effect\EfectManager.cpp">
+    <ClCompile Include="Engine\Effect\EffectManager.cpp">
       <Filter>Engine\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\Manager\GraphicsPipelineManager.cpp">
@@ -121,8 +118,67 @@
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Application\Object\Player\Player.cpp">
-      <Filter>Application\Object\Player</Filter>
+      <Filter>Application\Objects\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Collider\Collider.cpp">
+      <Filter>Engine\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Collider\CollisionManager.cpp">
+      <Filter>Engine\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Enemy\Enemy.cpp">
+      <Filter>Application\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Skydome\Skydome.cpp">
+      <Filter>Application\Objects\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\GameObject.cpp">
+      <Filter>Application\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GlobalVariable\GlobalVariables.cpp">
+      <Filter>Engine\GlobalVariable</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Application\Object\CameraController\CameraController.cpp">
+      <Filter>Application\CameraController</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Player\Weapon.cpp">
+      <Filter>Application\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Scene\ClearScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Ground\Ground.cpp">
+      <Filter>Application\Objects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Scene\GameOverScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2D\Line.cpp">
+      <Filter>Engine\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Effect\DeathEffect.cpp">
+      <Filter>Application\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Effect\Fade.cpp">
+      <Filter>Application\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Goal\Goal.cpp">
+      <Filter>Application\Objects\Goal</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Scene\BossScene.cpp">
+      <Filter>Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Enemy\FlyEnemy.cpp">
+      <Filter>Application\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Enemy\Boss.cpp">
+      <Filter>Application\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Object\Ground\MapChipField.cpp">
+      <Filter>Application\Objects\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Effect\TitleEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\Triangle.h">
@@ -200,7 +256,7 @@
     <ClInclude Include="Engine\Base\Scene\SceneManager.h">
       <Filter>Engine\Base\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Effect\EfectManager.h">
+    <ClInclude Include="Engine\Effect\EffectManager.h">
       <Filter>Engine\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Manager\GraphicsPipelineManager.h">
@@ -234,8 +290,72 @@
       <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Application\Object\Player\Player.h">
-      <Filter>Application\Object\Player</Filter>
+      <Filter>Application\Objects\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Collider\Collider.h">
+      <Filter>Engine\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Collider\CollisionManager.h">
+      <Filter>Engine\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\CollisionConfig.h">
+      <Filter>Application\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Enemy\Enemy.h">
+      <Filter>Application\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Skydome\Skydome.h">
+      <Filter>Application\Objects\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\CollisionTypeData.h">
+      <Filter>Application\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\GameObject.h">
+      <Filter>Application\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GlobalVariable\GlobalVariables.h">
+      <Filter>Engine\GlobalVariable</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\CameraController\CameraController.h">
+      <Filter>Application\CameraController</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Player\Weapon.h">
+      <Filter>Application\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\ClearScene.h">
+      <Filter>Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Ground\Ground.h">
+      <Filter>Application\Objects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\GameOverScene.h">
+      <Filter>Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2D\Line.h">
+      <Filter>Engine\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Effect\DeathEffect.h">
+      <Filter>Application\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Effect\Fade.h">
+      <Filter>Application\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Goal\Goal.h">
+      <Filter>Application\Objects\Goal</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\BossScene.h">
+      <Filter>Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Enemy\FlyEnemy.h">
+      <Filter>Application\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Enemy\Boss.h">
+      <Filter>Application\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Object\Ground\MapChipField.h">
+      <Filter>Application\Objects\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Effect\TitleEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -283,11 +403,35 @@
     <Filter Include="Engine\Animation">
       <UniqueIdentifier>{eb0ea847-3ae9-4f7e-9205-c36a4e26d58a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object">
-      <UniqueIdentifier>{b0e079f8-abe5-41c4-b826-7267afd41e9a}</UniqueIdentifier>
+    <Filter Include="Application\Objects">
+      <UniqueIdentifier>{d9069cc1-8481-4466-b4c9-b1f114b95561}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Object\Player">
-      <UniqueIdentifier>{756f3c02-9f45-4f0f-be8e-aa87b7a5207b}</UniqueIdentifier>
+    <Filter Include="Application\Objects\Player">
+      <UniqueIdentifier>{16f545c2-fb49-48cb-8998-1c4b4aef68b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Collider">
+      <UniqueIdentifier>{2cf76b5a-02d2-4b94-9673-33ca9491d5fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Objects\Enemy">
+      <UniqueIdentifier>{1ef3886d-7ca8-44f2-ac1f-029e944a3b69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Objects\Skydome">
+      <UniqueIdentifier>{addf59d4-61ef-40bf-8d98-cac2e1160274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GlobalVariable">
+      <UniqueIdentifier>{a5cae6bd-f26c-41c8-b5b6-c50bd1b59ef4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\CameraController">
+      <UniqueIdentifier>{db0cb2c4-a860-47c6-a724-cbf31628e592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Objects\Ground">
+      <UniqueIdentifier>{acce9506-56a9-43cd-81bd-e881f8f1fa1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Effect">
+      <UniqueIdentifier>{72edca59-eab7-4d23-a363-bc5d941715ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Objects\Goal">
+      <UniqueIdentifier>{064a658e-0669-4b7c-b827-95a324a8635b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

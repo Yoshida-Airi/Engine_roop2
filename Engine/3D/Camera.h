@@ -1,3 +1,9 @@
+/**
+*	@file Camera.h
+*	@brief カメラクラスヘッダ
+*/
+
+
 #pragma once
 #include"MathUtilty.h"
 #include"WinApp.h"

@@ -1,3 +1,9 @@
+/**
+*	@file Sprite.h
+*	@brief テクスチャクラスヘッダ
+*/
+
+
 #pragma once
 #include"DirectXCommon.h"
 #include"GraphicsPipelineManager.h"
@@ -40,6 +46,11 @@ public:
 	void SetisInvisible(bool isInvisible)
 	{
 		isInvisible_ = isInvisible;
+	}
+
+	bool GetisInvisible()
+	{
+		return isInvisible_;
 	}
 
 
@@ -122,10 +133,10 @@ private://プライベート変数
 	Vector2 anchorPoint_ = { 0.0f,0.0f };
 
 	//画像のサイズ
-	float left;
-	float right;
-	float top;
-	float bottom;
+	float textureSizeLeft;
+	float textureSizeRight;
+	float textureSizeTop;
+	float textureSizeBottom;
 
 	//texcoord用
 	float texLeft;

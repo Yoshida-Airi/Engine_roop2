@@ -1,3 +1,9 @@
+/**
+*	@file Model.h
+*	@brief モデルクラスヘッダ
+*/
+
+
 #pragma once
 #include"DirectXCommon.h"
 #include"GraphicsPipelineManager.h"
@@ -91,6 +97,16 @@ public:
 		isActiveAnimation = isActive;
 	}
 
+	void SetMaterial(Vector4 material)
+	{
+		materialData_->color = material;
+	}
+
+	void SetLight(uint32_t isLight)
+	{
+		materialData_->enableLighting = isLight;
+	}
+
 private:
 	DirectXCommon* dxCommon_;
 	GraphicsPipelineManager* psoManager_;
@@ -162,7 +178,7 @@ private:
 	/// <param name="descriptorHeap"></param>
 	/// <param name="descriptorSize"></param>
 	/// <returns></returns>
-	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton, const ModelData& modelData);
+	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton/*, const ModelData& modelData*/);
 
 	void ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeltion);
 

@@ -16,8 +16,19 @@ void MyGame::Initialize()
 	sceneFactory_ = new SceneFactory();
 	sceneManager_->SetSceneFactory(sceneFactory_);
 
+#ifdef _DEBUG
 	//シーンマネージャーに最初のシーンをセット
-	sceneManager_->ChangeScene("TEST");
+	sceneManager_->ChangeScene("GAMEPLAY");
+#endif // _DEBUG
+
+#ifdef _NDEBUG
+	//シーンマネージャーに最初のシーンをセット
+	sceneManager_->ChangeScene("TITLE");
+#endif // _NDEBUG
+
+
+
+
 	
 }
 

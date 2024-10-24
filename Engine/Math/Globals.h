@@ -1,3 +1,9 @@
+/**
+*	@file Globals.h
+*	@brief グローバルクラスヘッダ
+*/
+
+
 #pragma once
 #pragma once
 #include"VectorMath.h"

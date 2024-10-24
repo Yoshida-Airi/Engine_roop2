@@ -1,3 +1,9 @@
+/**
+*	@file Sphere.h
+*	@brief 球体クラスヘッダ
+*/
+
+
 #pragma once
 #include"DirectXCommon.h"
 #include"GraphicsPipelineManager.h"
@@ -77,8 +83,8 @@ private:
 	//緯度分割1つ分の角度
 	const float kLatEvery = static_cast<float>(std::numbers::pi) / float(kSubdivision);
 
-	uint32_t latIndex = 0;
-	uint32_t lonIndex = 0;
+	//uint32_t latIndex = 0;
+	//uint32_t lonIndex = 0;
 
 	//球の全ての頂点
 	const uint32_t totalVertex = 1536;

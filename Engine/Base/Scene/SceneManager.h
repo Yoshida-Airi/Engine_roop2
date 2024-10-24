@@ -1,3 +1,8 @@
+/**
+*	@file SceneManager.h
+*	@brief シーンマネージャークラスヘッダ
+*/
+
 #pragma once
 #include"BaseScene.h"
 #include"AbstractSceneFactory.h"

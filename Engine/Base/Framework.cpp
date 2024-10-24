@@ -24,7 +24,6 @@ Framework::~Framework()
 	delete winApp;
 	winApp = nullptr;
 
-	
 
 	delete imgui;
 
@@ -67,6 +66,8 @@ void Framework::Initialize()
 	imgui = ImGuiManager::GetInstance();
 	imgui->Initialize();
 
+	glovalVariable = GlobalVariables::GetInstance();
+	glovalVariable->LoadFiles();
 
 
 	sceneManager_ = SceneManager::GetInstance();
@@ -78,9 +79,10 @@ void Framework::Update()
 
 	imgui->Begin();
 
-
-
 	input->Update();
+	glovalVariable->Update();
+
+
 	sceneManager_->Update();
 
 }
