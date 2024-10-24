@@ -41,7 +41,7 @@ public:
 	*/
 	void SetFlag(bool isFlag)
 	{
-		flag = isFlag;
+		flag_ = isFlag;
 	}
 
 	/**
@@ -51,9 +51,9 @@ public:
 	*/
 	void SetPosition(Vector3 position)
 	{
-		hitEffect->emitter_->transform.translate.x = position.x;
-		hitEffect->emitter_->transform.translate.y = position.y + 0.7f;
-		hitEffect->emitter_->transform.translate.z = position.z;
+		risingEffect_->emitter_->transform.translate.x = position.x;
+		risingEffect_->emitter_->transform.translate.y = position.y + 0.7f;
+		risingEffect_->emitter_->transform.translate.z = position.z;
 	}
 
 	/**
@@ -67,12 +67,12 @@ private:
 
 	TextureManager* textureManager_ = nullptr;
 
-	std::unique_ptr<ParticleSystem> hitEffect = nullptr;
-	uint32_t circleTexture;
+	std::unique_ptr<ParticleSystem> risingEffect_ = nullptr;
+	uint32_t circleTexture_;
 
-	bool flag;	//実行中かどうかのフラグ
-	int playTime = 20;
-	bool isDead = false;
+	bool flag_;	//実行中かどうかのフラグ
+	int32_t playTime_ = 20;
+	bool isDead_ = false;
 
 
 };

@@ -69,7 +69,7 @@ public:
 
 private:
 
-	uint32_t fadeTex;
+	uint32_t fadeTex_;
 	std::unique_ptr< Sprite> sprite_ = nullptr;
 
 	Status status_ = Status::None;

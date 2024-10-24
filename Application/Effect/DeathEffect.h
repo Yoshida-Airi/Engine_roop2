@@ -41,7 +41,7 @@ public:
 	*/
 	void SetFlag(bool isFlag)
 	{
-		flag = isFlag;
+		flag_ = isFlag;
 	}
 
 	/**
@@ -51,9 +51,9 @@ public:
 	*/
 	void SetPosition(Vector3 position)
 	{
-		hitEffect->emitter_->transform.translate.x = position.x;
-		hitEffect->emitter_->transform.translate.y = position.y + 0.2f;
-		hitEffect->emitter_->transform.translate.z = position.z;
+		hitEffect_->emitter_->transform.translate.x = position.x;
+		hitEffect_->emitter_->transform.translate.y = position.y + 0.2f;
+		hitEffect_->emitter_->transform.translate.z = position.z;
 	}
 
 	/**
@@ -68,16 +68,16 @@ private:
 	//! テクスチャ管理用のポインタ
 	TextureManager* textureManager_ = nullptr;
 	//! パーティクルシステムのインスタンス 
-	std::unique_ptr<ParticleSystem> hitEffect = nullptr;
+	std::unique_ptr<ParticleSystem> hitEffect_ = nullptr;
 	//! 使用する円形テクスチャのID 
-	uint32_t circleTexture;
+	uint32_t circleTexture_;
 
 	//! エフェクトが実行中かどうかを示すフラグ 
-	bool flag;	
+	bool flag_;	
 	//!  エフェクトの再生時間（フレーム数）
-	int playTime = 20;
+	int32_t playTime_ = 20;
 	//! エフェクトが消滅したかどうかのフラグ
-	bool isDead = false;
+	bool isDead_ = false;
 
 
 };

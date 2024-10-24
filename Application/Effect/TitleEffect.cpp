@@ -4,29 +4,29 @@
 void TitleEffect::Initialize(Camera* camera)
 {
 	textureManager_ = TextureManager::GetInstance();
-	circleTexture = textureManager_->LoadTexture("Resources/SampleAssets/circle.png");
+	circleTexture_ = textureManager_->LoadTexture("Resources/SampleAssets/circle.png");
 
 	Vector3 velocity = { 0.0f,5.0f,0.0f };
-	hitEffect.reset(ParticleSystem::Create(circleTexture, camera, velocity, true));
+	risingEffect_.reset(ParticleSystem::Create(circleTexture_, camera, velocity, true));
 	//hitEffect->emitter_->transform.translate = { 0.0f,-2.1f,0.0f };
-	hitEffect->emitter_->transform.scale = { 11.0f,2.0f,1.0f };
-	hitEffect->emitter_->count = 10;
-	hitEffect->emitter_->frequency = 0.8f;
-	hitEffect->SetLifeTime(1.0f, 3.0f);
+	risingEffect_->emitter_->transform.scale = { 11.0f,2.0f,1.0f };
+	risingEffect_->emitter_->count = 10;
+	risingEffect_->emitter_->frequency = 0.8f;
+	risingEffect_->SetLifeTime(1.0f, 3.0f);
 	
-	hitEffect->SetUseBillBoard();
+	risingEffect_->SetUseBillBoard();
 	//hitEffect->SetRandomAllVelocity();
-	hitEffect->SetRandomVelocityY(true);
-	hitEffect->SetRandomVelocityZ(true);
-	hitEffect->SetColor({ 1.0f,1.0f,1.0f });
+	risingEffect_->SetRandomVelocityY(true);
+	risingEffect_->SetRandomVelocityZ(true);
+	risingEffect_->SetColor({ 1.0f,1.0f,1.0f });
 	
 	//hitEffect->SetRandomColor();
 }
 
 void TitleEffect::Update()
 {
-	hitEffect->Debug("Effect");
-	hitEffect->Update();
+	risingEffect_->Debug("Effect");
+	risingEffect_->Update();
 
 	//if (flag)
 	//{
@@ -51,11 +51,11 @@ void TitleEffect::Draw()
 {
 	//if (flag)
 	//{
-		hitEffect->Draw();
+	risingEffect_->Draw();
 	//}
 }
 
 bool TitleEffect::IsDead()
 {
-	return isDead;
+	return isDead_;
 }

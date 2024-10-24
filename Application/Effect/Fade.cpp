@@ -2,10 +2,10 @@
 
 void Fade::Initialize()
 {
-	fadeTex = TextureManager::GetInstance()->LoadTexture("Resources/SampleAssets/black.png");
+	fadeTex_ = TextureManager::GetInstance()->LoadTexture("Resources/SampleAssets/black.png");
 
 	sprite_ = std::make_unique <Sprite>();
-	sprite_->Initialize(fadeTex);
+	sprite_->Initialize(fadeTex_);
 	sprite_->SetSize({ 1280.0f,720.0f });
 	sprite_->SetMaterialData({ 0.0f,0.0f,0.0f,1.0f });
 }
