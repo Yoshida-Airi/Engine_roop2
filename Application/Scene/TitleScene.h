@@ -30,11 +30,16 @@
 class TitleScene :public BaseScene
 {
 public:
+	/// @brief デストラクタ
 	~TitleScene()override;
+	/// @brief 初期化処理
 	void Initialize()override;
+	/// @brief 更新処理
 	void Update()override;
+	/// @brief 描画処理
 	void Draw()override;
 
+	/// @brief スプライトの点滅の更新
 	void UpdateSpriteBlink();
 
 private:
