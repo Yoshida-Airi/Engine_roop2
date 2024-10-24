@@ -21,36 +21,43 @@
 
 #include"Transform.h"
 
+/**
+*   @class Sphere
+*	@brief  球体クラス
+*/
 class Sphere
 {
 public:
 
-	~Sphere();
+	~Sphere();///< デストラクタ
 
+	/// @brief 初期化処理
+	/// @param textureHandle テクスチャのハンドル
 	void Initialize(uint32_t textureHandle);
 
+	/// @brief 更新処理
 	void Update();
 
+	/// @brief 描画処理
+	/// @param camera カメラオブジェクト
 	void Draw(Camera* camera);
 
 
 
-	/// <summary>
-	/// 表示するかしないか true : 表示しない
-	/// </summary>
-	/// <param name="isInvisible"></param>
+	/// @brief 表示設定
+/// @param isInvisible true の場合、球体を非表示にする
 	void SetisInvisible(bool isInvisible)
 	{
 		isInvisible_ = isInvisible;
 	}
 
+	/// @brief ワールドトランスフォームを取得
+	/// @return ワールドトランスフォームへのポインタ
 	WorldTransform* GetWorldTransform()const { return worldTransform_; };
 
-	/// <summary>
-	/// 球体の生成
-	/// </summary>
-	/// <param name="textureHandle">テクスチャ番号</param>
-	/// <returns>球体</returns>
+	/// @brief 球体の生成
+	/// @param textureHandle テクスチャ番号
+	/// @return 生成した球体のポインタ
 	static Sphere* Create(uint32_t textureHandle);
 
 private:
@@ -92,19 +99,13 @@ private:
 	bool isInvisible_ = false;
 
 private:
-	/// <summary>
-	/// 頂点のバッファの取得
-	/// </summary>
+	/// @brief 頂点バッファの取得
 	void VertexBuffer();
 
-	/// <summary>
-	/// マテリアルのバッファの取得
-	/// </summary>
+	/// @brief マテリアルバッファの取得
 	void MaterialBuffer();
 
-	/// <summary>
-	/// ライトバッファ
-	/// </summary>
+	/// @brief ライトバッファの取得
 	void LightBuffer();
 };
 

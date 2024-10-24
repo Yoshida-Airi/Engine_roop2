@@ -38,23 +38,48 @@
 #include"LevelEditor.h"
 
 
-/// <summary>
-/// ゲームプレイシーン
-/// </summary>
+/**
+*   @class GamePlayScene
+*	@brief  ゲームプレイシーンクラス
+*/
 class GamePlayScene:public BaseScene
 {
 public:
+	/// @brief デストラクタ
 	~GamePlayScene()override;
+	/// @brief 初期化処理
 	void Initialize()override;
+	/// @brief 更新処理
 	void Update()override;
+	/// @brief 描画処理
 	void Draw()override;
 
+	/// @brief 全てのオブジェクトの当たり判定のチェック
 	void CheckAllCollisions();
 
+	/**
+	* @brief 敵をスポーンします
+	* @param[in] position 敵の位置
+	*/
 	void SpawnEnemy(const Vector3& position);
+
+	/**
+	* @brief 空飛ぶ敵をスポーンします
+	* @param[in] position 敵の位置
+	*/
 	void SpawnFlyEnemy(const Vector3& position);
+
+	/**
+	* @brief ブロックをスポーンします
+	* @param[in] position ブロックの位置
+	* @param[in] scale ブロックのスケール
+	*/
 	void SpawnBlock(const Vector3& position, const Vector3& scale);
 
+	/**
+	* @brief 敵の消滅エフェクトを作成します
+	* @param[in] position エフェクトの位置
+	*/
 	void CreateDeathEffect(Vector3 position);
 
 	enum class Phase
@@ -65,6 +90,10 @@ public:
 	};
 
 
+	/**
+	* @brief フェーズを変更します
+	* @param[in] phase 変更するフェーズ
+	*/
 	void ChangePhase(Phase phase);
 
 
@@ -131,10 +160,13 @@ private:
 
 private:
 
+	/// @brief ゲームプレイフェーズ
 	void GamePlayPhase();
+	/// @brief ゲームクリアフェーズ
 	void GameClearPhase();
+	/// @brief ゲームオーバーフェーズ
 	void GameOverPhase();
-
+	/// @brief ブロック生成
 	void GenerateBlocks();
 };
 

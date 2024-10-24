@@ -22,9 +22,10 @@ struct ConstBufferDataViewProjection {
 };
 
 
-/// <summary>
-/// ビュープロジェクション変換データ
-/// </summary>
+/**
+*   @class Camera
+*	@brief カメラクラス
+*/
 class Camera
 {
 public:
@@ -55,39 +56,33 @@ public:
 #pragma endregion
 
 
+public:
 
-	Camera() = default;
-	~Camera() = default;
+	Camera() = default;///< デフォルトコンストラクタ
+	~Camera() = default; ///< デフォルトデストラクタ
 
-	/// <summary>
-	/// 初期化
-	/// </summary>
+	/// @brief 初期化処理
 	void Initialize();
-	/// <summary>
-	/// 定数バッファ生成
-	/// </summary>
+
+	/// @brief 定数バッファ生成処理
 	void CreateConstBuffer();
-	/// <summary>
-	/// マッピングする
-	/// </summary>
+
+	/// @brief 定数バッファのマッピング
 	void Map();
-	/// <summary>
-	/// 行列を更新する
-	/// </summary>
+
+	/// @brief 行列の更新処理
 	void UpdateMatrix();
-	/// <summary>
-	/// 行列を転送する
-	/// </summary>
+
+	/// @brief 行列を転送する処理
 	void TransferMatrix();
-	/// <summary>
-	/// ビュー行列を更新する
-	/// </summary>
+
+	/// @brief ビュー行列を更新する処理
 	void UpdateViewMatrix();
-	/// <summary>
-	/// 射影行列を更新する
-	/// </summary>
+
+	/// @brief 射影行列を更新する処理
 	void UpdateProjectionMatrix();
 
+	/// @brief デバッグ用関数
 	void CameraDebug();
 
 private:
@@ -98,8 +93,9 @@ private:
 
 	// マッピング済みアドレス
 	ConstBufferDataViewProjection* constMap = nullptr;
-	// コピー禁止
+	/// @brief コピー禁止のため、コピーコンストラクタを削除
 	Camera(const Camera&) = delete;
+	/// @brief コピー禁止のため、代入演算子を削除
 	Camera& operator=(const Camera&) = delete;
 };
 

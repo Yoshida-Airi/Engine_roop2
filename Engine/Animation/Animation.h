@@ -72,6 +72,10 @@ struct Skeleton
 	std::vector<Joint>joints;	//所属しているジョイント
 };
 
+/**
+*   @class Animation
+*	@brief  アニメーションクラス
+*/
 class Animation
 {
 public:

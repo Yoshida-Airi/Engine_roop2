@@ -29,6 +29,10 @@ enum BlendMode
 	kBlendModeScreen,	//スクリーン
 };
 
+/**
+*   @class GraphicsPipelineManager
+*	@brief  グラフィックパイプラインマネージャークラス
+*/
 class GraphicsPipelineManager
 {
 public:

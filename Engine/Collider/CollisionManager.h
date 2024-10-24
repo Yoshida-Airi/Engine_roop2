@@ -9,6 +9,10 @@
 #include"MathUtilty.h"
 #include"Model.h"
 
+/**
+*   @class CollisionManager
+*	@brief  当たり判定管理クラス
+*/
 class CollisionManager {
 
 public:

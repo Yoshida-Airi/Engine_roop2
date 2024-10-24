@@ -9,9 +9,10 @@
 #include"Model.h"
 #include"Object/CollisionConfig.h"
 
-/// <summary>
-/// 衝突判定オブジェクト
-/// </summary>
+/**
+*   @class Collider
+*	@brief  当たり判定クラス
+*/
 class Collider
 {
 public:

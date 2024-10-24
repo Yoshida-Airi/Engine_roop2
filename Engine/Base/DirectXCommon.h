@@ -13,7 +13,10 @@
 #include<chrono>
 #include<thread>
 
-
+/**
+*   @class DirectXCommon
+*	@brief  ダイレクトX基底クラス
+*/
 class DirectXCommon
 {
 public:

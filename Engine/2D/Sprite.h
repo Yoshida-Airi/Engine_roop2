@@ -18,83 +18,93 @@
 
 #include"Camera.h"
 
-
+/**
+*   @class Sprite
+*	@brief  スプライトクラス
+*/
 class Sprite
 {
 public:
+	/// @brief デストラクタ
 	~Sprite();
 
+	/// @brief スプライトの初期化
+	/// @param textureHandle テクスチャのハンドル
 	void Initialize(uint32_t textureHandle);
+
+	/// @brief スプライトの更新
 	void Update();
+
+	/// @brief スプライトの描画
+	/// @param camera 使用するカメラ
 	void Draw(Camera* camera);
 
+	/// @brief スプライトの頂点データを設定
+	/// @param left 左座標
+	/// @param right 右座標
+	/// @param top 上座標
+	/// @param bottom 下座標
 	void SetVertexData(const float left, const float right, const float top, const float bottom);
 
-	/// <summary>
-	/// マテリアルデータの設定
-	/// </summary>
-	/// <param name="color"></param>
+
+	/// @brief マテリアルデータの設定
+	/// @param color マテリアルの色
 	void SetMaterialData(const Vector4 color);
 
+	/// @brief テクスチャのGPUハンドルを設定
+	/// @param textureSrvHandleGPU GPU用テクスチャハンドル
 	void SetTextureSrvHandleGPU(D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU)
 	{
 		textureSrvHandleGPU_ = textureSrvHandleGPU;
 	}
 
-	
-
+	/// @brief スプライトの可視性を設定
+	/// @param isInvisible true	:非表示
 	void SetisInvisible(bool isInvisible)
 	{
 		isInvisible_ = isInvisible;
 	}
 
+	/// @brief スプライトの可視性を取得
+	/// @return true:非表示
 	bool GetisInvisible()
 	{
 		return isInvisible_;
 	}
 
-
-	/// <summary>
-	/// テクスチャの左上座標（画像上の描画したい左上座標
-	/// </summary>
-	/// <param name="leftTop"></param>
+	/// @brief テクスチャの左上座標を設定
+	/// @param leftTop 左上座標
 	void SetTextureLeftTop(Vector2 leftTop)
 	{
 		textureLeftTop = leftTop;
 	}
 
-	/// <summary>
-	/// テクスチャサイズ（切り取って表示したいサイズ
-	/// </summary>
-	/// <param name="size"></param>
+	/// @brief テクスチャサイズを設定
+	/// @param size 切り取って表示したいサイズ
 	void SetSize(Vector2 size)
 	{
 		cutSize_ = size;
 	}
 
-	/// <summary>
-	/// スプライトのの基準点
-	/// </summary>
-	/// <param name="anchorPoint"></param>
+	/// @brief スプライトの基準点を設定
+	/// @param anchorPoint 基準点
 	void SetAnchorPoint(Vector2 anchorPoint)
 	{
 		anchorPoint_ = anchorPoint;
 	}
 
+	/// @brief ワールド変換を取得
+	/// @return ワールドトランスフォーム
 	WorldTransform* GetWorldTransform()const { return worldTransform_; };
 
-	void SetAlpha();
 
-	/// <summary>
-	/// スプライトの生成
-	/// </summary>
-	/// <param name="textureHandle">テクスチャ番号</param>
-	/// <returns>スプライト</returns>
+	/// @brief スプライトの生成
+	/// @param textureHandle テクスチャ番号
+	/// @return 生成されたスプライト
 	static Sprite* Create(uint32_t textureHandle);
 
-	/// <summary>
-	/// Imgui
-	/// </summary>
+	/// @brief ImGuiのデバッグ
+	/// @param name 表示する名前
 	void Debug(const char* name);
 
 private://プライベート変数
@@ -146,29 +156,19 @@ private://プライベート変数
 
 private://プライベート関数
 
-	/// <summary>
-	/// 頂点のバッファの取得
-	/// </summary>
+	/// @brief 頂点バッファの取得
 	void VertexBuffer();
 
-	/// <summary>
-	/// マテリアルのバッファの取得
-	/// </summary>
+	/// @brief マテリアルバッファの取得
 	void MaterialBuffer();
 
-	/// <summary>
-	/// index用
-	/// </summary>
+	/// @brief インデックスバッファの取得
 	void IndexBuffer();
 
-	/// <summary>
-	/// 頂点情報の更新
-	/// </summary>
+	/// @brief 頂点情報の更新
 	void UpdateVertexBuffer();
 
-	/// <summary>
-	/// テクスチャサイズをオリジナルに合わせる
-	/// </summary>
+	/// @brief テクスチャサイズをオリジナルに合わせる
 	void AdjustTextureSize();
 
 };

@@ -37,23 +37,42 @@
 #include"LevelEditor.h"
 
 
-/// <summary>
-/// ゲームプレイシーン
-/// </summary>
+/**
+*   @class BossScene
+*	@brief  ボスシーンクラス
+*/
 class BossScene :public BaseScene
 {
 public:
+	/// @brief デストラクタ
 	~BossScene()override;
+	/// @brief 初期化処理
 	void Initialize()override;
+	/// @brief 更新処理
 	void Update()override;
+	/// @brief 描画処理
 	void Draw()override;
 
+	/// @brief 全ての衝突判定をチェック
 	void CheckAllCollisions();
 
+	/**
+	 * @brief ブロックを生成
+	 * @param[in] position ブロックの位置
+	 * @param[in] scale ブロックのスケール
+	 */
 	void SpawnBlock(const Vector3& position, const Vector3& scale);
 
+	/**
+	 * @brief デスエフェクトを生成
+	 * @param[in] position エフェクトの発生位置
+	 */
 	void CreateDeathEffect(Vector3 position);
 
+	/**
+	 * @enum Phase
+	 * @brief シーンのフェーズを表す列挙型
+	 */
 	enum class Phase
 	{
 		kPlay,
@@ -61,7 +80,10 @@ public:
 		kDeath,
 	};
 
-
+	/**
+	 * @brief フェーズを変更
+	 * @param[in] phase 新しいフェーズ
+	 */
 	void ChangePhase(Phase phase);
 
 
@@ -125,9 +147,11 @@ private:
 	Phase phase_;
 
 private:
-
+	/// @brief ゲームプレイフェーズの処理
 	void GamePlayPhase();
+	/// @brief ゲームクリアフェーズの処理
 	void GameClearPhase();
+	/// @brief ゲームオーバーフェーズの処理
 	void GameOverPhase();
 };
 

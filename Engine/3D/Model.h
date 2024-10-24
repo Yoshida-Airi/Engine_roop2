@@ -42,66 +42,87 @@ struct SkinCluster
 	std::pair<D3D12_CPU_DESCRIPTOR_HANDLE, CD3DX12_GPU_DESCRIPTOR_HANDLE>paletteSrvHandle;
 };
 
-
+/**
+*   @class DeathEffect
+*	@brief  モデルクラス
+*/
 class Model
 {
 public:
-	~Model();
+	~Model(); ///< デストラクタ
+
+	/// @brief モデルの初期化
+	/// @param filename モデルファイルのパス
 	void Initialize(const std::string& filename);
+
+	/// @brief モデルの更新処理
 	void Update();
+
+	/// @brief モデルの描画処理
+	/// @param camera 使用するカメラ
 	void Draw(Camera* camera);
 
-	/// <summary>
-	/// 表示切り替え
-	/// </summary>
-	/// <param name="isInvisible">表示しない : true</param>
+	/// @brief 表示切り替え
+	/// @param isInvisible true:表示シない
 	void SetisInvisible(bool isInvisible)
 	{
 		isInvisible_ = isInvisible;
 	}
 
+	/// @brief アニメーションの使用設定
+	/// @param isUse true:アニメーション使用する
 	void UseAnimation(bool isUse)
 	{
 		animation.isValid = isUse;
 	}
 
-	/// <summary>
-	/// モデル生成
-	/// </summary>
-	/// <param name="filename">ファイルパス名</param>
-	/// <returns>モデル</returns>
+	/// @brief モデルを生成
+	/// @param filename モデルファイルのパス
+	/// @return 生成したモデル
 	static Model* Create(const std::string& filename);
 
+	/// @brief デバッグ情報の表示
+	/// @param name モデル名
 	void ModelDebug(const char* name);
 
-	/// <summary>
-	/// 親子関係を結ぶ
-	/// </summary>
-	/// <param name="model">親のモデル</param>
+	/// @brief 親子関係を結ぶ
+	/// @param model 親のモデル
 	void Parent(Model* model);
 
+	/// @brief ワールドトランスフォームを取得
+	/// @return ワールドトランスフォーム
 	WorldTransform* GetWorldTransform()const { return worldTransform_; };
 
+	/// @brief ワールドトランスフォームを設定
+	/// @param worldTransform 設定するワールドトランスフォーム
 	void SetWorldTransform(WorldTransform* worldTransform)
 	{
 		worldTransform_ = worldTransform;
 	}
 	
+	/// @brief アニメーションデータを設定
+	/// @param animationData アニメーションデータ
 	void SetAnimation(AnimationData animationData)
 	{
 		animation = animationData;
 	}
 
+	/// @brief アニメーションを移動させるフラグの設定
+	/// @param isActive アニメーションが有効な場合は true
 	void MoveAnimation(bool isActive)
 	{
 		isActiveAnimation = isActive;
 	}
 
+	/// @brief マテリアルデータを設定
+	/// @param material マテリアルの色
 	void SetMaterial(Vector4 material)
 	{
 		materialData_->color = material;
 	}
 
+	/// @brief ライトの設定
+	/// @param isLight ライトを有効にする場合は true
 	void SetLight(uint32_t isLight)
 	{
 		materialData_->enableLighting = isLight;
@@ -149,37 +170,27 @@ private:
 	
 private:
 
-	/// <summary>
-	/// 頂点のバッファの取得
-	/// </summary>
+	/// @brief 頂点のバッファを取得
 	void VertexBuffer();
 
-	/// <summary>
-	/// マテリアルのバッファの取得
-	/// </summary>
+	/// @brief マテリアルのバッファを取得
 	void MaterialBuffer();
 
-	/// <summary>
-	/// ライトのバッファの取得
-	/// </summary>
+	/// @brief ライトのバッファを取得
 	void LightBuffer();
 
+	/// @brief インデックスバッファを取得
 	void IndexBuffer();
 
-
-	void UpdateSkinCluster(SkinCluster& skinCluster, const Skeleton& skeleton);
-
-	/// <summary>
-	/// スキンクラスターの生成
-	/// </summary>
-	/// <param name="device"></param>
-	/// <param name="skeleton"></param>
-	/// <param name="modelData"></param>
-	/// <param name="descriptorHeap"></param>
-	/// <param name="descriptorSize"></param>
-	/// <returns></returns>
+	/// @brief スキンクラスターを生成
+	/// @param device DirectXデバイス
+	/// @param skeleton スケルトンデータ
+	/// @return 生成したスキンクラスター
 	SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device, const Skeleton& skeleton/*, const ModelData& modelData*/);
 
+	/// @brief クラスターを更新
+	/// @param skinCluster 更新するスキンクラスター
+	/// @param skelton スケルトンデータ
 	void ClasterUpdate(SkinCluster& skinCluster, const Skeleton& skeltion);
 
 };

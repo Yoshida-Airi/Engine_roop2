@@ -14,6 +14,10 @@
 #include"WinApp.h"
 #include<cassert>
 
+/**
+*   @class Input
+*	@brief  入力クラス
+*/
 class Input
 {
 public:

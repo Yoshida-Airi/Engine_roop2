@@ -137,10 +137,6 @@ void Sprite::SetMaterialData(const Vector4 color)
 	materialData_[0].color = color;
 }
 
-void Sprite::SetAlpha()
-{
-	
-}
 
 Sprite* Sprite::Create(uint32_t textureHandle)
 {

@@ -52,6 +52,11 @@ struct Time
 	float max;
 };
 
+
+/**
+*   @class ParticleSystem
+*	@brief  パーティクルシステムクラス
+*/
 class ParticleSystem
 {
 public:

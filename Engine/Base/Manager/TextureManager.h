@@ -19,7 +19,10 @@
 
 #pragma comment(lib,"d3d12.lib")
 
-
+/**
+*   @class TextureManager
+*	@brief テクスチャ管理クラス
+*/
 class TextureManager
 {
 public:

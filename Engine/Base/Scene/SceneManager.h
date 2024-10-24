@@ -7,9 +7,10 @@
 #include"BaseScene.h"
 #include"AbstractSceneFactory.h"
 
-/// <summary>
-/// シーン管理
-/// </summary>
+/**
+*   @class SceneManager
+*	@brief  シーン管理クラス
+*/
 class SceneManager
 {
 public:

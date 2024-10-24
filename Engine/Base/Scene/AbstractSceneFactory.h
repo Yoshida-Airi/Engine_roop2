@@ -8,9 +8,10 @@
 #include<string>
 
 
-/// <summary>
-/// シーン工場（概念
-/// </summary>
+/**
+*   @class AbstractSceneFactory
+*	@brief シーン工場（概念）クラス
+*/
 class AbstractSceneFactory
 {
 public:

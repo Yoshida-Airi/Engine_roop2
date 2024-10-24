@@ -18,15 +18,21 @@
 
 #include"Object/Ground/MapChipField.h"
 
+/**
+*   @class TestPlayScene
+*	@brief  テストシーンクラス
+*/
 class TestPlayScene:public BaseScene
 {
 public:
+	/// @brief デストラクタ
 	~TestPlayScene()override;
+	/// @brief 初期化処理
 	void Initialize()override;
+	/// @brief 更新処理
 	void Update()override;
+	/// @brief 描画処理
 	void Draw()override;
-
-	//Animation LoadAnimationFile(const std::string& directoryPath, const std::string& filename);
 
 
 private:
@@ -48,6 +54,12 @@ private:
 
 	MapChipField* mapChipField_;
 
+
+private:
+
+	/**
+	 * @brief ブロックの生成
+	 */
 	void GenerateBlocks();
 
 };

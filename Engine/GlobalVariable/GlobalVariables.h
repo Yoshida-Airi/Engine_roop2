@@ -13,7 +13,10 @@
 #include"VectorMath.h"
 
 
-
+/**
+*   @class GlobalVariables
+*	@brief  グローバル変数クラス
+*/
 class GlobalVariables
 {
 public:
