@@ -21,6 +21,10 @@
 
 #include"Transform.h"
 
+/**
+*   @class Sphere
+*	@brief  球体クラス
+*/
 class Sphere
 {
 public:

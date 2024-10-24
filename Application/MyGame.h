@@ -8,9 +8,10 @@
 
 #include"BaseScene.h"
 
-/// <summary>
-/// ゲーム固有のクラス
-/// </summary>
+/**
+*   @class MyGame
+*	@brief  固有クラス
+*/
 class MyGame :public Framework
 {
 public:

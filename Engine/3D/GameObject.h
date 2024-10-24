@@ -9,6 +9,10 @@
 #include"Model.h"
 #include"Collider.h"
 
+/**
+*   @class GameObject
+*	@brief  ゲームオブジェクトクラス
+*/
 class GameObject : public Collider
 {
 protected:

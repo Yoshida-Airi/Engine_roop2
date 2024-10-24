@@ -17,6 +17,10 @@
 #include"SrvManager.h"
 #include"GlobalVariables.h"
 
+/**
+*   @class Framework
+*	@brief  フレームワーククラス
+*/
 class Framework
 {
 

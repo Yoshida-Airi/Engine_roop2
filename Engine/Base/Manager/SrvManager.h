@@ -6,6 +6,10 @@
 #pragma once
 #include"DirectXCommon.h"
 
+/**
+*   @class SrvManager
+*	@brief  srv管理クラス
+*/
 class SrvManager
 {
 public:

@@ -42,7 +42,10 @@ struct SkinCluster
 	std::pair<D3D12_CPU_DESCRIPTOR_HANDLE, CD3DX12_GPU_DESCRIPTOR_HANDLE>paletteSrvHandle;
 };
 
-
+/**
+*   @class DeathEffect
+*	@brief  モデルクラス
+*/
 class Model
 {
 public:

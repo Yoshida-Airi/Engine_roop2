@@ -7,6 +7,10 @@
 
 class SceneManager;
 
+/**
+*   @class BaseScene
+*	@brief  シーン基礎クラス
+*/
 class BaseScene
 {
 public:

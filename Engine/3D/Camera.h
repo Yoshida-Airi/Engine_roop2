@@ -22,9 +22,10 @@ struct ConstBufferDataViewProjection {
 };
 
 
-/// <summary>
-/// ビュープロジェクション変換データ
-/// </summary>
+/**
+*   @class Camera
+*	@brief カメラクラス
+*/
 class Camera
 {
 public:

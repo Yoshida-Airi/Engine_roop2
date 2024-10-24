@@ -18,7 +18,10 @@
 
 #include"Camera.h"
 
-
+/**
+*   @class Sprite
+*	@brief  スプライトクラス
+*/
 class Sprite
 {
 public:

@@ -12,6 +12,10 @@ struct FadeConstants
 	float fadeInProgress;
 };
 
+/**
+*   @class EffectManager
+*	@brief  エフェクト管理クラス
+*/
 class EffectManager
 {
 	

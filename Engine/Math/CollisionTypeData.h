@@ -1,5 +1,9 @@
-#pragma once
+/**
+*	@file CollisionTypeData.h
+*	@brief 当たり判定用データヘッダー
+*/
 
+#pragma once
 #include"VectorMath.h"
 
 struct AABB

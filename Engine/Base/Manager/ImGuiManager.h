@@ -12,7 +12,10 @@
 #include"imgui_impl_win32.h"
 
 
-
+/**
+*   @class ImGuiManager
+*	@brief Imgui管理クラス
+*/
 class ImGuiManager
 {
 public:

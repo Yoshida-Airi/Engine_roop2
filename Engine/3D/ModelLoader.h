@@ -27,7 +27,10 @@
 #include<wrl.h>
 
 
-
+/**
+*   @class ModelLoader
+*	@brief  モデル読み込みクラス
+*/
 class ModelLoader
 {
 public:

@@ -38,9 +38,10 @@
 #include"LevelEditor.h"
 
 
-/// <summary>
-/// ゲームプレイシーン
-/// </summary>
+/**
+*   @class GamePlayScene
+*	@brief  ゲームプレイシーンクラス
+*/
 class GamePlayScene:public BaseScene
 {
 public:

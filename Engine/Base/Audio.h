@@ -45,6 +45,10 @@ struct SoundData
 	uint32_t textureHandle;
 };
 
+/**
+*   @class Audio
+*	@brief  音クラス
+*/
 class Audio
 {
 public:

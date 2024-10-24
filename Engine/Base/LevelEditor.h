@@ -35,6 +35,11 @@ struct LevelData
 	std::vector<ObjectData>objects;
 };
 
+
+/**
+*   @class LevelEditor
+*	@brief  レベルエディタークラス
+*/
 class LevelEditor :public GameObject
 {
 public:

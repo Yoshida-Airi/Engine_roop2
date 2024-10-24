@@ -23,6 +23,10 @@
 #include"Object/Skydome/Skydome.h"
 #include"EffectManager.h"
 
+/**
+*   @class TitleScene
+*	@brief タイトルシーンクラス
+*/
 class TitleScene :public BaseScene
 {
 public:

@@ -12,7 +12,10 @@
 #include<dxgidebug.h>
 
 
-
+/**
+*   @class DebugHelper
+*	@brief  リークチェック用クラス
+*/
 class DebugHelper
 {
 public:

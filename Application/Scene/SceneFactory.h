@@ -6,6 +6,10 @@
 #pragma once
 #include "AbstractSceneFactory.h"
 
+/**
+*   @class SceneFactory
+*	@brief シーン工場クラス
+*/
 class SceneFactory :
 	public AbstractSceneFactory
 {

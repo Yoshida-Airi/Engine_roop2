@@ -20,6 +20,10 @@
 
 #include"EffectManager.h"
 
+/**
+*   @class GameOverScene
+*	@brief  ゲームオーバーシーンクラス
+*/
 class GameOverScene :public BaseScene
 {
 public:

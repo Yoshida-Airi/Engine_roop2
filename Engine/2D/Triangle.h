@@ -27,6 +27,10 @@ struct TriangleData
 	Vector4 color;
 };
 
+/**
+*   @class Triangle
+*	@brief  三角形クラス
+*/
 class Triangle
 {
 public:

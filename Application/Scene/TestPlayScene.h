@@ -18,6 +18,10 @@
 
 #include"Object/Ground/MapChipField.h"
 
+/**
+*   @class TestPlayScene
+*	@brief  テストシーンクラス
+*/
 class TestPlayScene:public BaseScene
 {
 public:

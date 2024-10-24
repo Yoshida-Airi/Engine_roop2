@@ -20,6 +20,10 @@
 
 #include"EffectManager.h"
 
+/**
+*   @class ClearScene
+*	@brief  クリアシーンクラス
+*/
 class ClearScene :public BaseScene
 {
 public:
