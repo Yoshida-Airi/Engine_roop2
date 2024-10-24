@@ -19,26 +19,23 @@
 class ImGuiManager
 {
 public:
-
+	/// @brief シングルトンインスタンスを取得します。
+	/// @return ImGuiManagerのインスタンス
 	static ImGuiManager* GetInstance();
 
+	/// @brief デストラクタ
 	~ImGuiManager();
 
+	/// @brief 初期化関数
 	void Initialize();
 
-	/// <summary>
-	/// フレームのはじめ
-	/// </summary>
+	/// @brief 開始処理
 	void Begin();
 
-	/// <summary>
-	/// 内部コマンドの生成
-	/// </summary>
+	/// @brief 終了処理
 	void End();
 
-	/// <summary>
-	/// 描画処理
-	/// </summary>
+	/// @brief 描画処理
 	void Draw();
 
 private:

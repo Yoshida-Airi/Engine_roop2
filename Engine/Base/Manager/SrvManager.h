@@ -13,15 +13,21 @@
 class SrvManager
 {
 public:
-
+	/// @brief シングルトンインスタンスを取得します。
+	/// @return SrvManagerのインスタンス
 	static SrvManager* GetInstance();
 
+	/// @brief 初期化処理
 	void Initialize();
+	/// @brief 描画前準備処理
 	void PreDraw();
 
+	/// @brief 新しいSRVを割り当て、インデックスを返します。
+	/// @return 割り当てられたSRVのインデックス
 	uint32_t Allocate();
 
-	//最大数を超えているかのチェック関数
+	/// @brief SRVの最大数を超えているかチェックします。
+	/// @return 最大数を超えている場合はtrue、それ以外はfalse
 	bool SrvMaxCountCheck();
 
 	/*ゲッター*/
@@ -33,8 +39,18 @@ public:
 	/*セッター*/
 	void SetGraphicsRootDescriptorTable(UINT RootParameterIndex, uint32_t srvIndex);
 
-	//SRV生成関数
+	/// @brief テクスチャ2D用のSRVを生成します。
+	/// @param srvIndex SRVのインデックス
+	/// @param pResource リソースへのポインタ
+	/// @param format テクスチャのフォーマット
+	/// @param MipLevels ミップレベル数
 	void CreateSRVforTexture2D(uint32_t srvIndex, ID3D12Resource* pResource, DXGI_FORMAT format, UINT MipLevels);
+
+	/// @brief 構造化バッファ用のSRVを生成します。
+	/// @param srvIndex SRVのインデックス
+	/// @param pResource リソースへのポインタ
+	/// @param numElements 要素数
+	/// @param structureByteStride 構造体のバイトサイズ
 	void CreateSRVforStructuredBuffer(uint32_t srvIndex, ID3D12Resource* pResource, UINT numElements, UINT structureByteStride);
 
 	static const uint32_t kMaxSRVCount;	//最大SRV数

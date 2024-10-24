@@ -54,12 +54,15 @@ public:
 	};
 
 
-
+	/// @brief 初期化処理を行います。
 	void Initialize();
 
-	//シングルトン
+	/// @brief シングルトンインスタンスを取得します。
+	/// @return GraphicsPipelineManagerのインスタンス
 	static GraphicsPipelineManager* GetInstance();
 
+	/// @brief PSOメンバーを取得します。
+	/// @return PsoMember構造体
 	PsoMember GetPsoMember()const { return psoMember; };
 
 private:
@@ -92,19 +95,33 @@ private:
 
 private:
 
-	
+	/// @brief 3Dオブジェクト用のPSOを生成します。
+	/// @param filePath シェーダーファイルのパス
+	/// @return 生成したPSOデータ
 	PSOData CreateObject3D(const std::wstring& filePath);
+
+	/// @brief スキニングされた3Dオブジェクト用のPSOを生成します。
+	/// @param filePath シェーダーファイルのパス
+	/// @return 生成したPSOデータ
 	PSOData CreateSkinningObject3D(const std::wstring& filePath);
+
+	/// @brief スプライト用のPSOを生成します。
+	/// @param filePath シェーダーファイルのパス
+	/// @return 生成したPSOデータ
 	PSOData CreateSprite(const std::wstring& filePath);
+
+	/// @brief パーティクル用のPSOを生成します。
+	/// @param filePath シェーダーファイルのパス
+	/// @return 生成したPSOデータ
 	PSOData CreateParticle(const std::wstring& filePath);
 
-	/// <summary>
-	/// 全体のPSO生成関数
-	/// </summary>
-	/// <param name="filePath">シェーダーファイル</param>
-	/// <param name="rootParameters">ルートパラメータ</param>
-	/// <param name="numRootParameters">ルートパラメーターの配列数</param>
-	/// <returns>PSOData</returns>
+	/// @brief 共通のPSOを生成します。
+	/// @param filePath シェーダーファイル
+	/// @param rootParameters ルートパラメータ
+	/// @param numRootParameters ルートパラメータの数
+	/// @param depthStencilDesc 深度ステンシル設定
+	/// @param inputLayoutDesc 入力レイアウト設定
+	/// @return 生成したPSOデータ
 	GraphicsPipelineManager::PSOData CreateCommonPSO
 	(
 		const std::wstring& filePath, 
@@ -114,36 +131,27 @@ private:
 		D3D12_INPUT_LAYOUT_DESC inputLayoutDesc
 	);
 
-	/// <summary>
-	/// DXCの初期化
-	/// </summary>
+	/// @brief DXCコンパイラを初期化します。
 	void InitializeDXCCompiler();
 
 
-	/// <summary>
-	/// ブレンドステートの設定
-	/// </summary>
+	/// @brief ブレンドステートを設定します。
+	/// @param blendMode 設定するブレンドモード
 	void SetupBlendState(BlendMode blendMode);
 
-	/// <summary>
-	/// ラスタライザ－ステートの生成
-	/// </summary>
+	/// @brief ラスタライザー設定を生成します。
 	void SetupRasterrizerState();
 
-	/// <summary>
-	/// 深度
-	/// </summary>
+	/// @brief 深度ステンシル設定を行います。
 	void SetupDepthStencilState();
 
-	/// <summary>
-	/// シェーダーコンパイル用
-	/// </summary>
-	/// <param name="filePath">シェーダー名</param>
-	/// <param name="profile"></param>
-	/// <param name="dxcUtils"></param>
-	/// <param name="dxcCompiler"></param>
-	/// <param name="includeHandler"></param>
-	/// <returns></returns>
+	/// @brief シェーダーをコンパイルします。
+	/// @param filePath シェーダーファイルのパス
+	/// @param profile コンパイルプロファイル
+	/// @param dxcUtils DXCユーティリティ
+	/// @param dxcCompiler DXCコンパイラ
+	/// @param includeHandler インクルードハンドラ
+	/// @return コンパイルされたシェーダーのバイナリ
 	IDxcBlob* CompileShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler);
 
 

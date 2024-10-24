@@ -79,24 +79,46 @@ struct Skeleton
 class Animation
 {
 public:
+	/// @brief インスタンス取得
 	static Animation* GetInstance();
 
+	/// @brief アニメーションの更新
+	/// @param skelton アニメーションを適用するスケルトン
 	void Update(Skeleton& skelton);
 
+	/// @brief アニメーションファイルの読み込み
+	/// @param filename アニメーションファイル名
+	/// @return 読み込んだアニメーションデータ
 	AnimationData LoadAnimationFile(const std::string& filename);
 
+	/// @brief キーフレームから値を計算
+	/// @param keyframes キーフレームのベクター
+	/// @param time 時間（秒）
+	/// @return 計算されたVector3の値
 	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, float time);
+
+	/// @brief キーフレームから値を計算
+	/// @param keyframes キーフレームのベクター
+	/// @param time 時間（秒）
+	/// @return 計算されたQuaternionの値
 	Quaternion CalculateValue(const std::vector<KeyframeQuatanion>& keyframes, float time);
 
+	/// @brief スケルトンの生成
+	/// @param rootNode ルートノード
+	/// @return 生成されたスケルトン
 	Skeleton CreateSkelton(const Node& rootNode);
+
+	/// @brief ジョイントの生成
+	/// @param node ジョイントノード
+	/// @param parent 親ジョイントのインデックス（存在しない場合はnull）
+	/// @param joint ジョイントのリスト
+	/// @return 生成したジョイントのインデックス
 	int32_t CreateJoint(const Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joint);
 	
-	/// <summary>
-	/// スケルトンに対してアニメーションの適用をする
-	/// </summary>
-	/// <param name="skelton">スケルトン情報（骨）</param>
-	/// <param name="animationData">適用するアニメーションデータ</param>
-	/// <param name="animationTime">アニメーションの時間</param>
+	/// @brief スケルトンに対してアニメーションを適用
+	/// @param skelton アニメーションを適用するスケルトン
+	/// @param animationData 適用するアニメーションデータ
+	/// @param animationTime アニメーションの経過時間
 	void ApplyAnimation(Skeleton& skelton, const AnimationData& animationData, float animationTime);
 
 private:
