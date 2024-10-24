@@ -43,8 +43,8 @@ public:
 	*/
 	void SetPosition(Vector3 position)
 	{
-		enemyModel->GetWorldTransform()->translation_ = position;
-		initialY = enemyModel->GetWorldTransform()->translation_.y;
+		enemyModel_->GetWorldTransform()->translation_ = position;
+		initialY_ = enemyModel_->GetWorldTransform()->translation_.y;
 	}
 
 
@@ -74,24 +74,24 @@ public:
 	*/
 	bool GetIsAlive()
 	{
-		return isAlive;
+		return isAlive_;
 	}
 
 private:
 
-	std::unique_ptr<Model>enemyModel;
-	std::vector<Model*>enemyModels;
+	std::unique_ptr<Model>enemyModel_;
+	std::vector<Model*>enemyModels_;
 
-	bool isAlive = true;	//生きているか: true 生きている
+	bool isAlive_ = true;	//生きているか: true 生きている
 
-	float moveSpeed = 0.01f;  // 移動速度
-	float moveDistance = 5.0f;  // 移動する距離
-	float traveledDistance = 0.0f;  // 移動した距離
-	bool movingRight = true;  // 右方向に移動しているかどうか
+	float moveSpeed_ = 0.01f;  // 移動速度
+	float moveDistance_ = 5.0f;  // 移動する距離
+	float traveledDistance_ = 0.0f;  // 移動した距離
+	bool movingRight_ = true;  // 右方向に移動しているかどうか
 
-	float Amplitude = 1.0f;  // 浮く高さを1.0fに設定
-	float Speed = 0.05f;      // 浮く速度をゆっくりとした0.1fに設定
-	float initialY;  // 現在のy座標を初期値に設定
-	float time = 0.0f;            // 時間の初期値を0に設定
+	float amplitude_ = 1.0f;  // 浮く高さを1.0fに設定
+	float speed_ = 0.05f;      // 浮く速度をゆっくりとした0.1fに設定
+	float initialY_;  // 現在のy座標を初期値に設定
+	float time_ = 0.0f;            // 時間の初期値を0に設定
 };
 

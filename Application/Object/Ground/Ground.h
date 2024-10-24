@@ -67,7 +67,7 @@ public:
 	*/
 	void SetPosition(Vector3 position)
 	{
-		groundModel->GetWorldTransform()->translation_ = position;
+		groundModel_->GetWorldTransform()->translation_ = position;
 	}
 
 	/**
@@ -76,7 +76,7 @@ public:
 	*/
 	void SetScale(Vector3 scale)
 	{
-		groundModel->GetWorldTransform()->scale_ = scale;
+		groundModel_->GetWorldTransform()->scale_ = scale;
 	}
 
 	/**
@@ -85,14 +85,14 @@ public:
 	*/
 	Vector3 GetScale()
 	{
-		return groundModel->GetWorldTransform()->scale_;
+		return groundModel_->GetWorldTransform()->scale_;
 	}
 
 private:
 	
 
 
-	std::unique_ptr<Model>groundModel = nullptr;
+	std::unique_ptr<Model>groundModel_ = nullptr;
 
 };
 

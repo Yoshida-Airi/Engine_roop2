@@ -5,28 +5,28 @@ void Goal::Initialize()
 	Collider::SetTypeID(CollisionTypeDef::kGoal);
 	Collider::SetColliderTypeID(ColliderType::SPHERE);
 
-	goalModel.reset(Model::Create("Resources/Object/Goal/goal.obj"));
-	goalModel->GetWorldTransform()->translation_.x = 45.0f;
-	goalModel->GetWorldTransform()->translation_.y = -0.1f;
+	goalModel_.reset(Model::Create("Resources/Object/Goal/goal.obj"));
+	goalModel_->GetWorldTransform()->translation_.x = 45.0f;
+	goalModel_->GetWorldTransform()->translation_.y = -0.1f;
 
-	goalModels = { goalModel.get() };
+	goalModels_ = { goalModel_.get() };
 
 	GameObject::Initialize();
-	GameObject::SetModel(goalModels);
+	GameObject::SetModel(goalModels_);
 }
 
 void Goal::Update()
 {
 	GameObject::Update();
 
-	goalModel->Update();
+	goalModel_->Update();
 
-	goalModel->ModelDebug("goal");
+	goalModel_->ModelDebug("goal");
 }
 
 void Goal::Draw(Camera* camera)
 {
-	goalModel->Draw(camera);
+	goalModel_->Draw(camera);
 }
 
 Vector3 Goal::GetWorldPosition()
@@ -35,9 +35,9 @@ Vector3 Goal::GetWorldPosition()
 	Vector3 worldpos;
 
 	// ワールド行列の平行移動成分を取得(ワールド座標)
-	worldpos.x = goalModel->GetWorldTransform()->matWorld_.m[3][0];
-	worldpos.y = goalModel->GetWorldTransform()->matWorld_.m[3][1];
-	worldpos.z = goalModel->GetWorldTransform()->matWorld_.m[3][2];
+	worldpos.x = goalModel_->GetWorldTransform()->matWorld_.m[3][0];
+	worldpos.y = goalModel_->GetWorldTransform()->matWorld_.m[3][1];
+	worldpos.z = goalModel_->GetWorldTransform()->matWorld_.m[3][2];
 
 	return worldpos;
 }
@@ -47,8 +47,8 @@ AABB Goal::GetAABB()
 	Vector3 worldPos = GetWorldPosition();
 	AABB aabb;
 
-	aabb.min = { worldPos.x - goalModel->GetWorldTransform()->scale_.x / 2.0f,worldPos.y - goalModel->GetWorldTransform()->scale_.y / 2.0f,worldPos.z - goalModel->GetWorldTransform()->scale_.z / 2.0f };
-	aabb.max = { worldPos.x + goalModel->GetWorldTransform()->scale_.x / 2.0f,worldPos.y + goalModel->GetWorldTransform()->scale_.y / 2.0f,worldPos.z + goalModel->GetWorldTransform()->scale_.z / 2.0f };
+	aabb.min = { worldPos.x - goalModel_->GetWorldTransform()->scale_.x / 2.0f,worldPos.y - goalModel_->GetWorldTransform()->scale_.y / 2.0f,worldPos.z - goalModel_->GetWorldTransform()->scale_.z / 2.0f };
+	aabb.max = { worldPos.x + goalModel_->GetWorldTransform()->scale_.x / 2.0f,worldPos.y + goalModel_->GetWorldTransform()->scale_.y / 2.0f,worldPos.z + goalModel_->GetWorldTransform()->scale_.z / 2.0f };
 
 	return aabb;
 }

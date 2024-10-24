@@ -6,15 +6,15 @@ CameraController::~CameraController()
 }
 void CameraController::Initialize(Camera* camera)
 {
-	globalVariables = GlobalVariables::GetInstance();
-	groupName = "Camera";
+	globalVariables_ = GlobalVariables::GetInstance();
+	groupName_ = "Camera";
 
 	camera_ = camera;
 	camera_->Initialize();
 
 
-	globalVariables->AddItem(groupName, "targetOffset", targetOffset_);
-	globalVariables->AddItem(groupName, "imterpolationRate", interpolationRate);
+	globalVariables_->AddItem(groupName_, "targetOffset", targetOffset_);
+	globalVariables_->AddItem(groupName_, "imterpolationRate", interpolationRate_);
 }
 
 void CameraController::Update()
@@ -24,10 +24,10 @@ void CameraController::Update()
 	//追従対象のワールドトランスフォームを参照
 	const WorldTransform* targetWorldTransform = target_->GetWorldTransform();
 	//追従対象とオフセットからカメラの目標座標を計算
-	targetPosition = Add(targetWorldTransform->translation_, targetOffset_);
+	targetPosition_ = Add(targetWorldTransform->translation_, targetOffset_);
 
 	//座標補間
-	camera_->transform.translate = targetPosition;/*Lerp(camera_->transform.translate, targetPosition, interpolationRate);*/
+	camera_->transform.translate = targetPosition_;/*Lerp(camera_->transform.translate, targetPosition, interpolationRate);*/
 
 	camera_->UpdateMatrix();
 }
@@ -44,8 +44,8 @@ void CameraController::Reset()
 
 void CameraController::ApplyGlobalVariables()
 {
-	targetOffset_ = globalVariables->GetVector3Value(groupName, "targetOffset");
-	interpolationRate = globalVariables->GetFloatValue(groupName, "imterpolationRate");
+	targetOffset_ = globalVariables_->GetVector3Value(groupName_, "targetOffset");
+	interpolationRate_ = globalVariables_->GetFloatValue(groupName_, "imterpolationRate");
 	
 
 }

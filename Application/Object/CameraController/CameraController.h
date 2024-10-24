@@ -61,16 +61,16 @@ public:
 
 private:
 	Camera* camera_;
-	const char* groupName;
+	const char* groupName_;
 	Player* target_ = nullptr;
-	GlobalVariables* globalVariables = nullptr;
+	GlobalVariables* globalVariables_ = nullptr;
 
 	//追従対象とカメラの座標の差
 	Vector3 targetOffset_ = { 0,3.0f,-30.0f };
 	//カメラの目標座標
-	Vector3 targetPosition = {};
+	Vector3 targetPosition_ = {};
 	//座標補間割合
-	float interpolationRate = 0.04f;
+	float interpolationRate_ = 0.04f;
 	
 
 

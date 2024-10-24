@@ -76,11 +76,11 @@ public:
 
 private:
 
-	static inline const float kBlockWidth = 2.0f;
-	static inline const float kBlockHeight = 2.0f;
+	static inline const float kBlockWidth_ = 2.0f;
+	static inline const float kBlockHeight_ = 2.0f;
 
-	static inline const uint32_t kNumBlockVirtical = 40;
-	static inline const uint32_t kNumBlockHorizontal = 100;
+	static inline const uint32_t kNumBlockVirtical_ = 40;
+	static inline const uint32_t kNumBlockHorizontal_ = 100;
 
 	MapChipData mapChipData_;
 

@@ -43,7 +43,7 @@ public:
 	*/
 	void SetPosition(Vector3 position)
 	{
-		enemyModel->GetWorldTransform()->translation_ = position;
+		enemyModel_->GetWorldTransform()->translation_ = position;
 	}
 
 	/**
@@ -71,19 +71,19 @@ public:
 	*/
 	bool GetIsAlive()
 	{
-		return isAlive;
+		return isAlive_;
 	}
 
 private:
 
-	std::unique_ptr<Model>enemyModel;
-	std::vector<Model*>enemyModels;
+	std::unique_ptr<Model>enemyModel_;
+	std::vector<Model*>enemyModels_;
 
-	bool isAlive = true;	//生きているか: true 生きている
+	bool isAlive_ = true;	//生きているか: true 生きている
 	
-	float moveSpeed = 0.03f;  // 移動速度
-	float moveDistance = 5.0f;  // 移動する距離
-	float traveledDistance = 0.0f;  // 移動した距離
-	bool movingRight = true;  // 右方向に移動しているかどうか
+	float moveSpeed_ = 0.03f;  // 移動速度
+	float moveDistance_ = 5.0f;  // 移動する距離
+	float traveledDistance_ = 0.0f;  // 移動した距離
+	bool movingRight_ = true;  // 右方向に移動しているかどうか
 };
 
